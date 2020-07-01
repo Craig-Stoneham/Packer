@@ -59,6 +59,12 @@
 #define PACKER_LOG_PATH      "packer_log.txt"
 
 /*
+**  Define this to transform the extension to lower case
+*/
+#define PACKER_LOWER_CASE_EXTENSION
+
+
+/*
 **  Used to copy files from one location to another
 */
 class Packer {
@@ -227,6 +233,12 @@ void Packer::pack_directories(const std::string& p_read_path, const std::string&
                         create_directory(p_write_path);
                         directory_exists = true;
                     }
+#ifdef PACKER_LOWER_CASE_EXTENSION
+                    for (size_t index = write_path.find_last_of('.') + 1; index < write_path.size(); ++index) {
+                        write_path[index] = ::tolower(write_path[index]);
+                    }
+#endif // PACKER_LOWER_CASE_EXTENSION
+
                     copy_file_nocheck(read_path, write_path);
                 }
             }
