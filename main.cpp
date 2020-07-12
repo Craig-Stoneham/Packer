@@ -189,6 +189,15 @@ int main()
                 std::cout << "Invalid write path\n";
             }
             else {
+                if (reverse_mode && packer_config.delete_old) {
+                    std::cout << "Warning. Reverse and delete are both enabled. Files in your source directory will be deleted.\nType ok keep overwrite enabled:";
+                    console_input.clear();
+                    std::cin >> console_input;
+                    if (console_input != "ok") {
+                        packer_config.delete_old = false;
+                        std::cout << "Overwrite disabled\n";
+                    }
+                }
                 std::cout << "Running packer\n";
                 break;
             }            
@@ -221,7 +230,7 @@ int main()
     std::cout << "\n";
 
     packer_config.save(packer);
-    
+
     if (reverse_mode) {
         packer.pack_files(packer_config.write_path, packer_config.read_path, packer_config.overwrite, packer_config.delete_old, packer_config.suffix.length() ? true : false);
     }
