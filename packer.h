@@ -155,6 +155,7 @@ __forceinline String Packer::_get_write_path<true>(const String& p_read_path, co
     }
     return write_path;
 }
+
 template <>
 __forceinline void Packer::_pack_file<false>(const String& p_read_path, const String& p_write_path) {
 

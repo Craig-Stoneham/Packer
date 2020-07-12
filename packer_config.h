@@ -56,10 +56,11 @@ struct PackerConfig {
     void load(std::istream& p_stream);
     void load(Packer& p_packer);
 
-    bool save(const String& p_path) const;
-    void save(std::ostream& p_stream) const;
-    void save(Packer& p_packer) const;
+    bool save(const String& p_path);
+    void save(std::ostream& p_stream);
+    void save(Packer& p_packer);
 
+    void validate();
     void reset_data();
 
     PackerConfig();

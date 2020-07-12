@@ -45,7 +45,7 @@ static void remove_outer_whitespace(String& p_string) {
     int index = 0;
 
     for (index = 0; index < string_length; ++index) {
-        if (p_string[index] == ' ') {
+        if ((p_string[index] == '\0') || (p_string[index] == ' ')) {
             ++start;
         }
         else {
@@ -53,7 +53,7 @@ static void remove_outer_whitespace(String& p_string) {
         }
     }
     for (index = (int)string_length - 1; index > 0; --index) {
-        if (p_string[index] == ' ') {
+        if ((p_string[index] == '\0') || (p_string[index] == ' ')) {
             --new_length;
         }
         else {
@@ -152,6 +152,7 @@ void PackerConfig::load(std::istream& p_stream) {
             ++line_length;
         }
     }
+
 }
 
 void PackerConfig::load(Packer& p_packer) {
@@ -165,7 +166,7 @@ void PackerConfig::load(Packer& p_packer) {
 
 }
 
-bool PackerConfig::save(const String& p_path) const {
+bool PackerConfig::save(const String& p_path) {
 
     std::ofstream file_stream(p_path, std::ios::binary);
 
@@ -179,7 +180,9 @@ bool PackerConfig::save(const String& p_path) const {
     return true;
 }
 
-void PackerConfig::save(std::ostream& p_stream) const {
+void PackerConfig::save(std::ostream& p_stream) {
+
+    validate();
 
     p_stream << "read=" << read_path << PACKER_CONFIG_NEW_LINE;
     p_stream << "write=" << write_path << PACKER_CONFIG_NEW_LINE;
@@ -194,19 +197,28 @@ void PackerConfig::save(std::ostream& p_stream) const {
     p_stream << "ignore=" << ignore_file_name << PACKER_CONFIG_NEW_LINE;
 }
 
-void PackerConfig::save(Packer& p_packer) const {
+void PackerConfig::save(Packer& p_packer) {
+
+    validate();
 
     p_packer.extensions = extensions;
-    for (size_t index = 0; index < p_packer.extensions.size(); ++index) {
-        remove_outer_whitespace(p_packer.extensions.at(index));
-    }
-
     p_packer.suffix = suffix;
-    remove_outer_whitespace(p_packer.suffix);
 
 #ifdef PACKER_IGNORE_FILE
     p_packer.ignore_file_name = ignore_file_name;
-    remove_outer_whitespace(p_packer.ignore_file_name);
+#endif //PACKER_IGNORE_FILE
+}
+
+void PackerConfig::validate() {
+
+    remove_outer_whitespace(read_path);
+    remove_outer_whitespace(write_path);
+    for (size_t index = 0; index < extensions.size(); ++index) {
+        remove_outer_whitespace(extensions.at(index));
+    }
+    remove_outer_whitespace(suffix);
+#ifdef PACKER_IGNORE_FILE
+    remove_outer_whitespace(ignore_file_name);
 #endif //PACKER_IGNORE_FILE
 }
 

@@ -221,7 +221,7 @@ int main()
             std::cout << "Unrcognised command\n";
         }
     }
-    std::cout << "\n\n";
+    std::cout << "\n";
 
     packer_config.save(packer);
     
@@ -240,4 +240,5 @@ int main()
     log_stream.close();
 #endif //PACKER_LOG_ENABLED
 
+    system("pause");
 }
