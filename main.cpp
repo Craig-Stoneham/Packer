@@ -27,7 +27,6 @@
 /*************************************************************************/
 
 #include "packer_config.h"
-#include "packer2.h"
 
 /*
 **  The config file path
