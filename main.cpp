@@ -41,9 +41,7 @@ int main()
     Packer packer;
     PackerConfig packer_config;
     String console_input;
-    bool console_input_enabled = true;
     bool reverse_mode = false;
-    size_t console_input_length = 0;    
 
     std::cout << "Packer version " << PACKER_VERSION << ".\n";
     std::cout << "Type run or help for a list of options\n";
@@ -52,11 +50,10 @@ int main()
         packer_config.save(PACKER_CONFIG_PATH);
     }
 
-    while (console_input_enabled) {
+    for (;;) {
 
         console_input.clear();
         std::cin >> console_input;
-        console_input_length = console_input.length();
 
         if (console_input == "add") {
             bool ext_added = false;
@@ -193,7 +190,7 @@ int main()
             }
             else {
                 std::cout << "Running packer\n";
-                console_input_enabled = false;
+                break;
             }            
         }
         else if (console_input == "help") {
