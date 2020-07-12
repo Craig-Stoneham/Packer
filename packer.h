@@ -249,34 +249,6 @@ void Packer::_pack_files(const String& p_read_path, const String& p_write_path) 
                                 _FS::create_directory(p_write_path);
                                 directory_exists = true;
                             }
-                            if (_FS::exists(p_write_path) == false) {
-
-                                std::vector<std::string> dir_tree;
-                                std::string new_dir = p_write_path;
-
-                                for (;;) {
-
-                                    new_dir.resize(new_dir.find_last_of('\\'));
-                                    if (_FS::exists(new_dir)) {
-
-                                        break;
-                                    }
-                                    else {
-
-                                        dir_tree.push_back(new_dir);
-                                    }
-                                }
-
-                                if (!dir_tree.empty()) {
-
-                                    for (auto iter = dir_tree.rbegin(); iter != dir_tree.rend(); ++iter) {
-
-                                        _FS::create_directory(*iter);
-                                    }
-                                }
-                                _FS::create_directory(p_write_path);
-                            }
-                            directory_exists = true;
                         }
 #ifdef PACKER_WRITE_LOWER_CASE_EXTENSIONS
                         for (size_t index = write_path.find_last_of('.') + 1; index < write_path.size(); ++index) {
