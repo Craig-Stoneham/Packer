@@ -28,70 +28,104 @@
 
 #include "packer.h"
 
-/*
-**  The config file path
-*/
-#define PACKER_CONFIG_PATH "config.pk" 
-
-/*
-**  Run the packer
-**  Read from the app location and the write location in PACKER_CONFIG_PATH
-*/
-int main()
-{
-    std::string read_path = _FS::current_path().string();    
-    std::ifstream config_stream(PACKER_CONFIG_PATH);
-
-    if (config_stream.is_open() == false) {
-
-        std::cout << "Failed to find config file.\n";
-        std::cout << "Add a text file named " << PACKER_CONFIG_PATH << " with the location you want to write to.\n";
-        std::system("pause");
-        return 0;
-    }
-
-    std::string console_input;
-    Packer packer;
-    bool overwrite = false;
-    std::string write_path((std::istreambuf_iterator<char>(config_stream)), (std::istreambuf_iterator<char>()));
-
-    std::cout << "Read from " << read_path << '\n';
-    std::cout << "Write to " << write_path << "\n\n";
-
-    std::cout << "Would you like to overwrite old files?\n";
-    std::cin >> console_input;
-    if (console_input[0] == 'y') {
-
-        overwrite = true;
-    }
-
-    std::cout << "Add an extension\n";
-    for (;;) {
-
-        std::cin >> console_input;
-
-        std::transform(console_input.begin(), console_input.end(), console_input.begin(), ::tolower);
-        packer.add_pack_extension(console_input);
-
-        std::cout << "Would you like to add another extension?\n";
-        std::cin >> console_input;
-        if (console_input[0] != 'y') {
-
-            break;
-        }
-        std::cout << "Add another extension\n";
-    }
-
-    std::cout << "\n\n";
-
-    packer.pack_directories(read_path, write_path, overwrite);
+void Packer::pack_files(const String& p_read_path, const String& p_write_path, bool p_overwrite, bool p_delete_old, bool p_remove_suffix) {
 
 #ifdef PACKER_LOG_ENABLED
-    std::ifstream log_stream;
     log_stream.open(PACKER_LOG_PATH, std::ios::binary);
-    std::cout << log_stream.rdbuf();
+    log_stream << "Reading from " << p_read_path << '\n';
+    log_stream << "Writing to " << p_write_path << '\n';
+    log_stream << "Overwrite " << (p_overwrite ? "enabled" : "disabled") << '\n';
+    log_stream << "Delete old " << (p_delete_old ? "enabled" : "disabled") << '\n';
+    if (p_remove_suffix) {
+        log_stream << "Removing suffix " << suffix << "\n";
+    }
+    else {
+        log_stream << "Suffix removal disabled\n";
+    }
+
+    if (extensions.size()) {
+        if (extensions.size() == 1) {
+            log_stream << "Added extension " << extensions[0] << '\n';
+        }
+        else {
+
+            log_stream << "Added extensions are " << extensions[0];
+            for (size_t index = 1; index < extensions.size(); ++index) {
+                log_stream << " ," << extensions[index];
+            }
+            log_stream << "\n";
+        }
+    }
+#endif //PACKER_LOG_ENABLED
+
+    if (extensions.size() == 0) {
+#ifdef PACKER_LOG_ENABLED
+        log_stream << "No extensions are added\n";
+        log_stream.close();
+#endif //PACKER_LOG_ENABLED 
+        return;
+    }
+
+    if (_FS::exists(p_read_path) == false) {
+#ifdef PACKER_LOG_ENABLED
+        log_stream << "Read path does not exist\n";
+#endif //PACKER_LOG_ENABLED       
+        return;
+    }
+
+    if (_FS::exists(p_write_path) == false) {
+        _FS::create_directory(p_write_path);
+    }
+
+    if (p_overwrite) {
+        if (p_delete_old) {
+            if (p_remove_suffix) {
+                _pack_files<true, true, true>(p_read_path, p_write_path);
+            }
+            else {
+                _pack_files<true, true, false>(p_read_path, p_write_path);
+            }
+        }
+        else {
+            if (p_remove_suffix) {
+                _pack_files<true, false, true>(p_read_path, p_write_path);
+            }
+            else {
+                _pack_files<true, false, false>(p_read_path, p_write_path);
+            }
+        }
+    }
+    else {
+        if (p_delete_old) {
+            if (p_remove_suffix) {
+                _pack_files<false, true, true>(p_read_path, p_write_path);
+            }
+            else {
+                _pack_files<false, true, false>(p_read_path, p_write_path);
+            }
+        }
+        else {
+            if (p_remove_suffix) {
+                _pack_files<false, false, true>(p_read_path, p_write_path);
+            }
+            else {
+                _pack_files<false, false, false>(p_read_path, p_write_path);
+            }
+        }
+    }
+
+#ifdef PACKER_LOG_ENABLED
     log_stream.close();
 #endif //PACKER_LOG_ENABLED
 
-    std::system("pause");
+}
+
+Packer::Packer() {
+#ifdef PACKER_IGNORE_FILE
+    ignore_file_name = PACKER_IGNORE_FILE_NAME;
+#endif //PACKER_IGNORE_FILE
+
+#ifdef PACKER_LOG_ENABLED
+    log_file_path = PACKER_LOG_PATH;
+#endif //PACKER_LOG_ENABLED
 }
