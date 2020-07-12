@@ -174,8 +174,19 @@ __forceinline void Packer::_pack_file<false>(const String& p_read_path, const St
 template <>
 __forceinline void Packer::_pack_file<true>(const String& p_read_path, const String& p_write_path) {
 
-    _pack_file<false>(p_read_path, p_write_path);
+    std::ifstream read_file(p_read_path, std::ios::binary);
+    std::ofstream write_file(p_write_path, std::ios::binary);
+
+    write_file << read_file.rdbuf();
+
+    read_file.close();
+    write_file.close();
+
     std::remove(p_read_path.c_str());
+
+#ifdef PACKER_LOG_ENABLED
+    log_stream << "moving " << p_write_path << '\n';
+#endif //PACKER_LOG_ENABLED
 }
 
 template <bool OVERWRITE, bool DELETE_OLD, bool REMOVE_SUFFIX>

@@ -44,7 +44,7 @@ int main()
     bool reverse_mode = false;
 
     std::cout << "Packer version " << PACKER_VERSION << ".\n";
-    std::cout << "Type run or help for a list of options\n";
+    std::cout << "Type run or help:\n";
 
     if (packer_config.load(PACKER_CONFIG_PATH) == false) {
         packer_config.save(PACKER_CONFIG_PATH);
@@ -206,17 +206,17 @@ int main()
 
             std::cout << "add - add an extension\n";
             std::cout << "remove - remove an extension\n";
-            std::cout << "overwrite - overwrite old files\n";
+            std::cout << "overwrite - overwrite new files\n";
             std::cout << "delete - delete old files\n";
             std::cout << "read - change the read path\n";
             std::cout << "write - change the write path\n";
             std::cout << "suffix - change the suffix to remove\n";
             std::cout << "ignore - change the ignore file name\n";
-            std::cout << "reverse - reverse the operation\n";
-            std::cout << "reset - reset configuartion\n";
-            std::cout << "load - load a configuartion\n";
-            std::cout << "save - save the current configuration\n";
-            std::cout << "config - print the current configuration\n";
+            std::cout << "reverse - change the read and write paths when the program is run\n";
+            std::cout << "reset - reset the configuartion\n";
+            std::cout << "load - load the configuartion file\n";
+            std::cout << "save - save the configuration file\n";
+            std::cout << "config - print the configuration\n";
             std::cout << "run - run the packer\n";
 
         }
