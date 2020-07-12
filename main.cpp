@@ -224,7 +224,7 @@ int main()
             return -1;
         }
         else {
-            std::cout << "Unrcognised command\n";
+            std::cout << "Unrecognised command\n";
         }
     }
     std::cout << "\n";
