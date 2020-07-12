@@ -150,7 +150,6 @@ __forceinline String Packer::_get_write_path<true>(const String& p_read_path, co
     size_t suffix_pos = write_path.find(suffix);
     if (suffix_pos != String::npos)
     {
-        //std::cout << "Checking MATCH\n";
         write_path.erase(suffix_pos, suffix.length());
     }
     return write_path;
