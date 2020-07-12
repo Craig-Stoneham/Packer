@@ -148,7 +148,6 @@ void PackerConfig::load(std::istream& p_stream) {
             ++line_length;
         }
     }
-
 }
 
 void PackerConfig::load(Packer& p_packer) {
@@ -189,7 +188,10 @@ void PackerConfig::save(std::ostream& p_stream) {
     p_stream << "overwrite=" << (overwrite ? "true" : "false") << PACKER_CONFIG_NEW_LINE;
     p_stream << "delete=" << (delete_old ? "true" : "false") << PACKER_CONFIG_NEW_LINE;
     p_stream << "suffix=" << suffix << PACKER_CONFIG_NEW_LINE;
+
+#ifdef PACKER_IGNORE_FILE
     p_stream << "ignore=" << ignore_file_name << PACKER_CONFIG_NEW_LINE;
+#endif //PACKER_IGNORE_FILE
 }
 
 void PackerConfig::save(Packer& p_packer) {
