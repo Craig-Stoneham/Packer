@@ -147,7 +147,7 @@ __forceinline String Packer::_get_write_path<true>(const String& p_read_path, co
     String write_path = p_write_path;
     write_path.append(p_read_path.substr(p_read_path.find_last_of('\\')));
 
-    size_t suffix_pos = write_path.find(suffix);
+    size_t suffix_pos = write_path.find(suffix, write_path.find('\\'));
     if (suffix_pos != String::npos)
     {
         write_path.erase(suffix_pos, suffix.length());
