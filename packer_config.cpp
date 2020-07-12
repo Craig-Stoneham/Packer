@@ -74,7 +74,6 @@ bool PackerConfig::load(const String& p_path) {
     std::ifstream file_stream(p_path, std::ios::binary);
 
     if (!file_stream.is_open()) {
-        std::cout << "Failed to find config file.\n";
         return false;
     }
     load(file_stream);
@@ -171,7 +170,6 @@ bool PackerConfig::save(const String& p_path) {
     std::ofstream file_stream(p_path, std::ios::binary);
 
     if (!file_stream.is_open()) {
-        std::cout << "Failed to open config file.\n";
         return false;
     }
 
