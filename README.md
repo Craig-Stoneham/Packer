@@ -1,2 +1,2 @@
 # Packer
-A simple program to copy/replace files with certain extensions from one folder location to another, including any subdirectories, while also copying the folder hierarchy in the write location. It's common use would be if you have resources that are in multiple locations where one set is modifiable and the other set is then copied from the first. This allows you to just work in one folder location and when any files are modified or added you can just run the app to sync up the files you want based on their extension.
+A program to copy/replace files files based on their extension from one folder location to another while maintaining the subdirectory hierarchy in the write location. It also has the ability to remove a suffix from the file name when writing too.
