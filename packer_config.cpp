@@ -121,11 +121,9 @@ void PackerConfig::load(std::istream& p_stream) {
             value = line.substr(equal_pos + 1);
 
             if (command == "read") {
-                //value.resize(value.length() - 1);
                 read_path = value;
             }
             else if (command == "write") {
-                //value.resize(value.length() - 1);
                 write_path = value;
             }
             else if (command == "ext") {
@@ -142,7 +140,6 @@ void PackerConfig::load(std::istream& p_stream) {
             }
 #ifdef PACKER_IGNORE_FILE
             else if (command == "ignore") {
-                //value.resize(value.length() - 1);
                 ignore_file_name = value;
             }
 #endif //PACKER_IGNORE_FILE

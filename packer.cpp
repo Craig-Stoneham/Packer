@@ -69,6 +69,7 @@ void Packer::pack_files(const String& p_read_path, const String& p_write_path, b
     if (_FS::exists(p_read_path) == false) {
 #ifdef PACKER_LOG_ENABLED
         log_stream << "Read path does not exist\n";
+        log_stream.close();
 #endif //PACKER_LOG_ENABLED       
         return;
     }
