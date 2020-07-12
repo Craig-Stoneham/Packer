@@ -33,7 +33,6 @@
 */
 #define PACKER_DEFAULT_OVERWRITE false
 #define PACKER_DEFAULT_REMOVE_OLD false
-#define PACKER_DEFAULT_REMOVE_SUFFIX false
 
 /*
 **  Remove whitespace from the head and tail
@@ -218,7 +217,6 @@ void PackerConfig::reset_data() {
     write_path.clear();
     overwrite = PACKER_DEFAULT_OVERWRITE;
     delete_old = PACKER_DEFAULT_REMOVE_OLD;
-    //remove_suffix = PACKER_DEFAULT_REMOVE_SUFFIX;
     suffix.clear();
 #ifdef PACKER_IGNORE_FILE
     ignore_file_name = PACKER_IGNORE_FILE_NAME;
@@ -229,7 +227,6 @@ PackerConfig::PackerConfig() {
 
     overwrite = PACKER_DEFAULT_OVERWRITE;
     delete_old = PACKER_DEFAULT_REMOVE_OLD;
-    //remove_suffix = PACKER_DEFAULT_REMOVE_SUFFIX;
 #ifdef PACKER_IGNORE_FILE
     ignore_file_name = PACKER_IGNORE_FILE_NAME;
 #endif //PACKER_IGNORE_FILE
