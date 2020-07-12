@@ -32,7 +32,7 @@
 **  Default values
 */
 #define PACKER_DEFAULT_OVERWRITE false
-#define PACKER_DEFAULT_REMOVE_OLD false
+#define PACKER_DEFAULT_DELETE_OLD false
 
 /*
 **  Remove whitespace from the head and tail
@@ -188,7 +188,6 @@ void PackerConfig::save(std::ostream& p_stream) {
     p_stream << "overwrite=" << (overwrite ? "true" : "false") << PACKER_CONFIG_NEW_LINE;
     p_stream << "delete=" << (delete_old ? "true" : "false") << PACKER_CONFIG_NEW_LINE;
     p_stream << "suffix=" << suffix << PACKER_CONFIG_NEW_LINE;
-
 #ifdef PACKER_IGNORE_FILE
     p_stream << "ignore=" << ignore_file_name << PACKER_CONFIG_NEW_LINE;
 #endif //PACKER_IGNORE_FILE
@@ -225,7 +224,7 @@ void PackerConfig::reset_data() {
     read_path = _FS::current_path().string();
     write_path.clear();
     overwrite = PACKER_DEFAULT_OVERWRITE;
-    delete_old = PACKER_DEFAULT_REMOVE_OLD;
+    delete_old = PACKER_DEFAULT_DELETE_OLD;
     suffix.clear();
 #ifdef PACKER_IGNORE_FILE
     ignore_file_name = PACKER_IGNORE_FILE_NAME;
@@ -235,7 +234,7 @@ void PackerConfig::reset_data() {
 PackerConfig::PackerConfig() {
 
     overwrite = PACKER_DEFAULT_OVERWRITE;
-    delete_old = PACKER_DEFAULT_REMOVE_OLD;
+    delete_old = PACKER_DEFAULT_DELETE_OLD;
 #ifdef PACKER_IGNORE_FILE
     ignore_file_name = PACKER_IGNORE_FILE_NAME;
 #endif //PACKER_IGNORE_FILE
