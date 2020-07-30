@@ -75,6 +75,15 @@
 #define PACKER_WRITE_LOWER_CASE_EXTENSIONS
 
 /*
+**  Define this to transform the extension to lower case when testing
+*/
+#define PACKER_READ_LOWER_CASE_EXTENSIONS
+
+/*  Define the mode to use when opening files
+*/
+#define PACKER_OPEN_MODE std::ios::binary
+
+/*
 **  Define a Vector
 */
 template <class T> using Vector = std::vector<T>;
@@ -110,16 +119,142 @@ private:
     template<bool OVERWRITE, bool DELETE_OLD, bool REMOVE_SUFFIX>
     void _pack_files(const String& p_read_path, const String& p_write_path);
 
+    template <bool DELETE_OLD>
+    __forceinline void _pack_file(const String& p_read_path, const String& p_write_path);
+
     template <bool OVERWRITE>
     __forceinline bool _can_write(const String& p_path) const;
 
     template <bool REMOVE_SUFFIX>
     __forceinline String _get_write_path(const String& p_read_path, const String& p_write_path) const;
 
-    template <bool DELETE_OLD>
-    __forceinline void _pack_file(const String& p_read_path, const String& p_write_path);
-
 };
+
+template <bool OVERWRITE, bool DELETE_OLD, bool REMOVE_SUFFIX>
+void Packer::_pack_files(const String& p_read_path, const String& p_write_path) {
+
+    String extension;
+
+#ifdef PACKER_IGNORE_FILE
+    for (auto& path : _FS::directory_iterator(p_read_path)) {
+
+        if (_FS::is_directory(path) == false) {
+            extension = path.path().string();
+            if (extension.substr(extension.find_last_of('\\') + 1) == ignore_file_name) {
+
+                return;
+            }
+        }
+    }
+#endif //PACKER_IGNORE_FILE
+
+    String read_path;
+    String write_path;
+    bool directory_exists = false;
+    size_t i = 0;
+    size_t ii = 0;
+
+    for (auto& path : _FS::directory_iterator(p_read_path)) {
+
+        read_path = path.path().string();
+
+        if (_FS::is_directory(path)) {
+
+            write_path = _get_write_path<false>(read_path, p_write_path);
+            _pack_files<OVERWRITE, DELETE_OLD, REMOVE_SUFFIX>(read_path, write_path);
+        }
+        else {
+             extension = read_path.substr(read_path.find_last_of('.') + 1);
+#ifdef PACKER_READ_LOWER_CASE_EXTENSIONS
+            for (ii = 0; ii < extension.size(); ++ii) {
+                extension[ii] = ::tolower(extension[ii]);
+            }
+#endif // PACKER_READ_LOWER_CASE_EXTENSIONS
+            PACKER_WRITE_LOWER_CASE_EXTENSIONS
+            for (i = 0; i < extensions.size(); ++i) {
+
+                if (extensions[i].find(extension) != (-1)) {
+
+                    write_path = _get_write_path<REMOVE_SUFFIX>(read_path, p_write_path);
+
+                    if (_can_write<OVERWRITE>(write_path)) {
+
+                        if (directory_exists == false) {
+
+                            if (_FS::exists(p_write_path) == false) {
+
+                                Vector<String> dir_tree;
+                                String new_dir = p_write_path;
+
+                                for (;;) {
+
+                                    new_dir.resize(new_dir.find_last_of('\\'));
+                                    if (_FS::exists(new_dir)) {
+
+                                        break;
+                                    }
+                                    else {
+
+                                        dir_tree.push_back(new_dir);
+                                    }
+                                }
+
+                                if (!dir_tree.empty()) {
+                                    for (size_t i = 0; i < dir_tree.size(); ++i) {
+                                        _FS::create_directory(dir_tree[i]);
+                                    }
+                                }
+                                _FS::create_directory(p_write_path);
+                                directory_exists = true;
+                            }
+                        }
+#ifdef PACKER_WRITE_LOWER_CASE_EXTENSIONS
+                        for (ii = write_path.find_last_of('.') + 1; ii < write_path.size(); ++ii) {
+                            write_path[ii] = ::tolower(write_path[ii]);
+                        }
+#endif // PACKER_WRITE_LOWER_CASE_EXTENSIONS
+                        _pack_file<DELETE_OLD>(read_path, write_path);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}
+
+template <>
+__forceinline void Packer::_pack_file<false>(const String& p_read_path, const String& p_write_path) {
+
+    std::ifstream read_file(p_read_path, PACKER_OPEN_MODE);
+    std::ofstream write_file(p_write_path, PACKER_OPEN_MODE);
+
+    write_file << read_file.rdbuf();
+
+    read_file.close();
+    write_file.close();
+
+#ifdef PACKER_LOG_ENABLED
+    log_stream << "copying " << p_write_path << '\n';
+#endif //PACKER_LOG_ENABLED
+}
+
+template <>
+__forceinline void Packer::_pack_file<true>(const String& p_read_path, const String& p_write_path) {
+
+    std::ifstream read_file(p_read_path, PACKER_OPEN_MODE);
+    std::ofstream write_file(p_write_path, PACKER_OPEN_MODE);
+
+    write_file << read_file.rdbuf();
+
+    read_file.close();
+    write_file.close();
+
+    std::remove(p_read_path.c_str());
+
+#ifdef PACKER_LOG_ENABLED
+    log_stream << "moving " << p_write_path << '\n';
+#endif //PACKER_LOG_ENABLED
+}
 
 template <>
 __forceinline bool Packer::_can_write<false>(const String& p_path) const {
@@ -153,126 +288,6 @@ __forceinline String Packer::_get_write_path<true>(const String& p_read_path, co
         write_path.erase(suffix_pos, suffix.length());
     }
     return write_path;
-}
-
-template <>
-__forceinline void Packer::_pack_file<false>(const String& p_read_path, const String& p_write_path) {
-
-    std::ifstream read_file(p_read_path, std::ios::binary);
-    std::ofstream write_file(p_write_path, std::ios::binary);
-
-    write_file << read_file.rdbuf();
-
-    read_file.close();
-    write_file.close();
-
-#ifdef PACKER_LOG_ENABLED
-    log_stream << "copying " << p_write_path << '\n';
-#endif //PACKER_LOG_ENABLED
-}
-
-template <>
-__forceinline void Packer::_pack_file<true>(const String& p_read_path, const String& p_write_path) {
-
-    std::ifstream read_file(p_read_path, std::ios::binary);
-    std::ofstream write_file(p_write_path, std::ios::binary);
-
-    write_file << read_file.rdbuf();
-
-    read_file.close();
-    write_file.close();
-
-    std::remove(p_read_path.c_str());
-
-#ifdef PACKER_LOG_ENABLED
-    log_stream << "moving " << p_write_path << '\n';
-#endif //PACKER_LOG_ENABLED
-}
-
-template <bool OVERWRITE, bool DELETE_OLD, bool REMOVE_SUFFIX>
-void Packer::_pack_files(const String& p_read_path, const String& p_write_path) {
-
-    String extension;
-
-#ifdef PACKER_IGNORE_FILE
-    for (auto& path : _FS::directory_iterator(p_read_path)) {
-
-        if (_FS::is_directory(path) == false) {
-            extension = path.path().string();
-            if (extension.substr(extension.find_last_of('\\') + 1) == ignore_file_name) {
-
-                return;
-            }
-        }
-    }
-#endif //PACKER_IGNORE_FILE
-
-    String read_path;
-    String write_path;
-    bool directory_exists = false;
-
-    for (auto& path : _FS::directory_iterator(p_read_path)) {
-
-        read_path = path.path().string();
-
-        if (_FS::is_directory(path)) {
-
-            write_path = _get_write_path<false>(read_path, p_write_path);
-            _pack_files<OVERWRITE, DELETE_OLD, REMOVE_SUFFIX>(read_path, write_path);
-        }
-        else {
-
-            extension = read_path.substr(read_path.find_last_of('.') + 1);
-
-            for (size_t index = 0; index < extensions.size(); ++index) {
-
-                if (extensions[index].find(extension) != (-1)) {
-
-                    write_path = _get_write_path<REMOVE_SUFFIX>(read_path, p_write_path);
-
-                    if (_can_write<OVERWRITE>(write_path)) {
-
-                        if (directory_exists == false) {
-
-                            if (_FS::exists(p_write_path) == false) {
-
-                                Vector<String> dir_tree;
-                                String new_dir = p_write_path;
-
-                                for (;;) {
-
-                                    new_dir.resize(new_dir.find_last_of('\\'));
-                                    if (_FS::exists(new_dir)) {
-
-                                        break;
-                                    }
-                                    else {
-
-                                        dir_tree.push_back(new_dir);
-                                    }
-                                }
-
-                                if (!dir_tree.empty()) {
-                                    for (size_t index = 0; index < dir_tree.size(); ++index) {
-                                        _FS::create_directory(dir_tree[index]);
-                                    }
-                                }
-                                _FS::create_directory(p_write_path);
-                                directory_exists = true;
-                            }
-                        }
-#ifdef PACKER_WRITE_LOWER_CASE_EXTENSIONS
-                        for (size_t index = write_path.find_last_of('.') + 1; index < write_path.size(); ++index) {
-                            write_path[index] = ::tolower(write_path[index]);
-                        }
-#endif // PACKER_WRITE_LOWER_CASE_EXTENSIONS
-                        _pack_file<DELETE_OLD>(read_path, write_path);
-                        break;
-                    }
-                }
-            }
-        }
-    }
 }
 
 #endif //INCLUDE_PACKER

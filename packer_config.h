@@ -37,7 +37,7 @@
 #define PACKER_CONFIG_NEW_LINE '\n'  
 
 /*
-**  Utility class to load and save config settings from a file
+**  Utility class to load and save settings from a file
 */
 struct PackerConfig {
 
@@ -54,14 +54,14 @@ struct PackerConfig {
 
     bool load(const String& p_path);
     void load(std::istream& p_stream);
-    void load(Packer& p_packer);
+    void load(const Packer& p_packer);
 
     bool save(const String& p_path);
     void save(std::ostream& p_stream);
     void save(Packer& p_packer);
 
     void validate();
-    void reset_data();
+    void set_to_default();
 
     PackerConfig();
 };

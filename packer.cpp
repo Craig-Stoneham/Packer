@@ -31,25 +31,30 @@
 void Packer::pack_files(const String& p_read_path, const String& p_write_path, bool p_overwrite, bool p_delete_old, bool p_remove_suffix) {
 
 #ifdef PACKER_LOG_ENABLED
-    log_stream.open(PACKER_LOG_PATH, std::ios::binary);
+    log_stream.open(PACKER_LOG_PATH, PACKER_OPEN_MODE);
     log_stream << "Reading from " << p_read_path << '\n';
     log_stream << "Writing to " << p_write_path << '\n';
     log_stream << "Overwrite " << (p_overwrite ? "enabled" : "disabled") << '\n';
     log_stream << "Delete old " << (p_delete_old ? "enabled" : "disabled") << '\n';
+#ifdef PACKER_READ_LOWER_CASE_EXTENSIONS
+    //log_stream << "COnverting all extensions to lowercase when reading\n";
+#endif // PACKER_READ_LOWER_CASE_EXTENSIONS
+#ifdef PACKER_WRITE_LOWER_CASE_EXTENSIONS
+    //log_stream << "COnverting all extensions to lowercase when writing\n";
+#endif // PACKER_WRITE_LOWER_CASE_EXTENSIONS
     if (p_remove_suffix) {
         log_stream << "Removing suffix " << suffix << "\n";
     }
     else {
         log_stream << "Suffix removal disabled\n";
     }
-
     if (extensions.size()) {
         if (extensions.size() == 1) {
             log_stream << "Added extension " << extensions[0] << '\n';
         }
         else {
 
-            log_stream << "Added extensions are " << extensions[0];
+            log_stream << "Added extensions " << extensions[0];
             for (size_t index = 1; index < extensions.size(); ++index) {
                 log_stream << " ," << extensions[index];
             }

@@ -71,7 +71,7 @@ static void remove_outer_whitespace(String& p_string) {
 
 bool PackerConfig::load(const String& p_path) {
 
-    std::ifstream file_stream(p_path, std::ios::binary);
+    std::ifstream file_stream(p_path, PACKER_OPEN_MODE);
 
     if (!file_stream.is_open()) {
         return false;
@@ -84,11 +84,11 @@ bool PackerConfig::load(const String& p_path) {
 
 void PackerConfig::load(std::istream& p_stream) {
 
-    reset_data();
+    set_to_default();
 
     String file_data((std::istreambuf_iterator<char>(p_stream)), (std::istreambuf_iterator<char>()));
     String line;
-    String command;
+    String name;
     String value;
     size_t equal_pos = 0;
     size_t file_data_length = file_data.length() + 1;
@@ -115,31 +115,32 @@ void PackerConfig::load(std::istream& p_stream) {
                 }
             }
 
-            remove_outer_whitespace(line);
-
-            command = line.substr(0, equal_pos);
+            name = line.substr(0, equal_pos);
             value = line.substr(equal_pos + 1);
 
-            if (command == "read") {
+            remove_outer_whitespace(name);
+            remove_outer_whitespace(value);
+
+            if (name == "read") {
                 read_path = value;
             }
-            else if (command == "write") {
+            else if (name == "write") {
                 write_path = value;
             }
-            else if (command == "ext") {
+            else if (name == "ext") {
                 extensions.push_back(value);
             }
-            else if (command == "overwrite") {
+            else if (name == "overwrite") {
                 overwrite = (value == "true") ? true : false;
             }
-            else if (command == "delete") {
+            else if (name == "delete") {
                 delete_old = (value == "true") ? true : false;
             }
-            else if (command == "suffix") {
+            else if (name == "suffix") {
                 suffix = value;
             }
 #ifdef PACKER_IGNORE_FILE
-            else if (command == "ignore") {
+            else if (name == "ignore") {
                 ignore_file_name = value;
             }
 #endif //PACKER_IGNORE_FILE
@@ -150,7 +151,7 @@ void PackerConfig::load(std::istream& p_stream) {
     }
 }
 
-void PackerConfig::load(Packer& p_packer) {
+void PackerConfig::load(const Packer& p_packer) {
 
     extensions = p_packer.extensions;
     suffix = p_packer.suffix;
@@ -158,12 +159,11 @@ void PackerConfig::load(Packer& p_packer) {
 #ifdef PACKER_IGNORE_FILE
     ignore_file_name = p_packer.ignore_file_name;
 #endif //PACKER_IGNORE_FILE
-
 }
 
 bool PackerConfig::save(const String& p_path) {
 
-    std::ofstream file_stream(p_path, std::ios::binary);
+    std::ofstream file_stream(p_path, PACKER_OPEN_MODE);
 
     if (!file_stream.is_open()) {
         return false;
@@ -218,7 +218,7 @@ void PackerConfig::validate() {
 #endif //PACKER_IGNORE_FILE
 }
 
-void PackerConfig::reset_data() {
+void PackerConfig::set_to_default() {
 
     extensions.clear();
     read_path = _FS::current_path().string();

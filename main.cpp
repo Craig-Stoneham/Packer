@@ -156,10 +156,10 @@ int main()
         }
         else if (console_input == "reverse") {
             reverse_mode = !reverse_mode;
-            std::cout << "Reverse mode " << (packer_config.delete_old ? "enabled" : "disabled") << '\n';
+            std::cout << "Reverse mode " << (reverse_mode ? "enabled" : "disabled") << '\n';
         }
         else if (console_input == "reset") {
-            packer_config.reset_data();
+            packer_config.set_to_default();
             std::cout << "Config file reset\n";
         }
         else if (console_input == "load") {
@@ -204,27 +204,27 @@ int main()
         }
         else if (console_input == "help") {
 
-            std::cout << "add - add an extension\n";
-            std::cout << "remove - remove an extension\n";
+            std::cout << "add       - add an extension\n";
+            std::cout << "remove    - remove an extension\n";
             std::cout << "overwrite - overwrite new files\n";
-            std::cout << "delete - delete old files\n";
-            std::cout << "read - change the read path\n";
-            std::cout << "write - change the write path\n";
-            std::cout << "suffix - change the suffix to remove\n";
-            std::cout << "ignore - change the ignore file name\n";
-            std::cout << "reverse - change the read and write paths when the program is run\n";
-            std::cout << "reset - reset the configuartion\n";
-            std::cout << "load - load the configuartion file\n";
-            std::cout << "save - save the configuration file\n";
-            std::cout << "config - print the configuration\n";
-            std::cout << "run - run the packer\n";
+            std::cout << "delete    - delete old files\n";
+            std::cout << "read      - change the read path\n";
+            std::cout << "write     - change the write path\n";
+            std::cout << "suffix    - change the suffix to remove\n";
+            std::cout << "ignore    - change the ignore file name\n";
+            std::cout << "reverse   - change the read and write paths when the program is run\n";
+            std::cout << "reset     - reset the configuartion\n";
+            std::cout << "load      - load the configuartion file\n";
+            std::cout << "save      - save the configuration file\n";
+            std::cout << "config    - print the configuration\n";
+            std::cout << "run       - run the packer\n";
 
         }
         else if ((console_input == "exit") || (console_input == "quit")) {
             return -1;
         }
         else {
-            std::cout << "Unrecognised command\n";
+            std::cout << "Unknown command\n";
         }
     }
     std::cout << "\n";
