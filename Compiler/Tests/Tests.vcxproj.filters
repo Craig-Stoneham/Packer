@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Packer">
+      <UniqueIdentifier>{17d1c3fb-8679-4ded-a154-eafc11546c35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests">
+      <UniqueIdentifier>{58fb23ee-e662-4454-89fd-595c7c8cc2f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\Source">
+      <UniqueIdentifier>{9f36cfd2-2ded-460c-b1c4-4483e8ca3f11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\Headers">
+      <UniqueIdentifier>{6aced00e-3f28-4669-a5b9-c0df96862f83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packer\Headers">
+      <UniqueIdentifier>{898cb3aa-664b-4821-91a6-ad0e69341e52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packer\Source">
+      <UniqueIdentifier>{766e0c16-fe73-4a20-b515-2eec1f09a503}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\Tests\Main.cpp">
+      <Filter>Tests\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Tests\TestSuite.cpp">
+      <Filter>Tests\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Tests\TestCryptoKey.cpp">
+      <Filter>Tests\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Tests\TestVariant.cpp">
+      <Filter>Tests\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Tests\TestConfigFIle.cpp">
+      <Filter>Tests\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Tests\TestPacker.cpp">
+      <Filter>Tests\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Packer\Variant.cpp">
+      <Filter>Packer\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Packer\Platform.cpp">
+      <Filter>Packer\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Packer\Packer.cpp">
+      <Filter>Packer\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Packer\LogFile.cpp">
+      <Filter>Packer\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Packer\Log.cpp">
+      <Filter>Packer\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Packer\Extension.cpp">
+      <Filter>Packer\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Packer\Error.cpp">
+      <Filter>Packer\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Packer\CryptoKey.cpp">
+      <Filter>Packer\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Packer\Console.cpp">
+      <Filter>Packer\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Packer\ConfigFile.cpp">
+      <Filter>Packer\Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\Tests\TestSuite.h">
+      <Filter>Tests\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tests\TestCryptoKey.h">
+      <Filter>Tests\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tests\TestVariant.h">
+      <Filter>Tests\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tests\TestConfigFIle.h">
+      <Filter>Tests\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tests\Typedefs.h">
+      <Filter>Tests\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tests\TestPacker.h">
+      <Filter>Tests\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Packer\Console.h">
+      <Filter>Packer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Packer\CryptoKey.h">
+      <Filter>Packer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Packer\Defaults.h">
+      <Filter>Packer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Packer\Error.h">
+      <Filter>Packer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Packer\Extension.h">
+      <Filter>Packer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Packer\Log.h">
+      <Filter>Packer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Packer\LogFile.h">
+      <Filter>Packer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Packer\Packer.h">
+      <Filter>Packer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Packer\Platform.h">
+      <Filter>Packer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Packer\Typedefs.h">
+      <Filter>Packer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Packer\Variant.h">
+      <Filter>Packer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Packer\Version.h">
+      <Filter>Packer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Packer\Color.h">
+      <Filter>Packer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Packer\ConfigFile.h">
+      <Filter>Packer\Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

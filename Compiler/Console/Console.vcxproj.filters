@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Packer">
+      <UniqueIdentifier>{00940fe9-42d9-4c85-9d5b-2f877e30358d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Console">
+      <UniqueIdentifier>{2b0faeee-69ba-426d-abf9-2acc65465c70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Console\Resources">
+      <UniqueIdentifier>{19d96978-6365-468c-b8b9-d1224c2fd8e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packer\Headers">
+      <UniqueIdentifier>{c5d717df-205f-4cd6-892b-11c15b6ff7ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Console\Headers">
+      <UniqueIdentifier>{9adab0d2-2d8a-4df4-af5c-768034e93837}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Console\Source">
+      <UniqueIdentifier>{ddd266b5-edcb-46d8-91ec-7b3930e43bcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packer\Source">
+      <UniqueIdentifier>{c8aae64c-6730-4297-9410-65c860918b76}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\Console\Typedefs.h">
+      <Filter>Console\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Packer\Log.h">
+      <Filter>Packer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Packer\LogFile.h">
+      <Filter>Packer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Packer\Packer.h">
+      <Filter>Packer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Packer\Typedefs.h">
+      <Filter>Packer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Packer\Variant.h">
+      <Filter>Packer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Packer\Version.h">
+      <Filter>Packer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Packer\Defaults.h">
+      <Filter>Packer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Packer\ConfigFile.h">
+      <Filter>Packer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Packer\Console.h">
+      <Filter>Packer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Packer\CryptoKey.h">
+      <Filter>Packer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Packer\Error.h">
+      <Filter>Packer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Packer\Extension.h">
+      <Filter>Packer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Console\Application.h">
+      <Filter>Console\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Packer\Platform.h">
+      <Filter>Packer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Console\Defaults.h">
+      <Filter>Console\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Packer\Color.h">
+      <Filter>Packer\Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\Console\Main.cpp">
+      <Filter>Console\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Packer\Variant.cpp">
+      <Filter>Packer\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Packer\Packer.cpp">
+      <Filter>Packer\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Packer\LogFile.cpp">
+      <Filter>Packer\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Packer\Log.cpp">
+      <Filter>Packer\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Packer\Extension.cpp">
+      <Filter>Packer\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Packer\Error.cpp">
+      <Filter>Packer\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Packer\CryptoKey.cpp">
+      <Filter>Packer\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Packer\Console.cpp">
+      <Filter>Packer\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Packer\ConfigFile.cpp">
+      <Filter>Packer\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Console\Application.cpp">
+      <Filter>Console\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Packer\Platform.cpp">
+      <Filter>Packer\Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\Source\Console\Resources.rc">
+      <Filter>Console\Resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

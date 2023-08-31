@@ -1,0 +1,34 @@
+#####################
+### Visual Studio ###
+#####################
+
+Compiler/.vs/
+
+
+##################
+### All builds ###
+##################
+
+Bin/
+
+##############
+### Console ##
+##############
+
+Compiler/Console/x64/
+Compiler/Console/Win32/
+
+#############
+### Tests ###
+#############
+
+Compiler/Tests/x64/
+Compiler/Tests/Win32/
+
+##############################
+### Resource project files ###
+##############################
+
+*.psd
+*.kra
+*.ai
