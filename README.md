@@ -16,7 +16,7 @@ Packer boasts a range of features designed to enhance your file management exper
 
 * **Extension Case Adjustment:** Maintain consistent extension casing across your projects. Packer offers the ability to convert extensions to upper or lower case, accommodating the varying conventions of different software.
 
-* **Case Insensitivity:** Packer enables seamless copying and moving of files, regardless of the case of their extensions. This feature eliminates the need to worry about matching the extension case precisely.
+* **Extension Case Insensitivity:** Packer enables seamless copying and moving of files, regardless of the case of their extensions. This feature eliminates the need to worry about matching the extension case precisely.
 
 ## **Contribute and Report Bugs:**
 
