@@ -121,7 +121,7 @@ void Application::_set_extension_insensitive() {
 
 void Application::_set_extension_adjust() {
     ExtensionCase ext_case = find_extension_case(input);
-    if (ext_case == static_cast<ExtensionCase>(-1)) {
+    if (ext_case == ExtensionCase::Unknown) {
         print_line("Extension case '" + input + "' is invalid.");
         return;
     }
