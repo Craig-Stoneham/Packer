@@ -30,7 +30,7 @@ static const char* extension_case[] = {
 };
 
 String get_extension_case_string(ExtensionCase p_case) {
-    if (static_cast<size_t>(p_case) < static_cast<size_t>(ExtensionCase::Max)) {
+    if (p_case >= static_cast<ExtensionCase>(0) && p_case < ExtensionCase::Max) {
         return extension_case[static_cast<size_t>(p_case)];
     } else {
         return "unknown";
