@@ -43,5 +43,5 @@ ExtensionCase find_extension_case(const String& p_case) {
             return static_cast<ExtensionCase>(i);
         }
     }
-    return static_cast<ExtensionCase>(-1);
+    return ExtensionCase::Unknown;
 }

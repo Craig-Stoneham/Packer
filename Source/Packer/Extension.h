@@ -26,6 +26,7 @@
 #include "Typedefs.h"
 
 enum class ExtensionCase {
+    Unknown = -1,
     Default,
     Lower,
     Upper,
