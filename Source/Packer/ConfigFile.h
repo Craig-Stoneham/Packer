@@ -37,7 +37,7 @@ public:
     void clear();
 
     const Map<String, Variant>& get_values() const;
-    void set_values(Map<String, Variant>& p_values);
+    void set_values(const Map<String, Variant>& p_values);
 
     void get_keys(Vector<String>& p_keys) const;
 

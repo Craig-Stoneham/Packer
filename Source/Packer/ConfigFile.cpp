@@ -56,7 +56,7 @@ const Map<String, Variant>& ConfigFile::get_values() const {
     return values;
 }
 
-void ConfigFile::set_values(Map<String, Variant>& p_values) {
+void ConfigFile::set_values(const Map<String, Variant>& p_values) {
     values = p_values;
 }
 
