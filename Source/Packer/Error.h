@@ -26,6 +26,7 @@
 #include "Typedefs.h"
 
 enum class Error {
+    Unknown = -1,
     OK,
     Failed,
     Unconfigured,
@@ -38,3 +39,6 @@ enum class Error {
     DoesNotExist,
     Max
 };
+
+String get_error_string(Error p_error);
+Error find_error(const String& p_error);

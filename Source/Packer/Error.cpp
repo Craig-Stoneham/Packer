@@ -25,13 +25,21 @@
 
 static const char* error[] = {
     "ok",
-    "failed"
+    "failed",
+    "unconfigured",
+    "range error",
+    "file not found",
+    "file bad path",
+    "file already in use",
+    "file cant open",
+    "invalid data",
+    "does not exist",
 };
 
 String get_error_string(Error p_error) {
-    if (static_cast<size_t>(p_error) < static_cast<size_t>(Error::Max)) {
+    if (p_error >= static_cast<Error>(0) && p_error < Error::Max) {
         return error[static_cast<size_t>(p_error)];
-    } else {
+    }  else {
         return "unknown";
     }
 }
@@ -42,5 +50,5 @@ Error find_error(const String& p_error) {
             return static_cast<Error>(i);
         }
     }
-    return static_cast<Error>(-1);
+    return Error::Unknown;
 }
