@@ -34,13 +34,13 @@ public:
     void set_print_level_details(bool p_enabled);
     bool get_print_level_details() const;
 
-    Error open(const String& p_path);
-    void close();
-
     void log_string(Log::Level p_level, const String& p_string);
     void log_info(const String& p_string);
     void log_warn(const String& p_string);
     void log_error(const String& p_string);
+
+    Error open(const String& p_path);
+    void close();
 
     LogFile(bool p_print_level_details = false);
     LogFile(const String& p_path, bool p_print_level_details = false);
