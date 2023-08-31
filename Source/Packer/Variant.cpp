@@ -32,7 +32,7 @@ static const char* variant_type[] = {
 };
 
 String Variant::get_type_string(Type p_type) {
-    if (static_cast<size_t>(p_type) < static_cast<size_t>(Type::Max)) {
+    if (p_type >= static_cast<Type>(0) && p_type < Type::Max) {
         return variant_type[static_cast<size_t>(p_type)];
     } else {
         return "Unknown";
