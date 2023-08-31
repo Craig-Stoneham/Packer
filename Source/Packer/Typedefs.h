@@ -75,5 +75,4 @@ using FileStreamO = std::ofstream;
 
 static constexpr int BinaryIOS = std::ios::binary;
 
-
 String trim_white_space(const String& p_input);
