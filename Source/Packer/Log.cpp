@@ -88,7 +88,7 @@ const char* log_level[] = {
 };
 
 String Log::get_level_string(Level p_level) {
-    if (static_cast<size_t>(p_level) >= 0 && p_level < Level::Max) {
+    if (p_level >= static_cast<Level>(0) && p_level < Level::Max) {
         return log_level[static_cast<size_t>(p_level)];
     } else {
         return "Unknown";
