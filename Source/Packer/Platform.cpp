@@ -63,7 +63,7 @@ bool Platform::set_console_text_color(int p_color) {
         return false;
     }
 #endif // CONSOLE_FEATURES_DISABLED
-    return false;
+    return true;
 }
 
 #elif defined(__unix__) || defined(__APPLE__)
