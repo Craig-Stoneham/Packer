@@ -28,11 +28,11 @@
 
 class LogFile {
     FileStreamO stream;
-	bool print_level_details;
+    bool print_level_details;
 
 public:
     void set_print_level_details(bool p_enabled);
-	bool get_print_level_details() const;
+    bool get_print_level_details() const;
 
     Error open(const String& p_path);
     void close();

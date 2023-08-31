@@ -34,10 +34,10 @@ int main() {
     variant.run_tests();
 
     TestConfigFile config_file;
-	config_file.run_tests();
+    config_file.run_tests();
 
     TestPacker packer;
-	packer.run_tests();
+    packer.run_tests();
 
     system("pause");
 

@@ -26,8 +26,8 @@
 #include "Typedefs.h"
 
 enum class Error {
-	OK,
-	Failed,
+    OK,
+    Failed,
     Unconfigured,
     RangeError,
     FileNotFound,
