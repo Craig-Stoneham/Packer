@@ -113,6 +113,9 @@
     <ClCompile Include="..\..\Source\Packer\Platform.cpp">
       <Filter>Packer\Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Packer\Typedefs.cpp">
+      <Filter>Packer\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\Source\Console\Resources.rc">

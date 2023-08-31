@@ -49,6 +49,7 @@
     <ClCompile Include="..\..\Source\Packer\LogFile.cpp" />
     <ClCompile Include="..\..\Source\Packer\Packer.cpp" />
     <ClCompile Include="..\..\Source\Packer\Platform.cpp" />
+    <ClCompile Include="..\..\Source\Packer\Typedefs.cpp" />
     <ClCompile Include="..\..\Source\Packer\Variant.cpp" />
   </ItemGroup>
   <ItemGroup>
