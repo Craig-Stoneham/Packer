@@ -28,6 +28,7 @@
 class Variant {
 public:
     enum class Type {
+        Unknown = -1,
         Null,
         Bool,
         Int,

@@ -46,7 +46,7 @@ Variant::Type Variant::find_type(const String& p_type) {
             return static_cast<Type>(i);
         }
     }
-    return static_cast<Type>(-1);
+    return Type::Unknown;
 }
 
 void Variant::_construct() {
