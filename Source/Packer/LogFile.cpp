@@ -35,20 +35,6 @@ bool LogFile::get_print_level_details() const {
     return print_level_details;
 }
 
-Error LogFile::open(const String& p_path) {
-    if (stream.is_open()) {
-        return Error::FileAlreadyInUse;
-    }
-
-    stream.open(p_path, std::ios::binary);
-
-    return stream.is_open() ? Error::OK : Error::FileCantOpen;
-}
-
-void LogFile::close() {
-    stream.close();
-}
-
 void LogFile::log_string(Log::Level p_level, const String& p_string) {
     if (!stream.is_open()) {
         return;
@@ -69,6 +55,20 @@ void LogFile::log_warn(const String& p_string) {
 
 void LogFile::log_error(const String& p_string) {
     log_string(Log::Level::Error, p_string);
+}
+
+Error LogFile::open(const String& p_path) {
+    if (stream.is_open()) {
+        return Error::FileAlreadyInUse;
+    }
+
+    stream.open(p_path, std::ios::binary);
+
+    return stream.is_open() ? Error::OK : Error::FileCantOpen;
+}
+
+void LogFile::close() {
+    stream.close();
 }
 
 LogFile::LogFile(bool p_print_level_details) :
