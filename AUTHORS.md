@@ -1,3 +1,3 @@
 # Authors
 
-- [Your Name](https://github.com/Craig-Stoneham) - Project Creator and Sole Contributor
+- [Craig Stoneham](https://github.com/Craig-Stoneham) - Project Creator and Sole Contributor
