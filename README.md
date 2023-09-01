@@ -22,7 +22,7 @@ Packer boasts a range of features designed to enhance your file management exper
 
 We welcome contributions from the community to improve and enhance Packer. If you'd like to contribute, please follow these steps:
 
-1. Fork the repository and create your branch from `main`.
+1. Fork the repository and create your branch from `master`.
 2. Make your changes, whether it's adding features, fixing bugs, or improving documentation.
 3. Open a pull request describing your changes for review.
 
