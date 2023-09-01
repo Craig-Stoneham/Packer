@@ -12,7 +12,7 @@ Thank you for considering contributing to Packer! We appreciate your interest in
 
 ## Submitting Code Contributions
 
-1. Fork the repository and create your branch from `main`.
+1. Fork the repository and create your branch from `master`.
 2. Work on your changes, making sure to write clear and concise commit messages.
 3. If you are proposing a new feature or substantial change, discuss it in an issue first to gather feedback.
 4. Make sure your code is well-tested. If possible, include unit tests for your changes.
