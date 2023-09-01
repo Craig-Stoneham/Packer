@@ -260,8 +260,6 @@ void Application::_run_packer() {
     }
 #endif // LOG_DISABLED
 
-    LOG_INFO("Running packer version " VERSION_STRING "\n");
-
     if (packer.get_read_path().empty()) {
         LOG_ERROR("Read path is not configured\n");
         return;
@@ -286,6 +284,8 @@ void Application::_run_packer() {
         LOG_ERROR("No extensions are added\n");
         return;
     }
+
+    LOG_INFO("Running packer version " VERSION_STRING "\n");
 
     LOG_INFO("Read path: " + packer.get_read_path() + "\n");
     LOG_INFO("Write path: " + packer.get_write_path() + "\n");
