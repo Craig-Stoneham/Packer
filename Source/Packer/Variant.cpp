@@ -307,7 +307,7 @@ String Variant::serialize() const {
 }
 
 Error Variant::parse(const String& p_value) {
-	String value = trim_white_space(p_value);
+    String value = trim_white_space(p_value);
 
     if (value == "true") {
         set_type(Type::Bool);
