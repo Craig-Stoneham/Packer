@@ -4,11 +4,11 @@ Thank you for considering contributing to Packer! We appreciate your interest in
 
 ## Ways to Contribute
 
-- **Bug Reports:** If you come across any issues or bugs, please [open an issue](https://github.com/YourUsername/Packer/issues) and provide detailed information about the problem you encountered.
+- **Bug Reports:** If you come across any issues or bugs, please [open an issue](https://github.com/Craig-Stoneham/Packer/issues) and provide detailed information about the problem you encountered.
 
-- **Feature Requests:** If you have an idea for a new feature or improvement, feel free to [open an issue](https://github.com/YourUsername/Packer/issues) with your suggestion. We value your feedback and ideas!
+- **Feature Requests:** If you have an idea for a new feature or improvement, feel free to [open an issue](https://github.com/Craig-Stoneham/Packer/issues) with your suggestion. We value your feedback and ideas!
 
-- **Code Contributions:** You can help by working on existing [issues](https://github.com/YourUsername/Packer/issues) or implementing new features. Please follow the guidelines below when submitting code contributions.
+- **Code Contributions:** You can help by working on existing [issues](https://github.com/Craig-Stoneham/Packer/issues) or implementing new features. Please follow the guidelines below when submitting code contributions.
 
 ## Submitting Code Contributions
 
@@ -36,10 +36,6 @@ We use labels to categorize and prioritize issues:
 - `documentation`: Issues related to documentation, typos, or content improvements.
 - `help wanted`: Indicate that we need help on a particular issue. Feel free to contribute to these!
 - `good first issue`: Suitable for first-time contributors.
-
-## Code of Conduct
-
-Please note that we have a [Code of Conduct](CODE_OF_CONDUCT.md) in place. By participating, you are expected to uphold this code.
 
 ## Getting Help
 
