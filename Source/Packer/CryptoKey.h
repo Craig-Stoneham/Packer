@@ -38,7 +38,7 @@ public:
 
 	template <class T>
 	void set_key() {
-		set_key(typeid(T).name);
+		set_key(String(typeid(T).name));
 	}
 
 	String encrypt(const String& p_data) const;
@@ -46,9 +46,4 @@ public:
 
 	CryptoKey(size_t p_key = DefaultKey);
 	CryptoKey(const String p_key);
-
-	template <class T>
-	CryptoKey() : 
-		key(typeid(T).name) {
-	}
 };
