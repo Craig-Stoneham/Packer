@@ -199,11 +199,14 @@ Variant::operator StringVector& () {
 
 
 bool Variant::operator == (const Variant& p_value) {
+    if (type != p_value.type) {
+        return false;
+    }
     switch (type) {
-    case Type::Bool: return operator == (p_value._bool);
-    case Type::Int: return operator == (p_value._int);
-    case Type::String: return operator == (*static_cast<String*>(p_value._data));
-    case Type::StringVector: return operator == (*static_cast<StringVector*>(p_value._data));
+    case Type::Bool: return _bool == p_value._bool;
+    case Type::Int: return _int == p_value._int;
+    case Type::String: return (*static_cast<const String*>(_data)) == (*static_cast<const String*>(p_value._data));
+    case Type::StringVector: return (*static_cast<const StringVector*>(_data)) == (*static_cast<const StringVector*>(p_value._data));
     default: return false;
     }
 }
@@ -237,11 +240,14 @@ bool Variant::operator == (const StringVector& p_value) {
 }
 
 bool Variant::operator != (const Variant& p_value) {
+    if (type == p_value.type) {
+        return false;
+    }
     switch (type) {
-    case Type::Bool: return operator != (p_value._bool);
-    case Type::Int: return operator != (p_value._int);
-    case Type::String: return operator != (*static_cast<String*>(p_value._data));
-    case Type::StringVector: return operator != (*static_cast<StringVector*>(p_value._data));
+    case Type::Bool: return _bool != p_value._bool;
+    case Type::Int: return _int != p_value._int;
+    case Type::String: return (*static_cast<const String*>(_data)) != (*static_cast<const String*>(p_value._data));
+    case Type::StringVector: return (*static_cast<const StringVector*>(_data)) != (*static_cast<const StringVector*>(p_value._data));
     default: return true;
     }
 }
@@ -293,7 +299,6 @@ String Variant::serialize() const {
             }
         }
         variant += '}';
-
         return variant;
     }
     default:
