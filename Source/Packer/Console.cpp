@@ -52,7 +52,7 @@ void Console::set_text_color(Color p_color) {
         return;
     }
     current_color = p_color;
-    Platform::set_console_text_color(static_cast<int>(p_color));
+    Platform::set_console_text_color(p_color);
 }
 
 Color Console::get_text_color() const {
@@ -71,13 +71,13 @@ void Console::print_line(const String& p_string) {
 
 void Console::print_string(Log::Level p_level, const String& p_string) {
 #ifndef CONSOLE_FEATURES_DISABLED
-    Platform::set_console_text_color(static_cast<int>(text_colors[static_cast<int>(p_level)]));
+    Platform::set_console_text_color(text_colors[static_cast<int>(p_level)]);
 #endif // CONSOLE_FEATURES_DISABLED
 
     print_string(p_string);
 
 #ifndef CONSOLE_FEATURES_DISABLED
-    Platform::set_console_text_color(static_cast<int>(current_color));
+    Platform::set_console_text_color(current_color);
 #endif // CONSOLE_FEATURES_DISABLED
 }
 

@@ -23,10 +23,10 @@
 
 #pragma once
 
-#include "Typedefs.h"
+#include "Color.h"
 
 class Platform {
 public:
-    static bool set_console_text_color(int p_color);
+    static bool set_console_text_color(Color p_color);
 };
 

@@ -54,12 +54,13 @@ static WORD text_colors[] = {
 };
 #endif // CONSOLE_FEATURES_DISABLED
 
-bool Platform::set_console_text_color(int p_color) {
+bool Platform::set_console_text_color(Color p_color) {
 #ifndef CONSOLE_FEATURES_DISABLED
-    if (p_color < 0 || p_color >= static_cast<int>(Color::Max)) {
-        return false;
-    }
-    if (!SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), text_colors[p_color])) {
+    if (p_color >= static_cast<Color>(0) && p_color < Color::Max) {
+        if (!SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), text_colors[static_cast<int>(p_color)])) {
+            return false;
+        }
+    } else {
         return false;
     }
 #endif // CONSOLE_FEATURES_DISABLED
@@ -91,11 +92,11 @@ static int text_colors[] = {
 
 bool Platform::set_console_text_color(int p_color) {
 #ifndef CONSOLE_FEATURES_DISABLED
-    if (p_color < 0 || p_color >= static_cast<int>(Color::Max)) {
+    if (p_color >= static_cast<Color>(0) && p_color < Color::Max) {
+        std::cout << "\x1B[" << text_colors[p_color] << "m";
+    } else {
         return false;
     }
-
-    std::cout << "\x1B[" << text_colors[p_color] << "m";
 #endif // CONSOLE_FEATURES_DISABLED
 
     return true;
