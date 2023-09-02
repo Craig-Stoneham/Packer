@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="utf-8"?>
+<documentation>
+	<!--
+    This is the documentation for the Variant class.
+    -->
+
+	<!-- Class Description -->
+	<class name="Variant">
+		<description>
+			A class for representing and manipulating variant data types.
+		</description>
+
+		<!-- Constructors -->
+		<constructors>
+			<constructor>
+				<signature>
+					Variant()
+				</signature>
+				<description>
+					Constructs a Variant object with a null value.
+				</description>
+			</constructor>
+			<constructor>
+				<signature>
+					Variant(Type p_type)
+				</signature>
+				<description>
+					Constructs a Variant object with a specified data type.
+				</description>
+				<param name="p_type">
+					The data type of the variant.
+				</param>
+			</constructor>
+			<constructor>
+				<signature>
+					Variant(const Variant& p_value)
+				</signature>
+				<description>
+					Constructs a Variant object by copying another Variant object.
+				</description>
+				<param name="p_value">
+					The Variant object to copy.
+				</param>
+			</constructor>
+			<constructor>
+				<signature>
+					Variant(bool p_value)
+				</signature>
+				<description>
+					Constructs a Variant object with a boolean value.
+				</description>
+				<param name="p_value">
+					The boolean value.
+				</param>
+			</constructor>
+			<constructor>
+				<signature>
+					Variant(int p_value)
+				</signature>
+				<description>
+					Constructs a Variant object with an integer value.
+				</description>
+				<param name="p_value">
+					The integer value.
+				</param>
+			</constructor>
+			<constructor>
+				<signature>
+					Variant(const String& p_value)
+				</signature>
+				<description>
+					Constructs a Variant object with a string value.
+				</description>
+				<param name="p_value">
+					The string value.
+				</param>
+			</constructor>
+			<constructor>
+				<signature>
+					Variant(const char* p_value)
+				</signature>
+				<description>
+					Constructs a Variant object with a string value from a C-style string.
+				</description>
+				<param name="p_value">
+					The C-style string value.
+				</param>
+			</constructor>
+			<constructor>
+				<signature>
+					Variant(const StringVector& p_value)
+				</signature>
+				<description>
+					Constructs a Variant object with a vector of strings.
+				</description>
+				<param name="p_value">
+					The vector of strings.
+				</param>
+			</constructor>
+		</constructors>
+
+		<!-- Destructor -->
+		<destructor>
+			<signature>
+				~Variant()
+			</signature>
+			<description>
+				Destructs the Variant object and releases any allocated resources.
+			</description>
+		</destructor>
+
+		<!-- Public Methods -->
+		<methods>
+			<method>
+				<signature>
+					void set_type(Type p_type)
+				</signature>
+				<description>
+					Sets the data type of the Variant object.
+				</description>
+				<param name="p_type">
+					The data type to set.
+				</param>
+			</method>
+			<method>
+				<signature>
+					Type get_type() const
+				</signature>
+				<description>
+					Retrieves the current data type of the Variant object.
+				</description>
+				<returns>
+					The current data type.
+				</returns>
+			</method>
+			<method>
+				<signature>
+					Variant& operator=(const Variant& p_value)
+				</signature>
+				<description>
+					Assigns the value of another Variant object to this object.
+				</description>
+				<param name="p_value">
+					The Variant object to assign.
+				</param>
+				<returns>
+					A reference to this Variant object after assignment.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					Variant& operator=(bool p_value)
+				</signature>
+				<description>
+					Assigns a boolean value to this Variant object.
+				</description>
+				<param name="p_value">
+					The boolean value to assign.
+				</param>
+				<returns>
+					A reference to this Variant object after assignment.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					Variant& operator=(int p_value)
+				</signature>
+				<description>
+					Assigns an integer value to this Variant object.
+				</description>
+				<param name="p_value">
+					The integer value to assign.
+				</param>
+				<returns>
+					A reference to this Variant object after assignment.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					Variant& operator=(const String& p_value)
+				</signature>
+				<description>
+					Assigns a string value to this Variant object.
+				</description>
+				<param name="p_value">
+					The string value to assign.
+				</param>
+				<returns>
+					A reference to this Variant object after assignment.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					Variant& operator=(const char* p_value)
+				</signature>
+				<description>
+					Assigns a C-style string value to this Variant object.
+				</description>
+				<param name="p_value">
+					The C-style string value to assign.
+				</param>
+				<returns>
+					A reference to this Variant object after assignment.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					Variant& operator=(const StringVector& p_value)
+				</signature>
+				<description>
+					Assigns a vector of strings to this Variant object.
+				</description>
+				<param name="p_value">
+					The vector of strings to assign.
+				</param>
+				<returns>
+					A reference to this Variant object after assignment.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					operator const bool() const
+				</signature>
+				<description>
+					Converts the Variant object to a constant boolean value.
+				</description>
+				<returns>
+					The constant boolean value.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					operator bool()
+				</signature>
+				<description>
+					Converts the Variant object to a boolean value.
+				</description>
+				<returns>
+					The boolean value.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					operator const int() const
+				</signature>
+				<description>
+					Converts the Variant object to a constant integer value.
+				</description>
+				<returns>
+					The constant integer value.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					operator int()
+				</signature>
+				<description>
+					Converts the Variant object to an integer value.
+				</description>
+				<returns>
+					The integer value.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					operator const String& () const
+				</signature>
+				<description>
+					Converts the Variant object to a constant string value.
+				</description>
+				<returns>
+					The constant string value.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					operator String& ()
+				</signature>
+				<description>
+					Converts the Variant object to a string value.
+				</description>
+				<returns>
+					The string value.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					operator const StringVector& () const
+				</signature>
+				<description>
+					Converts the Variant object to a constant vector of strings.
+				</description>
+				<returns>
+					The constant vector of strings.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					operator StringVector& ()
+				</signature>
+				<description>
+					Converts the Variant object to a vector of strings.
+				</description>
+				<returns>
+					The vector of strings.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					bool operator == (const Variant& p_value)
+				</signature>
+				<description>
+					Checks if this Variant object is equal to another Variant object.
+				</description>
+				<param name="p_value">
+					The Variant object to compare.
+				</param>
+				<returns>
+					True if the two Variant objects are equal, false otherwise.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					bool operator == (const bool& p_value)
+				</signature>
+				<description>
+					Checks if this Variant object is equal to a boolean value.
+				</description>
+				<param name="p_value">
+					The boolean value to compare.
+				</param>
+				<returns>
+					True if this Variant object is equal to the boolean value, false otherwise.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					bool operator == (const int& p_value)
+				</signature>
+				<description>
+					Checks if this Variant object is equal to an integer value.
+				</description>
+				<param name="p_value">
+					The integer value to compare.
+				</param>
+				<returns>
+					True if this Variant object is equal to the integer value, false otherwise.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					bool operator == (const String& p_value)
+				</signature>
+				<description>
+					Checks if this Variant object is equal to a string value.
+				</description>
+				<param name="p_value">
+					The string value to compare.
+				</param>
+				<returns>
+					True if this Variant object is equal to the string value, false otherwise.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					bool operator == (const StringVector& p_value)
+				</signature>
+				<description>
+					Checks if this Variant object is equal to a vector of strings.
+				</description>
+				<param name="p_value">
+					The vector of strings to compare.
+				</param>
+				<returns>
+					True if this Variant object is equal to the vector of strings, false otherwise.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					bool operator != (const Variant& p_value)
+				</signature>
+				<description>
+					Checks if this Variant object is not equal to another Variant object.
+				</description>
+				<param name="p_value">
+					The Variant object to compare.
+				</param>
+				<returns>
+					True if the two Variant objects are not equal, false otherwise.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					bool operator != (const bool& p_value)
+				</signature>
+				<description>
+					Checks if this Variant object is not equal to a boolean value.
+				</description>
+				<param name="p_value">
+					The boolean value to compare.
+				</param>
+				<returns>
+					True if this Variant object is not equal to the boolean value, false otherwise.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					bool operator != (const int& p_value)
+				</signature>
+				<description>
+					Checks if this Variant object is not equal to an integer value.
+				</description>
+				<param name="p_value">
+					The integer value to compare.
+				</param>
+				<returns>
+					True if this Variant object is not equal to the integer value, false otherwise.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					bool operator != (const String& p_value)
+				</signature>
+				<description>
+					Checks if this Variant object is not equal to a string value.
+				</description>
+				<param name="p_value">
+					The string value to compare.
+				</param>
+				<returns>
+					True if this Variant object is not equal to the string value, false otherwise.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					bool operator != (const StringVector& p_value)
+				</signature>
+				<description>
+					Checks if this Variant object is not equal to a vector of strings.
+				</description>
+				<param name="p_value">
+					The vector of strings to compare.
+				</param>
+				<returns>
+					True if this Variant object is not equal to the vector of strings, false otherwise.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					String serialize() const
+				</signature>
+				<description>
+					Serializes the Variant object to a string representation.
+				</description>
+				<returns>
+					A string representation of the Variant object.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					Error parse(const String& p_value)
+				</signature>
+				<description>
+					Parses a string representation and sets the value of the Variant object.
+				</description>
+				<param name="p_value">
+					The string representation to parse.
+				</param>
+				<returns>
+					An error code indicating the success or failure of the parsing operation.
+				</returns>
+			</method>
+		</methods>
+	</class>
+</documentation>

@@ -1,0 +1,205 @@
+<documentation>
+	<class>
+		<name>ConfigFile</name>
+		<inherits></inherits>
+		<description>
+			The `ConfigFile` class is used for reading and writing configuration data in key-value pairs. It provides methods for setting, getting, and managing configuration values, as well as saving and loading configurations from files, both encrypted and unencrypted.
+		</description>
+
+		<members>
+			<variable>
+				<signature>
+					Map&lt;String, Variant&gt; values
+				</signature>
+				<description>
+					A container storing key-value pairs representing configuration data. Keys are strings, and values are of type `Variant`, allowing for flexibility in data types.
+				</description>
+			</variable>
+		</members>
+
+		<methods>
+			<method>
+				<signature>
+					void set_value(const String&amp; p_key, const Variant&amp; p_value)
+				</signature>
+				<description>
+					Sets a configuration value for a given key.
+				</description>
+				<param name="p_key">
+					The key associated with the configuration value.
+				</param>
+				<param name="p_value">
+					The value to be associated with the key.
+				</param>
+			</method>
+
+			<method>
+				<signature>
+					Variant get_value(const String&amp; p_key, Variant p_default = Variant()) const
+				</signature>
+				<description>
+					Retrieves a configuration value associated with a given key.
+				</description>
+				<param name="p_key">
+					The key associated with the configuration value to retrieve.
+				</param>
+				<param name="p_default">
+					The default value to return if the key is not found. Defaults to an empty `Variant`.
+				</param>
+				<returns>
+					The configuration value associated with the key, or the default value if the key is not found.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					bool has_value(const String&amp; p_key) const
+				</signature>
+				<description>
+					Checks whether a configuration value exists for a given key.
+				</description>
+				<param name="p_key">
+					The key to check for existence.
+				</param>
+				<returns>
+					True if a configuration value exists for the key, false otherwise.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					bool erase_value(const String&amp; p_key)
+				</signature>
+				<description>
+					Removes a configuration value associated with a given key.
+				</description>
+				<param name="p_key">
+					The key associated with the configuration value to remove.
+				</param>
+				<returns>
+					True if the configuration value was successfully removed, false if the key was not found.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					void clear()
+				</signature>
+				<description>
+					Clears all configuration values, making the `ConfigFile` object empty.
+				</description>
+			</method>
+
+			<method>
+				<signature>
+					const Map&lt;String, Variant&gt;&amp; get_values() const
+				</signature>
+				<description>
+					Retrieves a reference to the internal map of configuration values.
+				</description>
+				<returns>
+					A reference to the map containing configuration values.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					void set_values(const Map&lt;String, Variant&gt;&amp; p_values)
+				</signature>
+				<description>
+					Sets the configuration values from a given map of key-value pairs.
+				</description>
+				<param name="p_values">
+					A map of key-value pairs to set as configuration values.
+				</param>
+			</method>
+
+			<method>
+				<signature>
+					void get_keys(Vector&lt;String&gt;&amp; p_keys) const
+				</signature>
+				<description>
+					Retrieves a vector of all keys present in the configuration.
+				</description>
+				<param name="p_keys">
+					A vector to store the keys.
+				</param>
+			</method>
+
+			<method>
+				<signature>
+					Error save(const String&amp; p_path) const
+				</signature>
+				<description>
+					Saves the configuration to a file.
+				</description>
+				<param name="p_path">
+					The path to the file where the configuration will be saved.
+				</param>
+				<returns>
+					An error code indicating the success or failure of the save operation.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					Error load(const String&amp; p_path)
+				</signature>
+				<description>
+					Loads the configuration from a file.
+				</description>
+				<param name="p_path">
+					The path to the file from which the configuration will be loaded.
+				</param>
+				<returns>
+					An error code indicating the success or failure of the load operation.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					Error save_encrypted(const String&amp; p_path, const CryptoKey&amp; p_key) const
+				</signature>
+				<description>
+					Saves the encrypted configuration to a file.
+				</description>
+				<param name="p_path">
+					The path to the encrypted file where the configuration will be saved.
+				</param>
+				<param name="p_key">
+					The encryption key used to protect the configuration.
+				</param>
+				<returns>
+					An error code indicating the success or failure of the save operation.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					Error load_encrypted(const String&amp; p_path, const CryptoKey&amp; p_key)
+				</signature>
+				<description>
+					Loads the encrypted configuration from a file.
+				</description>
+				<param name="p_path">
+					The path to the encrypted file from which the configuration will be loaded.
+				</param>
+				<param name="p_key">
+					The encryption key used to decrypt the configuration.
+				</param>
+				<returns>
+					An error code indicating the success or failure of the load operation.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					ConfigFile()
+				</signature>
+				<description>
+					Constructor for the `ConfigFile` class, initializes an empty configuration.
+				</description>
+			</method>
+		</methods>
+	</class>
+</documentation>

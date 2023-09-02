@@ -1,0 +1,26 @@
+<documentation>
+	<class>
+		<name>Platform</name>
+		<inherits></inherits>
+		<description>
+			The `Platform` class provides platform-specific functionality for setting the text color in the console. It includes methods for setting the text color based on the platform.
+		</description>
+
+		<methods>
+			<method>
+				<signature>
+					static bool set_console_text_color(Color p_color)
+				</signature>
+				<description>
+					Sets the text color in the console to the specified color. This method is platform-specific and adjusts the console text color based on the platform.
+				</description>
+				<param name="p_color">
+					The desired text color to set.
+				</param>
+				<returns>
+					`true` if the text color was set successfully, `false` if there was an error or the color is out of range.
+				</returns>
+			</method>
+		</methods>
+	</class>
+</documentation>

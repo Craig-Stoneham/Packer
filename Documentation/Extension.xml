@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<documentation>
+	<!--
+    This is the documentation for the ExtensionCase enum and related functions.
+    -->
+
+	<!-- Enum Description -->
+	<enum name="ExtensionCase">
+		<description>
+			An enumeration representing different cases for file extensions.
+		</description>
+
+		<!-- Enum Values -->
+		<values>
+			<value name="Unknown">
+				<description>An unknown extension case.</description>
+			</value>
+			<value name="Default">
+				<description>The default extension case.</description>
+			</value>
+			<value name="Lower">
+				<description>The lowercase extension case.</description>
+			</value>
+			<value name="Upper">
+				<description>The uppercase extension case.</description>
+			</value>
+			<value name="Max">
+				<description>Maximum value for the ExtensionCase enum.</description>
+			</value>
+		</values>
+	</enum>
+
+	<!-- Functions -->
+	<functions>
+		<function>
+			<signature>
+				String get_extension_case_string(ExtensionCase p_case)
+			</signature>
+			<description>
+				Retrieves a string representation of the given extension case.
+			</description>
+			<param name="p_case">
+				The extension case to get the string representation for.
+			</param>
+			<returns>
+				The extension case as a string.
+			</returns>
+		</function>
+		<function>
+			<signature>
+				ExtensionCase find_extension_case(const String& p_case)
+			</signature>
+			<description>
+				Finds the extension case corresponding to the given string representation.
+			</description>
+			<param name="p_case">
+				The string representation of the extension case to find.
+			</param>
+			<returns>
+				The ExtensionCase enum value corresponding to the provided string representation, or ExtensionCase::Unknown if not found.
+			</returns>
+		</function>
+	</functions>
+</documentation>

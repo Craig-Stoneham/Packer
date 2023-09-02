@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<documentation>
+	<!--
+    This is the documentation for the LogFile class.
+    -->
+
+	<!-- Class Description -->
+	<class name="LogFile">
+		<description>
+			A class for logging messages to a file with different log levels.
+		</description>
+
+		<!-- Constructors -->
+		<constructors>
+			<constructor>
+				<signature>
+					LogFile(bool p_print_level_details = false)
+				</signature>
+				<description>
+					Constructs a LogFile object with an optional flag to print log level details.
+				</description>
+				<param name="p_print_level_details">
+					Flag to enable or disable printing log level details. Defaults to false.
+				</param>
+			</constructor>
+			<constructor>
+				<signature>
+					LogFile(const String& p_path, bool p_print_level_details = false)
+				</signature>
+				<description>
+					Constructs a LogFile object with a specified file path and an optional flag to print log level details.
+				</description>
+				<param name="p_path">
+					The path to the log file.
+				</param>
+				<param name="p_print_level_details">
+					Flag to enable or disable printing log level details. Defaults to false.
+				</param>
+			</constructor>
+		</constructors>
+
+		<!-- Destructor -->
+		<destructor>
+			<signature>
+				virtual ~LogFile()
+			</signature>
+			<description>
+				Destructs the LogFile object and removes the log callback.
+			</description>
+		</destructor>
+
+		<!-- Public Methods -->
+		<methods>
+			<method>
+				<signature>
+					void set_print_level_details(bool p_enabled)
+				</signature>
+				<description>
+					Sets whether to print log level details in log messages.
+				</description>
+				<param name="p_enabled">
+					Flag to enable or disable printing log level details.
+				</param>
+			</method>
+			<method>
+				<signature>
+					bool get_print_level_details() const
+				</signature>
+				<description>
+					Retrieves the current state of printing log level details.
+				</description>
+				<returns>
+					True if log level details are being printed, false otherwise.
+				</returns>
+			</method>
+			<method>
+				<signature>
+					void log_string(Log::Level p_level, const String& p_string)
+				</signature>
+				<description>
+					Logs a message at the specified log level.
+				</description>
+				<param name="p_level">
+					The log level for the message.
+				</param>
+				<param name="p_string">
+					The message to log.
+				</param>
+			</method>
+			<method>
+				<signature>
+					void log_info(const String& p_string)
+				</signature>
+				<description>
+					Logs an informational message.
+				</description>
+				<param name="p_string">
+					The informational message to log.
+				</param>
+			</method>
+			<method>
+				<signature>
+					void log_warn(const String& p_string)
+				</signature>
+				<description>
+					Logs a warning message.
+				</description>
+				<param name="p_string">
+					The warning message to log.
+				</param>
+			</method>
+			<method>
+				<signature>
+					void log_error(const String& p_string)
+				</signature>
+				<description>
+					Logs an error message.
+				</description>
+				<param name="p_string">
+					The error message to log.
+				</param>
+			</method>
+			<method>
+				<signature>
+					Error open(const String& p_path)
+				</signature>
+				<description>
+					Opens a log file with the specified path.
+				</description>
+				<param name="p_path">
+					The path to the log file.
+				</param>
+				<returns>
+					Error code indicating the result of the operation (Error::OK if successful).
+				</returns>
+			</method>
+			<method>
+				<signature>
+					Error close()
+				</signature>
+				<description>
+					Closes the log file.
+				</description>
+				<returns>
+					Error code indicating the result of the operation (Error::OK if successful).
+				</returns>
+			</method>
+		</methods>
+	</class>
+</documentation>

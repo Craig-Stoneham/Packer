@@ -1,0 +1,618 @@
+<!-- Packer.h -->
+
+<documentation>
+	<class>
+		<name>Packer</name>
+		<inherits>None</inherits>
+		<description>
+			The `Packer` class is responsible for packing files from a source directory to a destination directory based on specified criteria.
+		</description>
+
+		<!-- Member Variables -->
+
+		<property>
+			<name>read_path</name>
+			<type>String</type>
+			<description>
+				The source directory from which files will be packed.
+			</description>
+		</property>
+
+		<property>
+			<name>write_path</name>
+			<type>String</type>
+			<description>
+				The destination directory where packed files will be saved.
+			</description>
+		</property>
+
+		<property>
+			<name>extensions</name>
+			<type>Vector&lt;String&gt;</type>
+			<description>
+				A list of file extensions to include when packing files.
+			</description>
+		</property>
+
+		<property>
+			<name>pack_everything</name>
+			<type>bool</type>
+			<description>
+				Indicates whether to pack all files regardless of their extensions.
+			</description>
+		</property>
+
+		<property>
+			<name>overwrite_files</name>
+			<type>bool</type>
+			<description>
+				Indicates whether to overwrite existing files in the destination directory.
+			</description>
+		</property>
+
+		<property>
+			<name>move_files</name>
+			<type>bool</type>
+			<description>
+				Indicates whether to move the files from the source directory to the destination directory.
+			</description>
+		</property>
+
+		<property>
+			<name>suffix_string</name>
+			<type>String</type>
+			<description>
+				A string used to suffix file names when moving or copying files.
+			</description>
+		</property>
+
+		<property>
+			<name>suffix_enabled</name>
+			<type>bool</type>
+			<description>
+				Indicates whether the suffix should be applied to file names.
+			</description>
+		</property>
+
+		<property>
+			<name>extension_insensitive</name>
+			<type>bool</type>
+			<description>
+				Indicates whether file extension comparisons are case-insensitive.
+			</description>
+		</property>
+
+		<property>
+			<name>extension_adjust</name>
+			<type>ExtensionCase</type>
+			<description>
+				The adjustment to be applied to file extensions (e.g., uppercase or lowercase).
+			</description>
+		</property>
+
+		<property>
+			<name>ignore_file_name</name>
+			<type>String</type>
+			<description>
+				The name of the ignore file used to skip specific directories.
+			</description>
+		</property>
+
+		<property>
+			<name>ignore_file_enabled</name>
+			<type>bool</type>
+			<description>
+				Indicates whether the ignore file feature is enabled.
+			</description>
+		</property>
+
+		<property>
+			<name>log_enabled</name>
+			<type>bool</type>
+			<description>
+				Indicates whether logging is enabled for the packing process.
+			</description>
+		</property>
+
+		<!-- Constructors -->
+
+		<constructor>
+			<signature>
+				Packer()
+			</signature>
+			<description>
+				Initializes a `Packer` object with default settings.
+			</description>
+		</constructor>
+
+		<!-- Methods -->
+
+		<methods>
+
+			<method>
+				<signature>
+					void set_read_path(const String&amp; p_path)
+				</signature>
+				<description>
+					Sets the source directory from which files will be packed.
+				</description>
+				<param name="p_path">
+					The path to the source directory.
+				</param>
+			</method>
+
+			<method>
+				<signature>
+					const String&amp; get_read_path() const
+				</signature>
+				<description>
+					Retrieves the source directory path.
+				</description>
+				<returns>
+					The path to the source directory.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					void set_write_path(const String&amp; p_path)
+				</signature>
+				<description>
+					Sets the destination directory where packed files will be saved.
+				</description>
+				<param name="p_path">
+					The path to the destination directory.
+				</param>
+			</method>
+
+			<method>
+				<signature>
+					const String&amp; get_write_path() const
+				</signature>
+				<description>
+					Retrieves the destination directory path.
+				</description>
+				<returns>
+					The path to the destination directory.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					size_t get_extension_count() const
+				</signature>
+				<description>
+					Gets the number of file extensions in the list.
+				</description>
+				<returns>
+					The number of file extensions.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					const String get_extension(size_t p_index) const
+				</signature>
+				<description>
+					Retrieves a file extension from the list by its index.
+				</description>
+				<param name="p_index">
+					The index of the extension to retrieve.
+				</param>
+				<returns>
+					The file extension as a string.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					bool add_extension(const String&amp; p_extension)
+				</signature>
+				<description>
+					Adds a file extension to the list.
+				</description>
+				<param name="p_extension">
+					The file extension to add.
+				</param>
+				<returns>
+					True if the extension was added successfully, false if it already exists in the list.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					bool remove_extension(const String&amp; p_extension)
+				</signature>
+				<description>
+					Removes a file extension from the list.
+				</description>
+				<param name="p_extension">
+					The file extension to remove.
+				</param>
+				<returns>
+					True if the extension was removed successfully, false if it does not exist in the list.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					bool has_extension(const String&amp; p_extension) const
+				</signature>
+				<description>
+					Checks if a file extension exists in the list.
+				</description>
+				<param name="p_extension">
+					The file extension to check.
+				</param>
+				<returns>
+					True if the extension exists in the list, false otherwise.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					void clear_extensions()
+				</signature>
+				<description>
+					Clears the list of file extensions.
+				</description>
+			</method>
+
+			<method>
+				<signature>
+					void set_pack_everything(bool p_enable)
+				</signature>
+				<description>
+					Sets whether to pack all files regardless of their extensions.
+				</description>
+				<param name="p_enable">
+					True to enable packing all files, false to use specified extensions.
+				</param>
+			</method>
+
+			<method>
+				<signature>
+					bool get_pack_everything() const
+				</signature>
+				<description>
+					Retrieves whether all files should be packed.
+				</description>
+				<returns>
+					True if packing all files is enabled, false if using specified extensions.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					void set_overwrite_files(bool p_enable)
+				</signature>
+				<description>
+					Sets whether to overwrite existing files in the destination directory.
+				</description>
+				<param name="p_enable">
+					True to enable overwriting, false to skip existing files.
+				</param>
+			</method>
+
+			<method>
+				<signature>
+					bool get_overwrite_files() const
+				</signature>
+				<description>
+					Retrieves whether overwriting existing files is enabled.
+				</description>
+				<returns>
+					True if overwriting is enabled, false if skipping existing files.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					void set_move_files(bool p_enable)
+				</signature>
+				<description>
+					Sets whether to move files from the source directory to the destination directory.
+				</description>
+				<param name="p_enable">
+					True to enable moving files, false to copy them.
+				</param>
+			</method>
+
+			<method>
+				<signature>
+					bool get_move_files() const
+				</signature>
+				<description>
+					Retrieves whether moving files is enabled.
+				</description>
+				<returns>
+					True if moving files is enabled, false if copying them.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					void set_suffix_string(const String&amp; p_suffix)
+				</signature>
+				<description>
+					Sets the suffix string to be applied to file names when moving or copying.
+				</description>
+				<param name="p_suffix">
+					The suffix string.
+				</param>
+			</method>
+
+			<method>
+				<signature>
+					const String&amp; get_suffix_string() const
+				</signature>
+				<description>
+					Retrieves the suffix string for file names.
+				</description>
+				<returns>
+					The suffix string.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					void set_suffix_enabled(bool p_enable)
+				</signature>
+				<description>
+					Sets whether the suffix should be applied to file names.
+				</description>
+				<param name="p_enable">
+					True to enable applying the suffix, false to disable it.
+				</param>
+			</method>
+
+			<method>
+				<signature>
+					bool get_suffix_enabled() const
+				</signature>
+				<description>
+					Retrieves whether the suffix is enabled.
+				</description>
+				<returns>
+					True if the suffix is enabled, false if disabled.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					void set_extension_insensitive(bool p_enable)
+				</signature>
+				<description>
+					Sets whether file extension comparisons are case-insensitive.
+				</description>
+				<param name="p_enable">
+					True to enable case-insensitive comparisons, false for case-sensitive.
+				</param>
+			</method>
+
+			<method>
+				<signature>
+					bool get_extension_insensitive() const
+				</signature>
+				<description>
+					Retrieves whether file extension comparisons are case-insensitive.
+				</description>
+				<returns>
+					True if case-insensitive comparisons are enabled, false for case-sensitive.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					void set_extension_adjust(ExtensionCase p_case)
+				</signature>
+				<description>
+					Sets the adjustment to be applied to file extensions (e.g., uppercase or lowercase).
+				</description>
+				<param name="p_case">
+					The adjustment to apply to file extensions.
+				</param>
+			</method>
+
+			<method>
+				<signature>
+					ExtensionCase get_extension_adjust() const
+				</signature>
+				<description>
+					Retrieves the adjustment applied to file extensions.
+				</description>
+				<returns>
+					The adjustment to file extensions.
+				</returns>
+			</method>
+
+			#ifndef IGNORE_FILE_DISABLED
+			<method>
+				<signature>
+					void set_ignore_file_name(const String&amp; p_name)
+				</signature>
+				<description>
+					Sets the name of the ignore file used to skip specific directories.
+				</description>
+				<param name="p_name">
+					The name of the ignore file.
+				</param>
+			</method>
+
+			<method>
+				<signature>
+					const String&amp; get_ignore_file_name() const
+				</signature>
+				<description>
+					Retrieves the name of the ignore file.
+				</description>
+				<returns>
+					The name of the ignore file.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					void set_ignore_file_enabled(bool p_enable)
+				</signature>
+				<description>
+					Sets whether the ignore file feature is enabled.
+				</description>
+				<param name="p_enable">
+					True to enable the ignore file feature, false to disable it.
+				</param>
+			</method>
+
+			<method>
+				<signature>
+					bool get_ignore_file_enabled() const
+				</signature>
+				<description>
+					Retrieves whether the ignore file feature is enabled.
+				</description>
+				<returns>
+					True if the ignore file feature is enabled, false if disabled.
+				</returns>
+			</method>
+			#endif // IGNORE_FILE_DISABLED
+
+			#ifndef LOG_DISABLED
+			<method>
+				<signature>
+					void set_log_enabled(bool p_enable)
+				</signature>
+				<description>
+					Sets whether logging is enabled for the packing process.
+				</description>
+				<param name="p_enable">
+					True to enable logging, false to disable it.
+				</param>
+			</method>
+
+			<method>
+				<signature>
+					bool get_log_enabled() const
+				</signature>
+				<description>
+					Retrieves whether logging is enabled for the packing process.
+				</description>
+				<returns>
+					True if logging is enabled, false if disabled.
+				</returns>
+			</method>
+			#endif // LOG_DISABLED
+
+			<method>
+				<signature>
+					void to_config_file(ConfigFile&amp; p_file) const
+				</signature>
+				<description>
+					Serializes the `Packer` object's configuration to a `ConfigFile`.
+				</description>
+				<param name="p_file">
+					The `ConfigFile` object to store the configuration.
+				</param>
+			</method>
+
+			<method>
+				<signature>
+					void from_config_file(const ConfigFile&amp; p_file)
+				</signature>
+				<description>
+					Deserializes the configuration from a `ConfigFile` and updates the `Packer` object's settings.
+				</description>
+				<param name="p_file">
+					The `ConfigFile` object containing the configuration.
+				</param>
+			</method>
+
+			<method>
+				<signature>
+					Error save(const String&amp; p_path) const
+				</signature>
+				<description>
+					Saves the `Packer` object's configuration to a file.
+				</description>
+				<param name="p_path">
+					The path to the file where the configuration will be saved.
+				</param>
+				<returns>
+					An error code indicating the success or failure of the save operation.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					Error load(const String&amp; p_path)
+				</signature>
+				<description>
+					Loads the `Packer` object's configuration from a file.
+				</description>
+				<param name="p_path">
+					The path to the file from which the configuration will be loaded.
+				</param>
+				<returns>
+					An error code indicating the success or failure of the load operation.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					Error save_encrypted(const String&amp; p_path, const CryptoKey&amp; p_key) const
+				</signature>
+				<description>
+					Saves the `Packer` object's configuration to an encrypted file.
+				</description>
+				<param name="p_path">
+					The path to the encrypted file where the configuration will be saved.
+				</param>
+				<param name="p_key">
+					The encryption key used to protect the configuration.
+				</param>
+				<returns>
+					An error code indicating the success or failure of the save operation.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					Error load_encrypted(const String&amp; p_path, const CryptoKey&amp; p_key)
+				</signature>
+				<description>
+					Loads the `Packer` object's configuration from an encrypted file.
+				</description>
+				<param name="p_path">
+					The path to the encrypted file from which the configuration will be loaded.
+				</param>
+				<param name="p_key">
+					The encryption key used to decrypt the configuration.
+				</param>
+				<returns>
+					An error code indicating the success or failure of the load operation.
+				</returns>
+			</method>
+
+			<method>
+				<signature>
+					void revert_state()
+				</signature>
+				<description>
+					Reverts the `Packer` object's settings to their default values.
+				</description>
+			</method>
+
+			<method>
+				<signature>
+					Error pack_files()
+				</signature>
+				<description>
+					Packs files from the source directory to the destination directory based on the `Packer` object's settings.
+				</description>
+				<returns>
+					An error code indicating the success or failure of the packing operation.
+				</returns>
+			</method>
+
+		</methods>
+	</class>
+</documentation>
