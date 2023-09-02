@@ -307,7 +307,11 @@ String Variant::serialize() const {
 }
 
 Error Variant::parse(const String& p_value) {
-    String value = trim_white_space(p_value);
+
+    String value = p_value;
+
+    value.erase(value.begin(), std::find_if(value.begin(), value.end(), [](int ch) { return !std::isspace(ch);  }));
+    value.erase(std::find_if(value.rbegin(), value.rend(), [](int ch) { return !std::isspace(ch); }).base(), value.end());
 
     if (value == "true") {
         set_type(Type::Bool);
