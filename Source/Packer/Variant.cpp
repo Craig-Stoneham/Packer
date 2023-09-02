@@ -307,7 +307,6 @@ String Variant::serialize() const {
 }
 
 Error Variant::parse(const String& p_value) {
-
     String value = p_value;
 
     value.erase(value.begin(), std::find_if(value.begin(), value.end(), [](int ch) { return !std::isspace(ch);  }));
@@ -351,9 +350,9 @@ Error Variant::parse(const String& p_value) {
         return Error::OK;
     } else {
         try {
-            int intValue = std::stoi(value);
+            int int_value = std::stoi(value);
             set_type(Type::Int);
-            _int = intValue;
+            _int = int_value;
             return Error::OK;
         } catch (const std::invalid_argument&) {
             return Error::InvalidData;
