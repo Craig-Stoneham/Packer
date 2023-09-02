@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <documentation>
-	<!--
-    This is the documentation for the ExtensionCase enum and related functions.
-    -->
 
-	<!-- Enum Description -->
 	<enum name="ExtensionCase">
 		<description>
 			An enumeration representing different cases for file extensions.
@@ -30,7 +26,6 @@
 		</values>
 	</enum>
 
-	<!-- Functions -->
 	<functions>
 		<function>
 			<signature>

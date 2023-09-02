@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <documentation>
-	<!--
-    This is the documentation for the Color enum.
-    -->
-
-	<!-- Enum Description -->
 	<enum name="Color">
 		<description>
 			An enumeration representing various colors.
 		</description>
 
-		<!-- Enum Values -->
 		<values>
 			<value name="None">
 				<description>No color.</description>

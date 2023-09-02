@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <documentation>
-	<!--
-    This is the documentation for the LogFile class.
-    -->
 
-	<!-- Class Description -->
 	<class name="LogFile">
 		<description>
 			A class for logging messages to a file with different log levels.
 		</description>
 
-		<!-- Constructors -->
 		<constructors>
 			<constructor>
 				<signature>
@@ -39,17 +34,6 @@
 			</constructor>
 		</constructors>
 
-		<!-- Destructor -->
-		<destructor>
-			<signature>
-				virtual ~LogFile()
-			</signature>
-			<description>
-				Destructs the LogFile object and removes the log callback.
-			</description>
-		</destructor>
-
-		<!-- Public Methods -->
 		<methods>
 			<method>
 				<signature>

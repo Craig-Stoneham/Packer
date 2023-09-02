@@ -1,22 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <documentation>
-	<!--
-    This is the documentation for the Log class and related components.
-    -->
 
-	<!-- Class Description -->
 	<class name="Log">
 		<description>
 			A class for logging messages at different levels of severity.
 		</description>
 
-		<!-- Enum Description -->
 		<enum name="Level">
 			<description>
 				An enumeration representing log levels.
 			</description>
 
-			<!-- Enum Values -->
 			<values>
 				<value name="Unknown">
 					<description>An unknown log level.</description>
@@ -36,7 +30,6 @@
 			</values>
 		</enum>
 
-		<!-- Static Methods -->
 		<methods>
 			<method>
 				<signature>

@@ -1,5 +1,4 @@
-<!-- Packer.h -->
-
+<?xml version="1.0" encoding="utf-8"?>
 <documentation>
 	<class>
 		<name>Packer</name>
@@ -7,114 +6,6 @@
 		<description>
 			The `Packer` class is responsible for packing files from a source directory to a destination directory based on specified criteria.
 		</description>
-
-		<!-- Member Variables -->
-
-		<property>
-			<name>read_path</name>
-			<type>String</type>
-			<description>
-				The source directory from which files will be packed.
-			</description>
-		</property>
-
-		<property>
-			<name>write_path</name>
-			<type>String</type>
-			<description>
-				The destination directory where packed files will be saved.
-			</description>
-		</property>
-
-		<property>
-			<name>extensions</name>
-			<type>Vector&lt;String&gt;</type>
-			<description>
-				A list of file extensions to include when packing files.
-			</description>
-		</property>
-
-		<property>
-			<name>pack_everything</name>
-			<type>bool</type>
-			<description>
-				Indicates whether to pack all files regardless of their extensions.
-			</description>
-		</property>
-
-		<property>
-			<name>overwrite_files</name>
-			<type>bool</type>
-			<description>
-				Indicates whether to overwrite existing files in the destination directory.
-			</description>
-		</property>
-
-		<property>
-			<name>move_files</name>
-			<type>bool</type>
-			<description>
-				Indicates whether to move the files from the source directory to the destination directory.
-			</description>
-		</property>
-
-		<property>
-			<name>suffix_string</name>
-			<type>String</type>
-			<description>
-				A string used to suffix file names when moving or copying files.
-			</description>
-		</property>
-
-		<property>
-			<name>suffix_enabled</name>
-			<type>bool</type>
-			<description>
-				Indicates whether the suffix should be applied to file names.
-			</description>
-		</property>
-
-		<property>
-			<name>extension_insensitive</name>
-			<type>bool</type>
-			<description>
-				Indicates whether file extension comparisons are case-insensitive.
-			</description>
-		</property>
-
-		<property>
-			<name>extension_adjust</name>
-			<type>ExtensionCase</type>
-			<description>
-				The adjustment to be applied to file extensions (e.g., uppercase or lowercase).
-			</description>
-		</property>
-
-		<property>
-			<name>ignore_file_name</name>
-			<type>String</type>
-			<description>
-				The name of the ignore file used to skip specific directories.
-			</description>
-		</property>
-
-		<property>
-			<name>ignore_file_enabled</name>
-			<type>bool</type>
-			<description>
-				Indicates whether the ignore file feature is enabled.
-			</description>
-		</property>
-
-		<property>
-			<name>log_enabled</name>
-			<type>bool</type>
-			<description>
-				Indicates whether logging is enabled for the packing process.
-			</description>
-		</property>
-
-		<!-- Constructors -->
 
 		<constructor>
 			<signature>
@@ -124,8 +15,6 @@
 				Initializes a `Packer` object with default settings.
 			</description>
 		</constructor>
-
-		<!-- Methods -->
 
 		<methods>
 

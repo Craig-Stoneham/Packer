@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <documentation>
-	<!--
-    This is the documentation for the Variant class.
-    -->
 
-	<!-- Class Description -->
 	<class name="Variant">
 		<description>
 			A class for representing and manipulating variant data types.
 		</description>
 
-		<!-- Constructors -->
 		<constructors>
 			<constructor>
 				<signature>
@@ -99,17 +94,6 @@
 			</constructor>
 		</constructors>
 
-		<!-- Destructor -->
-		<destructor>
-			<signature>
-				~Variant()
-			</signature>
-			<description>
-				Destructs the Variant object and releases any allocated resources.
-			</description>
-		</destructor>
-
-		<!-- Public Methods -->
 		<methods>
 			<method>
 				<signature>
