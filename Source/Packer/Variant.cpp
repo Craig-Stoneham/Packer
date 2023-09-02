@@ -339,10 +339,10 @@ Error Variant::parse(const String& p_value) {
             }
             start = end + 1;
         }
-        String lastElement = content.substr(start);
-        if (lastElement.front() == '"' && lastElement.back() == '"') {
-            lastElement = lastElement.substr(1, lastElement.size() - 2);
-            vector.push_back(lastElement);
+        String last_element = content.substr(start);
+        if (last_element.front() == '"' && last_element.back() == '"') {
+            last_element = last_element.substr(1, last_element.size() - 2);
+            vector.push_back(last_element);
         } else {
             return Error::InvalidData;
         }
