@@ -7,6 +7,15 @@
 			The `Console` class provides functionality for printing messages and controlling text colors in the console. It allows for outputting messages with different text colors and log levels.
 		</description>
 
+		<constructor>
+			<signature>
+				Console()
+			</signature>
+			<description>
+				Constructor for the `Console` class, initializes the console with default settings.
+			</description>
+		</constructor>
+		
 		<methods>
 			<method>
 				<signature>
@@ -188,23 +197,6 @@
 				</param>
 			</method>
 
-			<method>
-				<signature>
-					Console()
-				</signature>
-				<description>
-					Constructor for the `Console` class, initializes the console with default settings.
-				</description>
-			</method>
-
-			<method>
-				<signature>
-					virtual ~Console()
-				</signature>
-				<description>
-					Destructor for the `Console` class.
-				</description>
-			</method>
 		</methods>
 	</class>
 </documentation>
