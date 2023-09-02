@@ -48,7 +48,7 @@ void CryptoKey::set_key(const size_t p_key) {
 	key = p_key;
 }
 
-void CryptoKey::set_key(const String p_key) {
+void CryptoKey::set_key(const String& p_key) {
 	key = std::hash<String>{}(p_key);
 }
 
@@ -68,6 +68,6 @@ CryptoKey::CryptoKey(size_t p_key) :
 	key(p_key) {
 }
 
-CryptoKey::CryptoKey(const String p_key) :
-	key(std::hash<String>{}(p_key)) {
+CryptoKey::CryptoKey(const String& p_key) :
+	key(p_key.size() ? std::hash<String>{}(p_key) : 0) {
 }
