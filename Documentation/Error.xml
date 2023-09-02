@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <documentation>
-	<!--
-    This is the documentation for the Error enum and related functions.
-    -->
 
-	<!-- Enum Description -->
 	<enum name="Error">
 		<description>
 			An enumeration representing various error codes.
 		</description>
 
-		<!-- Enum Values -->
 		<values>
 			<value name="Unknown">
 				<description>An unknown error.</description>
@@ -51,7 +46,6 @@
 		</values>
 	</enum>
 
-	<!-- Functions -->
 	<functions>
 		<function>
 			<signature>

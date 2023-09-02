@@ -6,7 +6,6 @@
 			An enumeration representing different cases for file extensions.
 		</description>
 
-		<!-- Enum Values -->
 		<values>
 			<value name="Unknown">
 				<description>An unknown extension case.</description>

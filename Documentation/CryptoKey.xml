@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <documentation>
-	<!--
-    This is the documentation for the CryptoKey class.
-    -->
 
-	<!-- Class Description -->
 	<class name="CryptoKey">
 		<description>
 			A class for cryptographic key management and data encryption/decryption.
 		</description>
 
-		<!-- Constructors -->
 		<constructors>
 			<constructor>
 				<signature>
@@ -47,7 +42,6 @@
 			</constructor>
 		</constructors>
 
-		<!-- Public Methods -->
 		<methods>
 			<method>
 				<signature>
