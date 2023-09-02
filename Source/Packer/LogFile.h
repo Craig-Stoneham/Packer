@@ -40,7 +40,7 @@ public:
     void log_error(const String& p_string);
 
     Error open(const String& p_path);
-    void close();
+    Error close();
 
     LogFile(bool p_print_level_details = false);
     LogFile(const String& p_path, bool p_print_level_details = false);

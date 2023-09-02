@@ -67,8 +67,13 @@ Error LogFile::open(const String& p_path) {
     return stream.is_open() ? Error::OK : Error::FileCantOpen;
 }
 
-void LogFile::close() {
-    stream.close();
+Error LogFile::close() {
+    if (stream.is_open()) {
+        return Error::FileAlreadyInUse;
+    } else {
+        stream.close();
+        return Error::OK;
+    }
 }
 
 LogFile::LogFile(bool p_print_level_details) :
