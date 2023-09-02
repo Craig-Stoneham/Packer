@@ -335,7 +335,7 @@ void Application::_quit() {
 
 Error Application::_save(const String& p_path) {
 #ifdef CONFIG_FILE_ENCRYPTION_ENABLED
-    return save_encrypted(p_path, CryptoKey("Application"));
+    return save_encrypted(p_path, CryptoKey(*this));
 #else // CONFIG_FILE_ENCRYPTION_ENABLED
     return save(p_path);
 #endif // CONFIG_FILE_ENCRYPTION_ENABLED
@@ -343,7 +343,7 @@ Error Application::_save(const String& p_path) {
 
 Error Application::_load(const String& p_path) {
 #ifdef CONFIG_FILE_ENCRYPTION_ENABLED
-    return load_encrypted(p_path, CryptoKey("Application"));
+    return load_encrypted(p_path, CryptoKey(*this));
 #else // CONFIG_FILE_ENCRYPTION_ENABLED
     return load(p_path);
 #endif // CONFIG_FILE_ENCRYPTION_ENABLED
