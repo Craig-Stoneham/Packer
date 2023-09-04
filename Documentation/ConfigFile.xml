@@ -8,7 +8,7 @@
 		</description>
 
 		<methods>
-			<method>
+			<function>
 				<signature>
 					void set_value(const String&amp; p_key, const Variant&amp; p_value)
 				</signature>
@@ -21,9 +21,9 @@
 				<param name="p_value">
 					The value to be associated with the key.
 				</param>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					Variant get_value(const String&amp; p_key, Variant p_default = Variant()) const
 				</signature>
@@ -39,9 +39,9 @@
 				<returns>
 					The configuration value associated with the key, or the default value if the key is not found.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					bool has_value(const String&amp; p_key) const
 				</signature>
@@ -54,9 +54,9 @@
 				<returns>
 					True if a configuration value exists for the key, false otherwise.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					bool erase_value(const String&amp; p_key)
 				</signature>
@@ -69,18 +69,18 @@
 				<returns>
 					True if the configuration value was successfully removed, false if the key was not found.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					void clear()
 				</signature>
 				<description>
 					Clears all configuration values, making the `ConfigFile` object empty.
 				</description>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					const Map&lt;String, Variant&gt;&amp; get_values() const
 				</signature>
@@ -90,9 +90,9 @@
 				<returns>
 					A reference to the map containing configuration values.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					void set_values(const Map&lt;String, Variant&gt;&amp; p_values)
 				</signature>
@@ -102,9 +102,9 @@
 				<param name="p_values">
 					A map of key-value pairs to set as configuration values.
 				</param>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					void get_keys(Vector&lt;String&gt;&amp; p_keys) const
 				</signature>
@@ -114,9 +114,9 @@
 				<param name="p_keys">
 					A vector to store the keys.
 				</param>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					Error save(const String&amp; p_path) const
 				</signature>
@@ -129,9 +129,9 @@
 				<returns>
 					An error code indicating the success or failure of the save operation.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					Error load(const String&amp; p_path)
 				</signature>
@@ -144,9 +144,9 @@
 				<returns>
 					An error code indicating the success or failure of the load operation.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					Error save_encrypted(const String&amp; p_path, const CryptoKey&amp; p_key) const
 				</signature>
@@ -162,9 +162,9 @@
 				<returns>
 					An error code indicating the success or failure of the save operation.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					Error load_encrypted(const String&amp; p_path, const CryptoKey&amp; p_key)
 				</signature>
@@ -180,16 +180,16 @@
 				<returns>
 					An error code indicating the success or failure of the load operation.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					ConfigFile()
 				</signature>
 				<description>
 					Constructor for the `ConfigFile` class, initializes an empty configuration.
 				</description>
-			</method>
+			</function>
 		</methods>
 	</class>
 </documentation>

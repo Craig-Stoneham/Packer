@@ -17,7 +17,7 @@
 		</constructor>
 		
 		<methods>
-			<method>
+			<function>
 				<signature>
 					void set_text_color(Log::Level p_level, Color p_color)
 				</signature>
@@ -30,9 +30,9 @@
 				<param name="p_color">
 					The text color to associate with the log level.
 				</param>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					Color get_text_color(Log::Level p_level) const
 				</signature>
@@ -45,9 +45,9 @@
 				<returns>
 					The text color associated with the specified log level.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					void set_text_color(Color p_color)
 				</signature>
@@ -57,9 +57,9 @@
 				<param name="p_color">
 					The text color to set as the current text color.
 				</param>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					Color get_text_color() const
 				</signature>
@@ -69,9 +69,9 @@
 				<returns>
 					The current text color.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					void print_string(const String&amp; p_string)
 				</signature>
@@ -81,9 +81,9 @@
 				<param name="p_string">
 					The string to print.
 				</param>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					void print_line(const String&amp; p_string)
 				</signature>
@@ -93,9 +93,9 @@
 				<param name="p_string">
 					The string to print.
 				</param>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					void print_string(Log::Level p_level, const String&amp; p_string)
 				</signature>
@@ -108,9 +108,9 @@
 				<param name="p_string">
 					The string to print.
 				</param>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					void print_info(const String&amp; p_string)
 				</signature>
@@ -120,9 +120,9 @@
 				<param name="p_string">
 					The string to print.
 				</param>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					void print_warn(const String&amp; p_string)
 				</signature>
@@ -132,9 +132,9 @@
 				<param name="p_string">
 					The string to print.
 				</param>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					void print_error(const String&amp; p_string)
 				</signature>
@@ -144,9 +144,9 @@
 				<param name="p_string">
 					The string to print.
 				</param>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					void log_string(Log::Level p_level, const String&amp; p_string)
 				</signature>
@@ -159,9 +159,9 @@
 				<param name="p_string">
 					The string to log.
 				</param>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					void log_info(const String&amp; p_string)
 				</signature>
@@ -171,9 +171,9 @@
 				<param name="p_string">
 					The string to log.
 				</param>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					void log_warn(const String&amp; p_string)
 				</signature>
@@ -183,9 +183,9 @@
 				<param name="p_string">
 					The string to log.
 				</param>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					void log_error(const String&amp; p_string)
 				</signature>
@@ -195,7 +195,7 @@
 				<param name="p_string">
 					The string to log.
 				</param>
-			</method>
+			</function>
 
 		</methods>
 	</class>

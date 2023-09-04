@@ -95,7 +95,7 @@
 		</constructors>
 
 		<methods>
-			<method>
+			<function>
 				<signature>
 					void set_type(Type p_type)
 				</signature>
@@ -105,8 +105,8 @@
 				<param name="p_type">
 					The data type to set.
 				</param>
-			</method>
-			<method>
+			</function>
+			<function>
 				<signature>
 					Type get_type() const
 				</signature>
@@ -116,8 +116,8 @@
 				<returns>
 					The current data type.
 				</returns>
-			</method>
-			<method>
+			</function>
+			<function>
 				<signature>
 					Variant& operator=(const Variant& p_value)
 				</signature>
@@ -130,9 +130,9 @@
 				<returns>
 					A reference to this Variant object after assignment.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					Variant& operator=(bool p_value)
 				</signature>
@@ -145,9 +145,9 @@
 				<returns>
 					A reference to this Variant object after assignment.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					Variant& operator=(int p_value)
 				</signature>
@@ -160,9 +160,9 @@
 				<returns>
 					A reference to this Variant object after assignment.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					Variant& operator=(const String& p_value)
 				</signature>
@@ -175,9 +175,9 @@
 				<returns>
 					A reference to this Variant object after assignment.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					Variant& operator=(const char* p_value)
 				</signature>
@@ -190,9 +190,9 @@
 				<returns>
 					A reference to this Variant object after assignment.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					Variant& operator=(const StringVector& p_value)
 				</signature>
@@ -205,9 +205,9 @@
 				<returns>
 					A reference to this Variant object after assignment.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					operator const bool() const
 				</signature>
@@ -217,9 +217,9 @@
 				<returns>
 					The constant boolean value.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					operator bool()
 				</signature>
@@ -229,9 +229,9 @@
 				<returns>
 					The boolean value.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					operator const int() const
 				</signature>
@@ -241,9 +241,9 @@
 				<returns>
 					The constant integer value.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					operator int()
 				</signature>
@@ -253,9 +253,9 @@
 				<returns>
 					The integer value.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					operator const String& () const
 				</signature>
@@ -265,9 +265,9 @@
 				<returns>
 					The constant string value.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					operator String& ()
 				</signature>
@@ -277,9 +277,9 @@
 				<returns>
 					The string value.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					operator const StringVector& () const
 				</signature>
@@ -289,9 +289,9 @@
 				<returns>
 					The constant vector of strings.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					operator StringVector& ()
 				</signature>
@@ -301,9 +301,9 @@
 				<returns>
 					The vector of strings.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					bool operator == (const Variant& p_value)
 				</signature>
@@ -316,9 +316,9 @@
 				<returns>
 					True if the two Variant objects are equal, false otherwise.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					bool operator == (const bool& p_value)
 				</signature>
@@ -331,9 +331,9 @@
 				<returns>
 					True if this Variant object is equal to the boolean value, false otherwise.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					bool operator == (const int& p_value)
 				</signature>
@@ -346,9 +346,9 @@
 				<returns>
 					True if this Variant object is equal to the integer value, false otherwise.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					bool operator == (const String& p_value)
 				</signature>
@@ -361,9 +361,9 @@
 				<returns>
 					True if this Variant object is equal to the string value, false otherwise.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					bool operator == (const StringVector& p_value)
 				</signature>
@@ -376,9 +376,9 @@
 				<returns>
 					True if this Variant object is equal to the vector of strings, false otherwise.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					bool operator != (const Variant& p_value)
 				</signature>
@@ -391,9 +391,9 @@
 				<returns>
 					True if the two Variant objects are not equal, false otherwise.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					bool operator != (const bool& p_value)
 				</signature>
@@ -406,9 +406,9 @@
 				<returns>
 					True if this Variant object is not equal to the boolean value, false otherwise.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					bool operator != (const int& p_value)
 				</signature>
@@ -421,9 +421,9 @@
 				<returns>
 					True if this Variant object is not equal to the integer value, false otherwise.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					bool operator != (const String& p_value)
 				</signature>
@@ -436,9 +436,9 @@
 				<returns>
 					True if this Variant object is not equal to the string value, false otherwise.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					bool operator != (const StringVector& p_value)
 				</signature>
@@ -451,9 +451,9 @@
 				<returns>
 					True if this Variant object is not equal to the vector of strings, false otherwise.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					String serialize() const
 				</signature>
@@ -463,9 +463,9 @@
 				<returns>
 					A string representation of the Variant object.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					Error parse(const String& p_value)
 				</signature>
@@ -478,7 +478,7 @@
 				<returns>
 					An error code indicating the success or failure of the parsing operation.
 				</returns>
-			</method>
+			</function>
 		</methods>
 	</class>
 </documentation>

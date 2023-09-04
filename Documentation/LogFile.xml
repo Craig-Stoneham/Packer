@@ -35,7 +35,7 @@
 		</constructors>
 
 		<methods>
-			<method>
+			<function>
 				<signature>
 					void set_print_level_details(bool p_enabled)
 				</signature>
@@ -45,8 +45,8 @@
 				<param name="p_enabled">
 					Flag to enable or disable printing log level details.
 				</param>
-			</method>
-			<method>
+			</function>
+			<function>
 				<signature>
 					bool get_print_level_details() const
 				</signature>
@@ -56,8 +56,8 @@
 				<returns>
 					True if log level details are being printed, false otherwise.
 				</returns>
-			</method>
-			<method>
+			</function>
+			<function>
 				<signature>
 					void log_string(Log::Level p_level, const String& p_string)
 				</signature>
@@ -70,8 +70,8 @@
 				<param name="p_string">
 					The message to log.
 				</param>
-			</method>
-			<method>
+			</function>
+			<function>
 				<signature>
 					void log_info(const String& p_string)
 				</signature>
@@ -81,8 +81,8 @@
 				<param name="p_string">
 					The informational message to log.
 				</param>
-			</method>
-			<method>
+			</function>
+			<function>
 				<signature>
 					void log_warn(const String& p_string)
 				</signature>
@@ -92,8 +92,8 @@
 				<param name="p_string">
 					The warning message to log.
 				</param>
-			</method>
-			<method>
+			</function>
+			<function>
 				<signature>
 					void log_error(const String& p_string)
 				</signature>
@@ -103,8 +103,8 @@
 				<param name="p_string">
 					The error message to log.
 				</param>
-			</method>
-			<method>
+			</function>
+			<function>
 				<signature>
 					Error open(const String& p_path)
 				</signature>
@@ -117,8 +117,8 @@
 				<returns>
 					Error code indicating the result of the operation (Error::OK if successful).
 				</returns>
-			</method>
-			<method>
+			</function>
+			<function>
 				<signature>
 					Error close()
 				</signature>
@@ -128,7 +128,7 @@
 				<returns>
 					Error code indicating the result of the operation (Error::OK if successful).
 				</returns>
-			</method>
+			</function>
 		</methods>
 	</class>
 </documentation>

@@ -31,7 +31,7 @@
 		</enum>
 
 		<methods>
-			<method>
+			<function>
 				<signature>
 					static void add_callback(Callback p_callback, void* p_data)
 				</signature>
@@ -44,8 +44,8 @@
 				<param name="p_data">
 					Additional data to associate with the callback.
 				</param>
-			</method>
-			<method>
+			</function>
+			<function>
 				<signature>
 					static void remove_callback(Callback p_callback, void* p_data)
 				</signature>
@@ -58,8 +58,8 @@
 				<param name="p_data">
 					Additional data associated with the callback.
 				</param>
-			</method>
-			<method>
+			</function>
+			<function>
 				<signature>
 					static void log_string(Level p_level, const String& p_string)
 				</signature>
@@ -72,8 +72,8 @@
 				<param name="p_string">
 					The message to log.
 				</param>
-			</method>
-			<method>
+			</function>
+			<function>
 				<signature>
 					static void log_info(const String& p_string)
 				</signature>
@@ -83,8 +83,8 @@
 				<param name="p_string">
 					The informational message to log.
 				</param>
-			</method>
-			<method>
+			</function>
+			<function>
 				<signature>
 					static void log_warn(const String& p_string)
 				</signature>
@@ -94,8 +94,8 @@
 				<param name="p_string">
 					The warning message to log.
 				</param>
-			</method>
-			<method>
+			</function>
+			<function>
 				<signature>
 					static void log_error(const String& p_string)
 				</signature>
@@ -105,8 +105,8 @@
 				<param name="p_string">
 					The error message to log.
 				</param>
-			</method>
-			<method>
+			</function>
+			<function>
 				<signature>
 					static String get_level_string(Level p_level)
 				</signature>
@@ -119,8 +119,8 @@
 				<returns>
 					The log level as a string.
 				</returns>
-			</method>
-			<method>
+			</function>
+			<function>
 				<signature>
 					static Level find_level(const String& p_level)
 				</signature>
@@ -133,7 +133,7 @@
 				<returns>
 					The log level enum value corresponding to the provided string representation, or Level::Unknown if not found.
 				</returns>
-			</method>
+			</function>
 		</methods>
 	</class>
 </documentation>

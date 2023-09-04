@@ -43,7 +43,7 @@
 		</constructors>
 
 		<methods>
-			<method>
+			<function>
 				<signature>
 					void set_key(const size_t p_key)
 				</signature>
@@ -53,8 +53,8 @@
 				<param name="p_key">
 					The size_t key value to set.
 				</param>
-			</method>
-			<method>
+			</function>
+			<function>
 				<signature>
 					void set_key(const String& p_key)
 				</signature>
@@ -64,16 +64,16 @@
 				<param name="p_key">
 					The string key value to set.
 				</param>
-			</method>
-			<method>
+			</function>
+			<function>
 				<signature>
 					void set_key()
 				</signature>
 				<description>
 					Sets the cryptographic key using the type name T as a string.
 				</description>
-			</method>
-			<method>
+			</function>
+			<function>
 				<signature>
 					String encrypt(const String& p_data) const
 				</signature>
@@ -86,8 +86,8 @@
 				<returns>
 					The encrypted string.
 				</returns>
-			</method>
-			<method>
+			</function>
+			<function>
 				<signature>
 					String decrypt(const String& p_data) const
 				</signature>
@@ -100,7 +100,7 @@
 				<returns>
 					The decrypted string.
 				</returns>
-			</method>
+			</function>
 		</methods>
 	</class>
 </documentation>

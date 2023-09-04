@@ -18,7 +18,7 @@
 
 		<methods>
 
-			<method>
+			<function>
 				<signature>
 					void set_read_path(const String&amp; p_path)
 				</signature>
@@ -28,9 +28,9 @@
 				<param name="p_path">
 					The path to the source directory.
 				</param>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					const String&amp; get_read_path() const
 				</signature>
@@ -40,9 +40,9 @@
 				<returns>
 					The path to the source directory.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					void set_write_path(const String&amp; p_path)
 				</signature>
@@ -52,9 +52,9 @@
 				<param name="p_path">
 					The path to the destination directory.
 				</param>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					const String&amp; get_write_path() const
 				</signature>
@@ -64,9 +64,9 @@
 				<returns>
 					The path to the destination directory.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					size_t get_extension_count() const
 				</signature>
@@ -76,9 +76,9 @@
 				<returns>
 					The number of file extensions.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					const String get_extension(size_t p_index) const
 				</signature>
@@ -91,9 +91,9 @@
 				<returns>
 					The file extension as a string.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					bool add_extension(const String&amp; p_extension)
 				</signature>
@@ -106,9 +106,9 @@
 				<returns>
 					True if the extension was added successfully, false if it already exists in the list.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					bool remove_extension(const String&amp; p_extension)
 				</signature>
@@ -121,9 +121,9 @@
 				<returns>
 					True if the extension was removed successfully, false if it does not exist in the list.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					bool has_extension(const String&amp; p_extension) const
 				</signature>
@@ -136,17 +136,17 @@
 				<returns>
 					True if the extension exists in the list, false otherwise.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					void clear_extensions()
 				</signature>
 				<description>
 					Clears the list of file extensions.
 				</description>
-			</method>
-			<method>
+			</function>
+			<function>
 				<return-type>void</return-type>
 				<name>set_exclude_mode</name>
 				<parameters>
@@ -161,8 +161,8 @@
 				<description>
 					This function allows you to set the exclude mode for packing files. When exclude mode is enabled, the `pack_files` function will exclude files with extensions matching those in the `extensions` vector. When exclude mode is disabled, it will only pack files with extensions that match the ones in the `extensions` vector.
 				</description>
-			</method>
-			<method>
+			</function>
+			<function>
 				<return-type>bool</return-type>
 				<name>get_exclude_mode</name>
 				<brief>
@@ -171,8 +171,8 @@
 				<description>
 					Returns the current state of the exclude mode for packing files. If exclude mode is enabled, this function returns `true`. If exclude mode is disabled, it returns `false`.
 				</description>
-			</method>
-			<method>
+			</function>
+			<function>
 				<signature>
 					void set_pack_everything(bool p_enable)
 				</signature>
@@ -182,9 +182,9 @@
 				<param name="p_enable">
 					True to enable packing all files, false to use specified extensions.
 				</param>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					bool get_pack_everything() const
 				</signature>
@@ -194,9 +194,9 @@
 				<returns>
 					True if packing all files is enabled, false if using specified extensions.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					void set_overwrite_files(bool p_enable)
 				</signature>
@@ -206,9 +206,9 @@
 				<param name="p_enable">
 					True to enable overwriting, false to skip existing files.
 				</param>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					bool get_overwrite_files() const
 				</signature>
@@ -218,9 +218,9 @@
 				<returns>
 					True if overwriting is enabled, false if skipping existing files.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					void set_move_files(bool p_enable)
 				</signature>
@@ -230,9 +230,9 @@
 				<param name="p_enable">
 					True to enable moving files, false to copy them.
 				</param>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					bool get_move_files() const
 				</signature>
@@ -242,9 +242,9 @@
 				<returns>
 					True if moving files is enabled, false if copying them.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					void set_suffix_string(const String&amp; p_suffix)
 				</signature>
@@ -254,9 +254,9 @@
 				<param name="p_suffix">
 					The suffix string.
 				</param>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					const String&amp; get_suffix_string() const
 				</signature>
@@ -266,9 +266,9 @@
 				<returns>
 					The suffix string.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					void set_suffix_enabled(bool p_enable)
 				</signature>
@@ -278,9 +278,9 @@
 				<param name="p_enable">
 					True to enable applying the suffix, false to disable it.
 				</param>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					bool get_suffix_enabled() const
 				</signature>
@@ -290,9 +290,9 @@
 				<returns>
 					True if the suffix is enabled, false if disabled.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					void set_extension_insensitive(bool p_enable)
 				</signature>
@@ -302,9 +302,9 @@
 				<param name="p_enable">
 					True to enable case-insensitive comparisons, false for case-sensitive.
 				</param>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					bool get_extension_insensitive() const
 				</signature>
@@ -314,9 +314,9 @@
 				<returns>
 					True if case-insensitive comparisons are enabled, false for case-sensitive.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					void set_extension_adjust(ExtensionCase p_case)
 				</signature>
@@ -326,9 +326,9 @@
 				<param name="p_case">
 					The adjustment to apply to file extensions.
 				</param>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					ExtensionCase get_extension_adjust() const
 				</signature>
@@ -338,10 +338,10 @@
 				<returns>
 					The adjustment to file extensions.
 				</returns>
-			</method>
+			</function>
 
 			#ifndef IGNORE_FILE_DISABLED
-			<method>
+			<function>
 				<signature>
 					void set_ignore_file_name(const String&amp; p_name)
 				</signature>
@@ -351,9 +351,9 @@
 				<param name="p_name">
 					The name of the ignore file.
 				</param>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					const String&amp; get_ignore_file_name() const
 				</signature>
@@ -363,9 +363,9 @@
 				<returns>
 					The name of the ignore file.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					void set_ignore_file_enabled(bool p_enable)
 				</signature>
@@ -375,9 +375,9 @@
 				<param name="p_enable">
 					True to enable the ignore file feature, false to disable it.
 				</param>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					bool get_ignore_file_enabled() const
 				</signature>
@@ -387,11 +387,11 @@
 				<returns>
 					True if the ignore file feature is enabled, false if disabled.
 				</returns>
-			</method>
+			</function>
 			#endif // IGNORE_FILE_DISABLED
 
 			#ifndef LOG_DISABLED
-			<method>
+			<function>
 				<signature>
 					void set_log_enabled(bool p_enable)
 				</signature>
@@ -401,9 +401,9 @@
 				<param name="p_enable">
 					True to enable logging, false to disable it.
 				</param>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					bool get_log_enabled() const
 				</signature>
@@ -413,10 +413,10 @@
 				<returns>
 					True if logging is enabled, false if disabled.
 				</returns>
-			</method>
+			</function>
 			#endif // LOG_DISABLED
 
-			<method>
+			<function>
 				<signature>
 					void to_config_file(ConfigFile&amp; p_file) const
 				</signature>
@@ -426,9 +426,9 @@
 				<param name="p_file">
 					The `ConfigFile` object to store the configuration.
 				</param>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					void from_config_file(const ConfigFile&amp; p_file)
 				</signature>
@@ -438,9 +438,9 @@
 				<param name="p_file">
 					The `ConfigFile` object containing the configuration.
 				</param>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					Error save(const String&amp; p_path) const
 				</signature>
@@ -453,9 +453,9 @@
 				<returns>
 					An error code indicating the success or failure of the save operation.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					Error load(const String&amp; p_path)
 				</signature>
@@ -468,9 +468,9 @@
 				<returns>
 					An error code indicating the success or failure of the load operation.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					Error save_encrypted(const String&amp; p_path, const CryptoKey&amp; p_key) const
 				</signature>
@@ -486,9 +486,9 @@
 				<returns>
 					An error code indicating the success or failure of the save operation.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					Error load_encrypted(const String&amp; p_path, const CryptoKey&amp; p_key)
 				</signature>
@@ -504,18 +504,18 @@
 				<returns>
 					An error code indicating the success or failure of the load operation.
 				</returns>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					void revert_state()
 				</signature>
 				<description>
 					Reverts the `Packer` object's settings to their default values.
 				</description>
-			</method>
+			</function>
 
-			<method>
+			<function>
 				<signature>
 					Error pack_files()
 				</signature>
@@ -525,7 +525,7 @@
 				<returns>
 					An error code indicating the success or failure of the packing operation.
 				</returns>
-			</method>
+			</function>
 
 		</methods>
 	</class>
