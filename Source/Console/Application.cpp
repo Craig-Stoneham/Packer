@@ -89,6 +89,11 @@ void Application::_clear_extensions() {
     print_line("Extensions cleared.");
 }
 
+void Application::_set_exclude_mode() {
+    packer.set_exclude_mode(!packer.get_exclude_mode());
+    print_line("Exclude mode is " + String(packer.get_exclude_mode() ? "enabled" : "disabled") + ".");
+}
+
 void Application::_set_pack_everything() {
     packer.set_pack_everything(!packer.get_pack_everything());
     print_line("Pack everything is " + String(packer.get_pack_everything() ? "enabled" : "disabled") + ".");
@@ -217,6 +222,7 @@ void Application::_print_info() {
     } else {
         print_line("No extensions added");
     }
+    print_line("Exclude mode: " + String(packer.get_exclude_mode() ? "enabled" : "disabled"));
     print_line("Pack everything: " + String(packer.get_pack_everything() ? "enabled" : "disabled"));
     print_line("Overwrite files: " + String(packer.get_overwrite_files() ? "enabled" : "disabled"));
     print_line("Move files: " + String(packer.get_move_files() ? "enabled" : "disabled"));
@@ -299,6 +305,7 @@ void Application::_run_packer() {
         }
         LOG_INFO(extension_string + "\n");
     }
+    LOG_INFO("Exclude mode: " + String(packer.get_exclude_mode() ? "enabled" : "disabled") + "\n");
     LOG_INFO("Pack everything: " + String(packer.get_pack_everything() ? "enabled" : "disabled") + "\n");
     LOG_INFO("Overwrite files: " + String(packer.get_overwrite_files() ? "enabled" : "disabled") + "\n");
     LOG_INFO("Move files: " + String(packer.get_move_files() ? "enabled" : "disabled") + "\n");
@@ -464,6 +471,7 @@ Application::Application() :
     _add_command(&Application::_add_extension, "add_extension", "Add an extension to the extension list", "Type the extension to add:", false);
     _add_command(&Application::_remove_extension, "remove_extension", "Remove an extension from the extension list", "Type the extension to remove:", false);
     _add_command(&Application::_clear_extensions, "clear_extensions", "Clear all of the extensions in the extension list", false);
+    _add_command(&Application::_set_exclude_mode, "exclude_mode", "Pack matching extensions or exclude matching extensions", false);
     _add_command(&Application::_set_pack_everything, "pack_everything", "Pack everything regardless of the extension", false);
     _add_command(&Application::_set_overwrite_files, "overwrite_files", "Overwrite existing files", false);
     _add_command(&Application::_set_move_files, "move_files", "Move the files", false);

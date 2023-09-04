@@ -146,7 +146,32 @@
 					Clears the list of file extensions.
 				</description>
 			</method>
-
+			<method>
+				<return-type>void</return-type>
+				<name>set_exclude_mode</name>
+				<parameters>
+					<parameter>
+						<type>bool</type>
+						<name>p_enable</name>
+					</parameter>
+				</parameters>
+				<brief>
+					Set the exclude mode for packing files.
+				</brief>
+				<description>
+					This function allows you to set the exclude mode for packing files. When exclude mode is enabled, the `pack_files` function will exclude files with extensions matching those in the `extensions` vector. When exclude mode is disabled, it will only pack files with extensions that match the ones in the `extensions` vector.
+				</description>
+			</method>
+			<method>
+				<return-type>bool</return-type>
+				<name>get_exclude_mode</name>
+				<brief>
+					Get the current exclude mode.
+				</brief>
+				<description>
+					Returns the current state of the exclude mode for packing files. If exclude mode is enabled, this function returns `true`. If exclude mode is disabled, it returns `false`.
+				</description>
+			</method>
 			<method>
 				<signature>
 					void set_pack_everything(bool p_enable)

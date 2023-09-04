@@ -33,6 +33,7 @@ class Packer {
 
     Vector<String> extensions;
 
+	bool exclude_mode;
     bool pack_everything;
     bool overwrite_files;
     bool move_files;
@@ -52,7 +53,7 @@ class Packer {
     bool log_enabled;
 #endif // IGNORE_FILE_DISABLED
 
-    template <bool, bool, bool, bool, bool, ExtensionCase, bool, bool>
+    template <bool, bool, bool, bool, bool, bool, ExtensionCase, bool, bool>
     void _pack_files(const String& p_read_path, const String& p_write_path);
 
 public:
@@ -68,6 +69,8 @@ public:
     bool has_extension(const String& p_extension) const;
     void clear_extensions();
 
+    void set_exclude_mode(bool p_enable);
+    bool get_exclude_mode() const;
     void set_pack_everything(bool p_enable);
     bool get_pack_everything() const;
     void set_overwrite_files(bool p_enable);

@@ -69,9 +69,6 @@
     <ClCompile Include="..\..\Source\Packer\ConfigFile.cpp">
       <Filter>Packer\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Packer\Typedefs.cpp">
-      <Filter>Tests\Source</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Tests\TestSuite.h">
