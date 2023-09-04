@@ -33,7 +33,7 @@ class Packer {
 
     Vector<String> extensions;
 
-	bool exclude_mode;
+    bool exclude_mode;
     bool pack_everything;
     bool overwrite_files;
     bool move_files;
