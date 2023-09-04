@@ -61,8 +61,7 @@ class Application : public Console {
     void _add_extension();
     void _remove_extension();
     void _clear_extensions();
-    void _set_exclude_mode();
-    void _set_pack_everything();
+    void _set_pack_mode();
     void _set_overwrite_files();
     void _set_move_files();
     void _set_suffix_string();

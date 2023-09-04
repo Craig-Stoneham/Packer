@@ -6,7 +6,67 @@
 		<description>
 			The `Packer` class is responsible for packing files from a source directory to a destination directory based on specified criteria.
 		</description>
+		
+		<enum>
+			<name>PackMode</name>
+			<values>
+				<value>
+					<name>Unknown</name>
+					<description>An unknown pack mode.</description>
+				</value>
+				<value>
+					<name>Include</name>
+					<description>Include matching extensions during packing.</description>
+				</value>
+				<value>
+					<name>Exclude</name>
+					<description>Exclude matching extensions during packing.</description>
+				</value>
+				<value>
+					<name>Everything</name>
+					<description>Pack everything, regardless of extensions.</description>
+				</value>
+				<value>
+					<name>Max</name>
+					<description>The maximum value in the pack mode enum.</description>
+				</value>
+			</values>
+		</enum>
+		
+		<function>
+			<return-type>String</return-type>
+			<name>get_pack_mode_string</name>
+			<parameters>
+				<parameter>
+					<type>PackMode</type>
+					<name>p_mode</name>
+				</parameter>
+			</parameters>
+			<brief>
+				Get a string representation of the pack mode.
+			</brief>
+			<description>
+				This function returns a string representation of the given pack mode.
+			</description>
+		</function>
 
+		<function>
+			<return-type>PackMode</return-type>
+			<name>find_pack_mode</name>
+			<parameters>
+				<parameter>
+					<type>const String&amp;</type>
+					<name>p_mode</name>
+				</parameter>
+			</parameters>
+			<brief>
+				Find a pack mode by its string representation.
+			</brief>
+			<description>
+				This function finds a pack mode by its string representation and returns the corresponding `PackMode` enum value. If the provided string does not match any known pack mode, it returns `PackMode::Unknown`.
+			</description>
+		</function>
+		
 		<constructor>
 			<signature>
 				Packer()
@@ -146,54 +206,33 @@
 					Clears the list of file extensions.
 				</description>
 			</function>
+
 			<function>
 				<return-type>void</return-type>
-				<name>set_exclude_mode</name>
+				<name>set_pack_mode</name>
 				<parameters>
 					<parameter>
-						<type>bool</type>
-						<name>p_enable</name>
+						<type>PackMode</type>
+						<name>p_mode</name>
 					</parameter>
 				</parameters>
 				<brief>
-					Set the exclude mode for packing files.
+					Set the pack mode for packing files.
 				</brief>
 				<description>
-					This function allows you to set the exclude mode for packing files. When exclude mode is enabled, the `pack_files` function will exclude files with extensions matching those in the `extensions` vector. When exclude mode is disabled, it will only pack files with extensions that match the ones in the `extensions` vector.
+					This function allows you to set the pack mode for packing files. The available pack modes are `PackMode::Include`, `PackMode::Exclude`, and `PackMode::Everything`.
 				</description>
-			</function>
-			<function>
-				<return-type>bool</return-type>
-				<name>get_exclude_mode</name>
-				<brief>
-					Get the current exclude mode.
-				</brief>
-				<description>
-					Returns the current state of the exclude mode for packing files. If exclude mode is enabled, this function returns `true`. If exclude mode is disabled, it returns `false`.
-				</description>
-			</function>
-			<function>
-				<signature>
-					void set_pack_everything(bool p_enable)
-				</signature>
-				<description>
-					Sets whether to pack all files regardless of their extensions.
-				</description>
-				<param name="p_enable">
-					True to enable packing all files, false to use specified extensions.
-				</param>
 			</function>
 
 			<function>
-				<signature>
-					bool get_pack_everything() const
-				</signature>
+				<return-type>PackMode</return-type>
+				<name>get_pack_mode</name>
+				<brief>
+					Get the current pack mode.
+				</brief>
 				<description>
-					Retrieves whether all files should be packed.
+					Returns the current pack mode for packing files.
 				</description>
-				<returns>
-					True if packing all files is enabled, false if using specified extensions.
-				</returns>
 			</function>
 
 			<function>

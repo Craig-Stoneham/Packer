@@ -24,7 +24,30 @@
 #include "Packer.h"
 #include "Defaults.h"
 
-template <bool EXCLUDE_MODE, bool EVERYTHING, bool OVERWRITE, bool MOVE, bool SUFFIX, bool EXT_INSENSITIVE, ExtensionCase EXT_ADJUST, bool IGNORE_FILE, bool LOG>
+static const char* _pack_mode[] = {
+    "include",
+    "exclude",
+    "everything"
+};
+
+String Packer::get_pack_mode_string(PackMode p_mode) {
+    if (p_mode >= static_cast<PackMode>(0) && p_mode < PackMode::Max) {
+        return _pack_mode[static_cast<size_t>(p_mode)];
+    } else {
+        return "unknown";
+    }
+}
+
+Packer::PackMode Packer::find_pack_mode(const String& p_mode) {
+    for (size_t i = 0; i < static_cast<size_t>(PackMode::Max); ++i) {
+        if (p_mode == _pack_mode[i]) {
+            return static_cast<PackMode>(i);
+        }
+    }
+    return PackMode::Unknown;
+}
+
+template <Packer::PackMode MODE, bool OVERWRITE, bool MOVE, bool SUFFIX, bool EXT_INSENSITIVE, ExtensionCase EXT_ADJUST, bool IGNORE_FILE, bool LOG>
 void Packer::_pack_files(const String& p_read_path, const String& p_write_path) {
 #ifndef IGNORE_FILE_DISABLED
     if (IGNORE_FILE) {
@@ -43,16 +66,16 @@ void Packer::_pack_files(const String& p_read_path, const String& p_write_path) 
 
         if (FileAccess::is_directory(path)) {
             String _write_path = p_write_path + _read_path.substr(_read_path.find_last_of('\\'));
-            _pack_files<EXCLUDE_MODE, EVERYTHING, OVERWRITE, MOVE, SUFFIX, EXT_INSENSITIVE, EXT_ADJUST, IGNORE_FILE, LOG>(_read_path, _write_path);
+            _pack_files<MODE, OVERWRITE, MOVE, SUFFIX, EXT_INSENSITIVE, EXT_ADJUST, IGNORE_FILE, LOG>(_read_path, _write_path);
         } else {
-            if (!EVERYTHING) {
+            if (MODE != PackMode::Everything) {
                 String extension = _read_path.substr(_read_path.find_last_of('.') + 1);
 
                 if (EXT_INSENSITIVE) {
                     std::transform(extension.begin(), extension.end(), extension.begin(), tolower);
                 }
 
-                bool skip_file = !EXCLUDE_MODE;
+                bool skip_file = MODE == PackMode::Include;
 
                 for (const String& e : extensions) {
                     if (EXT_INSENSITIVE) {
@@ -60,21 +83,21 @@ void Packer::_pack_files(const String& p_read_path, const String& p_write_path) 
                         std::transform(transformed.begin(), transformed.end(), transformed.begin(), tolower);
 
                         if (extension == transformed) {
-                            if (EXCLUDE_MODE) {
-                                skip_file = true;
-                                break;
-                            } else {
+                            if (MODE == PackMode::Include) {
                                 skip_file = false;
+                                break;
+                            } else if (MODE == PackMode::Exclude) {
+                                skip_file = true;
                                 break;
                             }
                         }
                     } else {
                         if (extension == e) {
-                            if (EXCLUDE_MODE) {
-                                skip_file = true;
-                                break;
-                            } else {
+                            if (MODE == PackMode::Include) {
                                 skip_file = false;
+                                break;
+                            } else if (MODE == PackMode::Exclude) {
+                                skip_file = true;
                                 break;
                             }
                         }
@@ -186,20 +209,15 @@ void Packer::clear_extensions() {
     extensions.clear();
 }
 
-void Packer::set_exclude_mode(bool p_enable) {
-    exclude_mode = p_enable;
+void Packer::set_pack_mode(PackMode p_mode) {
+    if (p_mode < static_cast<PackMode>(0) || p_mode >= PackMode::Max) {
+        return;
+    }
+    pack_mode = p_mode;
 }
 
-bool Packer::get_exclude_mode() const {
-    return exclude_mode;
-}
-
-void Packer::set_pack_everything(bool p_enable) {
-    pack_everything = p_enable;
-}
-
-bool Packer::get_pack_everything() const {
-    return pack_everything;
+Packer::PackMode Packer::get_pack_mode() const {
+    return pack_mode;
 }
 
 void Packer::set_overwrite_files(bool p_enable) {
@@ -243,11 +261,14 @@ bool Packer::get_extension_insensitive() const {
 }
 
 void Packer::set_extension_adjust(ExtensionCase p_case) {
-    extension_adjust = static_cast<int>(p_case);
+    if (p_case < static_cast<ExtensionCase>(0) || p_case >= ExtensionCase::Max) {
+        return;
+    }
+    extension_adjust = p_case;
 }
 
 ExtensionCase Packer::get_extension_adjust() const {
-    return static_cast<ExtensionCase>(extension_adjust);
+    return extension_adjust;
 }
 
 #ifndef IGNORE_FILE_DISABLED
@@ -283,62 +304,48 @@ bool Packer::get_log_enabled() const {
 #endif // LOG_DISABLED
 
 void Packer::to_config_file(ConfigFile& p_file) const {
-    auto set_value = [&p_file](auto& p_name, auto& p_param) {
-        p_file.set_value(p_name, p_param);
-        };
-
     p_file.set_value("Version", VERSION_STRING);
 
-    set_value("read_path", read_path);
-    set_value("write_path", write_path);
-    set_value("extensions", extensions);
-    set_value("exclude_mode", exclude_mode);
-    set_value("pack_everything", pack_everything);
-    set_value("overwrite_files", overwrite_files);
-    set_value("move_files", move_files);
-    set_value("suffix_string", suffix_string);
-    set_value("suffix_enabled", suffix_enabled);
-    set_value("extension_insensitive", extension_insensitive);
-    set_value("extension_adjust", extension_adjust);
+    p_file.set_value("read_path", read_path);
+    p_file.set_value("write_path", write_path);
+    p_file.set_value("extensions", extensions);
+    p_file.set_value("pack_mode", static_cast<int>(pack_mode));
+    p_file.set_value("overwrite_files", overwrite_files);
+    p_file.set_value("move_files", move_files);
+    p_file.set_value("suffix_string", suffix_string);
+    p_file.set_value("suffix_enabled", suffix_enabled);
+    p_file.set_value("extension_insensitive", extension_insensitive);
+    p_file.set_value("extension_adjust", static_cast<int>(extension_adjust));
 
 #ifndef IGNORE_FILE_DISABLED
-    set_value("ignore_file_name", ignore_file_name);
-    set_value("ignore_file_enabled", ignore_file_enabled);
+    p_file.set_value("ignore_file_name", ignore_file_name);
+    p_file.set_value("ignore_file_enabled", ignore_file_enabled);
 #endif // IGNORE_FILE_DISABLED
 
 #ifndef LOG_DISABLED
-    set_value("log_enabled", log_enabled);
+    p_file.set_value("log_enabled", log_enabled);
 #endif // LOG_DISABLED
 }
 
 void Packer::from_config_file(const ConfigFile& p_file) {
-    auto set_value = [&p_file](auto& p_name, auto& p_param, auto p_default) {
-        if (p_file.has_value(p_name)) {
-            p_param = p_file.get_value(p_name);
-        } else {
-            p_param = p_default;
-        }
-        };
-
-    set_value("read_path", read_path, DEFAULT_READ_PATH);
-    set_value("write_path", write_path, DEFAULT_WRITE_PATH);
-    set_value("extensions", extensions, DEFAULT_EXTENTIONS);
-    set_value("exclude_mode", exclude_mode, DEFAULT_EXCLUDE_MODE);
-    set_value("pack_everything", pack_everything, DEFAULT_PACK_EVERYTHING);
-    set_value("overwrite_files", overwrite_files, DEFAULT_OVERWRITE_FILES);
-    set_value("move_files", move_files, DEFAULT_MOVE_FILES);
-    set_value("suffix_string", suffix_string, DEFAULT_SUFFIX_STRING);
-    set_value("suffix_enabled", suffix_enabled, DEFAULT_SUFFIX_ENABLED);
-    set_value("extension_insensitive", extension_insensitive, DEFAULT_EXTENSION_INSENSITIVE);
-    set_value("extension_adjust", extension_adjust, DEFAULT_EXTENSION_ADJUST);
+    read_path = p_file.get_value("read_path", DEFAULT_READ_PATH);
+    write_path = p_file.get_value("write_path", DEFAULT_WRITE_PATH);
+    extensions = p_file.get_value("extensions", DEFAULT_EXTENTIONS);
+    pack_mode = static_cast<PackMode>(p_file.get_value("pack_mode", static_cast<int>(DEFAULT_PACK_MODE)).operator const int());
+    overwrite_files = p_file.get_value("overwrite_files", DEFAULT_OVERWRITE_FILES);
+    move_files = p_file.get_value("move_files", DEFAULT_MOVE_FILES);
+    suffix_string = p_file.get_value("suffix_string", DEFAULT_SUFFIX_STRING);
+    suffix_enabled = p_file.get_value("suffix_enabled", DEFAULT_SUFFIX_ENABLED);
+    extension_insensitive = p_file.get_value("extension_insensitive", DEFAULT_EXTENSION_INSENSITIVE);
+    extension_adjust = static_cast<ExtensionCase>(p_file.get_value("extension_adjust", static_cast<int>(DEFAULT_EXTENSION_ADJUST)).operator const int());
 
 #ifndef IGNORE_FILE_DISABLED
-    set_value("ignore_file_name", ignore_file_name, DEFAULT_IGNORE_FILE_NAME);
-    set_value("ignore_file_enabled", ignore_file_enabled, DEFAULT_IGNORE_FILE_ENABLED);
+    ignore_file_name = p_file.get_value("ignore_file_name", DEFAULT_IGNORE_FILE_NAME);
+    ignore_file_enabled = p_file.get_value("ignore_file_enabled", DEFAULT_IGNORE_FILE_ENABLED);
 #endif // IGNORE_FILE_DISABLED
 
 #ifndef LOG_DISABLED
-    set_value("log_enabled", log_enabled, DEFAULT_LOG_ENABLED);
+    log_enabled = p_file.get_value("log_enabled", DEFAULT_LOG_ENABLED);
 #endif // LOG_DISABLED
 }
 
@@ -375,29 +382,24 @@ Error Packer::load_encrypted(const String& p_path, const CryptoKey& p_key) {
 }
 
 void Packer::revert_state() {
-    auto set_value = [](auto p_param, auto p_default) {
-        p_param = p_default;
-        };
-
-    set_value(read_path, DEFAULT_READ_PATH);
-    set_value(write_path, DEFAULT_WRITE_PATH);
-    set_value(extensions, DEFAULT_EXTENTIONS);
-    set_value(exclude_mode, DEFAULT_EXCLUDE_MODE);
-    set_value(pack_everything, DEFAULT_PACK_EVERYTHING);
-    set_value(overwrite_files, DEFAULT_OVERWRITE_FILES);
-    set_value(move_files, DEFAULT_MOVE_FILES);
-    set_value(suffix_string, DEFAULT_SUFFIX_STRING);
-    set_value(suffix_enabled, DEFAULT_SUFFIX_ENABLED);
-    set_value(extension_insensitive, DEFAULT_EXTENSION_INSENSITIVE);
-    set_value(extension_adjust, DEFAULT_EXTENSION_ADJUST);
+    read_path = DEFAULT_READ_PATH;
+    write_path = DEFAULT_WRITE_PATH;
+    extensions = DEFAULT_EXTENTIONS;
+    pack_mode = DEFAULT_PACK_MODE;
+    overwrite_files = DEFAULT_OVERWRITE_FILES;
+    move_files = DEFAULT_MOVE_FILES;
+    suffix_string = DEFAULT_SUFFIX_STRING;
+    suffix_enabled = DEFAULT_SUFFIX_ENABLED;
+    extension_insensitive = DEFAULT_EXTENSION_INSENSITIVE;
+    extension_adjust = DEFAULT_EXTENSION_ADJUST;
 
 #ifndef IGNORE_FILE_DISABLED
-    set_value(ignore_file_name, DEFAULT_IGNORE_FILE_NAME);
-    set_value(ignore_file_enabled, DEFAULT_IGNORE_FILE_ENABLED);
+    ignore_file_name = DEFAULT_IGNORE_FILE_NAME;
+    ignore_file_enabled = DEFAULT_IGNORE_FILE_ENABLED;
 #endif // IGNORE_FILE_DISABLED
 
 #ifndef LOG_DISABLED
-    set_value(log_enabled, DEFAULT_LOG_ENABLED);
+    log_enabled = DEFAULT_LOG_ENABLED;
 #endif // LOG_DISABLED
 }
 
@@ -410,7 +412,7 @@ Error Packer::pack_files() {
     if (write_path.empty()) {
         return Error::Unconfigured;
     }
-    if (!exclude_mode) {
+    if (pack_mode == PackMode::Include) {
         if (extensions.empty()) {
             return Error::Unconfigured;
         }
@@ -426,18 +428,10 @@ Error Packer::pack_files() {
         _read_path = FileAccess::path(_read_path).parent_path().string();
     }
 
-    String _write_path = write_path;
-
-    if (!FileAccess::is_directory(_write_path)) {
-        //_write_path = FileAccess::path(_write_path).parent_path().string();
-    }
-
     bool _suffix_enabled = suffix_enabled;
     if (suffix_enabled && suffix_string.empty()) {
         _suffix_enabled = false;
     }
-
-    ExtensionCase _extension_adjust = static_cast<ExtensionCase>(extension_adjust);
 
     bool _ignore_file_enabled = false;
 #ifndef IGNORE_FILE_DISABLED
@@ -452,1277 +446,893 @@ Error Packer::pack_files() {
     _log_enabled = log_enabled;
 #endif // IGNORE_FILE_DISABLED
 
-    if (exclude_mode) {
-        if (pack_everything) {
-            if (overwrite_files) {
-                if (move_files) {
-                    if (_suffix_enabled) {
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, true, true, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, true, true, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, true, true, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, true, true, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, true, true, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, true, true, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+    if (overwrite_files) {
+        if (move_files) {
+            if (_suffix_enabled) {
+                if (extension_insensitive) {
+                    if (_ignore_file_enabled) {
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionCase::Default, true, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, true, true, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, true, true, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, true, true, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, true, true, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, true, true, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, true, true, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionCase::Upper, true, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, true, true, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, true, true, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, true, true, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, true, true, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, true, true, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, true, true, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionCase::Default, true, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, true, true, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, true, true, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, true, true, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, true, true, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, true, true, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, true, true, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionCase::Upper, true, false>(_read_path, write_path);
                                 }
                             }
                         }
-                    } else { // _suffix_enabled
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, true, false, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, true, false, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, true, false, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, true, false, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, true, false, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, true, false, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+					} else { // _ignore_file_enabled
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionCase::Default, false, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, true, false, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, true, false, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, true, false, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, true, false, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, true, false, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, true, false, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionCase::Upper, false, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, true, false, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, true, false, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, true, false, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, true, false, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, true, false, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, true, false, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionCase::Default, false, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, true, false, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, true, false, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, true, false, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, true, false, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, true, false, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, true, false, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionCase::Upper, false, false>(_read_path, write_path);
                                 }
                             }
                         }
                     }
-                } else { // move_files
-                    if (_suffix_enabled) {
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, false, true, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, false, true, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, false, true, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, false, true, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, false, true, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, false, true, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+				} else { // extension_insensitive
+                    if (_ignore_file_enabled) {
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionCase::Default, true, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, false, true, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, false, true, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, false, true, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, false, true, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, false, true, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, false, true, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionCase::Upper, true, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, false, true, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, false, true, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, false, true, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, false, true, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, false, true, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, false, true, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionCase::Default, true, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, false, true, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, false, true, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, false, true, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, false, true, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, false, true, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, false, true, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionCase::Upper, true, false>(_read_path, write_path);
                                 }
                             }
                         }
-                    } else { // _suffix_enabled
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, false, false, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, false, false, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, false, false, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, false, false, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, false, false, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, false, false, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                    } else { // _ignore_file_enabled
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionCase::Default, false, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, false, false, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, false, false, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, false, false, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, false, false, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, false, false, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, false, false, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionCase::Upper, false, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, false, false, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, false, false, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, false, false, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, false, false, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, false, false, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, false, false, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionCase::Default, false, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, false, false, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, false, false, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, false, false, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, true, false, false, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, true, false, false, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, true, false, false, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionCase::Upper, false, false>(_read_path, write_path);
                                 }
                             }
                         }
                     }
                 }
-            } else { // overwrite_files
-                if (move_files) {
-                    if (_suffix_enabled) {
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, true, true, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, true, true, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, true, true, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, true, true, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, true, true, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, true, true, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+			} else { // _suffix_enabled
+                if (extension_insensitive) {
+                    if (_ignore_file_enabled) {
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionCase::Default, true, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, true, true, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, true, true, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, true, true, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, true, true, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, true, true, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, true, true, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionCase::Upper, true, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, true, true, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, true, true, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, true, true, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, true, true, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, true, true, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, true, true, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionCase::Default, true, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, true, true, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, true, true, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, true, true, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, true, true, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, true, true, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, true, true, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionCase::Upper, true, false>(_read_path, write_path);
                                 }
                             }
                         }
-                    } else { // _suffix_enabled
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, true, false, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, true, false, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, true, false, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, true, false, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, true, false, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, true, false, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                    } else { // _ignore_file_enabled
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionCase::Default, false, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, true, false, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, true, false, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, true, false, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, true, false, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, true, false, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, true, false, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionCase::Upper, false, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, true, false, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, true, false, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, true, false, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, true, false, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, true, false, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, true, false, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionCase::Default, false, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, true, false, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, true, false, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, true, false, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, true, false, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, true, false, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, true, false, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionCase::Upper, false, false>(_read_path, write_path);
                                 }
                             }
                         }
                     }
-                } else { // move_files
-                    if (_suffix_enabled) {
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, false, true, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, false, true, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, false, true, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, false, true, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, false, true, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, false, true, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                } else { // extension_insensitive
+                    if (_ignore_file_enabled) {
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionCase::Default, true, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, false, true, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, false, true, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, false, true, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, false, true, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, false, true, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, false, true, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionCase::Upper, true, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, false, true, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, false, true, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, false, true, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, false, true, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, false, true, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, false, true, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionCase::Default, true, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, false, true, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, false, true, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, false, true, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, false, true, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, false, true, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, false, true, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionCase::Upper, true, false>(_read_path, write_path);
                                 }
                             }
                         }
-                    } else { // _suffix_enabled
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, false, false, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, false, false, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, false, false, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, false, false, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, false, false, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, false, false, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                    } else { // _ignore_file_enabled
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionCase::Default, false, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, false, false, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, false, false, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, false, false, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, false, false, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, false, false, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, false, false, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionCase::Upper, false, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, false, false, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, false, false, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, false, false, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, false, false, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, false, false, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, false, false, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionCase::Default, false, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, false, false, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, false, false, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, false, false, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, true, false, false, false, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, true, false, false, false, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, true, false, false, false, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionCase::Upper, false, false>(_read_path, write_path);
                                 }
                             }
                         }
                     }
                 }
             }
-        } else { // pack_everything
-            if (overwrite_files) {
-                if (move_files) {
-                    if (_suffix_enabled) {
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, true, true, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, true, true, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, true, true, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, true, true, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, true, true, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, true, true, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+		} else { // move_files
+            if (_suffix_enabled) {
+                if (extension_insensitive) {
+                    if (_ignore_file_enabled) {
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionCase::Default, true, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, true, true, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, true, true, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, true, true, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, true, true, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, true, true, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, true, true, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionCase::Upper, true, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, true, true, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, true, true, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, true, true, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, true, true, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, true, true, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, true, true, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionCase::Default, true, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, true, true, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, true, true, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, true, true, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, true, true, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, true, true, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, true, true, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionCase::Upper, true, false>(_read_path, write_path);
                                 }
                             }
                         }
-                    } else { // _suffix_enabled
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, true, false, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, true, false, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, true, false, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, true, false, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, true, false, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, true, false, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                    } else { // _ignore_file_enabled
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionCase::Default, false, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, true, false, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, true, false, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, true, false, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, true, false, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, true, false, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, true, false, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionCase::Upper, false, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, true, false, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, true, false, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, true, false, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, true, false, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, true, false, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, true, false, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionCase::Default, false, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, true, false, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, true, false, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, true, false, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, true, false, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, true, false, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, true, false, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionCase::Upper, false, false>(_read_path, write_path);
                                 }
                             }
                         }
                     }
-                } else { // move_files
-                    if (_suffix_enabled) {
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, false, true, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, false, true, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, false, true, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, false, true, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, false, true, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, false, true, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                } else { // extension_insensitive
+                    if (_ignore_file_enabled) {
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionCase::Default, true, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, false, true, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, false, true, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, false, true, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, false, true, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, false, true, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, false, true, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionCase::Upper, true, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, false, true, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, false, true, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, false, true, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, false, true, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, false, true, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, false, true, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionCase::Default, true, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, false, true, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, false, true, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, false, true, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, false, true, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, false, true, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, false, true, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionCase::Upper, true, false>(_read_path, write_path);
                                 }
                             }
                         }
-                    } else { // _suffix_enabled
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, false, false, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, false, false, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, false, false, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, false, false, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, false, false, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, false, false, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                    } else { // _ignore_file_enabled
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionCase::Default, false, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, false, false, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, false, false, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, false, false, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, false, false, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, false, false, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, false, false, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionCase::Upper, false, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, false, false, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, false, false, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, false, false, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, false, false, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, false, false, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, false, false, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionCase::Default, false, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, false, false, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, false, false, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, false, false, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, true, false, false, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, true, false, false, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, true, false, false, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionCase::Upper, false, false>(_read_path, write_path);
                                 }
                             }
                         }
                     }
                 }
-            } else { // overwrite_files
-                if (move_files) {
-                    if (_suffix_enabled) {
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, true, true, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, true, true, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, true, true, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, true, true, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, true, true, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, true, true, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+            } else { // _suffix_enabled
+                if (extension_insensitive) {
+                    if (_ignore_file_enabled) {
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionCase::Default, true, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, true, true, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, true, true, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, true, true, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, true, true, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, true, true, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, true, true, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionCase::Upper, true, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, true, true, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, true, true, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, true, true, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, true, true, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, true, true, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, true, true, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionCase::Default, true, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, true, true, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, true, true, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, true, true, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, true, true, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, true, true, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, true, true, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionCase::Upper, true, false>(_read_path, write_path);
                                 }
                             }
                         }
-                    } else { // _suffix_enabled
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, true, false, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, true, false, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, true, false, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, true, false, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, true, false, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, true, false, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                    } else { // _ignore_file_enabled
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionCase::Default, false, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, true, false, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, true, false, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, true, false, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, true, false, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, true, false, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, true, false, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionCase::Upper, false, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, true, false, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, true, false, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, true, false, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, true, false, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, true, false, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, true, false, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionCase::Default, false, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, true, false, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, true, false, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, true, false, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, true, false, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, true, false, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, true, false, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionCase::Upper, false, false>(_read_path, write_path);
                                 }
                             }
                         }
                     }
-                } else { // move_files
-                    if (_suffix_enabled) {
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, false, true, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, false, true, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, false, true, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, false, true, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, false, true, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, false, true, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                } else { // extension_insensitive
+                    if (_ignore_file_enabled) {
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionCase::Default, true, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, false, true, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, false, true, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, false, true, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, false, true, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, false, true, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, false, true, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionCase::Upper, true, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, false, true, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, false, true, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, false, true, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, false, true, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, false, true, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, false, true, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionCase::Default, true, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, false, true, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, false, true, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, false, true, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, false, true, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, false, true, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, false, true, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionCase::Upper, true, false>(_read_path, write_path);
                                 }
                             }
                         }
-                    } else { // _suffix_enabled
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, false, false, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, false, false, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, false, false, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, false, false, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, false, false, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, false, false, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                    } else { // _ignore_file_enabled
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionCase::Default, false, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, false, false, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, false, false, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, false, false, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, false, false, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, false, false, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, false, false, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionCase::Upper, false, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, false, false, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, false, false, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, false, false, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, false, false, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, false, false, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, false, false, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionCase::Default, false, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, false, false, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, false, false, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, false, false, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<true, false, false, false, false, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<true, false, false, false, false, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<true, false, false, false, false, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionCase::Upper, false, false>(_read_path, write_path);
                                 }
                             }
                         }
@@ -1730,1277 +1340,893 @@ Error Packer::pack_files() {
                 }
             }
         }
-    } else { // exclude_mode
-        if (pack_everything) {
-            if (overwrite_files) {
-                if (move_files) {
-                    if (_suffix_enabled) {
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, true, true, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, true, true, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, true, true, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, true, true, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, true, true, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, true, true, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+	} else { // overwrite_files
+        if (move_files) {
+            if (_suffix_enabled) {
+                if (extension_insensitive) {
+                    if (_ignore_file_enabled) {
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionCase::Default, true, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, true, true, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, true, true, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, true, true, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, true, true, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, true, true, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, true, true, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionCase::Upper, true, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, true, true, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, true, true, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, true, true, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, true, true, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, true, true, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, true, true, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionCase::Default, true, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, true, true, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, true, true, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, true, true, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, true, true, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, true, true, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, true, true, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionCase::Upper, true, false>(_read_path, write_path);
                                 }
                             }
                         }
-                    } else { // _suffix_enabled
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, true, false, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, true, false, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, true, false, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, true, false, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, true, false, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, true, false, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                    } else { // _ignore_file_enabled
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionCase::Default, false, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, true, false, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, true, false, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, true, false, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, true, false, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, true, false, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, true, false, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionCase::Upper, false, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, true, false, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, true, false, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, true, false, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, true, false, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, true, false, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, true, false, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionCase::Default, false, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, true, false, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, true, false, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, true, false, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, true, false, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, true, false, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, true, false, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionCase::Upper, false, false>(_read_path, write_path);
                                 }
                             }
                         }
                     }
-                } else { // move_files
-                    if (_suffix_enabled) {
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, false, true, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, false, true, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, false, true, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, false, true, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, false, true, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, false, true, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                } else { // extension_insensitive
+                    if (_ignore_file_enabled) {
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionCase::Default, true, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, false, true, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, false, true, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, false, true, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, false, true, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, false, true, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, false, true, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionCase::Upper, true, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, false, true, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, false, true, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, false, true, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, false, true, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, false, true, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, false, true, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionCase::Default, true, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, false, true, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, false, true, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, false, true, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, false, true, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, false, true, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, false, true, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionCase::Upper, true, false>(_read_path, write_path);
                                 }
                             }
                         }
-                    } else { // _suffix_enabled
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, false, false, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, false, false, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, false, false, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, false, false, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, false, false, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, false, false, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                    } else { // _ignore_file_enabled
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionCase::Default, false, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, false, false, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, false, false, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, false, false, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, false, false, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, false, false, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, false, false, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionCase::Upper, false, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, false, false, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, false, false, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, false, false, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, false, false, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, false, false, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, false, false, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionCase::Default, false, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, false, false, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, false, false, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, false, false, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, true, false, false, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, true, false, false, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, true, false, false, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionCase::Upper, false, false>(_read_path, write_path);
                                 }
                             }
                         }
                     }
                 }
-            } else { // overwrite_files
-                if (move_files) {
-                    if (_suffix_enabled) {
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, true, true, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, true, true, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, true, true, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, true, true, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, true, true, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, true, true, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+            } else { // _suffix_enabled
+                if (extension_insensitive) {
+                    if (_ignore_file_enabled) {
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionCase::Default, true, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, true, true, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, true, true, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, true, true, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, true, true, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, true, true, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, true, true, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionCase::Upper, true, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, true, true, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, true, true, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, true, true, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, true, true, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, true, true, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, true, true, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionCase::Default, true, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, true, true, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, true, true, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, true, true, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, true, true, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, true, true, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, true, true, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionCase::Upper, true, false>(_read_path, write_path);
                                 }
                             }
                         }
-                    } else { // _suffix_enabled
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, true, false, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, true, false, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, true, false, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, true, false, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, true, false, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, true, false, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                    } else { // _ignore_file_enabled
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionCase::Default, false, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, true, false, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, true, false, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, true, false, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, true, false, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, true, false, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, true, false, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionCase::Upper, false, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, true, false, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, true, false, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, true, false, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, true, false, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, true, false, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, true, false, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionCase::Default, false, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, true, false, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, true, false, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, true, false, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, true, false, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, true, false, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, true, false, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionCase::Upper, false, false>(_read_path, write_path);
                                 }
                             }
                         }
                     }
-                } else { // move_files
-                    if (_suffix_enabled) {
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, false, true, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, false, true, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, false, true, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, false, true, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, false, true, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, false, true, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                } else { // extension_insensitive
+                    if (_ignore_file_enabled) {
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionCase::Default, true, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, false, true, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, false, true, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, false, true, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, false, true, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, false, true, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, false, true, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionCase::Upper, true, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, false, true, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, false, true, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, false, true, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, false, true, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, false, true, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, false, true, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionCase::Default, true, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, false, true, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, false, true, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, false, true, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, false, true, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, false, true, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, false, true, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionCase::Upper, true, false>(_read_path, write_path);
                                 }
                             }
                         }
-                    } else { // _suffix_enabled
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, false, false, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, false, false, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, false, false, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, false, false, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, false, false, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, false, false, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                    } else { // _ignore_file_enabled
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionCase::Default, false, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, false, false, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, false, false, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, false, false, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, false, false, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, false, false, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, false, false, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionCase::Upper, false, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, false, false, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, false, false, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, false, false, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, false, false, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, false, false, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, false, false, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionCase::Default, false, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, false, false, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, false, false, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, false, false, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, true, false, false, false, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, true, false, false, false, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, true, false, false, false, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionCase::Upper, false, false>(_read_path, write_path);
                                 }
                             }
                         }
                     }
                 }
             }
-        } else { // pack_everything
-            if (overwrite_files) {
-                if (move_files) {
-                    if (_suffix_enabled) {
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, true, true, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, true, true, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, true, true, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, true, true, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, true, true, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, true, true, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+        } else { // move_files
+            if (_suffix_enabled) {
+                if (extension_insensitive) {
+                    if (_ignore_file_enabled) {
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionCase::Default, true, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, true, true, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, true, true, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, true, true, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, true, true, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, true, true, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, true, true, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionCase::Upper, true, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, true, true, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, true, true, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, true, true, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, true, true, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, true, true, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, true, true, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionCase::Default, true, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, true, true, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, true, true, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, true, true, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, true, true, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, true, true, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, true, true, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionCase::Upper, true, false>(_read_path, write_path);
                                 }
                             }
                         }
-                    } else { // _suffix_enabled
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, true, false, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, true, false, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, true, false, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, true, false, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, true, false, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, true, false, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                    } else { // _ignore_file_enabled
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionCase::Default, false, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, true, false, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, true, false, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, true, false, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, true, false, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, true, false, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, true, false, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionCase::Upper, false, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, true, false, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, true, false, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, true, false, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, true, false, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, true, false, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, true, false, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionCase::Default, false, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, true, false, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, true, false, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, true, false, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, true, false, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, true, false, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, true, false, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionCase::Upper, false, false>(_read_path, write_path);
                                 }
                             }
                         }
                     }
-                } else { // move_files
-                    if (_suffix_enabled) {
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, false, true, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, false, true, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, false, true, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, false, true, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, false, true, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, false, true, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                } else { // extension_insensitive
+                    if (_ignore_file_enabled) {
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionCase::Default, true, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, false, true, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, false, true, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, false, true, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, false, true, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, false, true, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, false, true, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionCase::Upper, true, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, false, true, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, false, true, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, false, true, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, false, true, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, false, true, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, false, true, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionCase::Default, true, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, false, true, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, false, true, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, false, true, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, false, true, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, false, true, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, false, true, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionCase::Upper, true, false>(_read_path, write_path);
                                 }
                             }
                         }
-                    } else { // _suffix_enabled
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, false, false, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, false, false, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, false, false, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, false, false, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, false, false, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, false, false, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                    } else { // _ignore_file_enabled
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionCase::Default, false, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, false, false, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, false, false, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, false, false, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, false, false, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, false, false, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, false, false, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionCase::Upper, false, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, false, false, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, false, false, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, false, false, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, false, false, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, false, false, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, false, false, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionCase::Default, false, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, false, false, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, false, false, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, false, false, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, true, false, false, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, true, false, false, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, true, false, false, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionCase::Upper, false, false>(_read_path, write_path);
                                 }
                             }
                         }
                     }
                 }
-            } else { // overwrite_files
-                if (move_files) {
-                    if (_suffix_enabled) {
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, true, true, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, true, true, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, true, true, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, true, true, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, true, true, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, true, true, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+            } else { // _suffix_enabled
+                if (extension_insensitive) {
+                    if (_ignore_file_enabled) {
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionCase::Default, true, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, true, true, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, true, true, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, true, true, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, true, true, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, true, true, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, true, true, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionCase::Upper, true, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, true, true, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, true, true, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, true, true, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, true, true, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, true, true, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, true, true, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionCase::Default, true, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, true, true, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, true, true, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, true, true, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, true, true, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, true, true, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, true, true, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionCase::Upper, true, false>(_read_path, write_path);
                                 }
                             }
                         }
-                    } else { // _suffix_enabled
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, true, false, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, true, false, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, true, false, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, true, false, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, true, false, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, true, false, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                    } else { // _ignore_file_enabled
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionCase::Default, false, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, true, false, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, true, false, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, true, false, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, true, false, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, true, false, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, true, false, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionCase::Upper, false, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, true, false, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, true, false, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, true, false, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, true, false, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, true, false, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, true, false, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionCase::Default, false, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, true, false, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, true, false, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, true, false, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, true, false, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, true, false, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, true, false, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionCase::Upper, false, false>(_read_path, write_path);
                                 }
                             }
                         }
                     }
-                } else { // move_files
-                    if (_suffix_enabled) {
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, false, true, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, false, true, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, false, true, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, false, true, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, false, true, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, false, true, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                } else { // extension_insensitive
+                    if (_ignore_file_enabled) {
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionCase::Default, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionCase::Default, true, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, false, true, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, false, true, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, false, true, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, false, true, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, false, true, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, false, true, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionCase::Lower, true, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionCase::Upper, true, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionCase::Upper, true, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, false, true, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, false, true, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, false, true, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, false, true, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, false, true, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, false, true, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionCase::Default, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionCase::Default, true, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, false, true, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, false, true, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, false, true, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, false, true, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, false, true, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, false, true, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionCase::Lower, true, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionCase::Upper, true, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionCase::Upper, true, false>(_read_path, write_path);
                                 }
                             }
                         }
-                    } else { // _suffix_enabled
-                        if (extension_insensitive) {
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, false, false, true, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, false, false, true, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, false, false, true, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, false, false, true, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, false, false, true, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, false, false, true, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                    } else { // _ignore_file_enabled
+                        if (_log_enabled) {
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionCase::Default, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionCase::Default, false, true>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, false, false, true, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, false, false, true, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, false, false, true, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, false, false, true, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, false, false, true, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, false, false, true, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionCase::Lower, false, true>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionCase::Upper, false, true>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionCase::Upper, false, true>(_read_path, write_path);
                                 }
                             }
-                        } else { // extension_insensitive
-                            if (_ignore_file_enabled) {
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, false, false, false, ExtensionCase::Default, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, false, false, false, ExtensionCase::Lower, true, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, false, false, false, ExtensionCase::Upper, true, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, false, false, false, ExtensionCase::Default, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, false, false, false, ExtensionCase::Lower, true, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, false, false, false, ExtensionCase::Upper, true, false>(_read_path, _write_path);
-                                    }
+                        } else { // _log_enabled
+                            if (extension_adjust == ExtensionCase::Default) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionCase::Default, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionCase::Default, false, false>(_read_path, write_path);
                                 }
-                            } else { // _ignore_file_enabled
-                                if (_log_enabled) {
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, false, false, false, ExtensionCase::Default, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, false, false, false, ExtensionCase::Lower, false, true>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, false, false, false, ExtensionCase::Upper, false, true>(_read_path, _write_path);
-                                    }
-                                } else { // _log_enabled
-                                    if (_extension_adjust == ExtensionCase::Default) {
-                                        _pack_files<false, false, false, false, false, false, ExtensionCase::Default, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Lower) {
-                                        _pack_files<false, false, false, false, false, false, ExtensionCase::Lower, false, false>(_read_path, _write_path);
-                                    } else if (_extension_adjust == ExtensionCase::Upper) {
-                                        _pack_files<false, false, false, false, false, false, ExtensionCase::Upper, false, false>(_read_path, _write_path);
-                                    }
+                            } else if (extension_adjust == ExtensionCase::Lower) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionCase::Lower, false, false>(_read_path, write_path);
+                                }
+                            } else if (extension_adjust == ExtensionCase::Upper) {
+                                if (pack_mode == PackMode::Include) {
+                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Exclude) {
+                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionCase::Upper, false, false>(_read_path, write_path);
+                                } else if (pack_mode == PackMode::Everything) {
+                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionCase::Upper, false, false>(_read_path, write_path);
                                 }
                             }
                         }
@@ -3009,6 +2235,8 @@ Error Packer::pack_files() {
             }
         }
     }
+
+
     return Error::OK;
 }
 
@@ -3023,8 +2251,7 @@ Packer::Packer() :
     read_path(DEFAULT_READ_PATH),
     write_path(DEFAULT_WRITE_PATH),
     extensions(DEFAULT_EXTENTIONS),
-    exclude_mode(DEFAULT_EXCLUDE_MODE),
-    pack_everything(DEFAULT_PACK_EVERYTHING),
+    pack_mode(DEFAULT_PACK_MODE),
     overwrite_files(DEFAULT_OVERWRITE_FILES),
     move_files(DEFAULT_MOVE_FILES),
     suffix_string(DEFAULT_SUFFIX_STRING),
