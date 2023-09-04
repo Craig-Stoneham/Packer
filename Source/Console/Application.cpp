@@ -101,8 +101,6 @@ void Application::_set_pack_mode() {
     }
     packer.set_pack_mode(pack_mode);
     print_line("Pack mode changed to '" + input + "'.");
-
-
 }
 
 void Application::_set_overwrite_files() {
@@ -180,12 +178,8 @@ void Application::_set_log_enabled() {
 #endif // LOG_DISABLED
 
 void Application::_revert_state() {
-    auto set_value = [](auto &p_param, auto p_default) {
-        p_param = p_default;
-        };
-
 #ifndef LOG_DISABLED
-    set_value(log_file_name, DEFAULT_LOG_FILE_NAME);
+    log_file_name = DEFAULT_LOG_FILE_NAME;
 #endif // LOG_DISABLED
 
     packer.revert_state();
@@ -379,28 +373,16 @@ void Application::read_input(bool p_lower_case) {
 }
 
 void Application::to_config_file(ConfigFile& p_file) const {
-    auto set_value = [&p_file](const auto& p_name, const auto& p_param) {
-        p_file.set_value(p_name, p_param);
-        };
-
 #ifndef LOG_DISABLED
-    set_value("log_file_name", log_file_name);
+    p_file.set_value("log_file_name", log_file_name);
 #endif // LOG_DISABLED
 
     packer.to_config_file(p_file);
 }
 
 void Application::from_config_file(const ConfigFile& p_file) {
-    auto set_value = [&p_file](const auto& p_name, auto& p_param, auto p_default) {
-        if (p_file.has_value(p_name)) {
-            p_param = p_file.get_value(p_name);
-        } else {
-            p_param = p_default;
-        }
-        };
-
 #ifndef LOG_DISABLED
-    set_value("log_file_name", log_file_name, DEFAULT_LOG_FILE_NAME);
+    log_file_name = p_file.get_value("log_file_name", DEFAULT_LOG_FILE_NAME);
 #endif // LOG_DISABLED
 
     packer.from_config_file(p_file);
