@@ -285,10 +285,11 @@ void Application::_run_packer() {
         LOG_ERROR("Write path is not configured\n");
         return;
     }
-
-    if (packer.get_extension_count() == 0) {
-        LOG_ERROR("No extensions are added\n");
-        return;
+    if (!packer.get_exclude_mode()) {
+        if (packer.get_extension_count() == 0) {
+            LOG_ERROR("No extensions are added\n");
+            return;
+        }
     }
 
     LOG_INFO("Running packer version " VERSION_STRING "\n");

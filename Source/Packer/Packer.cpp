@@ -410,9 +410,10 @@ Error Packer::pack_files() {
     if (write_path.empty()) {
         return Error::Unconfigured;
     }
-
-    if (extensions.empty()) {
-        return Error::Unconfigured;
+    if (!exclude_mode) {
+        if (extensions.empty()) {
+            return Error::Unconfigured;
+        }
     }
 
     String _read_path = read_path;
