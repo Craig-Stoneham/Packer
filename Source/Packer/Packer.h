@@ -75,7 +75,7 @@ public:
     const String& get_write_path() const;
 
     size_t get_extension_count() const;
-    const String get_extension(size_t p_index) const;
+    const String& get_extension(size_t p_index) const;
     bool add_extension(const String& p_extension);
     bool remove_extension(const String& p_extension);
     bool has_extension(const String& p_extension) const;

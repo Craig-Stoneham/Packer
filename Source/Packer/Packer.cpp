@@ -172,7 +172,7 @@ size_t Packer::get_extension_count() const {
     return extensions.size();
 }
 
-const String Packer::get_extension(size_t p_index) const {
+const String& Packer::get_extension(size_t p_index) const {
     return extensions[p_index];
 }
 
