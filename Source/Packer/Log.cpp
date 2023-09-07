@@ -23,6 +23,29 @@
 
 #include "Log.h"
 
+const char* log_level[] = {
+    "Info",
+    "Warn",
+    "Error"
+};
+
+String Log::get_level_string(Level p_level) {
+    if (p_level >= static_cast<Level>(0) && p_level < Level::Max) {
+        return log_level[static_cast<size_t>(p_level)];
+    } else {
+        return "Unknown";
+    }
+}
+
+Log::Level Log::find_level(const String& p_level) {
+    for (size_t i = 0; i < static_cast<size_t>(Level::Max); ++i) {
+        if (p_level == log_level[i]) {
+            return static_cast<Level>(i);
+        }
+    }
+    return static_cast<Level>(-1);
+}
+
 #ifndef LOG_DISABLED
 struct CallbackData {
     Log::Callback callback;
@@ -80,27 +103,3 @@ void Log::log_error(const String& p_string) {
     log_string(Level::Error, p_string);
 #endif // LOG_DISABLED
 }
-
-const char* log_level[] = {
-    "Info",
-    "Warn",
-    "Error"
-};
-
-String Log::get_level_string(Level p_level) {
-    if (p_level >= static_cast<Level>(0) && p_level < Level::Max) {
-        return log_level[static_cast<size_t>(p_level)];
-    } else {
-        return "Unknown";
-    }
-}
-
-Log::Level Log::find_level(const String& p_level) {
-    for (size_t i = 0; i < static_cast<size_t>(Level::Max); ++i) {
-        if (p_level == log_level[i]) {
-            return static_cast<Level>(i);
-        }
-    }
-    return static_cast<Level>(-1);
-}
-

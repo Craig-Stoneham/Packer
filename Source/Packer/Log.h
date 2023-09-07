@@ -37,6 +37,9 @@ public:
 
     using Callback = void (*)(void* p_data, Level p_level, const String& p_string);
 
+    static String get_level_string(Level p_level);
+    static Level find_level(const String& p_level);
+
     static void add_callback(Callback p_callback, void* p_data);
     static void remove_callback(Callback p_callback, void* p_data);
 
@@ -44,9 +47,6 @@ public:
     static void log_info(const String& p_string);
     static void log_warn(const String& p_string);
     static void log_error(const String& p_string);
-
-    static String get_level_string(Level p_level);
-    static Level find_level(const String& p_level);
 };
 
 #ifndef LOG_DISABLED
