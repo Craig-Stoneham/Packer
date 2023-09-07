@@ -6,7 +6,7 @@
 		<description>
 			The `Packer` class is responsible for packing files from a source directory to a destination directory based on specified criteria.
 		</description>
-		
+
 		<enum>
 			<name>PackMode</name>
 			<values>
@@ -32,7 +32,7 @@
 				</value>
 			</values>
 		</enum>
-		
+
 		<function>
 			<return-type>String</return-type>
 			<name>get_pack_mode_string</name>
@@ -66,7 +66,61 @@
 				This function finds a pack mode by its string representation and returns the corresponding `PackMode` enum value. If the provided string does not match any known pack mode, it returns `PackMode::Unknown`.
 			</description>
 		</function>
-		
+		<enum name="ExtensionAdjust">
+			<description>
+				An enumeration representing different cases for file extensions.
+			</description>
+
+			<values>
+				<value name="Unknown">
+					<description>An unknown extension case.</description>
+				</value>
+				<value name="Default">
+					<description>The default extension case.</description>
+				</value>
+				<value name="Lower">
+					<description>The lowercase extension case.</description>
+				</value>
+				<value name="Upper">
+					<description>The uppercase extension case.</description>
+				</value>
+				<value name="Max">
+					<description>Maximum value for the ExtensionAdjust enum.</description>
+				</value>
+			</values>
+		</enum>
+
+		<functions>
+			<function>
+				<signature>
+					String get_extension_case_string(ExtensionAdjust p_adjust)
+				</signature>
+				<description>
+					Retrieves a string representation of the given extension case.
+				</description>
+				<param name="p_adjust">
+					The extension case to get the string representation for.
+				</param>
+				<returns>
+					The extension case as a string.
+				</returns>
+			</function>
+			<function>
+				<signature>
+					ExtensionAdjust find_extension_case(const String& p_adjust)
+				</signature>
+				<description>
+					Finds the extension case corresponding to the given string representation.
+				</description>
+				<param name="p_adjust">
+					The string representation of the extension case to find.
+				</param>
+				<returns>
+					The ExtensionAdjust enum value corresponding to the provided string representation, or ExtensionAdjust::Unknown if not found.
+				</returns>
+			</function>
+		</functions>
+
 		<constructor>
 			<signature>
 				Packer()
@@ -379,7 +433,6 @@
 				</returns>
 			</function>
 
-			#ifndef IGNORE_FILE_DISABLED
 			<function>
 				<signature>
 					void set_ignore_file_name(const String&amp; p_name)
@@ -427,9 +480,7 @@
 					True if the ignore file feature is enabled, false if disabled.
 				</returns>
 			</function>
-			#endif // IGNORE_FILE_DISABLED
 
-			#ifndef LOG_DISABLED
 			<function>
 				<signature>
 					void set_log_enabled(bool p_enable)
@@ -453,7 +504,6 @@
 					True if logging is enabled, false if disabled.
 				</returns>
 			</function>
-			#endif // LOG_DISABLED
 
 			<function>
 				<signature>

@@ -35,7 +35,15 @@
 			<name>CryptoKey</name>
 			<link>CryptoKey.xml</link>
 			<description>
-				The `CryptoKey` class represents cryptographic keys used for encryption and decryption.
+				The `CryptoKey` class represents a cryptographic key used for encryption and decryption.
+			</description>
+		</class>
+
+		<class>
+			<name>Crypto</name>
+			<link>Crypto.xml</link>
+			<description>
+				The `Crypto` class performs cryptographic data encryption and decryption.
 			</description>
 		</class>
 
@@ -44,14 +52,6 @@
 			<link>Error.xml</link>
 			<description>
 				The `Error` class defines error codes and messages for error handling.
-			</description>
-		</class>
-
-		<class>
-			<name>Extension</name>
-			<link>Extension.xml</link>
-			<description>
-				The `Extension` class represents a file extension with case sensitivity attributes.
 			</description>
 		</class>
 
