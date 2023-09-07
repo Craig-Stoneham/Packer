@@ -35,7 +35,6 @@ class CryptoKey {
 public:
 	void set_key(const size_t p_key);
 	void set_key(const String& p_key);
-
 	template <class T>
 	void set_key() {
 		set_key(String(typeid(T).name()));
@@ -43,7 +42,6 @@ public:
 
 	CryptoKey(size_t p_key = DefaultKey);
 	CryptoKey(const String& p_key);
-
 	template <class T>
 	CryptoKey(const T& p_class) :
 		key(std::hash<String>{}(String(typeid(T).name()))) {
@@ -53,6 +51,5 @@ public:
 class Crypto {
 public:
 	static void encrypt_decrypt(const String& p_data, String& p_result, const CryptoKey& p_key);
-
 	static String encrypt_decrypt(const String& p_data, const CryptoKey& p_key);
 };
