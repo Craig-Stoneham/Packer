@@ -80,7 +80,6 @@ void Packer::_pack_files(const String& p_read_path, const String& p_write_path) 
                         }
                     }
                 }
-
                 if (skip_file) {
                     continue;
                 }
@@ -392,8 +391,8 @@ Error Packer::save_encrypted(const String& p_path, const CryptoKey& p_key) const
     ConfigFile config_file;
     to_config_file(config_file);
     return config_file.save_encrypted(p_path, p_key);
-
 }
+
 Error Packer::load_encrypted(const String& p_path, const CryptoKey& p_key) {
     ConfigFile config_file;
     Error error = config_file.load_encrypted(p_path, p_key);
@@ -427,7 +426,6 @@ void Packer::revert_state() {
 }
 
 Error Packer::pack_files() {
-
     if (read_path.empty()) {
         return Error::Unconfigured;
     }
