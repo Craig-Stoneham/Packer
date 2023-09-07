@@ -24,6 +24,52 @@
 #include "Packer.h"
 #include "Defaults.h"
 
+static const char* _pack_mode[] = {
+    "include",
+    "exclude",
+    "everything"
+};
+
+String Packer::get_pack_mode_string(PackMode p_mode) {
+    if (p_mode >= static_cast<PackMode>(0) && p_mode < PackMode::Max) {
+        return _pack_mode[static_cast<size_t>(p_mode)];
+    } else {
+        return "unknown";
+    }
+}
+
+Packer::PackMode Packer::find_pack_mode(const String& p_mode) {
+    for (size_t i = 0; i < static_cast<size_t>(PackMode::Max); ++i) {
+        if (p_mode == _pack_mode[i]) {
+            return static_cast<PackMode>(i);
+        }
+    }
+    return PackMode::Unknown;
+}
+
+static const char* _extension_adjust[] = {
+    "default",
+    "lower",
+    "upper"
+};
+
+String Packer::get_extension_adjust_string(ExtensionAdjust p_adjust) {
+    if (p_adjust >= static_cast<ExtensionAdjust>(0) && p_adjust < ExtensionAdjust::Max) {
+        return _extension_adjust[static_cast<size_t>(p_adjust)];
+    } else {
+        return "unknown";
+    }
+}
+
+Packer::ExtensionAdjust Packer::find_extension_adjust(const String& p_adjust) {
+    for (size_t i = 0; i < static_cast<size_t>(ExtensionAdjust::Max); ++i) {
+        if (p_adjust == _extension_adjust[i]) {
+            return static_cast<ExtensionAdjust>(i);
+        }
+    }
+    return ExtensionAdjust::Unknown;
+}
+
 template <Packer::PackMode MODE, bool OVERWRITE, bool MOVE, bool SUFFIX, bool EXT_INSENSITIVE, Packer::ExtensionAdjust EXT_ADJUST, bool IGNORE_FILE, bool LOG>
 void Packer::_pack_files(const String& p_read_path, const String& p_write_path) {
 #ifndef IGNORE_FILE_DISABLED
@@ -126,52 +172,6 @@ void Packer::_pack_files(const String& p_read_path, const String& p_write_path) 
             }
         }
     }
-}
-
-static const char* _pack_mode[] = {
-    "include",
-    "exclude",
-    "everything"
-};
-
-String Packer::get_pack_mode_string(PackMode p_mode) {
-    if (p_mode >= static_cast<PackMode>(0) && p_mode < PackMode::Max) {
-        return _pack_mode[static_cast<size_t>(p_mode)];
-    } else {
-        return "unknown";
-    }
-}
-
-Packer::PackMode Packer::find_pack_mode(const String& p_mode) {
-    for (size_t i = 0; i < static_cast<size_t>(PackMode::Max); ++i) {
-        if (p_mode == _pack_mode[i]) {
-            return static_cast<PackMode>(i);
-        }
-    }
-    return PackMode::Unknown;
-}
-
-static const char* _extension_adjust[] = {
-    "default",
-    "lower",
-    "upper"
-};
-
-String Packer::get_extension_adjust_string(ExtensionAdjust p_adjust) {
-    if (p_adjust >= static_cast<ExtensionAdjust>(0) && p_adjust < ExtensionAdjust::Max) {
-        return _extension_adjust[static_cast<size_t>(p_adjust)];
-    } else {
-        return "unknown";
-    }
-}
-
-Packer::ExtensionAdjust Packer::find_extension_adjust(const String& p_adjust) {
-    for (size_t i = 0; i < static_cast<size_t>(ExtensionAdjust::Max); ++i) {
-        if (p_adjust == _extension_adjust[i]) {
-            return static_cast<ExtensionAdjust>(i);
-        }
-    }
-    return ExtensionAdjust::Unknown;
 }
 
 void Packer::set_read_path(const String& p_path) {
