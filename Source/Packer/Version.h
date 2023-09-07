@@ -27,7 +27,7 @@
 #define VERSION_MAJOR 2
 
 // Define the minor version number.
-#define VERSION_MINOR 2
+#define VERSION_MINOR 3
 
 // Define the patch version number.
 #define VERSION_PATCH 0

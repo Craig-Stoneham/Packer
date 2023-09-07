@@ -129,8 +129,8 @@ void Application::_set_extension_insensitive() {
 }
 
 void Application::_set_extension_adjust() {
-    ExtensionCase ext_case = find_extension_case(input);
-    if (ext_case == ExtensionCase::Unknown) {
+    Packer::ExtensionAdjust ext_case = Packer::find_extension_adjust(input);
+    if (ext_case == Packer::ExtensionAdjust::Unknown) {
         print_line("Extension case '" + input + "' is invalid.");
         return;
     }
@@ -228,7 +228,7 @@ void Application::_print_info() {
     print_line("Suffix string: " + packer.get_suffix_string());
     print_line("Suffix: " + String(packer.get_suffix_enabled() ? "enabled" : "disabled"));
     print_line("Extension insensitive: " + String(packer.get_extension_insensitive() ? "enabled" : "disabled"));
-    print_line("Extension adjust: " + get_extension_case_string(packer.get_extension_adjust()));
+    print_line("Extension adjust: " + Packer::get_extension_adjust_string(packer.get_extension_adjust()));
 #ifndef IGNORE_FILE_DISABLED
     print_line("Ignore file name: " + packer.get_ignore_file_name());
     print_line("Ignore file: " + String(packer.get_ignore_file_enabled() ? "enabled" : "disabled"));
@@ -314,7 +314,7 @@ void Application::_run_packer() {
         LOG_WARN("Suffix is enabled but suffix string is invalid\n");
     }
     LOG_INFO("Extension insensitive: " + String(packer.get_extension_insensitive() ? "enabled" : "disabled") + "\n");
-    LOG_INFO("Extension adjust: " + get_extension_case_string(packer.get_extension_adjust()) + "\n");
+    LOG_INFO("Extension adjust: " + Packer::get_extension_adjust_string(packer.get_extension_adjust()) + "\n");
 #ifndef IGNORE_FILE_DISABLED
     LOG_INFO("Ignore file name: " + packer.get_ignore_file_name() + "\n");
     LOG_INFO("Ignore file: " + String(packer.get_ignore_file_enabled() ? "enabled" : "disabled") + "\n");
@@ -464,7 +464,7 @@ Application::Application() :
     _add_command(&Application::_set_suffix_string, "suffix_string", "The suffix string to remove", "Type the suffix string to remove:", false);
     _add_command(&Application::_set_suffix_enabled, "suffix_enabled", "Enable suffix string removal", false);
     _add_command(&Application::_set_extension_insensitive, "extension_insensitive", "Ignore extension case in the extension list", false);
-    _add_command(&Application::_set_extension_adjust, "extension_adjust", "Adjust the extension case", "Type '" + get_extension_case_string(ExtensionCase::Default) + "', '" + get_extension_case_string(ExtensionCase::Lower) + "', '" + get_extension_case_string(ExtensionCase::Upper) + ":", false);
+    _add_command(&Application::_set_extension_adjust, "extension_adjust", "Adjust the extension case", "Type '" + Packer::get_extension_adjust_string(Packer::ExtensionAdjust::Default) + "', '" + Packer::get_extension_adjust_string(Packer::ExtensionAdjust::Lower) + "', '" + Packer::get_extension_adjust_string(Packer::ExtensionAdjust::Upper) + ":", false);
 #ifndef IGNORE_FILE_DISABLED
     _add_command(&Application::_set_ignore_file_name, "ignore_file_name", "Change the name of the ignore file", "Type the name of the ignore file (or 'default' to use to the default):", false);
     _add_command(&Application::_set_ignore_file_enabled, "ignore_file_enabled", "Check for an ignore file", false);

@@ -36,7 +36,7 @@
 #endif // DEFAULT_EXTENTIONS
 
 #ifndef DEFAULT_PACK_MODE
-#define DEFAULT_PACK_MODE Packer::PackMode::Include
+#define DEFAULT_PACK_MODE PackMode::Include
 #endif // DEFAULT_PACK_MODE
 
 #ifndef DEFAULT_OVERWRITE_FILES
@@ -60,7 +60,7 @@
 #endif // DEFAULT_EXTENSION_INSENSITIVE
 
 #ifndef DEFAULT_EXTENSION_ADJUST
-#define DEFAULT_EXTENSION_ADJUST ExtensionCase::Default
+#define DEFAULT_EXTENSION_ADJUST ExtensionAdjust::Default
 #endif // DEFAULT_EXTENSION_ADJUST
 
 #ifndef IGNORE_FILE_DISABLED

@@ -60,9 +60,6 @@
     <ClInclude Include="..\..\Source\Packer\Error.h">
       <Filter>Packer\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Packer\Extension.h">
-      <Filter>Packer\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Console\Application.h">
       <Filter>Console\Headers</Filter>
     </ClInclude>
@@ -90,9 +87,6 @@
       <Filter>Packer\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Packer\Log.cpp">
-      <Filter>Packer\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Packer\Extension.cpp">
       <Filter>Packer\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Packer\Error.cpp">

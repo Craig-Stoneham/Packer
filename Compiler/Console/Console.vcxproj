@@ -28,7 +28,6 @@
     <ClInclude Include="..\..\Source\Packer\Console.h" />
     <ClInclude Include="..\..\Source\Packer\CryptoKey.h" />
     <ClInclude Include="..\..\Source\Packer\Error.h" />
-    <ClInclude Include="..\..\Source\Packer\Extension.h" />
     <ClInclude Include="..\..\Source\Packer\Log.h" />
     <ClInclude Include="..\..\Source\Packer\LogFile.h" />
     <ClInclude Include="..\..\Source\Packer\Packer.h" />
@@ -44,7 +43,6 @@
     <ClCompile Include="..\..\Source\Packer\Console.cpp" />
     <ClCompile Include="..\..\Source\Packer\CryptoKey.cpp" />
     <ClCompile Include="..\..\Source\Packer\Error.cpp" />
-    <ClCompile Include="..\..\Source\Packer\Extension.cpp" />
     <ClCompile Include="..\..\Source\Packer\Log.cpp" />
     <ClCompile Include="..\..\Source\Packer\LogFile.cpp" />
     <ClCompile Include="..\..\Source\Packer\Packer.cpp" />

@@ -23,7 +23,6 @@
 
 #pragma once
 
-#include "Extension.h"
 #include "ConfigFile.h"
 #include "Log.h"
 
@@ -37,8 +36,13 @@ public:
         Max
     };
 
-    static String get_pack_mode_string(PackMode p_mode);
-    static PackMode find_pack_mode(const String& p_mode);
+    enum class ExtensionAdjust {
+        Unknown = -1,
+        Default,
+        Lower,
+        Upper,
+        Max
+    };
 
 private:
     String read_path;
@@ -54,7 +58,7 @@ private:
     bool suffix_enabled;
 
     bool extension_insensitive;
-    ExtensionCase extension_adjust;
+    ExtensionAdjust extension_adjust;
 
 #ifndef IGNORE_FILE_DISABLED
     String ignore_file_name;
@@ -65,10 +69,16 @@ private:
     bool log_enabled;
 #endif // IGNORE_FILE_DISABLED
 
-    template <PackMode, bool, bool, bool, bool, ExtensionCase, bool, bool>
+    template <PackMode, bool, bool, bool, bool, ExtensionAdjust, bool, bool>
     void _pack_files(const String& p_read_path, const String& p_write_path);
 
 public:
+    static String get_pack_mode_string(PackMode p_mode);
+    static PackMode find_pack_mode(const String& p_mode);
+
+    static String get_extension_adjust_string(ExtensionAdjust p_case);
+    static ExtensionAdjust find_extension_adjust(const String& p_case);
+
     void set_read_path(const String& p_path);
     const String& get_read_path() const;
     void set_write_path(const String& p_path);
@@ -95,8 +105,8 @@ public:
 
     void set_extension_insensitive(bool p_enable);
     bool get_extension_insensitive() const;
-    void set_extension_adjust(ExtensionCase p_case);
-    ExtensionCase get_extension_adjust() const;
+    void set_extension_adjust(ExtensionAdjust p_case);
+    ExtensionAdjust get_extension_adjust() const;
 
 #ifndef IGNORE_FILE_DISABLED
     void set_ignore_file_name(const String& p_name);
