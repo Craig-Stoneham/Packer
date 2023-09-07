@@ -98,7 +98,6 @@ bool Platform::set_console_text_color(int p_color) {
         return false;
     }
 #endif // CONSOLE_FEATURES_DISABLED
-
     return true;
 }
 
