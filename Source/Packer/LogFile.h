@@ -27,8 +27,8 @@
 #include "Error.h"
 
 class LogFile {
-    FileStreamO stream;
     bool print_level_details;
+    FileStreamO stream;
 
 public:
     void set_print_level_details(bool p_enabled);
