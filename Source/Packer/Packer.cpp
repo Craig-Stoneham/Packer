@@ -158,17 +158,17 @@ static const char* _extension_adjust[] = {
     "upper"
 };
 
-String Packer::get_extension_adjust_string(ExtensionAdjust p_case) {
-    if (p_case >= static_cast<ExtensionAdjust>(0) && p_case < ExtensionAdjust::Max) {
-        return _extension_adjust[static_cast<size_t>(p_case)];
+String Packer::get_extension_adjust_string(ExtensionAdjust p_adjust) {
+    if (p_adjust >= static_cast<ExtensionAdjust>(0) && p_adjust < ExtensionAdjust::Max) {
+        return _extension_adjust[static_cast<size_t>(p_adjust)];
     } else {
         return "unknown";
     }
 }
 
-Packer::ExtensionAdjust Packer::find_extension_adjust(const String& p_case) {
+Packer::ExtensionAdjust Packer::find_extension_adjust(const String& p_adjust) {
     for (size_t i = 0; i < static_cast<size_t>(ExtensionAdjust::Max); ++i) {
-        if (p_case == _extension_adjust[i]) {
+        if (p_adjust == _extension_adjust[i]) {
             return static_cast<ExtensionAdjust>(i);
         }
     }

@@ -76,8 +76,8 @@ public:
     static String get_pack_mode_string(PackMode p_mode);
     static PackMode find_pack_mode(const String& p_mode);
 
-    static String get_extension_adjust_string(ExtensionAdjust p_case);
-    static ExtensionAdjust find_extension_adjust(const String& p_case);
+    static String get_extension_adjust_string(ExtensionAdjust p_adjust);
+    static ExtensionAdjust find_extension_adjust(const String& p_adjust);
 
     void set_read_path(const String& p_path);
     const String& get_read_path() const;
