@@ -31,24 +31,24 @@ static void log_callback(void* p_logger, Log::Level p_level, const String& p_str
 #ifndef CONSOLE_FEATURES_DISABLED
 
 void Console::set_text_color(Log::Level p_level, Color p_color) {
-    if (p_level >= Log::Level::Max || static_cast<int>(p_level) < 0) {
+    if (static_cast<int>(p_level) < 0 || p_level >= Log::Level::Max) {
         return;
     }
-    if (p_color >= Color::Max || static_cast<int>(p_color) < 0) {
+    if (static_cast<int>(p_color) < 0 || p_color >= Color::Max) {
         return;
     }
     text_colors[static_cast<int>(p_level)] = p_color;
 }
 
 Color Console::get_text_color(Log::Level p_level) const {
-    if (p_level >= Log::Level::Max || static_cast<int>(p_level) < 0) {
+    if (static_cast<int>(p_level) < 0 || p_level >= Log::Level::Max) {
         return Color::None;
     }
     return text_colors[static_cast<int>(p_level)];
 }
 
 void Console::set_text_color(Color p_color) {
-    if (p_color >= Color::Max || static_cast<int>(p_color) < 0) {
+    if (static_cast<int>(p_color) < 0 || p_color >= Color::Max) {
         return;
     }
     current_color = p_color;
