@@ -2258,8 +2258,6 @@ Error Packer::pack_files() {
             }
         }
     }
-
-
     return Error::OK;
 }
 
