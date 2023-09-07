@@ -37,9 +37,6 @@ public:
         Max
     };
 
-    static String get_type_string(Type p_type);
-    static Type find_type(const String& p_type);
-
 private:
     Type type;
     union {
@@ -53,6 +50,9 @@ private:
     void _copy(const Variant& p_value);
 
 public:
+    static String get_type_string(Type p_type);
+    static Type find_type(const String& p_type);
+
     void set_type(Type p_type);
     Type get_type() const;
 
