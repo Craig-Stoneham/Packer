@@ -24,9 +24,11 @@
 #include "Console.h"
 #include "Platform.h"
 
+#ifndef LOG_DISABLED
 static void log_callback(void* p_logger, Log::Level p_level, const String& p_string) {
     static_cast<Console*>(p_logger)->print_string(p_level, p_string);
 }
+#endif // LOG_DISABLED
 
 #ifndef CONSOLE_FEATURES_DISABLED
 
