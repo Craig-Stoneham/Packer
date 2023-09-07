@@ -73,34 +73,6 @@
 					Sets the cryptographic key using the type name T as a string.
 				</description>
 			</function>
-			<function>
-				<signature>
-					String encrypt(const String& p_data) const
-				</signature>
-				<description>
-					Encrypts the input string using the current key and returns the encrypted result.
-				</description>
-				<param name="p_data">
-					The string data to encrypt.
-				</param>
-				<returns>
-					The encrypted string.
-				</returns>
-			</function>
-			<function>
-				<signature>
-					String decrypt(const String& p_data) const
-				</signature>
-				<description>
-					Decrypts the input string using the current key and returns the decrypted result.
-				</description>
-				<param name="p_data">
-					The string data to decrypt.
-				</param>
-				<returns>
-					The decrypted string.
-				</returns>
-			</function>
 		</methods>
 	</class>
 
