@@ -147,7 +147,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\Source\Packer\ConfigFile.cpp" />
     <ClCompile Include="..\..\Source\Packer\Console.cpp" />
-    <ClCompile Include="..\..\Source\Packer\CryptoKey.cpp" />
+    <ClCompile Include="..\..\Source\Packer\Crypto.cpp" />
     <ClCompile Include="..\..\Source\Packer\Error.cpp" />
     <ClCompile Include="..\..\Source\Packer\Log.cpp" />
     <ClCompile Include="..\..\Source\Packer\LogFile.cpp" />
@@ -158,14 +158,14 @@
     <ClCompile Include="..\..\Source\Tests\TestConfigFIle.cpp" />
     <ClCompile Include="..\..\Source\Tests\TestPacker.cpp" />
     <ClCompile Include="..\..\Source\Tests\TestSuite.cpp" />
-    <ClCompile Include="..\..\Source\Tests\TestCryptoKey.cpp" />
+    <ClCompile Include="..\..\Source\Tests\TestCrypto.cpp" />
     <ClCompile Include="..\..\Source\Tests\TestVariant.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Packer\Color.h" />
     <ClInclude Include="..\..\Source\Packer\ConfigFile.h" />
     <ClInclude Include="..\..\Source\Packer\Console.h" />
-    <ClInclude Include="..\..\Source\Packer\CryptoKey.h" />
+    <ClInclude Include="..\..\Source\Packer\Crypto.h" />
     <ClInclude Include="..\..\Source\Packer\Defaults.h" />
     <ClInclude Include="..\..\Source\Packer\Error.h" />
     <ClInclude Include="..\..\Source\Packer\Log.h" />
@@ -178,7 +178,7 @@
     <ClInclude Include="..\..\Source\Tests\TestConfigFIle.h" />
     <ClInclude Include="..\..\Source\Tests\TestPacker.h" />
     <ClInclude Include="..\..\Source\Tests\TestSuite.h" />
-    <ClInclude Include="..\..\Source\Tests\TestCryptoKey.h" />
+    <ClInclude Include="..\..\Source\Tests\TestCrypto.h" />
     <ClInclude Include="..\..\Source\Tests\TestVariant.h" />
     <ClInclude Include="..\..\Source\Tests\Typedefs.h" />
   </ItemGroup>

@@ -21,34 +21,25 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#pragma once
 
-#include "Typedefs.h"
+#include "TestCrypto.h"
 
-class CryptoKey {
-	static constexpr size_t DefaultKey = 0xDEADBEEF;
+void TestCrypto::test() {
+    std::srand(initial);
 
-	size_t key;
+    for (size_t i = 0; i < num_tests; ++i) {
+        int value = std::rand();
+        CryptoKey key(value);
+        String test_key = "test_key " + std::to_string(value);
+        String encrypted_key = Crypto::encrypt(test_key, key);
+        String decrypted_key = Crypto::decrypt(encrypted_key, key);
+        if (decrypted_key != test_key) {
+            test_failed("The data does not match after undergoing encryption and decryption with the key '" + std::to_string(value) + "'.");
+            return;
+        }
+    }
+}
 
-public:
-	static void encrypt_decrypt(const String& p_data, String& p_result, size_t p_key);
-
-	void set_key(const size_t p_key);
-	void set_key(const String& p_key);
-
-	template <class T>
-	void set_key() {
-		set_key(String(typeid(T).name()));
-	}
-
-	String encrypt(const String& p_data) const;
-	String decrypt(const String& p_data) const;
-
-	CryptoKey(size_t p_key = DefaultKey);
-	CryptoKey(const String& p_key);
-
-	template <class T>
-	CryptoKey(const T& p_class) :
-		key(std::hash<String>{}(String(typeid(T).name()))) {
-	}
-};
+TestCrypto::TestCrypto() {
+    add_test("Crypto", [this]() { test(); });
+}

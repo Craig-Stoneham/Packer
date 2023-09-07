@@ -121,7 +121,7 @@ Error ConfigFile::save_encrypted(const String& p_path, const CryptoKey& p_key) c
         output << entry.first << "=" << entry.second.serialize() << "\n";
     }
 
-    file << p_key.encrypt(output.str());
+    file << Crypto::encrypt(output.str(), p_key);
 
     return Error::OK;
 }
@@ -135,7 +135,7 @@ Error ConfigFile::load_encrypted(const String& p_path, const CryptoKey& p_key) {
     StringStream buffer;
     buffer << file.rdbuf();
 
-    String decrypted_data = p_key.decrypt(buffer.str());
+    String decrypted_data = Crypto::decrypt(buffer.str(), p_key);
 
     StringStreamI stream(decrypted_data);
     String line;

@@ -21,17 +21,39 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-
 #pragma once
 
-#include "TestSuite.h"
+#include "Typedefs.h"
 
-class TestCryptoKey : public TestSuite {
-    uint32_t initial = initial = 0xBEADBEEF;
-    size_t num_tests = 1 << 16;
+class CryptoKey {
+	friend class Crypto;
 
-    void test();
+	static constexpr size_t DefaultKey = 0xDEADBEEF;
+
+	size_t key;
 
 public:
-    TestCryptoKey();
+	void set_key(const size_t p_key);
+	void set_key(const String& p_key);
+
+	template <class T>
+	void set_key() {
+		set_key(String(typeid(T).name()));
+	}
+
+	CryptoKey(size_t p_key = DefaultKey);
+	CryptoKey(const String& p_key);
+
+	template <class T>
+	CryptoKey(const T& p_class) :
+		key(std::hash<String>{}(String(typeid(T).name()))) {
+	}
+};
+
+class Crypto {
+public:
+	static void encrypt_decrypt(const String& p_data, String& p_result, const CryptoKey& p_key);
+
+	static String encrypt(const String& p_data, const CryptoKey& p_key);
+	static String decrypt(const String& p_data, const CryptoKey& p_key);
 };

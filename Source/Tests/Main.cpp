@@ -21,14 +21,14 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#include "TestCryptoKey.h"
+#include "TestCrypto.h"
 #include "TestVariant.h"
 #include "TestConfigFile.h"
 #include "TestPacker.h"
 
 int main() {
-    TestCryptoKey crypto_key;
-    crypto_key.run_tests();
+    TestCrypto crypto;
+    crypto.run_tests();
 
     TestVariant variant;
     variant.run_tests();

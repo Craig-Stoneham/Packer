@@ -22,24 +22,16 @@
 /**************************************************************************/
 
 
-#include "TestCryptoKey.h"
+#pragma once
 
-void TestCryptoKey::test() {
-    std::srand(initial);
+#include "TestSuite.h"
 
-    for (size_t i = 0; i < num_tests; ++i) {
-        int value = std::rand();
-        CryptoKey key(value);
-        String test_key = "test_key " + std::to_string(value);
-        String encrypted_key = key.encrypt(test_key);
-        String decrypted_key = key.decrypt(encrypted_key);
-        if (decrypted_key != test_key) {
-            test_failed("The key " + std::to_string(value) + " does not match after encrypt/decrypt.");
-            return;
-        }
-    }
-}
+class TestCrypto : public TestSuite {
+    uint32_t initial = initial = 0xBEADBEEF;
+    size_t num_tests = 1 << 16;
 
-TestCryptoKey::TestCryptoKey() {
-    add_test("CryptoKey", [this]() { test(); });
-}
+    void test();
+
+public:
+    TestCrypto();
+};

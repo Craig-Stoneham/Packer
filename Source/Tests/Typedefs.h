@@ -24,7 +24,7 @@
 #pragma once
 
 #include "../Packer/ConfigFile.h"
-#include "../Packer/CryptoKey.h"
+#include "../Packer/Crypto.h"
 #include "../Packer/Variant.h"
 #include "../Packer/Packer.h"
 

@@ -24,7 +24,7 @@
 #pragma once
 
 #include "Variant.h"
-#include "CryptoKey.h"
+#include "Crypto.h"
 
 class ConfigFile {
     Map<String, Variant> values;

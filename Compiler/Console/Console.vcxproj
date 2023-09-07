@@ -23,10 +23,10 @@
     <ClInclude Include="..\..\Source\Console\Defaults.h" />
     <ClInclude Include="..\..\Source\Console\Typedefs.h" />
     <ClInclude Include="..\..\Source\Packer\Color.h" />
+    <ClInclude Include="..\..\Source\Packer\Crypto.h" />
     <ClInclude Include="..\..\Source\Packer\Defaults.h" />
     <ClInclude Include="..\..\Source\Packer\ConfigFile.h" />
     <ClInclude Include="..\..\Source\Packer\Console.h" />
-    <ClInclude Include="..\..\Source\Packer\CryptoKey.h" />
     <ClInclude Include="..\..\Source\Packer\Error.h" />
     <ClInclude Include="..\..\Source\Packer\Log.h" />
     <ClInclude Include="..\..\Source\Packer\LogFile.h" />
@@ -41,7 +41,7 @@
     <ClCompile Include="..\..\Source\Console\Main.cpp" />
     <ClCompile Include="..\..\Source\Packer\ConfigFile.cpp" />
     <ClCompile Include="..\..\Source\Packer\Console.cpp" />
-    <ClCompile Include="..\..\Source\Packer\CryptoKey.cpp" />
+    <ClCompile Include="..\..\Source\Packer\Crypto.cpp" />
     <ClCompile Include="..\..\Source\Packer\Error.cpp" />
     <ClCompile Include="..\..\Source\Packer\Log.cpp" />
     <ClCompile Include="..\..\Source\Packer\LogFile.cpp" />

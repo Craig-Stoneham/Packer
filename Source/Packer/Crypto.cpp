@@ -21,7 +21,23 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#include "CryptoKey.h"
+#include "Crypto.h"
+
+void CryptoKey::set_key(const size_t p_key) {
+	key = p_key;
+}
+
+void CryptoKey::set_key(const String& p_key) {
+	key = std::hash<String>{}(p_key);
+}
+
+CryptoKey::CryptoKey(size_t p_key) :
+	key(p_key) {
+}
+
+CryptoKey::CryptoKey(const String& p_key) :
+	key(p_key.size() ? std::hash<String>{}(p_key) : 0) {
+}
 
 static size_t random_lcg(size_t p_seed) {
 	const size_t a = 6364136223846793005ULL;
@@ -33,10 +49,10 @@ static size_t random_lcg(size_t p_seed) {
 	return p_seed;
 }
 
-void CryptoKey::encrypt_decrypt(const String& p_data, String& p_result, size_t p_key) {
+void Crypto::encrypt_decrypt(const String& p_data, String& p_result, const CryptoKey& p_key) {
 	p_result.resize(p_data.length());
 
-	size_t key = p_key;
+	size_t key = p_key.key;
 
 	for (size_t i = 0; i < p_data.length(); ++i) {
 		p_result[i] = p_data[i] ^ (key & 0xFF);
@@ -44,30 +60,15 @@ void CryptoKey::encrypt_decrypt(const String& p_data, String& p_result, size_t p
 	}
 }
 
-void CryptoKey::set_key(const size_t p_key) {
-	key = p_key;
-}
-
-void CryptoKey::set_key(const String& p_key) {
-	key = std::hash<String>{}(p_key);
-}
-
-String CryptoKey::encrypt(const String& p_data) const {
+String Crypto::encrypt(const String& p_data, const CryptoKey& p_key) {
 	String encrypted_data;
-	encrypt_decrypt(p_data, encrypted_data, key);
+	encrypt_decrypt(p_data, encrypted_data, p_key);
 	return encrypted_data;
+
 }
 
-String CryptoKey::decrypt(const String& p_data) const {
+String Crypto::decrypt(const String& p_data, const CryptoKey& p_key) {
 	String decrypted_data;
-	encrypt_decrypt(p_data, decrypted_data, key);
+	encrypt_decrypt(p_data, decrypted_data, p_key);
 	return decrypted_data;
-}
-
-CryptoKey::CryptoKey(size_t p_key) :
-	key(p_key) {
-}
-
-CryptoKey::CryptoKey(const String& p_key) :
-	key(p_key.size() ? std::hash<String>{}(p_key) : 0) {
 }
