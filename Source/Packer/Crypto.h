@@ -26,11 +26,11 @@
 #include "Typedefs.h"
 
 class CryptoKey {
-	friend class Crypto;
-
 	static constexpr size_t DefaultKey = 0xDEADBEEF;
 
 	size_t key;
+
+	friend class Crypto;
 
 public:
 	void set_key(const size_t p_key);
