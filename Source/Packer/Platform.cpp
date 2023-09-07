@@ -25,15 +25,15 @@
 #include "Console.h"
 
 #ifndef CONSOLE_FEATURES_DISABLED
-
 #ifdef _WIN32
 #include <windows.h>
 #elif defined(__unix__) || defined(__APPLE__)
 #include <iostream>
-#endif // _WIN32
+#endif // (__unix__) || defined(__APPLE__)
+#endif // CONSOLE_FEATURES_DISABLED
 
-#ifdef _WIN32
 #ifndef CONSOLE_FEATURES_DISABLED
+#ifdef _WIN32
 static WORD text_colors[] = {
     0, // None
     FOREGROUND_RED, // Red
@@ -52,24 +52,7 @@ static WORD text_colors[] = {
     FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY, // LightCyan
     FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY // BrightWhite
 };
-#endif // CONSOLE_FEATURES_DISABLED
-
-bool Platform::set_console_text_color(Color p_color) {
-#ifndef CONSOLE_FEATURES_DISABLED
-    if (p_color >= static_cast<Color>(0) && p_color < Color::Max) {
-        if (!SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), text_colors[static_cast<int>(p_color)])) {
-            return false;
-        }
-    } else {
-        return false;
-    }
-#endif // CONSOLE_FEATURES_DISABLED
-    return true;
-}
-
 #elif defined(__unix__) || defined(__APPLE__)
-
-#ifndef CONSOLE_FEATURES_DISABLED
 static int text_colors[] = {
     0,   // None
     31,  // Red
@@ -88,19 +71,21 @@ static int text_colors[] = {
     96,  // LightCyan
     97   // BrightWhite
 };
+#endif // (__unix__) || defined(__APPLE__)
 #endif // CONSOLE_FEATURES_DISABLED
 
-bool Platform::set_console_text_color(int p_color) {
+bool Platform::set_console_text_color(Color p_color) {
 #ifndef CONSOLE_FEATURES_DISABLED
-    if (p_color >= static_cast<Color>(0) && p_color < Color::Max) {
-        std::cout << "\x1B[" << text_colors[p_color] << "m";
-    } else {
+    if (p_color < static_cast<Color>(0) || p_color >= Color::Max) {
         return false;
     }
+#ifdef _WIN32
+    if (!SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), text_colors[static_cast<int>(p_color)])) {
+        return false;
+    }
+#elif defined(__unix__) || defined(__APPLE__)
+    std::cout << "\x1B[" << text_colors[p_color] << "m";
+#endif // (__unix__) || defined(__APPLE__)
 #endif // CONSOLE_FEATURES_DISABLED
     return true;
 }
-
-#endif // defined(__unix__) || defined(__APPLE__)
-
-#endif // CONSOLE_FEATURES_DISABLED
