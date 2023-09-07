@@ -60,14 +60,8 @@ void Crypto::encrypt_decrypt(const String& p_data, String& p_result, const Crypt
 	}
 }
 
-String Crypto::encrypt(const String& p_data, const CryptoKey& p_key) {
-	String encrypted_data;
-	encrypt_decrypt(p_data, encrypted_data, p_key);
-	return encrypted_data;
-}
-
-String Crypto::decrypt(const String& p_data, const CryptoKey& p_key) {
-	String decrypted_data;
-	encrypt_decrypt(p_data, decrypted_data, p_key);
-	return decrypted_data;
+String Crypto::encrypt_decrypt(const String& p_data, const CryptoKey& p_key) {
+	String data;
+	encrypt_decrypt(p_data, data, p_key);
+	return data;
 }

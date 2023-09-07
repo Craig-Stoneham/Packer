@@ -54,6 +54,5 @@ class Crypto {
 public:
 	static void encrypt_decrypt(const String& p_data, String& p_result, const CryptoKey& p_key);
 
-	static String encrypt(const String& p_data, const CryptoKey& p_key);
-	static String decrypt(const String& p_data, const CryptoKey& p_key);
+	static String encrypt_decrypt(const String& p_data, const CryptoKey& p_key);
 };
