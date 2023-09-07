@@ -40,7 +40,7 @@ class Application : public Console {
 
     Packer packer;
     String input;
-    Vector <Command> commands;
+    Vector<Command> commands;
     bool process_commands;
 
 #ifndef CONSOLE_FEATURES_DISABLED
