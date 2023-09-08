@@ -38,8 +38,6 @@
 #include <experimental/filesystem>
 #endif // __cplusplus >= 201703L
 
-#include "Version.h"
-
 // Convert into a string literal.
 #define STRINGIFY(p_x) #p_x
 #define MAKE_STRING(m_x) STRINGIFY(m_x)

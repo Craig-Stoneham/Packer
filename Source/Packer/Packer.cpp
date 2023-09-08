@@ -22,6 +22,7 @@
 /**************************************************************************/
 
 #include "Packer.h"
+#include "Version.h"
 #include "Defaults.h"
 
 static const char* _pack_mode[] = {
