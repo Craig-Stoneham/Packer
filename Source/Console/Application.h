@@ -26,7 +26,6 @@
 #include "Typedefs.h"
 
 class Application : public Console {
-
     using Function = void (Application::*)();
 
     struct Command {
@@ -51,10 +50,9 @@ class Application : public Console {
     String log_file_name;
 #endif // LOG_DISABLED
 
-    void _add_command(Function p_function, const String& p_name, const String& p_description, bool p_hidden = false);
-    void _add_command(Function p_function, const String& p_name, const String& p_description, const String& p_prompt, bool p_hidden = false);
-
-    // Commands
+    void _add_hidden_command(Function p_function, const String& p_name);
+    void _add_simple_command(Function p_function, const String& p_name, const String& p_description);
+    void _add_prompt_command(Function p_function, const String& p_name, const String& p_description, const String& p_prompt);
 
     void _set_read_path();
     void _set_write_path();
@@ -80,25 +78,19 @@ class Application : public Console {
     void _load_config();
     void _save_config();
     void _print_info();
-    void _print_help();
     void _run_packer();
-    void _quit();
+    void _quit_program();
+    void _print_help();
+
+    void _read_input(bool p_lower_case = false);
+
+    void _to_config_file(ConfigFile& p_file) const;
+    void _from_config_file(const ConfigFile& p_file);
 
     Error _save(const String& p_path);
     Error _load(const String& p_path);
 
 public:
-    void read_input(bool p_lower_case = false);
-
-    void to_config_file(ConfigFile& p_file) const;
-    void from_config_file(const ConfigFile& p_file);
-
-    Error save(const String& p_path) const;
-    Error load(const String& p_path);
-
-    Error save_encrypted(const String& p_path, const CryptoKey& p_key) const;
-    Error load_encrypted(const String& p_path, const CryptoKey& p_key);
-
     int run();
 
     Application();

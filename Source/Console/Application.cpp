@@ -24,24 +24,33 @@
 #include "Application.h"
 #include "Defaults.h"
 
-void Application::_add_command(Function p_function, const String& p_name, const String& p_description, bool p_hidden) {
+void Application::_add_hidden_command(Function p_function, const String& p_name) {
+    Command command;
+    command.function = p_function;
+    command.name = p_name;
+    command.has_prompt = false;
+    command.hidden = true;
+    commands.push_back(command);
+}
+
+void Application::_add_simple_command(Function p_function, const String& p_name, const String& p_description) {
     Command command;
     command.function = p_function;
     command.name = p_name;
     command.description = p_description;
     command.has_prompt = false;
-    command.hidden = p_hidden;
+    command.hidden = false;
     commands.push_back(command);
 }
 
-void Application::_add_command(Function p_function, const String& p_name, const String& p_description, const String& p_prompt, bool p_hidden) {
+void Application::_add_prompt_command(Function p_function, const String& p_name, const String& p_description, const String& p_prompt) {
     Command command;
     command.function = p_function;
     command.name = p_name;
     command.description = p_description;
     command.prompt = p_prompt;
     command.has_prompt = true;
-    command.hidden = p_hidden;
+    command.hidden = false;
     commands.push_back(command);
 }
 
@@ -239,24 +248,6 @@ void Application::_print_info() {
 #endif // LOG_DISABLED
 }
 
-void Application::_print_help() {
-    print_line("Available commands:");
-
-    size_t longest_string = 0;
-    for (const auto& command : commands) {
-        if (longest_string < command.name.size()) {
-            longest_string = command.name.size();
-        }
-    }
-
-    for (const auto& command : commands) {
-        if (command.hidden) {
-            continue;
-        }
-        print_line(command.name + String(longest_string - command.name.size(), ' ') + " - " + command.description + ".");
-    }
-}
-
 void Application::_run_packer() {
 #ifndef LOG_DISABLED
     LogFile log_file;
@@ -335,27 +326,29 @@ void Application::_run_packer() {
     packer.pack_files();
 }
 
-void Application::_quit() {
+void Application::_quit_program() {
     process_commands = false;
 }
 
-Error Application::_save(const String& p_path) {
-#ifdef CONFIG_FILE_ENCRYPTION_ENABLED
-    return save_encrypted(p_path, CryptoKey(*this));
-#else // CONFIG_FILE_ENCRYPTION_ENABLED
-    return save(p_path);
-#endif // CONFIG_FILE_ENCRYPTION_ENABLED
+void Application::_print_help() {
+    print_line("Available commands:");
+
+    size_t longest_string = 0;
+    for (const auto& command : commands) {
+        if (longest_string < command.name.size()) {
+            longest_string = command.name.size();
+        }
+    }
+
+    for (const auto& command : commands) {
+        if (command.hidden) {
+            continue;
+        }
+        print_line(command.name + String(longest_string - command.name.size(), ' ') + " - " + command.description + ".");
+    }
 }
 
-Error Application::_load(const String& p_path) {
-#ifdef CONFIG_FILE_ENCRYPTION_ENABLED
-    return load_encrypted(p_path, CryptoKey(*this));
-#else // CONFIG_FILE_ENCRYPTION_ENABLED
-    return load(p_path);
-#endif // CONFIG_FILE_ENCRYPTION_ENABLED
-}
-
-void Application::read_input(bool p_lower_case) {
+void Application::_read_input(bool p_lower_case) {
 #ifndef CONSOLE_FEATURES_DISABLED
     set_text_color(command_text_color);
 #endif // CONSOLE_FEATURES_DISABLED
@@ -372,51 +365,41 @@ void Application::read_input(bool p_lower_case) {
 #endif // CONSOLE_FEATURES_DISABLED
 }
 
-void Application::to_config_file(ConfigFile& p_file) const {
+void Application::_to_config_file(ConfigFile& p_file) const {
 #ifndef LOG_DISABLED
     p_file.set_value("log_file_name", log_file_name);
 #endif // LOG_DISABLED
-
     packer.to_config_file(p_file);
 }
 
-void Application::from_config_file(const ConfigFile& p_file) {
+void Application::_from_config_file(const ConfigFile& p_file) {
 #ifndef LOG_DISABLED
     log_file_name = p_file.get_value("log_file_name", DEFAULT_LOG_FILE_NAME);
 #endif // LOG_DISABLED
-
     packer.from_config_file(p_file);
 }
 
-Error Application::save(const String& p_path) const {
+Error Application::_save(const String& p_path) {
     ConfigFile config_file;
-    to_config_file(config_file);
+    _to_config_file(config_file);
+#ifndef CONFIG_FILE_ENCRYPTION_ENABLED
     return config_file.save(p_path);
+#else // CONFIG_FILE_ENCRYPTION_ENABLED
+    return config_file.save_encrypted(p_path, CryptoKey(*this));
+#endif // CONFIG_FILE_ENCRYPTION_ENABLED
 }
 
-Error Application::load(const String& p_path) {
+Error Application::_load(const String& p_path) {
     ConfigFile config_file;
+#ifndef CONFIG_FILE_ENCRYPTION_ENABLED
     Error error = config_file.load(p_path);
+#else // CONFIG_FILE_ENCRYPTION_ENABLED
+    Error error = config_file.load_encrypted(p_path, CryptoKey(*this));
+#endif // CONFIG_FILE_ENCRYPTION_ENABLED
     if (error != Error::OK) {
         return error;
     }
-    from_config_file(config_file);
-    return Error::OK;
-}
-
-Error Application::save_encrypted(const String& p_path, const CryptoKey& p_key) const {
-    ConfigFile config_file;
-    to_config_file(config_file);
-    return config_file.save_encrypted(p_path, p_key);
-}
-
-Error Application::load_encrypted(const String& p_path, const CryptoKey& p_key) {
-    ConfigFile config_file;
-    Error error = config_file.load_encrypted(p_path, p_key);
-    if (error != Error::OK) {
-        return error;
-    }
-    from_config_file(config_file);
+    _from_config_file(config_file);
     return Error::OK;
 }
 
@@ -427,21 +410,23 @@ int Application::run() {
     _load(DEFAULT_CONFIG_FILE_NAME);
 
     while (process_commands) {
-        read_input(true);
+        _read_input(true);
+        bool processed = false;
         for (const auto& command : commands) {
             if (command.name == input) {
                 if (command.has_prompt) {
                     print_line(command.prompt);
-                    read_input(false);
+                    _read_input(false);
                 }
                 (this->*command.function)();
-                goto command_processed;
+                processed = true;
+                break;
             }
         }
-        print_line("Unknown command");
-    command_processed: {}
+        if (!processed) {
+            print_line("Unknown command");
+        }
     }
-
     return EXIT_SUCCESS;
 }
 
@@ -453,31 +438,31 @@ Application::Application() :
     log_file_name(DEFAULT_LOG_FILE_NAME),
 #endif // LOG_DISABLED
     process_commands(true) {
-    _add_command(&Application::_set_read_path, "read_path", "Change the path that you would like to read from", "Type the path (or 'current' to use the current directory):", false);
-    _add_command(&Application::_set_write_path, "write_path", "Change the path that you would like to write to", "Type the path:", false);
-    _add_command(&Application::_add_extension, "add_extension", "Add an extension to the extension list", "Type the extension to add:", false);
-    _add_command(&Application::_remove_extension, "remove_extension", "Remove an extension from the extension list", "Type the extension to remove:", false);
-    _add_command(&Application::_clear_extensions, "clear_extensions", "Clear all of the extensions in the extension list", false);
-    _add_command(&Application::_set_pack_mode, "pack_mode", "Pack matching extensions, exclude matching extensions or pack everything", "Type '" + Packer::get_pack_mode_string(Packer::PackMode::Include) + "', '" + Packer::get_pack_mode_string(Packer::PackMode::Exclude) + "', '" + Packer::get_pack_mode_string(Packer::PackMode::Everything) + ":", false);
-    _add_command(&Application::_set_overwrite_files, "overwrite_files", "Overwrite existing files", false);
-    _add_command(&Application::_set_move_files, "move_files", "Move the files", false);
-    _add_command(&Application::_set_suffix_string, "suffix_string", "The suffix string to remove", "Type the suffix string to remove:", false);
-    _add_command(&Application::_set_suffix_enabled, "suffix_enabled", "Enable suffix string removal", false);
-    _add_command(&Application::_set_extension_insensitive, "extension_insensitive", "Ignore extension case in the extension list", false);
-    _add_command(&Application::_set_extension_adjust, "extension_adjust", "Adjust the extension case", "Type '" + Packer::get_extension_adjust_string(Packer::ExtensionAdjust::Default) + "', '" + Packer::get_extension_adjust_string(Packer::ExtensionAdjust::Lower) + "', '" + Packer::get_extension_adjust_string(Packer::ExtensionAdjust::Upper) + ":", false);
+    _add_prompt_command(&Application::_set_read_path, "read_path", "Change the path that you would like to read from", "Type the path (or 'current' to use the current directory):");
+    _add_prompt_command(&Application::_set_write_path, "write_path", "Change the path that you would like to write to", "Type the path:");
+    _add_prompt_command(&Application::_add_extension, "add_extension", "Add an extension to the extension list", "Type the extension to add:");
+    _add_prompt_command(&Application::_remove_extension, "remove_extension", "Remove an extension from the extension list", "Type the extension to remove:");
+    _add_simple_command(&Application::_clear_extensions, "clear_extensions", "Clear all of the extensions in the extension list");
+    _add_prompt_command(&Application::_set_pack_mode, "pack_mode", "Pack matching extensions, exclude matching extensions or pack everything", "Type '" + Packer::get_pack_mode_string(Packer::PackMode::Include) + "', '" + Packer::get_pack_mode_string(Packer::PackMode::Exclude) + "', '" + Packer::get_pack_mode_string(Packer::PackMode::Everything) + ":");
+    _add_simple_command(&Application::_set_overwrite_files, "overwrite_files", "Overwrite existing files");
+    _add_simple_command(&Application::_set_move_files, "move_files", "Move the files");
+    _add_prompt_command(&Application::_set_suffix_string, "suffix_string", "The suffix string to remove", "Type the suffix string to remove:");
+    _add_simple_command(&Application::_set_suffix_enabled, "suffix_enabled", "Enable suffix string removal");
+    _add_simple_command(&Application::_set_extension_insensitive, "extension_insensitive", "Ignore extension case in the extension list");
+    _add_prompt_command(&Application::_set_extension_adjust, "extension_adjust", "Adjust the extension case", "Type '" + Packer::get_extension_adjust_string(Packer::ExtensionAdjust::Default) + "', '" + Packer::get_extension_adjust_string(Packer::ExtensionAdjust::Lower) + "', '" + Packer::get_extension_adjust_string(Packer::ExtensionAdjust::Upper) + ":");
 #ifndef IGNORE_FILE_DISABLED
-    _add_command(&Application::_set_ignore_file_name, "ignore_file_name", "Change the name of the ignore file", "Type the name of the ignore file (or 'default' to use to the default):", false);
-    _add_command(&Application::_set_ignore_file_enabled, "ignore_file_enabled", "Check for an ignore file", false);
+    _add_prompt_command(&Application::_set_ignore_file_name, "ignore_file_name", "Change the name of the ignore file", "Type the name of the ignore file (or 'default' to use to the default):");
+    _add_simple_command(&Application::_set_ignore_file_enabled, "ignore_file_enabled", "Check for an ignore file");
 #endif // IGNORE_FILE_DISABLED
 #ifndef LOG_DISABLED
-    _add_command(&Application::_set_log_file_name, "log_file_name", "Change the name of the log file", "Type the name of the log file (or 'default' to use the default):", false);
-    _add_command(&Application::_set_log_enabled, "log_enabled", "Enable logging", false);
+    _add_prompt_command(&Application::_set_log_file_name, "log_file_name", "Change the name of the log file", "Type the name of the log file (or 'default' to use the default):");
+    _add_simple_command(&Application::_set_log_enabled, "log_enabled", "Enable logging");
 #endif // LOG_DISABLED
-    _add_command(&Application::_revert_state, "revert", "Revert all of the settings to their defaults", false);
-    _add_command(&Application::_load_config, "load", "Load a state from a config file", "Type the name of the config file (or 'default' to use the default):", false);
-    _add_command(&Application::_save_config, "save", "Save the state to a config file", "Type the name of the config file (or 'default' to use the default):", false);
-    _add_command(&Application::_print_info, "info", "Print the current state of the packer", false);
-    _add_command(&Application::_print_help, "help", "", true);
-    _add_command(&Application::_run_packer, "run", "Run the packer", false);
-    _add_command(&Application::_quit, "quit", "Quit the application", false);
+    _add_simple_command(&Application::_revert_state, "revert", "Revert all of the settings to their defaults");
+    _add_prompt_command(&Application::_load_config, "load", "Load a state from a config file", "Type the name of the config file (or 'default' to use the default):");
+    _add_prompt_command(&Application::_save_config, "save", "Save the state to a config file", "Type the name of the config file (or 'default' to use the default):");
+    _add_simple_command(&Application::_print_info, "info", "Print the current state of the packer");
+    _add_simple_command(&Application::_run_packer, "run", "Run the packer");
+    _add_simple_command(&Application::_quit_program, "quit", "Quit the application");
+    _add_hidden_command(&Application::_print_help, "help");
 }
