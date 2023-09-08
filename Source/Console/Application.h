@@ -29,12 +29,16 @@ class Application : public Console {
     using Function = void (Application::*)();
 
     struct Command {
+        enum Type {
+            Hidden,
+            Simple,
+            Prompt
+        };
+        Type type;
         Function function;
         String name;
         String description;
         String prompt;
-        bool has_prompt;
-        bool hidden;
     };
 
     Packer packer;

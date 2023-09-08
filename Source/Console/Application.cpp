@@ -26,31 +26,28 @@
 
 void Application::_add_hidden_command(Function p_function, const String& p_name) {
     Command command;
+    command.type = Command::Hidden;
     command.function = p_function;
     command.name = p_name;
-    command.has_prompt = false;
-    command.hidden = true;
     commands.push_back(command);
 }
 
 void Application::_add_simple_command(Function p_function, const String& p_name, const String& p_description) {
     Command command;
+    command.type = Command::Simple;
     command.function = p_function;
     command.name = p_name;
     command.description = p_description;
-    command.has_prompt = false;
-    command.hidden = false;
     commands.push_back(command);
 }
 
 void Application::_add_prompt_command(Function p_function, const String& p_name, const String& p_description, const String& p_prompt) {
     Command command;
+    command.type = Command::Prompt;
     command.function = p_function;
     command.name = p_name;
     command.description = p_description;
     command.prompt = p_prompt;
-    command.has_prompt = true;
-    command.hidden = false;
     commands.push_back(command);
 }
 
@@ -341,7 +338,7 @@ void Application::_print_help() {
     }
 
     for (const auto& command : commands) {
-        if (command.hidden) {
+        if (command.type == Command::Hidden) {
             continue;
         }
         print_line(command.name + String(longest_string - command.name.length(), ' ') + " - " + command.description + ".");
@@ -414,7 +411,7 @@ int Application::run() {
         bool processed = false;
         for (const auto& command : commands) {
             if (command.name == input) {
-                if (command.has_prompt) {
+                if (command.type == Command::Prompt) {
                     print_line(command.prompt);
                     _read_input(false);
                 }
