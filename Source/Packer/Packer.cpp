@@ -22,7 +22,6 @@
 /**************************************************************************/
 
 #include "Packer.h"
-#include "Version.h"
 #include "Defaults.h"
 
 static const char* _pack_mode[] = {
@@ -327,8 +326,6 @@ bool Packer::get_log_enabled() const {
 #endif // LOG_DISABLED
 
 void Packer::to_config_file(ConfigFile& p_file) const {
-    p_file.set_value("Version", VERSION_STRING);
-
     p_file.set_value("read_path", read_path);
     p_file.set_value("write_path", write_path);
     p_file.set_value("extensions", extensions);
