@@ -29,6 +29,17 @@ Packer can be built using CMake, a popular build system generator. Follow these 
    ```bash
    mkdir build
    cd build
+3. Generate build files with CMake:
+
+   ```bash
+   cmake ..
+
+4. Build the project using your preferred build system (e.g., Make, Visual Studio, Xcode):
+
+   ```bash
+   cmake --build .
+
+Once the build is complete, you'll find the Packer executable in the appropriate build directory.
 
 ## **Contribute and Report Bugs:**
 
