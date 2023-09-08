@@ -335,8 +335,8 @@ void Application::_print_help() {
 
     size_t longest_string = 0;
     for (const auto& command : commands) {
-        if (longest_string < command.name.size()) {
-            longest_string = command.name.size();
+        if (longest_string < command.name.length()) {
+            longest_string = command.name.length();
         }
     }
 
@@ -344,7 +344,7 @@ void Application::_print_help() {
         if (command.hidden) {
             continue;
         }
-        print_line(command.name + String(longest_string - command.name.size(), ' ') + " - " + command.description + ".");
+        print_line(command.name + String(longest_string - command.name.length(), ' ') + " - " + command.description + ".");
     }
 }
 
