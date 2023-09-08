@@ -18,6 +18,18 @@ Packer boasts a range of features designed to enhance your file management exper
 
 * **Extension Case Insensitivity:** Packer enables seamless copying and moving of files, regardless of the case of their extensions. This feature eliminates the need to worry about matching the extension case precisely.
 
+## **Using CMake for Building:**
+
+Packer can be built using CMake, a popular build system generator. Follow these steps to build Packer using CMake:
+
+1. Clone the Packer repository to your local machine.
+
+2. Create a build directory within the cloned repository:
+
+   ```bash
+   mkdir build
+   cd build
+
 ## **Contribute and Report Bugs:**
 
 We welcome contributions from the community to improve and enhance Packer. If you'd like to contribute, please follow these steps:
