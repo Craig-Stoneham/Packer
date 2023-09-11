@@ -1,0 +1,278 @@
+\doxysection{Console Class Reference}
+\hypertarget{class_console}{}\label{class_console}\index{Console@{Console}}
+
+
+Provides functionality for managing console output and text colors.  
+
+
+
+
+{\ttfamily \#include $<$Console.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_console_a59ff6bb377af4a3295fc8b8efbf5a3ba}{set\+\_\+text\+\_\+color}} (\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Log\+::\+Level}} p\+\_\+level, \mbox{\hyperlink{_color_8h_ab87bacfdad76e61b9412d7124be44c1c}{Color}} p\+\_\+color)
+\begin{DoxyCompactList}\small\item\em Set the text color for a specific log level. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_color_8h_ab87bacfdad76e61b9412d7124be44c1c}{Color}} \mbox{\hyperlink{class_console_a1e0b35fcccf9cf3bb5d7458797d67f44}{get\+\_\+text\+\_\+color}} (\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Log\+::\+Level}} p\+\_\+level) const
+\begin{DoxyCompactList}\small\item\em Get the text color for a specific log level. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_console_aecf1e8efeb70533a7f4c227c7a259bb7}{set\+\_\+text\+\_\+color}} (\mbox{\hyperlink{_color_8h_ab87bacfdad76e61b9412d7124be44c1c}{Color}} p\+\_\+color)
+\begin{DoxyCompactList}\small\item\em Set the text color for all log levels. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_color_8h_ab87bacfdad76e61b9412d7124be44c1c}{Color}} \mbox{\hyperlink{class_console_af7b1f84b1fc94bb5976d3d6ff7f12097}{get\+\_\+text\+\_\+color}} () const
+\begin{DoxyCompactList}\small\item\em Get the current text color. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_console_a75c1f51a5d5256fcc76c1d96aad457b4}{print\+\_\+string}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
+\begin{DoxyCompactList}\small\item\em Print a string to the console without a newline. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_console_aa10e788cf14380010cde9f5f3a100daa}{print\+\_\+line}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
+\begin{DoxyCompactList}\small\item\em Print a string to the console with a newline. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_console_a58f861fdab7d2f8feef5494dd5868707}{print\+\_\+string}} (\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Log\+::\+Level}} p\+\_\+level, const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
+\begin{DoxyCompactList}\small\item\em Print a string to the console with the specified log level\textquotesingle{}s text color. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_console_acf2b6a23fa32c455e84ce889188988a2}{print\+\_\+info}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
+\begin{DoxyCompactList}\small\item\em Print a string to the console with the "{}\+Info"{} log level\textquotesingle{}s text color. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_console_a987efa629c741344fcb7d010ce28e23c}{print\+\_\+warn}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
+\begin{DoxyCompactList}\small\item\em Print a string to the console with the "{}\+Warn"{} log level\textquotesingle{}s text color. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_console_a8d041a608f2848918c1922ba30581978}{print\+\_\+error}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
+\begin{DoxyCompactList}\small\item\em Print a string to the console with the "{}\+Error"{} log level\textquotesingle{}s text color. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_console_adea36054467f93d6249cb767c9eba2d4}{log\+\_\+string}} (\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Log\+::\+Level}} p\+\_\+level, const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
+\begin{DoxyCompactList}\small\item\em \doxylink{class_log}{Log} a string with the specified log level\textquotesingle{}s text color. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_console_a0d65776d97f5560235684878c4070085}{log\+\_\+info}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
+\begin{DoxyCompactList}\small\item\em \doxylink{class_log}{Log} a string with the "{}\+Info"{} log level\textquotesingle{}s text color. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_console_ae995c19892978e46153e66b3d6dc742a}{log\+\_\+warn}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
+\begin{DoxyCompactList}\small\item\em \doxylink{class_log}{Log} a string with the "{}\+Warn"{} log level\textquotesingle{}s text color. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_console_a19f7665ebb4aa81ca73d0c400226bf84}{log\+\_\+error}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
+\begin{DoxyCompactList}\small\item\em \doxylink{class_log}{Log} a string with the "{}\+Error"{} log level\textquotesingle{}s text color. \end{DoxyCompactList}\item 
+\Hypertarget{class_console_aba16cfd9f0894eb1312b1bc1155b6646}\label{class_console_aba16cfd9f0894eb1312b1bc1155b6646} 
+{\bfseries Console} ()
+\begin{DoxyCompactList}\small\item\em Constructor for the \doxylink{class_console}{Console} class. \end{DoxyCompactList}\item 
+\Hypertarget{class_console_adde4537261151a8beedd8d5e8f90c60c}\label{class_console_adde4537261151a8beedd8d5e8f90c60c} 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+Console} ()
+\begin{DoxyCompactList}\small\item\em Destructor for the \doxylink{class_console}{Console} class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Provides functionality for managing console output and text colors. 
+
+The {\ttfamily \doxylink{class_console}{Console}} class allows you to control the text colors used for different log levels and provides methods for printing and logging messages to the console with various log levels. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_console_af7b1f84b1fc94bb5976d3d6ff7f12097}\label{class_console_af7b1f84b1fc94bb5976d3d6ff7f12097} 
+\index{Console@{Console}!get\_text\_color@{get\_text\_color}}
+\index{get\_text\_color@{get\_text\_color}!Console@{Console}}
+\doxysubsubsection{\texorpdfstring{get\_text\_color()}{get\_text\_color()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{_color_8h_ab87bacfdad76e61b9412d7124be44c1c}{Color}} Console\+::get\+\_\+text\+\_\+color (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the current text color. 
+
+\begin{DoxyReturn}{Returns}
+The current text color. 
+\end{DoxyReturn}
+\Hypertarget{class_console_a1e0b35fcccf9cf3bb5d7458797d67f44}\label{class_console_a1e0b35fcccf9cf3bb5d7458797d67f44} 
+\index{Console@{Console}!get\_text\_color@{get\_text\_color}}
+\index{get\_text\_color@{get\_text\_color}!Console@{Console}}
+\doxysubsubsection{\texorpdfstring{get\_text\_color()}{get\_text\_color()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{_color_8h_ab87bacfdad76e61b9412d7124be44c1c}{Color}} Console\+::get\+\_\+text\+\_\+color (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Log\+::\+Level}}}]{p\+\_\+level }\end{DoxyParamCaption}) const}
+
+
+
+Get the text color for a specific log level. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+level} & The log level to get the text color for. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The color associated with the specified log level. 
+\end{DoxyReturn}
+\Hypertarget{class_console_a19f7665ebb4aa81ca73d0c400226bf84}\label{class_console_a19f7665ebb4aa81ca73d0c400226bf84} 
+\index{Console@{Console}!log\_error@{log\_error}}
+\index{log\_error@{log\_error}!Console@{Console}}
+\doxysubsubsection{\texorpdfstring{log\_error()}{log\_error()}}
+{\footnotesize\ttfamily void Console\+::log\+\_\+error (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
+
+
+
+\doxylink{class_log}{Log} a string with the "{}\+Error"{} log level\textquotesingle{}s text color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+string} & The string to log. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_console_a0d65776d97f5560235684878c4070085}\label{class_console_a0d65776d97f5560235684878c4070085} 
+\index{Console@{Console}!log\_info@{log\_info}}
+\index{log\_info@{log\_info}!Console@{Console}}
+\doxysubsubsection{\texorpdfstring{log\_info()}{log\_info()}}
+{\footnotesize\ttfamily void Console\+::log\+\_\+info (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
+
+
+
+\doxylink{class_log}{Log} a string with the "{}\+Info"{} log level\textquotesingle{}s text color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+string} & The string to log. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_console_adea36054467f93d6249cb767c9eba2d4}\label{class_console_adea36054467f93d6249cb767c9eba2d4} 
+\index{Console@{Console}!log\_string@{log\_string}}
+\index{log\_string@{log\_string}!Console@{Console}}
+\doxysubsubsection{\texorpdfstring{log\_string()}{log\_string()}}
+{\footnotesize\ttfamily void Console\+::log\+\_\+string (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Log\+::\+Level}}}]{p\+\_\+level,  }\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
+
+
+
+\doxylink{class_log}{Log} a string with the specified log level\textquotesingle{}s text color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+level} & The log level to use for text color. \\
+\hline
+{\em p\+\_\+string} & The string to log. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_console_ae995c19892978e46153e66b3d6dc742a}\label{class_console_ae995c19892978e46153e66b3d6dc742a} 
+\index{Console@{Console}!log\_warn@{log\_warn}}
+\index{log\_warn@{log\_warn}!Console@{Console}}
+\doxysubsubsection{\texorpdfstring{log\_warn()}{log\_warn()}}
+{\footnotesize\ttfamily void Console\+::log\+\_\+warn (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
+
+
+
+\doxylink{class_log}{Log} a string with the "{}\+Warn"{} log level\textquotesingle{}s text color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+string} & The string to log. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_console_a8d041a608f2848918c1922ba30581978}\label{class_console_a8d041a608f2848918c1922ba30581978} 
+\index{Console@{Console}!print\_error@{print\_error}}
+\index{print\_error@{print\_error}!Console@{Console}}
+\doxysubsubsection{\texorpdfstring{print\_error()}{print\_error()}}
+{\footnotesize\ttfamily void Console\+::print\+\_\+error (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
+
+
+
+Print a string to the console with the "{}\+Error"{} log level\textquotesingle{}s text color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+string} & The string to print. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_console_acf2b6a23fa32c455e84ce889188988a2}\label{class_console_acf2b6a23fa32c455e84ce889188988a2} 
+\index{Console@{Console}!print\_info@{print\_info}}
+\index{print\_info@{print\_info}!Console@{Console}}
+\doxysubsubsection{\texorpdfstring{print\_info()}{print\_info()}}
+{\footnotesize\ttfamily void Console\+::print\+\_\+info (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
+
+
+
+Print a string to the console with the "{}\+Info"{} log level\textquotesingle{}s text color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+string} & The string to print. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_console_aa10e788cf14380010cde9f5f3a100daa}\label{class_console_aa10e788cf14380010cde9f5f3a100daa} 
+\index{Console@{Console}!print\_line@{print\_line}}
+\index{print\_line@{print\_line}!Console@{Console}}
+\doxysubsubsection{\texorpdfstring{print\_line()}{print\_line()}}
+{\footnotesize\ttfamily void Console\+::print\+\_\+line (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
+
+
+
+Print a string to the console with a newline. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+string} & The string to print. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_console_a75c1f51a5d5256fcc76c1d96aad457b4}\label{class_console_a75c1f51a5d5256fcc76c1d96aad457b4} 
+\index{Console@{Console}!print\_string@{print\_string}}
+\index{print\_string@{print\_string}!Console@{Console}}
+\doxysubsubsection{\texorpdfstring{print\_string()}{print\_string()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Console\+::print\+\_\+string (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
+
+
+
+Print a string to the console without a newline. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+string} & The string to print. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_console_a58f861fdab7d2f8feef5494dd5868707}\label{class_console_a58f861fdab7d2f8feef5494dd5868707} 
+\index{Console@{Console}!print\_string@{print\_string}}
+\index{print\_string@{print\_string}!Console@{Console}}
+\doxysubsubsection{\texorpdfstring{print\_string()}{print\_string()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Console\+::print\+\_\+string (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Log\+::\+Level}}}]{p\+\_\+level,  }\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
+
+
+
+Print a string to the console with the specified log level\textquotesingle{}s text color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+level} & The log level to use for text color. \\
+\hline
+{\em p\+\_\+string} & The string to print. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_console_a987efa629c741344fcb7d010ce28e23c}\label{class_console_a987efa629c741344fcb7d010ce28e23c} 
+\index{Console@{Console}!print\_warn@{print\_warn}}
+\index{print\_warn@{print\_warn}!Console@{Console}}
+\doxysubsubsection{\texorpdfstring{print\_warn()}{print\_warn()}}
+{\footnotesize\ttfamily void Console\+::print\+\_\+warn (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
+
+
+
+Print a string to the console with the "{}\+Warn"{} log level\textquotesingle{}s text color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+string} & The string to print. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_console_aecf1e8efeb70533a7f4c227c7a259bb7}\label{class_console_aecf1e8efeb70533a7f4c227c7a259bb7} 
+\index{Console@{Console}!set\_text\_color@{set\_text\_color}}
+\index{set\_text\_color@{set\_text\_color}!Console@{Console}}
+\doxysubsubsection{\texorpdfstring{set\_text\_color()}{set\_text\_color()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Console\+::set\+\_\+text\+\_\+color (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{_color_8h_ab87bacfdad76e61b9412d7124be44c1c}{Color}}}]{p\+\_\+color }\end{DoxyParamCaption})}
+
+
+
+Set the text color for all log levels. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+color} & The color to set. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_console_a59ff6bb377af4a3295fc8b8efbf5a3ba}\label{class_console_a59ff6bb377af4a3295fc8b8efbf5a3ba} 
+\index{Console@{Console}!set\_text\_color@{set\_text\_color}}
+\index{set\_text\_color@{set\_text\_color}!Console@{Console}}
+\doxysubsubsection{\texorpdfstring{set\_text\_color()}{set\_text\_color()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Console\+::set\+\_\+text\+\_\+color (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Log\+::\+Level}}}]{p\+\_\+level,  }\item[{\mbox{\hyperlink{_color_8h_ab87bacfdad76e61b9412d7124be44c1c}{Color}}}]{p\+\_\+color }\end{DoxyParamCaption})}
+
+
+
+Set the text color for a specific log level. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+level} & The log level to set the text color for. \\
+\hline
+{\em p\+\_\+color} & The color to set. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Dev/\+Apps/\+Packer/\+Source/\+Packer/\mbox{\hyperlink{_console_8h}{Console.\+h}}\end{DoxyCompactItemize}

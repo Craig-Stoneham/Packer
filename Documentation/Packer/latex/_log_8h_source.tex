@@ -1,0 +1,85 @@
+\doxysection{Log.\+h}
+\hypertarget{_log_8h_source}{}\label{_log_8h_source}\index{D:/Dev/Apps/Packer/Source/Packer/Log.h@{D:/Dev/Apps/Packer/Source/Packer/Log.h}}
+\mbox{\hyperlink{_log_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/**************************************************************************/}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ Copyright\ (c)\ 2023\ Craig\ Stoneham.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ a\ copy\ of\ this\ software\ and\ associated\ documentation\ files\ (the\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ "{}Software"{}),\ to\ deal\ in\ the\ Software\ without\ restriction,\ including\ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ without\ limitation\ the\ rights\ to\ use,\ copy,\ modify,\ merge,\ publish,\ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ distribute,\ sublicense,\ and/or\ sell\ copies\ of\ the\ Software,\ and\ to\ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ permit\ persons\ to\ whom\ the\ Software\ is\ furnished\ to\ do\ so,\ subject\ to\ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ the\ following\ conditions:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00011\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00012\ \textcolor{comment}{/*\ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00013\ \textcolor{comment}{/*\ included\ in\ all\ copies\ or\ substantial\ portions\ of\ the\ Software.\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00014\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00015\ \textcolor{comment}{/*\ THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00016\ \textcolor{comment}{/*\ EXPRESS\ OR\ IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ \ \ \ \ */}}
+\DoxyCodeLine{00017\ \textcolor{comment}{/*\ MERCHANTABILITY,\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ */}}
+\DoxyCodeLine{00018\ \textcolor{comment}{/*\ IN\ NO\ EVENT\ SHALL\ THE\ AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ \ \ */}}
+\DoxyCodeLine{00019\ \textcolor{comment}{/*\ CLAIM,\ DAMAGES\ OR\ OTHER\ LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ \ \ */}}
+\DoxyCodeLine{00020\ \textcolor{comment}{/*\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,\ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ \ \ \ \ \ */}}
+\DoxyCodeLine{00021\ \textcolor{comment}{/*\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE\ SOFTWARE.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00022\ \textcolor{comment}{/**************************************************************************/}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_typedefs_8h}{Typedefs.h}}"{}}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00037\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_log}{Log}}\ \{}
+\DoxyCodeLine{00038\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Level}}\ \{}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531ea88183b946cc5f0e8c96b2e66e1c74a7e}{Unknown}}\ =\ -\/1,\ }
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531ea4059b0251f66a18cb56f544728796875}{Info}},\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531ea56525ae64d370c0b448ac0d60710ef17}{Warn}},\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531ea902b0d55fddef6f8d651fe1035b7d4bd}{Error}},\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531ea6a061313d22e51e0f25b7cd4dc065233}{Max}}\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00049\ \ \ \ \ \};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{class_log_afa85443490d5e3a9d6b7e8b1ebff2b29}{Callback}}\ =\ void\ (*)(\textcolor{keywordtype}{void}*\ p\_data,\ \mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Level}}\ p\_level,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_string);}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\ \mbox{\hyperlink{class_log_aa3ba140d7ea78dd361f81bbcc2a9e687}{get\_level\_string}}(\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Level}}\ p\_level);}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Level}}\ \mbox{\hyperlink{class_log_a1372e38a9f815db7fd18658ee336642d}{find\_level}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_level);}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_log_a1fb464884f3daddf6b2c474c547d525a}{add\_callback}}(\mbox{\hyperlink{class_log_afa85443490d5e3a9d6b7e8b1ebff2b29}{Callback}}\ p\_callback,\ \textcolor{keywordtype}{void}*\ p\_data);}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_log_ae8908409f361ccd5f6b532704a8b1b79}{remove\_callback}}(\mbox{\hyperlink{class_log_afa85443490d5e3a9d6b7e8b1ebff2b29}{Callback}}\ p\_callback,\ \textcolor{keywordtype}{void}*\ p\_data);}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_log_ab52dea097974dcdd3d4e0bd702dbad7a}{log\_string}}(\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Level}}\ p\_level,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_string);}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_log_a6ba5c4963eee2740e3ca19cb14507087}{log\_info}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_string);}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_log_ae6ba86896298a925b7dcba4fd978700f}{log\_warn}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_string);}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_log_ac53ec594f61f5ef3b756043ecf1380b5}{log\_error}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_string);}
+\DoxyCodeLine{00111\ \};}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00119\ \textcolor{preprocessor}{\#ifndef\ LOG\_DISABLED}}
+\DoxyCodeLine{00120\ \textcolor{preprocessor}{\#define\ LOG\_STRING(p\_level,\ p\_string)\ Log::log\_string(p\_level,\ p\_string)}}
+\DoxyCodeLine{00121\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ LOG\_DISABLED}}
+\DoxyCodeLine{00122\ \textcolor{preprocessor}{\#define\ LOG\_STRING(p\_level,\ p\_string)}}
+\DoxyCodeLine{00123\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ LOG\_DISABLED}}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00130\ \textcolor{preprocessor}{\#ifndef\ LOG\_DISABLED}}
+\DoxyCodeLine{00131\ \textcolor{preprocessor}{\#define\ LOG\_INFO(p\_string)\ Log::log\_info(p\_string)}}
+\DoxyCodeLine{00132\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ LOG\_DISABLED}}
+\DoxyCodeLine{00133\ \textcolor{preprocessor}{\#define\ LOG\_INFO(p\_level,\ p\_string)}}
+\DoxyCodeLine{00134\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ LOG\_DISABLED}}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00141\ \textcolor{preprocessor}{\#ifndef\ LOG\_DISABLED}}
+\DoxyCodeLine{00142\ \textcolor{preprocessor}{\#define\ LOG\_WARN(p\_string)\ Log::log\_warn(p\_string)}}
+\DoxyCodeLine{00143\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ LOG\_DISABLED}}
+\DoxyCodeLine{00144\ \textcolor{preprocessor}{\#define\ LOG\_WARN(p\_level,\ p\_string)}}
+\DoxyCodeLine{00145\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ LOG\_DISABLED}}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00152\ \textcolor{preprocessor}{\#ifndef\ LOG\_DISABLED}}
+\DoxyCodeLine{00153\ \textcolor{preprocessor}{\#define\ LOG\_ERROR(p\_string)\ Log::log\_error(p\_string)}}
+\DoxyCodeLine{00154\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ LOG\_DISABLED}}
+\DoxyCodeLine{00155\ \textcolor{preprocessor}{\#define\ LOG\_ERROR(p\_level,\ p\_string)}}
+\DoxyCodeLine{00156\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ LOG\_DISABLED}}
+
+\end{DoxyCode}
