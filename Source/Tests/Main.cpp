@@ -26,11 +26,11 @@
 #include "TestConfigFile.h"
 #include "TestPacker.h"
 
-TestCrypto test_crypto;
-TestVariant test_variant;
-TestConfigFile test_config_file;
-TestPacker test_packer;
-
 int main() {
+    TestCrypto test_crypto;
+    TestVariant test_variant;
+    TestConfigFile test_config_file;
+    TestPacker test_packer;
+
     return TestSuite::run_tests(true);
 }
