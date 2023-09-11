@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['run_5ftests_0',['run_tests',['../class_test_suite.html#a69243b2a3e49ab5d10b3972c7d23a0b2',1,'TestSuite']]]
+  ['failed_0',['Failed',['../struct_test_result.html#ae5eba0a8caf3fbf7fdbee1140d1f5619a36c97dd554b969cf3896438fe54bacc7',1,'TestResult']]],
+  ['function_1',['Function',['../_typedefs_8h.html#a4c9eaf0a03e818763b65ec4f5080d963',1,'Typedefs.h']]]
 ];

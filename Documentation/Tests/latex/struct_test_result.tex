@@ -1,0 +1,69 @@
+\doxysection{Test\+Result Struct Reference}
+\hypertarget{struct_test_result}{}\label{struct_test_result}\index{TestResult@{TestResult}}
+
+
+Represents the result of a test case.  
+
+
+
+
+{\ttfamily \#include $<$Test\+Suite.\+h$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{struct_test_result_ae5eba0a8caf3fbf7fdbee1140d1f5619}{Error}} \{ \mbox{\hyperlink{struct_test_result_ae5eba0a8caf3fbf7fdbee1140d1f5619a31233636d161a18911a0bca28e0c73fc}{OK}}
+, \mbox{\hyperlink{struct_test_result_ae5eba0a8caf3fbf7fdbee1140d1f5619a36c97dd554b969cf3896438fe54bacc7}{Failed}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{struct_test_result_af77fa5c098e06de9a1dd456169a6b329}\label{struct_test_result_af77fa5c098e06de9a1dd456169a6b329} 
+{\bfseries Test\+Result} ()
+\begin{DoxyCompactList}\small\item\em Default constructor for a passing test. \end{DoxyCompactList}\item 
+\Hypertarget{struct_test_result_a0ec0a96b324d5bcdc1dc3cd7d62bbeb1}\label{struct_test_result_a0ec0a96b324d5bcdc1dc3cd7d62bbeb1} 
+{\bfseries Test\+Result} (\mbox{\hyperlink{struct_test_result_ae5eba0a8caf3fbf7fdbee1140d1f5619}{Error}} p\+\_\+error)
+\begin{DoxyCompactList}\small\item\em Constructor to set a custom error status. \end{DoxyCompactList}\item 
+\Hypertarget{struct_test_result_abf43ed91e2eb47e3801c9a97562e2d23}\label{struct_test_result_abf43ed91e2eb47e3801c9a97562e2d23} 
+{\bfseries Test\+Result} (const char \texorpdfstring{$\ast$}{*}p\+\_\+message)
+\begin{DoxyCompactList}\small\item\em Constructor for a failed test with a custom message. \end{DoxyCompactList}\item 
+\Hypertarget{struct_test_result_a8f5014aa9f4851eb3738bfc5a4581b58}\label{struct_test_result_a8f5014aa9f4851eb3738bfc5a4581b58} 
+{\bfseries Test\+Result} (const String \&p\+\_\+message)
+\begin{DoxyCompactList}\small\item\em Constructor for a failed test with a custom message. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{struct_test_result_ab4adb8427bd2d82f246bd9246bb3af4d}\label{struct_test_result_ab4adb8427bd2d82f246bd9246bb3af4d} 
+\mbox{\hyperlink{struct_test_result_ae5eba0a8caf3fbf7fdbee1140d1f5619}{Error}} {\bfseries error}
+\begin{DoxyCompactList}\small\item\em The error status of the test. \end{DoxyCompactList}\item 
+\Hypertarget{struct_test_result_a45fe925e70f56bb5e3533f2c233c42aa}\label{struct_test_result_a45fe925e70f56bb5e3533f2c233c42aa} 
+String {\bfseries message}
+\begin{DoxyCompactList}\small\item\em A message describing the test result. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Represents the result of a test case. 
+
+\doxysubsection{Member Enumeration Documentation}
+\Hypertarget{struct_test_result_ae5eba0a8caf3fbf7fdbee1140d1f5619}\label{struct_test_result_ae5eba0a8caf3fbf7fdbee1140d1f5619} 
+\index{TestResult@{TestResult}!Error@{Error}}
+\index{Error@{Error}!TestResult@{TestResult}}
+\doxysubsubsection{\texorpdfstring{Error}{Error}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{struct_test_result_ae5eba0a8caf3fbf7fdbee1140d1f5619}{Test\+Result\+::\+Error}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OK@{OK}!TestResult@{TestResult}}\index{TestResult@{TestResult}!OK@{OK}}}\Hypertarget{struct_test_result_ae5eba0a8caf3fbf7fdbee1140d1f5619a31233636d161a18911a0bca28e0c73fc}\label{struct_test_result_ae5eba0a8caf3fbf7fdbee1140d1f5619a31233636d161a18911a0bca28e0c73fc} 
+OK&The test passed. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Failed@{Failed}!TestResult@{TestResult}}\index{TestResult@{TestResult}!Failed@{Failed}}}\Hypertarget{struct_test_result_ae5eba0a8caf3fbf7fdbee1140d1f5619a36c97dd554b969cf3896438fe54bacc7}\label{struct_test_result_ae5eba0a8caf3fbf7fdbee1140d1f5619a36c97dd554b969cf3896438fe54bacc7} 
+Failed&The test failed. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Dev/\+Apps/\+Packer/\+Source/\+Tests/\mbox{\hyperlink{_test_suite_8h}{Test\+Suite.\+h}}\end{DoxyCompactItemize}

@@ -71,14 +71,13 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="class_test_suite-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">TestSuite Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>A simple test suite framework for writing and running tests.  
+<p>A class to manage and run a suite of test cases.  
  <a href="class_test_suite.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_test_suite_8h_source.html">TestSuite.h</a>&gt;</code></p>
@@ -95,32 +94,20 @@ Inheritance diagram for TestSuite:</div>
   </map>
 </div></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a69243b2a3e49ab5d10b3972c7d23a0b2" id="r_a69243b2a3e49ab5d10b3972c7d23a0b2"><td class="memItemLeft" align="right" valign="top"><a id="a69243b2a3e49ab5d10b3972c7d23a0b2" name="a69243b2a3e49ab5d10b3972c7d23a0b2"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>run_tests</b> ()</td></tr>
-<tr class="memdesc:a69243b2a3e49ab5d10b3972c7d23a0b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs all the test cases in the suite. <br /></td></tr>
-<tr class="separator:a69243b2a3e49ab5d10b3972c7d23a0b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7291e6d8b53443604ee0c1fcf1fadfc" id="r_af7291e6d8b53443604ee0c1fcf1fadfc"><td class="memItemLeft" align="right" valign="top"><a id="af7291e6d8b53443604ee0c1fcf1fadfc" name="af7291e6d8b53443604ee0c1fcf1fadfc"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>TestSuite</b> ()</td></tr>
-<tr class="memdesc:af7291e6d8b53443604ee0c1fcf1fadfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for the <a class="el" href="class_test_suite.html" title="A simple test suite framework for writing and running tests.">TestSuite</a> class. <br /></td></tr>
-<tr class="separator:af7291e6d8b53443604ee0c1fcf1fadfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:a9ecc30a20cf62254482bdb600a8880dd" id="r_a9ecc30a20cf62254482bdb600a8880dd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_test_suite.html#a9ecc30a20cf62254482bdb600a8880dd">test_failed</a> (const String &amp;p_message)</td></tr>
-<tr class="memdesc:a9ecc30a20cf62254482bdb600a8880dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marks a test case as failed with a given error message.  <br /></td></tr>
-<tr class="separator:a9ecc30a20cf62254482bdb600a8880dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a476753eabbb9fa8585dbf249a2d95267" id="r_a476753eabbb9fa8585dbf249a2d95267"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_test_suite.html#a476753eabbb9fa8585dbf249a2d95267">add_test</a> (const String &amp;p_name, <a class="el" href="_typedefs_8h.html#a4c9eaf0a03e818763b65ec4f5080d963">Function</a>&lt; void()&gt; p_function)</td></tr>
-<tr class="memdesc:a476753eabbb9fa8585dbf249a2d95267"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a test case to the test suite.  <br /></td></tr>
-<tr class="separator:a476753eabbb9fa8585dbf249a2d95267"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:afa0f4fd7e89838f6761fb3c454f4c82c" id="r_afa0f4fd7e89838f6761fb3c454f4c82c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_test_suite.html#afa0f4fd7e89838f6761fb3c454f4c82c">add_test</a> (const String &amp;p_name, <a class="el" href="_test_suite_8h.html#a3093f60f8920a628cfd072aabf75caac">TestFunction</a> p_function)</td></tr>
+<tr class="memdesc:afa0f4fd7e89838f6761fb3c454f4c82c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a test case to the suite.  <br /></td></tr>
+<tr class="separator:afa0f4fd7e89838f6761fb3c454f4c82c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd32bd2cd3f75868d932b49c22fe1929" id="r_afd32bd2cd3f75868d932b49c22fe1929"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_test_suite.html#afd32bd2cd3f75868d932b49c22fe1929">run_tests</a> ()</td></tr>
+<tr class="memdesc:afd32bd2cd3f75868d932b49c22fe1929"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs all test cases in the suite.  <br /></td></tr>
+<tr class="separator:afd32bd2cd3f75868d932b49c22fe1929"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A simple test suite framework for writing and running tests. </p>
-<p>This class provides a basic framework for creating and running test cases. Test cases are added to the suite using the <code>add_test</code> method, and then the <code>run_tests</code> method is called to execute all the test cases. </p>
+<div class="textblock"><p>A class to manage and run a suite of test cases. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a476753eabbb9fa8585dbf249a2d95267" name="a476753eabbb9fa8585dbf249a2d95267"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a476753eabbb9fa8585dbf249a2d95267">&#9670;&#160;</a></span>add_test()</h2>
+<a id="afa0f4fd7e89838f6761fb3c454f4c82c" name="afa0f4fd7e89838f6761fb3c454f4c82c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa0f4fd7e89838f6761fb3c454f4c82c">&#9670;&#160;</a></span>add_test()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -129,7 +116,7 @@ Protected Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void TestSuite::add_test </td>
+          <td class="memname">static void TestSuite::add_test </td>
           <td>(</td>
           <td class="paramtype">const String &amp;&#160;</td>
           <td class="paramname"><em>p_name</em>, </td>
@@ -137,7 +124,7 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="_typedefs_8h.html#a4c9eaf0a03e818763b65ec4f5080d963">Function</a>&lt; void()&gt;&#160;</td>
+          <td class="paramtype"><a class="el" href="_test_suite_8h.html#a3093f60f8920a628cfd072aabf75caac">TestFunction</a>&#160;</td>
           <td class="paramname"><em>p_function</em>&#160;</td>
         </tr>
         <tr>
@@ -148,12 +135,12 @@ Protected Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Adds a test case to the test suite. </p>
+<p>Adds a test case to the suite. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">p_name</td><td>The name of the test case. </td></tr>
@@ -164,8 +151,8 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a9ecc30a20cf62254482bdb600a8880dd" name="a9ecc30a20cf62254482bdb600a8880dd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9ecc30a20cf62254482bdb600a8880dd">&#9670;&#160;</a></span>test_failed()</h2>
+<a id="afd32bd2cd3f75868d932b49c22fe1929" name="afd32bd2cd3f75868d932b49c22fe1929"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd32bd2cd3f75868d932b49c22fe1929">&#9670;&#160;</a></span>run_tests()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -174,27 +161,21 @@ Protected Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void TestSuite::test_failed </td>
+          <td class="memname">static int TestSuite::run_tests </td>
           <td>(</td>
-          <td class="paramtype">const String &amp;&#160;</td>
-          <td class="paramname"><em>p_message</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Marks a test case as failed with a given error message. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">p_message</td><td>The error message for the failed test case. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Runs all test cases in the suite. </p>
+<dl class="section return"><dt>Returns</dt><dd>The number of test failures (0 for success). </dd></dl>
 
 </div>
 </div>

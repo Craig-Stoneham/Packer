@@ -20,21 +20,14 @@ Inheritance diagram for Test\+Packer\+:\begin{figure}[H]
 \item 
 \mbox{\hyperlink{class_test_packer_a23c90d4430166c98f13bb673d732be70}{Test\+Packer}} ()
 \begin{DoxyCompactList}\small\item\em Construct a new \doxylink{class_test_packer}{Test\+Packer} object. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_test_suite}{Test\+Suite}}}
-\begin{DoxyCompactItemize}
-\item 
-void {\bfseries run\+\_\+tests} ()
-\begin{DoxyCompactList}\small\item\em Runs all the test cases in the suite. \end{DoxyCompactList}\item 
-{\bfseries Test\+Suite} ()
-\begin{DoxyCompactList}\small\item\em Constructor for the \doxylink{class_test_suite}{Test\+Suite} class. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Additional Inherited Members}
-\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{class_test_suite}{Test\+Suite}}}
+\doxysubsection*{Static Public Member Functions inherited from \mbox{\hyperlink{class_test_suite}{Test\+Suite}}}
 \begin{DoxyCompactItemize}
 \item 
-void \mbox{\hyperlink{class_test_suite_a9ecc30a20cf62254482bdb600a8880dd}{test\+\_\+failed}} (const String \&p\+\_\+message)
-\begin{DoxyCompactList}\small\item\em Marks a test case as failed with a given error message. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_test_suite_a476753eabbb9fa8585dbf249a2d95267}{add\+\_\+test}} (const String \&p\+\_\+name, \mbox{\hyperlink{_typedefs_8h_a4c9eaf0a03e818763b65ec4f5080d963}{Function}}$<$ void()$>$ p\+\_\+function)
-\begin{DoxyCompactList}\small\item\em Adds a test case to the test suite. \end{DoxyCompactList}\end{DoxyCompactItemize}
+static void \mbox{\hyperlink{class_test_suite_afa0f4fd7e89838f6761fb3c454f4c82c}{add\+\_\+test}} (const String \&p\+\_\+name, \mbox{\hyperlink{_test_suite_8h_a3093f60f8920a628cfd072aabf75caac}{Test\+Function}} p\+\_\+function)
+\begin{DoxyCompactList}\small\item\em Adds a test case to the suite. \end{DoxyCompactList}\item 
+static int \mbox{\hyperlink{class_test_suite_afd32bd2cd3f75868d932b49c22fe1929}{run\+\_\+tests}} ()
+\begin{DoxyCompactList}\small\item\em Runs all test cases in the suite. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}

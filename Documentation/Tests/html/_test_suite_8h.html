@@ -74,12 +74,14 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a>  </div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a>  </div>
   <div class="headertitle"><div class="title">TestSuite.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Defines a basic test suite framework for writing and running tests.  
+<p>Contains the definition of the <a class="el" href="class_test_suite.html" title="A class to manage and run a suite of test cases.">TestSuite</a> class and related types.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="_typedefs_8h_source.html">Typedefs.h</a>&quot;</code><br />
 </div>
@@ -87,13 +89,121 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_test_suite.html">TestSuite</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A simple test suite framework for writing and running tests.  <a href="class_test_suite.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_test_result.html">TestResult</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents the result of a test case.  <a href="struct_test_result.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_test_suite.html">TestSuite</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A class to manage and run a suite of test cases.  <a href="class_test_suite.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:aadee7ed56d2e368ffec21ca70c21983c" id="r_aadee7ed56d2e368ffec21ca70c21983c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_test_suite_8h.html#aadee7ed56d2e368ffec21ca70c21983c">TEST_PASSED</a>()&#160;&#160;&#160;<a class="el" href="struct_test_result.html">TestResult</a>(<a class="el" href="struct_test_result.html#ae5eba0a8caf3fbf7fdbee1140d1f5619a31233636d161a18911a0bca28e0c73fc">TestResult::OK</a>)</td></tr>
+<tr class="memdesc:aadee7ed56d2e368ffec21ca70c21983c"><td class="mdescLeft">&#160;</td><td class="mdescRight">A macro to indicate a passing test case.  <br /></td></tr>
+<tr class="separator:aadee7ed56d2e368ffec21ca70c21983c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ecc011cee577b8059e16033cd835c8e" id="r_a7ecc011cee577b8059e16033cd835c8e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_test_suite_8h.html#a7ecc011cee577b8059e16033cd835c8e">TEST_FAILED</a>(p_message)&#160;&#160;&#160;<a class="el" href="struct_test_result.html">TestResult</a>(p_message)</td></tr>
+<tr class="memdesc:a7ecc011cee577b8059e16033cd835c8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">A macro to indicate a failing test case with a custom message.  <br /></td></tr>
+<tr class="separator:a7ecc011cee577b8059e16033cd835c8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5079617a435cc0267ad5f82aa476016" id="r_af5079617a435cc0267ad5f82aa476016"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_test_suite_8h.html#af5079617a435cc0267ad5f82aa476016">ADD_TEST</a>(p_name,  p_function)&#160;&#160;&#160;<a class="el" href="class_test_suite.html#afa0f4fd7e89838f6761fb3c454f4c82c">TestSuite::add_test</a>(p_name, p_function)</td></tr>
+<tr class="memdesc:af5079617a435cc0267ad5f82aa476016"><td class="mdescLeft">&#160;</td><td class="mdescRight">A macro to add a test case to the test suite.  <br /></td></tr>
+<tr class="separator:af5079617a435cc0267ad5f82aa476016"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a3093f60f8920a628cfd072aabf75caac" id="r_a3093f60f8920a628cfd072aabf75caac"><td class="memItemLeft" align="right" valign="top"><a id="a3093f60f8920a628cfd072aabf75caac" name="a3093f60f8920a628cfd072aabf75caac"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>TestFunction</b> = <a class="el" href="_typedefs_8h.html#a4c9eaf0a03e818763b65ec4f5080d963">Function</a>&lt; <a class="el" href="struct_test_result.html">TestResult</a>()&gt;</td></tr>
+<tr class="memdesc:a3093f60f8920a628cfd072aabf75caac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines a function type for test cases that returns a <a class="el" href="struct_test_result.html" title="Represents the result of a test case.">TestResult</a>. <br /></td></tr>
+<tr class="separator:a3093f60f8920a628cfd072aabf75caac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Defines a basic test suite framework for writing and running tests. </p>
-</div></div><!-- contents -->
+<div class="textblock"><p>Contains the definition of the <a class="el" href="class_test_suite.html" title="A class to manage and run a suite of test cases.">TestSuite</a> class and related types. </p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="af5079617a435cc0267ad5f82aa476016" name="af5079617a435cc0267ad5f82aa476016"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5079617a435cc0267ad5f82aa476016">&#9670;&#160;</a></span>ADD_TEST</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ADD_TEST</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">p_name, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">p_function&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;<a class="el" href="class_test_suite.html#afa0f4fd7e89838f6761fb3c454f4c82c">TestSuite::add_test</a>(p_name, p_function)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A macro to add a test case to the test suite. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p_name</td><td>The name of the test case. </td></tr>
+    <tr><td class="paramname">p_function</td><td>The function that defines the test case.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Use this macro in your test suite's initialization code to add test cases. </p>
+
+</div>
+</div>
+<a id="a7ecc011cee577b8059e16033cd835c8e" name="a7ecc011cee577b8059e16033cd835c8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ecc011cee577b8059e16033cd835c8e">&#9670;&#160;</a></span>TEST_FAILED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TEST_FAILED</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">p_message</td><td>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="struct_test_result.html">TestResult</a>(p_message)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A macro to indicate a failing test case with a custom message. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p_message</td><td>The custom message describing the failure.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Use this macro within your test case functions to indicate failure with a custom message. </p>
+
+</div>
+</div>
+<a id="aadee7ed56d2e368ffec21ca70c21983c" name="aadee7ed56d2e368ffec21ca70c21983c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aadee7ed56d2e368ffec21ca70c21983c">&#9670;&#160;</a></span>TEST_PASSED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TEST_PASSED</td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="struct_test_result.html">TestResult</a>(<a class="el" href="struct_test_result.html#ae5eba0a8caf3fbf7fdbee1140d1f5619a31233636d161a18911a0bca28e0c73fc">TestResult::OK</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A macro to indicate a passing test case. </p>
+<p>Use this macro within your test case functions to indicate success. </p>
+
+</div>
+</div>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
