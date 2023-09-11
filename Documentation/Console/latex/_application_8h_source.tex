@@ -1,0 +1,136 @@
+\doxysection{Application.\+h}
+\hypertarget{_application_8h_source}{}\label{_application_8h_source}\index{D:/Dev/Apps/Packer/Source/Console/Application.h@{D:/Dev/Apps/Packer/Source/Console/Application.h}}
+\mbox{\hyperlink{_application_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/**************************************************************************/}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ Copyright\ (c)\ 2023\ Craig\ Stoneham.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ a\ copy\ of\ this\ software\ and\ associated\ documentation\ files\ (the\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ "{}Software"{}),\ to\ deal\ in\ the\ Software\ without\ restriction,\ including\ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ without\ limitation\ the\ rights\ to\ use,\ copy,\ modify,\ merge,\ publish,\ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ distribute,\ sublicense,\ and/or\ sell\ copies\ of\ the\ Software,\ and\ to\ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ permit\ persons\ to\ whom\ the\ Software\ is\ furnished\ to\ do\ so,\ subject\ to\ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ the\ following\ conditions:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00011\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00012\ \textcolor{comment}{/*\ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00013\ \textcolor{comment}{/*\ included\ in\ all\ copies\ or\ substantial\ portions\ of\ the\ Software.\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00014\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00015\ \textcolor{comment}{/*\ THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00016\ \textcolor{comment}{/*\ EXPRESS\ OR\ IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ \ \ \ \ */}}
+\DoxyCodeLine{00017\ \textcolor{comment}{/*\ MERCHANTABILITY,\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ */}}
+\DoxyCodeLine{00018\ \textcolor{comment}{/*\ IN\ NO\ EVENT\ SHALL\ THE\ AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ \ \ */}}
+\DoxyCodeLine{00019\ \textcolor{comment}{/*\ CLAIM,\ DAMAGES\ OR\ OTHER\ LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ \ \ */}}
+\DoxyCodeLine{00020\ \textcolor{comment}{/*\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,\ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ \ \ \ \ \ */}}
+\DoxyCodeLine{00021\ \textcolor{comment}{/*\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE\ SOFTWARE.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00022\ \textcolor{comment}{/**************************************************************************/}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}Typedefs.h"{}}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00041\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_application}{Application}}\ :\ \textcolor{keyword}{public}\ Console\ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{using\ }Function\ =\ void\ (\mbox{\hyperlink{class_application}{Application}}::*)();}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keyword}{struct\ }Command\ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum}\ Type\ \{}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ Hidden,\ }
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ Simple,\ }
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ Prompt\ \ }
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ Type\ type;\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ Function\ function;\ \ \ \ }
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ String\ name;\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ String\ description;\ \ \ }
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ String\ prompt;\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00078\ \ \ \ \ \};}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \ \ \ \ Packer\ packer;\ }
+\DoxyCodeLine{00082\ \ \ \ \ String\ input;\ }
+\DoxyCodeLine{00083\ \ \ \ \ Vector<Command>\ commands;\ }
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{bool}\ process\_commands;\ }
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\#ifndef\ CONSOLE\_FEATURES\_DISABLED}}
+\DoxyCodeLine{00087\ \ \ \ \ Color\ command\_text\_color;\ }
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CONSOLE\_FEATURES\_DISABLED}}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#ifndef\ LOG\_DISABLED}}
+\DoxyCodeLine{00091\ \ \ \ \ String\ log\_file\_name;\ }
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ LOG\_DISABLED}}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keywordtype}{void}\ \_add\_hidden\_command(Function\ p\_function,\ \textcolor{keyword}{const}\ String\&\ p\_name);}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordtype}{void}\ \_add\_simple\_command(Function\ p\_function,\ \textcolor{keyword}{const}\ String\&\ p\_name,\ \textcolor{keyword}{const}\ String\&\ p\_description);}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keywordtype}{void}\ \_add\_prompt\_command(Function\ p\_function,\ \textcolor{keyword}{const}\ String\&\ p\_name,\ \textcolor{keyword}{const}\ String\&\ p\_description,\ \textcolor{keyword}{const}\ String\&\ p\_prompt);}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keywordtype}{void}\ \_set\_read\_path();}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keywordtype}{void}\ \_set\_write\_path();}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00131\ \ \ \ \ \textcolor{keywordtype}{void}\ \_add\_extension();}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{keywordtype}{void}\ \_remove\_extension();}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00141\ \ \ \ \ \textcolor{keywordtype}{void}\ \_clear\_extensions();}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00146\ \ \ \ \ \textcolor{keywordtype}{void}\ \_set\_pack\_mode();}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00151\ \ \ \ \ \textcolor{keywordtype}{void}\ \_set\_overwrite\_files();}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{keywordtype}{void}\ \_set\_move\_files();}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00161\ \ \ \ \ \textcolor{keywordtype}{void}\ \_set\_suffix\_string();}
+\DoxyCodeLine{00162\ }
+\DoxyCodeLine{00166\ \ \ \ \ \textcolor{keywordtype}{void}\ \_set\_suffix\_enabled();}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00171\ \ \ \ \ \textcolor{keywordtype}{void}\ \_set\_extension\_insensitive();}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00176\ \ \ \ \ \textcolor{keywordtype}{void}\ \_set\_extension\_adjust();}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00178\ \textcolor{preprocessor}{\#ifndef\ IGNORE\_FILE\_DISABLED}}
+\DoxyCodeLine{00182\ \ \ \ \ \textcolor{keywordtype}{void}\ \_set\_ignore\_file\_name();}
+\DoxyCodeLine{00183\ }
+\DoxyCodeLine{00187\ \ \ \ \ \textcolor{keywordtype}{void}\ \_set\_ignore\_file\_enabled();}
+\DoxyCodeLine{00188\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ IGNORE\_FILE\_DISABLED}}
+\DoxyCodeLine{00189\ }
+\DoxyCodeLine{00190\ \textcolor{preprocessor}{\#ifndef\ LOG\_DISABLED}}
+\DoxyCodeLine{00194\ \ \ \ \ \textcolor{keywordtype}{void}\ \_set\_log\_file\_name();}
+\DoxyCodeLine{00195\ }
+\DoxyCodeLine{00199\ \ \ \ \ \textcolor{keywordtype}{void}\ \_set\_log\_enabled();}
+\DoxyCodeLine{00200\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ LOG\_DISABLED}}
+\DoxyCodeLine{00201\ }
+\DoxyCodeLine{00205\ \ \ \ \ \textcolor{keywordtype}{void}\ \_revert\_state();}
+\DoxyCodeLine{00206\ }
+\DoxyCodeLine{00210\ \ \ \ \ \textcolor{keywordtype}{void}\ \_load\_config();}
+\DoxyCodeLine{00211\ }
+\DoxyCodeLine{00215\ \ \ \ \ \textcolor{keywordtype}{void}\ \_save\_config();}
+\DoxyCodeLine{00216\ }
+\DoxyCodeLine{00220\ \ \ \ \ \textcolor{keywordtype}{void}\ \_print\_info();}
+\DoxyCodeLine{00221\ }
+\DoxyCodeLine{00225\ \ \ \ \ \textcolor{keywordtype}{void}\ \_run\_packer();}
+\DoxyCodeLine{00226\ }
+\DoxyCodeLine{00230\ \ \ \ \ \textcolor{keywordtype}{void}\ \_quit\_program();}
+\DoxyCodeLine{00231\ }
+\DoxyCodeLine{00235\ \ \ \ \ \textcolor{keywordtype}{void}\ \_print\_help();}
+\DoxyCodeLine{00236\ }
+\DoxyCodeLine{00241\ \ \ \ \ \textcolor{keywordtype}{void}\ \_read\_input(\textcolor{keywordtype}{bool}\ p\_lower\_case\ =\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00247\ \ \ \ \ \textcolor{keywordtype}{void}\ \_to\_config\_file(ConfigFile\&\ p\_file)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00248\ }
+\DoxyCodeLine{00253\ \ \ \ \ \textcolor{keywordtype}{void}\ \_from\_config\_file(\textcolor{keyword}{const}\ ConfigFile\&\ p\_file);}
+\DoxyCodeLine{00254\ }
+\DoxyCodeLine{00260\ \ \ \ \ Error\ \_save(\textcolor{keyword}{const}\ String\&\ p\_path);}
+\DoxyCodeLine{00261\ }
+\DoxyCodeLine{00267\ \ \ \ \ Error\ \_load(\textcolor{keyword}{const}\ String\&\ p\_path);}
+\DoxyCodeLine{00268\ }
+\DoxyCodeLine{00269\ }
+\DoxyCodeLine{00270\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00275\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_application_a8cf8941c8db90117d3735bce5ae1fdf4}{run}}();}
+\DoxyCodeLine{00276\ }
+\DoxyCodeLine{00280\ \ \ \ \ \mbox{\hyperlink{class_application_afa8cc05ce6b6092be5ecdfdae44e05f8}{Application}}();}
+\DoxyCodeLine{00281\ \};}
+
+\end{DoxyCode}
