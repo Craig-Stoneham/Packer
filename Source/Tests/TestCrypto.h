@@ -38,18 +38,17 @@
   * using randomly generated keys.
   */
 class TestCrypto : public TestSuite {
-    uint32_t initial = initial = 0xBEADBEEF; /**< The initial value for randomization. */
-    size_t num_tests = 1 << 16; /**< The number of cryptographic tests to perform. */
-
     /**
      * @brief Performs cryptographic tests.
      *
      * This function generates random data, encrypts and decrypts it with randomly generated keys,
      * and checks if the decrypted data matches the original data.
      *
+     * @param p_initial The initial value for randomization.
+     * @param p_num_tests The number of cryptographic tests to perform.
      * @return The result of the cryptographic tests, indicating success or failure.
      */
-    TestResult test();
+    TestResult test(uint32_t p_initial = 0xBEADBEEF, size_t p_num_tests = 1 << 16);
 
 public:
     /**

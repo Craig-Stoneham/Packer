@@ -23,10 +23,11 @@
 
 #include "TestCrypto.h"
 
-TestResult TestCrypto::test() {
-    std::srand(initial);
+TestResult TestCrypto::test(uint32_t p_initial, size_t p_num_tests) {
 
-    for (size_t i = 0; i < num_tests; ++i) {
+    std::srand(p_initial);
+
+    for (size_t i = 0; i < p_num_tests; ++i) {
         int value = std::rand();
         CryptoKey key(value);
         String test_key = "test_key " + std::to_string(value);
