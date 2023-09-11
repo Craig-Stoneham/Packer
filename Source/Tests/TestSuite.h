@@ -21,27 +21,55 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
+/**
+ * @file TestSuite.h
+ * @brief Defines a basic test suite framework for writing and running tests.
+ */
+
 #pragma once
 
 #include "Typedefs.h"
 
+/**
+ * @class TestSuite
+ * @brief A simple test suite framework for writing and running tests.
+ *
+ * This class provides a basic framework for creating and running test cases.
+ * Test cases are added to the suite using the `add_test` method, and then
+ * the `run_tests` method is called to execute all the test cases.
+ */
 class TestSuite {
     struct TestCase {
-        String name;
-        Function<void()> function;
+        String name; ///< The name of the test case.
+        Function<void()> function; ///< The function that defines the test case.
     };
 
-    Vector<TestCase> test_cases;
-    bool has_error = false;
-    String error_message;
+    Vector<TestCase> test_cases; ///< A list of test cases to run.
+    bool has_error = false; ///< Indicates whether a test case has failed.
+    String error_message; ///< The error message associated with a failed test.
 
 protected:
+    /**
+     * @brief Marks a test case as failed with a given error message.
+     * @param p_message The error message for the failed test case.
+     */
     void test_failed(const String& p_message);
 
-    void add_test(const String& p_name, Function<void()>);
+    /**
+     * @brief Adds a test case to the test suite.
+     * @param p_name The name of the test case.
+     * @param p_function The function that defines the test case.
+     */
+    void add_test(const String& p_name, Function<void()> p_function);
 
 public:
+    /**
+     * @brief Runs all the test cases in the suite.
+     */
     void run_tests();
 
+    /**
+     * @brief Constructor for the TestSuite class.
+     */
     TestSuite();
 };

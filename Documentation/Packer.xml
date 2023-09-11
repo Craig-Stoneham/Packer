@@ -107,7 +107,7 @@
 			</function>
 			<function>
 				<signature>
-					ExtensionAdjust find_extension_case(const String& p_adjust)
+					ExtensionAdjust find_extension_case(const String&amp; p_adjust)
 				</signature>
 				<description>
 					Finds the extension case corresponding to the given string representation.

@@ -21,6 +21,11 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
+/**
+ * @file Typedefs.h
+ * @brief Contains commonly used typedefs and includes for the test suite.
+ */
+
 #pragma once
 
 #include "../Packer/ConfigFile.h"
@@ -30,7 +35,13 @@
 
 #include <functional>
 
-// Common types
-
+/**
+ * @brief Typedef for function objects.
+ *
+ * This template typedef defines a standard alias for function objects,
+ * allowing for the use of `std::function` with custom types in the test suite.
+ *
+ * @tparam T The type of the function object.
+ */
 template <class T>
 using Function = std::function<T>;

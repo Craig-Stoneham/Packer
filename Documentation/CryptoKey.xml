@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <documentation>
 
 	<class name="CryptoKey">
@@ -20,7 +20,7 @@
 			</constructor>
 			<constructor>
 				<signature>
-					CryptoKey(const String& p_key)
+					CryptoKey(const String&amp; p_key)
 				</signature>
 				<description>
 					Constructs a CryptoKey object with the given string key.
@@ -31,7 +31,7 @@
 			</constructor>
 			<constructor>
 				<signature>
-					CryptoKey(const T& p_class)
+					CryptoKey(const T&amp; p_class)
 				</signature>
 				<description>
 					Constructs a CryptoKey object using the name of the type T.
@@ -56,7 +56,7 @@
 			</function>
 			<function>
 				<signature>
-					void set_key(const String& p_key)
+					void set_key(const String&amp; p_key)
 				</signature>
 				<description>
 					Sets the cryptographic key using a string value.

@@ -106,7 +106,7 @@
 
 			<function>
 				<signature>
-					void get_keys(Vector&lt;String&gt;&amp; p_keys) const
+					void get_keys(Vector&lt;String&amp;gt;&amp; p_keys) const
 				</signature>
 				<description>
 					Retrieves a vector of all keys present in the configuration.

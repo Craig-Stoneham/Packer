@@ -21,18 +21,36 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
+/**
+ * @file Defaults.h
+ * @brief Defines default configuration values for the Packer Console.
+ */
+
 #pragma once
 
-#include "../Packer/Defaults.h"
-
-#ifndef DEFAULT_CONFIG_FILE_NAME
+/**
+ * @def DEFAULT_CONFIG_FILE_NAME
+ * @brief The default configuration file name for Packer Console.
+ *
+ * This macro defines the default name of the configuration file used by Packer Console.
+ * You can change this value to specify a different configuration file name if needed.
+ */
 #define DEFAULT_CONFIG_FILE_NAME "packer.cfg"
-#endif // DEFAULT_CONFIG_FILE_NAME
 
-#ifndef DEFAULT_LOG_FILE_NAME
+/**
+ * @def DEFAULT_LOG_FILE_NAME
+ * @brief The default log file name for Packer Console.
+ *
+ * This macro defines the default name of the log file used by Packer Console.
+ * You can change this value to specify a different log file name if needed.
+ */
 #define DEFAULT_LOG_FILE_NAME "packer.log"
-#endif // DEFAULT_LOG_FILE_NAME
 
-#ifndef DEFAULT_COMMAND_TEXT_COLOR
+/**
+ * @def DEFAULT_COMMAND_TEXT_COLOR
+ * @brief The default text color for command text in Packer Console.
+ *
+ * This macro defines the default text color used for displaying command text in the console.
+ * You can change this value to specify a different default text color for command text.
+ */
 #define DEFAULT_COMMAND_TEXT_COLOR Color::LightGreen
-#endif // DEFAULT_COMMAND_TEXT_COLOR

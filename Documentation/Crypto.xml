@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <documentation>
 
 	<class name="Crypto">
@@ -9,7 +9,7 @@
 		<methods>
 			<function>
 				<signature>
-					void encrypt_decrypt(const String& p_data, String& p_result, const CryptoKey& p_key)
+					void encrypt_decrypt(const String&amp; p_data, String&amp; p_result, const CryptoKey&amp; p_key)
 				</signature>
 				<description>
 					Encrypts or decrypts the input data using the provided cryptographic key.
@@ -26,7 +26,7 @@
 			</function>
 			<function>
 				<signature>
-					String encrypt_decrypt(const String& p_data, const CryptoKey& p_key)
+					String encrypt_decrypt(const String&amp; p_data, const CryptoKey&amp; p_key)
 				</signature>
 				<description>
 					Encrypts or decrypts the input data using the provided cryptographic key and returns the result.

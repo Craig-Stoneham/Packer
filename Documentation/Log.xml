@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <documentation>
 
 	<class name="Log">
@@ -61,7 +61,7 @@
 			</function>
 			<function>
 				<signature>
-					static void log_string(Level p_level, const String& p_string)
+					static void log_string(Level p_level, const String&amp; p_string)
 				</signature>
 				<description>
 					Logs a message at the specified log level.
@@ -75,7 +75,7 @@
 			</function>
 			<function>
 				<signature>
-					static void log_info(const String& p_string)
+					static void log_info(const String&amp; p_string)
 				</signature>
 				<description>
 					Logs an informational message.
@@ -86,7 +86,7 @@
 			</function>
 			<function>
 				<signature>
-					static void log_warn(const String& p_string)
+					static void log_warn(const String&amp; p_string)
 				</signature>
 				<description>
 					Logs a warning message.
@@ -97,7 +97,7 @@
 			</function>
 			<function>
 				<signature>
-					static void log_error(const String& p_string)
+					static void log_error(const String&amp; p_string)
 				</signature>
 				<description>
 					Logs an error message.
@@ -122,7 +122,7 @@
 			</function>
 			<function>
 				<signature>
-					static Level find_level(const String& p_level)
+					static Level find_level(const String&amp; p_level)
 				</signature>
 				<description>
 					Finds the log level corresponding to the given string representation.

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <documentation>
 
 	<enum name="Error">
@@ -63,7 +63,7 @@
 		</function>
 		<function>
 			<signature>
-				Error find_error(const String& p_error)
+				Error find_error(const String&amp; p_error)
 			</signature>
 			<description>
 				Finds the error code corresponding to the given error message.

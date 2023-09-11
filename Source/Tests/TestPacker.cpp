@@ -25,8 +25,9 @@
 #include "TestPacker.h"
 
 void TestPacker::test() {
+    // @TODO: Add tests
 }
 
 TestPacker::TestPacker() {
-    add_test("Packer", [this]() { test(); });
+    //add_test("Packer", [this]() { test(); });
 }

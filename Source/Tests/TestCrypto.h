@@ -21,17 +21,39 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
+/**
+ * @file TestCrypto.cpp
+ * @brief Contains the implementation of the TestCrypto class, which tests the cryptographic functions.
+ */
 
 #pragma once
 
 #include "TestSuite.h"
 
+ /**
+  * @class TestCrypto
+  * @brief Represents a test suite for cryptographic functionality.
+  *
+  * This class defines test cases for cryptographic operations, including encryption and decryption
+  * using randomly generated keys.
+  */
 class TestCrypto : public TestSuite {
-    uint32_t initial = initial = 0xBEADBEEF;
-    size_t num_tests = 1 << 16;
+    uint32_t initial = initial = 0xBEADBEEF; /**< The initial value for randomization. */
+    size_t num_tests = 1 << 16; /**< The number of cryptographic tests to perform. */
 
+    /**
+     * @brief Performs cryptographic tests.
+     *
+     * This function generates random data, encrypts and decrypts it with randomly generated keys,
+     * and checks if the decrypted data matches the original data.
+     */
     void test();
 
 public:
+    /**
+     * @brief Constructs a new TestCrypto object.
+     *
+     * Initializes the test suite with cryptographic test cases.
+     */
     TestCrypto();
 };

@@ -21,14 +21,41 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
+/**
+ * @file TestConfigFile.cpp
+ * @brief Contains the implementation of the TestConfigFile class.
+ */
 
 #pragma once
 
 #include "TestSuite.h"
 
+/**
+ * @class TestConfigFile
+ * @brief A test suite for the ConfigFile class.
+ *
+ * This test suite evaluates the functionality of the ConfigFile class by testing
+ * various aspects such as setting values, saving and loading configuration files,
+ * and encryption and decryption of configuration files.
+ */
 class TestConfigFile : public TestSuite {
+    /**
+     * @brief Test the functionality of the ConfigFile class.
+     *
+     * This test function sets various values of different types in a ConfigFile
+     * instance, saves the configuration to a file, loads the configuration from
+     * the file, and verifies that the loaded values match the original values.
+     *
+     * Additionally, it tests the encryption and decryption of configuration files
+     * using a CryptoKey.
+     */
     void test();
 
 public:
+    /**
+     * @brief Construct a new TestConfigFile object.
+     *
+     * This constructor adds the "ConfigFile" test case to the test suite.
+     */
     TestConfigFile();
 };

@@ -28,7 +28,7 @@
 			</constructor>
 			<constructor>
 				<signature>
-					Variant(const Variant& p_value)
+					Variant(const Variant&amp; p_value)
 				</signature>
 				<description>
 					Constructs a Variant object by copying another Variant object.
@@ -61,7 +61,7 @@
 			</constructor>
 			<constructor>
 				<signature>
-					Variant(const String& p_value)
+					Variant(const String&amp; p_value)
 				</signature>
 				<description>
 					Constructs a Variant object with a string value.
@@ -83,7 +83,7 @@
 			</constructor>
 			<constructor>
 				<signature>
-					Variant(const StringVector& p_value)
+					Variant(const StringVector&amp; p_value)
 				</signature>
 				<description>
 					Constructs a Variant object with a vector of strings.
@@ -119,7 +119,7 @@
 			</function>
 			<function>
 				<signature>
-					Variant& operator=(const Variant& p_value)
+					Variant&amp; operator=(const Variant&amp; p_value)
 				</signature>
 				<description>
 					Assigns the value of another Variant object to this object.
@@ -134,7 +134,7 @@
 
 			<function>
 				<signature>
-					Variant& operator=(bool p_value)
+					Variant&amp; operator=(bool p_value)
 				</signature>
 				<description>
 					Assigns a boolean value to this Variant object.
@@ -149,7 +149,7 @@
 
 			<function>
 				<signature>
-					Variant& operator=(int p_value)
+					Variant&amp; operator=(int p_value)
 				</signature>
 				<description>
 					Assigns an integer value to this Variant object.
@@ -164,7 +164,7 @@
 
 			<function>
 				<signature>
-					Variant& operator=(const String& p_value)
+					Variant&amp; operator=(const String&amp; p_value)
 				</signature>
 				<description>
 					Assigns a string value to this Variant object.
@@ -179,7 +179,7 @@
 
 			<function>
 				<signature>
-					Variant& operator=(const char* p_value)
+					Variant&amp; operator=(const char* p_value)
 				</signature>
 				<description>
 					Assigns a C-style string value to this Variant object.
@@ -194,7 +194,7 @@
 
 			<function>
 				<signature>
-					Variant& operator=(const StringVector& p_value)
+					Variant&amp; operator=(const StringVector&amp; p_value)
 				</signature>
 				<description>
 					Assigns a vector of strings to this Variant object.
@@ -257,7 +257,7 @@
 
 			<function>
 				<signature>
-					operator const String& () const
+					operator const String&amp; () const
 				</signature>
 				<description>
 					Converts the Variant object to a constant string value.
@@ -269,7 +269,7 @@
 
 			<function>
 				<signature>
-					operator String& ()
+					operator String&amp; ()
 				</signature>
 				<description>
 					Converts the Variant object to a string value.
@@ -281,7 +281,7 @@
 
 			<function>
 				<signature>
-					operator const StringVector& () const
+					operator const StringVector&amp; () const
 				</signature>
 				<description>
 					Converts the Variant object to a constant vector of strings.
@@ -293,7 +293,7 @@
 
 			<function>
 				<signature>
-					operator StringVector& ()
+					operator StringVector&amp; ()
 				</signature>
 				<description>
 					Converts the Variant object to a vector of strings.
@@ -305,7 +305,7 @@
 
 			<function>
 				<signature>
-					bool operator == (const Variant& p_value)
+					bool operator == (const Variant&amp; p_value)
 				</signature>
 				<description>
 					Checks if this Variant object is equal to another Variant object.
@@ -320,7 +320,7 @@
 
 			<function>
 				<signature>
-					bool operator == (const bool& p_value)
+					bool operator == (const bool&amp; p_value)
 				</signature>
 				<description>
 					Checks if this Variant object is equal to a boolean value.
@@ -335,7 +335,7 @@
 
 			<function>
 				<signature>
-					bool operator == (const int& p_value)
+					bool operator == (const int&amp; p_value)
 				</signature>
 				<description>
 					Checks if this Variant object is equal to an integer value.
@@ -350,7 +350,7 @@
 
 			<function>
 				<signature>
-					bool operator == (const String& p_value)
+					bool operator == (const String&amp; p_value)
 				</signature>
 				<description>
 					Checks if this Variant object is equal to a string value.
@@ -365,7 +365,7 @@
 
 			<function>
 				<signature>
-					bool operator == (const StringVector& p_value)
+					bool operator == (const StringVector&amp; p_value)
 				</signature>
 				<description>
 					Checks if this Variant object is equal to a vector of strings.
@@ -380,7 +380,7 @@
 
 			<function>
 				<signature>
-					bool operator != (const Variant& p_value)
+					bool operator != (const Variant&amp; p_value)
 				</signature>
 				<description>
 					Checks if this Variant object is not equal to another Variant object.
@@ -395,7 +395,7 @@
 
 			<function>
 				<signature>
-					bool operator != (const bool& p_value)
+					bool operator != (const bool&amp; p_value)
 				</signature>
 				<description>
 					Checks if this Variant object is not equal to a boolean value.
@@ -410,7 +410,7 @@
 
 			<function>
 				<signature>
-					bool operator != (const int& p_value)
+					bool operator != (const int&amp; p_value)
 				</signature>
 				<description>
 					Checks if this Variant object is not equal to an integer value.
@@ -425,7 +425,7 @@
 
 			<function>
 				<signature>
-					bool operator != (const String& p_value)
+					bool operator != (const String&amp; p_value)
 				</signature>
 				<description>
 					Checks if this Variant object is not equal to a string value.
@@ -440,7 +440,7 @@
 
 			<function>
 				<signature>
-					bool operator != (const StringVector& p_value)
+					bool operator != (const StringVector&amp; p_value)
 				</signature>
 				<description>
 					Checks if this Variant object is not equal to a vector of strings.
@@ -467,7 +467,7 @@
 
 			<function>
 				<signature>
-					Error parse(const String& p_value)
+					Error parse(const String&amp; p_value)
 				</signature>
 				<description>
 					Parses a string representation and sets the value of the Variant object.

@@ -21,16 +21,36 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
+/**
+ * @file TestPacker.h
+ * @brief Contains test cases for the Packer class.
+ */
 
 #pragma once
 
 #include "TestSuite.h"
 
+ /**
+  * @class TestPacker
+  * @brief Test suite for the Packer class.
+  *
+  * This class contains test cases for the functionality provided by the Packer class.
+  */
 class TestPacker : public TestSuite {
-    // @TODO: Add tests
 
+    /**
+     * @brief Run the Packer test cases.
+     *
+     * This function is responsible for executing the test cases for the Packer class.
+     * You can define specific tests for Packer within this function.
+     */
     void test();
 
 public:
+    /**
+     * @brief Construct a new TestPacker object.
+     *
+     * Initializes the test suite for the Packer class.
+     */
     TestPacker();
 };

@@ -21,60 +21,90 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
+/**
+ * @file Defaults.h
+ * @brief Defines default configuration values for the application.
+ */
+
 #pragma once
 
-#ifndef DEFAULT_READ_PATH
+/**
+ * @def DEFAULT_READ_PATH
+ * @brief The default path for reading files.
+ */
 #define DEFAULT_READ_PATH ""
-#endif // DEFAULT_READ_PATH
 
-#ifndef DEFAULT_WRITE_PATH
+/**
+ * @def DEFAULT_WRITE_PATH
+ * @brief The default path for writing files.
+ */
 #define DEFAULT_WRITE_PATH ""
-#endif // DEFAULT_WRITE_PATH
 
-#ifndef DEFAULT_EXTENTIONS
+/**
+ * @def DEFAULT_EXTENTIONS
+ * @brief The default file extensions to include.
+ */
 #define DEFAULT_EXTENTIONS StringVector()
-#endif // DEFAULT_EXTENTIONS
 
-#ifndef DEFAULT_PACK_MODE
+/**
+ * @def DEFAULT_PACK_MODE
+ * @brief The default packing mode.
+ */
 #define DEFAULT_PACK_MODE PackMode::Include
-#endif // DEFAULT_PACK_MODE
 
-#ifndef DEFAULT_OVERWRITE_FILES
+/**
+ * @def DEFAULT_OVERWRITE_FILES
+ * @brief The default option to overwrite existing files.
+ */
 #define DEFAULT_OVERWRITE_FILES false
-#endif // DEFAULT_OVERWRITE_FILES
 
-#ifndef DEFAULT_MOVE_FILES
+/**
+ * @def DEFAULT_MOVE_FILES
+ * @brief The default option to move files instead of copying.
+ */
 #define DEFAULT_MOVE_FILES false
-#endif // DEFAULT_MOVE_FILES
 
-#ifndef DEFAULT_SUFFIX_STRING
+/**
+ * @def DEFAULT_SUFFIX_STRING
+ * @brief The default suffix to add to packed files.
+ */
 #define DEFAULT_SUFFIX_STRING ""
-#endif // DEFAULT_SUFFIX_STRING
 
-#ifndef DEFAULT_SUFFIX_ENABLED
+/**
+ * @def DEFAULT_SUFFIX_ENABLED
+ * @brief The default option to enable suffixes for packed files.
+ */
 #define DEFAULT_SUFFIX_ENABLED false
-#endif // DEFAULT_SUFFIX_ENABLED
 
-#ifndef DEFAULT_EXTENSION_INSENSITIVE
+/**
+ * @def DEFAULT_EXTENSION_INSENSITIVE
+ * @brief The default option for case-insensitive file extensions.
+ */
 #define DEFAULT_EXTENSION_INSENSITIVE false
-#endif // DEFAULT_EXTENSION_INSENSITIVE
 
-#ifndef DEFAULT_EXTENSION_ADJUST
+/**
+ * @def DEFAULT_EXTENSION_ADJUST
+ * @brief The default extension adjustment mode.
+ */
 #define DEFAULT_EXTENSION_ADJUST ExtensionAdjust::Default
-#endif // DEFAULT_EXTENSION_ADJUST
 
 #ifndef IGNORE_FILE_DISABLED
-
-#ifndef DEFAULT_IGNORE_FILE_NAME
+/**
+ * @def DEFAULT_IGNORE_FILE_NAME
+ * @brief The default name of the ignore file.
+ */
 #define DEFAULT_IGNORE_FILE_NAME ".pkignore"
-#endif // DEFAULT_IGNORE_FILE_NAME
 
-#ifndef DEFAULT_IGNORE_FILE_ENABLED
+/**
+ * @def DEFAULT_IGNORE_FILE_ENABLED
+ * @brief The default option to enable ignore file processing.
+ */
 #define DEFAULT_IGNORE_FILE_ENABLED true
-#endif // DEFAULT_IGNORE_FILE_ENABLED
 
 #endif // IGNORE_FILE_DISABLED
 
-#ifndef DEFAULT_LOG_ENABLED
+/**
+ * @def DEFAULT_LOG_ENABLED
+ * @brief The default option to enable logging.
+ */
 #define DEFAULT_LOG_ENABLED true
-#endif // DEFAULT_LOG_ENABLED

@@ -21,12 +21,25 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
+/**
+ * @file Platform.h
+ * @brief Provides platform-specific functionality for the application.
+ */
+
 #pragma once
 
 #include "Color.h"
 
+/**
+ * @class Platform
+ * @brief Provides an interface for platform-specific functionality.
+ */
 class Platform {
 public:
+    /**
+     * @brief Set the text color of the console.
+     * @param p_color The color to set.
+     * @return true if the operation succeeded, false otherwise.
+     */
     static bool set_console_text_color(Color p_color);
 };
-

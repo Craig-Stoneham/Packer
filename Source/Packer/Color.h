@@ -21,26 +21,38 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
+/**
+ * @file Color.h
+ * @brief Defines the Color enumeration.
+ */
+
 #pragma once
 
 #include "Typedefs.h"
 
+/**
+ * @enum Color
+ * @brief Represents text color options.
+ *
+ * This enumeration defines various text color options that can be used
+ * in the application's console output.
+ */
 enum class Color {
-    None,
-    Red,
-    Green,
-    Blue,
-    Yellow,
-    Magenta,
-    Cyan,
-    White,
-    Grey,
-    LightRed,
-    LightGreen,
-    LightBlue,
-    LightYellow,
-    LightMagenta,
-    LightCyan,
-    BrightWhite,
-    Max
+    None,           /**< No color */
+    Red,            /**< Red color */
+    Green,          /**< Green color */
+    Blue,           /**< Blue color */
+    Yellow,         /**< Yellow color */
+    Magenta,        /**< Magenta color */
+    Cyan,           /**< Cyan color */
+    White,          /**< White color */
+    Grey,           /**< Grey color */
+    LightRed,       /**< Light red color */
+    LightGreen,     /**< Light green color */
+    LightBlue,      /**< Light blue color */
+    LightYellow,    /**< Light yellow color */
+    LightMagenta,   /**< Light magenta color */
+    LightCyan,      /**< Light cyan color */
+    BrightWhite,    /**< Bright white color */
+    Max             /**< Maximum color value (for internal use) */
 };
