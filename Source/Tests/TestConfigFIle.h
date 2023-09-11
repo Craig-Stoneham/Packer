@@ -48,8 +48,10 @@ class TestConfigFile : public TestSuite {
      *
      * Additionally, it tests the encryption and decryption of configuration files
      * using a CryptoKey.
+     *
+     * @return The result of the test, indicating success or failure.
      */
-    void test();
+    TestResult test();
 
 public:
     /**

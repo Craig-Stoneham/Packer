@@ -23,10 +23,11 @@
 
 #include "TestPacker.h"
 
-void TestPacker::test() {
+TestResult TestPacker::test() {
     // @TODO: Add tests
+    return TEST_PASSED();
 }
 
 TestPacker::TestPacker() {
-    //add_test("Packer", [this]() { test(); });
+    ADD_TEST("Packer", [this]() { return test(); });
 }

@@ -23,7 +23,7 @@
 
 #include "TestCrypto.h"
 
-void TestCrypto::test() {
+TestResult TestCrypto::test() {
     std::srand(initial);
 
     for (size_t i = 0; i < num_tests; ++i) {
@@ -33,12 +33,12 @@ void TestCrypto::test() {
         String encrypted_key = Crypto::encrypt_decrypt(test_key, key);
         String decrypted_key = Crypto::encrypt_decrypt(encrypted_key, key);
         if (decrypted_key != test_key) {
-            test_failed("The data does not match after undergoing encryption and decryption with the key '" + std::to_string(value) + "'.");
-            return;
+            return TEST_FAILED("The data does not match after undergoing encryption and decryption with the key '" + std::to_string(value) + "'.");
         }
     }
+    return TEST_PASSED();
 }
 
 TestCrypto::TestCrypto() {
-    add_test("Crypto", [this]() { test(); });
+    ADD_TEST("Crypto", [this]() { return test(); });
 }

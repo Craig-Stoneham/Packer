@@ -46,8 +46,10 @@ class TestCrypto : public TestSuite {
      *
      * This function generates random data, encrypts and decrypts it with randomly generated keys,
      * and checks if the decrypted data matches the original data.
+     *
+     * @return The result of the cryptographic tests, indicating success or failure.
      */
-    void test();
+    TestResult test();
 
 public:
     /**

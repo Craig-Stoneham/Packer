@@ -39,13 +39,12 @@ template <>
 Variant::Type get_variant_type<StringVector>() { return Variant::Type::StringVector; }
 
 template <class T>
-void TestVariant::test(const T& value) {
+TestResult TestVariant::test(const T& value) {
 
     Variant variant = value;
 
     if (variant.get_type() != get_variant_type<T>()) {
-        test_failed("Type has not been set correctly.");
-        return;
+        return TEST_FAILED("Type has not been set correctly.");
     }
 
     String serialized_string = variant.serialize();
@@ -53,13 +52,14 @@ void TestVariant::test(const T& value) {
     parsed_variant.parse(serialized_string);
 
     if (variant != parsed_variant) {
-        test_failed("Value does not match after serialize/parse.");
+        return TEST_FAILED("Value does not match after serialize/parse.");
     }
+    return TEST_PASSED();
 }
 
 TestVariant::TestVariant() {
-   add_test("Variant<bool>", [this]() { test(true); });
-   add_test("Variant<int>", [this]() { test(42); });
-   add_test("Variant<String>", [this]() { test(String("Hello World!")); });
-   add_test("Variant<StringVector>", [this]() { test(StringVector({ "One", "Two", "Three" })); });
+    ADD_TEST("Variant<bool>", [this]() { return test(true); });
+    ADD_TEST("Variant<int>", [this]() { return test(42); });
+    ADD_TEST("Variant<String>", [this]() { return test(String("Hello World!")); });
+    ADD_TEST("Variant<StringVector>", [this]() { return test(StringVector({ "One", "Two", "Three" })); });
 }

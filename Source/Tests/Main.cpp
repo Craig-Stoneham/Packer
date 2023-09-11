@@ -27,19 +27,10 @@
 #include "TestPacker.h"
 
 int main() {
-    TestCrypto crypto;
-    crypto.run_tests();
+    TestCrypto test_crypto;
+    TestVariant test_variant;
+    TestConfigFile test_config_file;
+    TestPacker test_packer;
 
-    TestVariant variant;
-    variant.run_tests();
-
-    TestConfigFile config_file;
-    config_file.run_tests();
-
-    TestPacker packer;
-    packer.run_tests();
-
-    system("pause");
-
-    return EXIT_SUCCESS;
+    return TestSuite::run_tests();
 }

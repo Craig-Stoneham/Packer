@@ -47,9 +47,11 @@ class TestVariant : public TestSuite {
      *
      * @tparam T The type to test with Variant.
      * @param value The value of type T to test.
+     *
+     * @return The result of the cryptographic tests, indicating success or failure.
      */
     template <class T>
-    void test(const T& value);
+    TestResult test(const T& value);
 
 public:
     /**

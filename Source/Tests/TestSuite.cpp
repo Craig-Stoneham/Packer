@@ -23,27 +23,43 @@
 
 #include "TestSuite.h"
 
-void TestSuite::run_tests() {
-    for (auto& test_case : test_cases) {
-        has_error = false;
-        std::cout << "Running test: " << test_case.name << "...\n";
-        test_case.function();
-        if (!has_error) {
-            std::cout << "Passed\n";
-        } else {
-            std::cout << "Failed: " << error_message << "\n";
-        }
-    }
+TestResult::TestResult() :
+    error(OK) {
 }
 
-void TestSuite::test_failed(const String& p_message) {
-    has_error = true;
-    error_message = p_message;
+TestResult::TestResult(Error p_error) :
+    error(p_error) {
 }
 
-void TestSuite::add_test(const String& p_name, Function<void()> p_function) {
+TestResult::TestResult(const char* p_message) :
+    error(Failed),
+    message(p_message) {
+}
+
+TestResult::TestResult(const String& p_message) :
+    error(Failed),
+    message(p_message) {
+}
+
+Vector<TestSuite::TestCase> TestSuite::test_cases;
+
+void TestSuite::add_test(const String& p_name, TestFunction p_function) {
     test_cases.push_back({ p_name, p_function });
 }
 
-TestSuite::TestSuite() {
+int TestSuite::run_tests() {
+    int num_failures = 0;
+
+    for (auto& test_case : test_cases) {
+        std::cout << "Running test: " << test_case.name << "...\n";        
+        test_case.result = test_case.function();
+        if (test_case.result.error == TestResult::OK) {
+            std::cout << "Passed\n";
+        } else {
+            std::cout << "Failed: " << test_case.result.message << "\n";
+            ++num_failures;
+        }
+    }
+
+    return num_failures ? EXIT_FAILURE : EXIT_SUCCESS;
 }

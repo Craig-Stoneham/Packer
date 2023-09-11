@@ -43,8 +43,10 @@ class TestPacker : public TestSuite {
      *
      * This function is responsible for executing the test cases for the Packer class.
      * You can define specific tests for Packer within this function.
+     *
+     * @return The result of the cryptographic tests, indicating success or failure.
      */
-    void test();
+    TestResult test();
 
 public:
     /**

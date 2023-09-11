@@ -29,7 +29,7 @@ struct Entry {
     T value;
 };
 
-void TestConfigFile::test() {
+TestResult TestConfigFile::test() {
     Entry<bool> bool_entry = { "bool_entry", true };
     Entry<int> int_entry = { "int_entry", 42 };
     Entry<String> string_entry = { "string_entry", "Hello, ConfigFile!" };
@@ -47,8 +47,7 @@ void TestConfigFile::test() {
         config_file.get_value(string_entry.name) == string_entry.value &&
         config_file.get_value(string_vector_entry.name) == string_vector_entry.value) {
     } else {
-        test_failed("Values not stored properly.");
-        return;
+        return TEST_FAILED("Values not stored properly.");
     }
 
     String test_file_name = "test_config.cfg";
@@ -66,8 +65,7 @@ void TestConfigFile::test() {
         loaded_config_file.get_value(string_entry.name) == string_entry.value &&
         loaded_config_file.get_value(string_vector_entry.name) == string_vector_entry.value) {
     } else {
-        test_failed("Loaded values do not match the original entries.");
-        return;
+        return TEST_FAILED("Loaded values do not match the original entries.");
     }
 
     String encrypted_file_name = "encrypted_config.cfg";
@@ -87,10 +85,11 @@ void TestConfigFile::test() {
         encrypted_config_file.get_value(string_entry.name) == string_entry.value &&
         encrypted_config_file.get_value(string_vector_entry.name) == string_vector_entry.value) {
     } else {
-        test_failed("Loaded encrypted values do not match the original entries.");
+        return TEST_FAILED("Loaded encrypted values do not match the original entries.");
     }
+    return TEST_PASSED();
 }
 
 TestConfigFile::TestConfigFile() {
-   add_test("ConfigFile", [this]() { test(); });
+    ADD_TEST("ConfigFile", [this]() { return test(); });
 }
