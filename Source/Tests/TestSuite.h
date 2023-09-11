@@ -82,9 +82,10 @@ public:
 
     /**
      * @brief Runs all test cases in the suite.
+     * @param p_pause Pause the system before returning.
      * @return The number of test failures (0 for success).
      */
-    static int run_tests();
+    static int run_tests(bool p_pause = false);
 };
 
 /**

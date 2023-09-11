@@ -47,7 +47,7 @@ void TestSuite::add_test(const String& p_name, TestFunction p_function) {
     test_cases.push_back({ p_name, p_function });
 }
 
-int TestSuite::run_tests() {
+int TestSuite::run_tests(bool p_pause) {
     int num_failures = 0;
 
     for (auto& test_case : test_cases) {
@@ -59,6 +59,10 @@ int TestSuite::run_tests() {
             std::cout << "Failed: " << test_case.result.message << "\n";
             ++num_failures;
         }
+    }
+
+    if (p_pause) {
+        system("PAUSE");
     }
 
     return num_failures ? EXIT_FAILURE : EXIT_SUCCESS;
