@@ -51,7 +51,7 @@ int TestSuite::run_tests() {
     int num_failures = 0;
 
     for (auto& test_case : test_cases) {
-        std::cout << "Running test: " << test_case.name << "...\n";        
+        std::cout << "Running test: " << test_case.name << "...\n";
         test_case.result = test_case.function();
         if (test_case.result.error == TestResult::OK) {
             std::cout << "Passed\n";
