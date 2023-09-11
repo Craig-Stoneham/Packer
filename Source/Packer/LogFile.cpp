@@ -77,14 +77,14 @@ Error LogFile::close() {
 }
 
 LogFile::LogFile(bool p_print_level_details) :
-    print_level_details(print_level_details) {
+    print_level_details(p_print_level_details) {
 #ifndef LOG_DISABLED
     Log::add_callback(log_callback, this);
 #endif // LOG_DISABLED
 }
 
 LogFile::LogFile(const String& p_path, bool p_print_level_details) :
-    print_level_details(print_level_details) {
+    print_level_details(p_print_level_details) {
 #ifndef LOG_DISABLED
     Log::add_callback(log_callback, this);
 #endif // LOG_DISABLED
