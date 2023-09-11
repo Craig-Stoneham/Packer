@@ -30,6 +30,14 @@
 
 #include "TestSuite.h"
 
+class FileStructure {
+
+public:
+    FileStructure();
+};
+
+
+
  /**
   * @class TestPacker
   * @brief Test suite for the Packer class.
@@ -38,11 +46,16 @@
   */
 class TestPacker : public TestSuite {
 
+    Packer packer;
+
+
+
+
+
     /**
      * @brief Run the Packer test cases.
      *
      * This function is responsible for executing the test cases for the Packer class.
-     * You can define specific tests for Packer within this function.
      *
      * @return The result of the cryptographic tests, indicating success or failure.
      */

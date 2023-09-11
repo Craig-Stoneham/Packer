@@ -75,7 +75,7 @@ void Packer::_pack_files(const String& p_read_path, const String& p_write_path) 
 #ifndef IGNORE_FILE_DISABLED
     if (IGNORE_FILE) {
         if (FileAccess::is_directory(p_read_path) == true) {
-            if (FileAccess::exists(p_read_path + "\\" + ignore_file_name)) {
+            if (FileAccess::exists(p_read_path + "/" + ignore_file_name)) {
                 return;
             }
         }
@@ -88,7 +88,7 @@ void Packer::_pack_files(const String& p_read_path, const String& p_write_path) 
         String _read_path = path.path().string();
 
         if (FileAccess::is_directory(path)) {
-            String _write_path = p_write_path + _read_path.substr(_read_path.find_last_of('\\'));
+            String _write_path = p_write_path + _read_path.substr(_read_path.find_last_of('/'));
             _pack_files<MODE, OVERWRITE, MOVE, SUFFIX, EXT_INSENSITIVE, EXT_ADJUST, IGNORE_FILE, LOG>(_read_path, _write_path);
         } else {
             if (MODE != PackMode::Everything) {
@@ -131,10 +131,10 @@ void Packer::_pack_files(const String& p_read_path, const String& p_write_path) 
                 }
             }
 
-            String _write_path = p_write_path + _read_path.substr(_read_path.find_last_of('\\'));
+            String _write_path = p_write_path + _read_path.substr(_read_path.find_last_of('/'));
 
             if (SUFFIX) {
-                size_t suffix_pos = _write_path.find(suffix_string, _write_path.find('\\'));
+                size_t suffix_pos = _write_path.find(suffix_string, _write_path.find('/'));
                 if (suffix_pos != String::npos) {
                     _write_path.erase(suffix_pos, suffix_string.length());
                 }
@@ -431,13 +431,21 @@ Error Packer::pack_files() {
     if (write_path.empty()) {
         return Error::Unconfigured;
     }
+
     if (pack_mode == PackMode::Include) {
         if (extensions.empty()) {
             return Error::Unconfigured;
         }
     }
 
-    String _read_path = read_path;
+    String _read_path;
+    for (char c : read_path) {
+        if (c == '\\') {
+            _read_path += '/';
+        } else {
+            _read_path += c;
+        }
+    }
 
     if (!FileAccess::exists(_read_path)) {
         return Error::DoesNotExist;
@@ -465,6 +473,15 @@ Error Packer::pack_files() {
     _log_enabled = log_enabled;
 #endif // IGNORE_FILE_DISABLED
 
+    String _write_path;
+    for (char c : write_path) {
+        if (c == '\\') {
+            _write_path += '/';
+        } else {
+            _write_path += c;
+        }
+    }
+
     if (overwrite_files) {
         if (move_files) {
             if (_suffix_enabled) {
@@ -473,53 +490,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -527,53 +544,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, true, true, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, true, true, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, true, true, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -583,53 +600,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -637,53 +654,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, true, false, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, true, false, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, true, false, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -695,53 +712,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -749,53 +766,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, false, true, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, false, true, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, false, true, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -805,53 +822,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -859,53 +876,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, true, false, false, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, true, false, false, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, true, false, false, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -919,53 +936,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -973,53 +990,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, true, true, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, true, true, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, true, true, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -1029,53 +1046,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -1083,53 +1100,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, true, false, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, true, false, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, true, false, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -1141,53 +1158,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -1195,53 +1212,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, false, true, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, false, true, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, false, true, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -1251,53 +1268,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -1305,53 +1322,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, true, false, false, false, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, true, false, false, false, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, true, false, false, false, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -1367,53 +1384,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -1421,53 +1438,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, true, true, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, true, true, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, true, true, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -1477,53 +1494,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -1531,53 +1548,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, true, false, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, true, false, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, true, false, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -1589,53 +1606,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -1643,53 +1660,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, false, true, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, false, true, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, false, true, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -1699,53 +1716,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -1753,53 +1770,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, true, false, false, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, true, false, false, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, true, false, false, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -1813,53 +1830,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -1867,53 +1884,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, true, true, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, true, true, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, true, true, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -1923,53 +1940,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -1977,53 +1994,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, true, false, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, true, false, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, true, false, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -2035,53 +2052,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -2089,53 +2106,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, false, true, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, false, true, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, false, true, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -2145,53 +2162,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionAdjust::Default, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionAdjust::Default, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionAdjust::Lower, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionAdjust::Lower, true, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionAdjust::Upper, true, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionAdjust::Upper, true, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionAdjust::Default, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionAdjust::Default, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionAdjust::Lower, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionAdjust::Lower, true, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionAdjust::Upper, true, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionAdjust::Upper, true, false>(_read_path, _write_path);
                                 }
                             }
                         }
@@ -2199,53 +2216,53 @@ Error Packer::pack_files() {
                         if (_log_enabled) {
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionAdjust::Default, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionAdjust::Default, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionAdjust::Lower, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionAdjust::Lower, false, true>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionAdjust::Upper, false, true>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionAdjust::Upper, false, true>(_read_path, _write_path);
                                 }
                             }
                         } else { // _log_enabled
                             if (extension_adjust == ExtensionAdjust::Default) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionAdjust::Default, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionAdjust::Default, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Lower) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionAdjust::Lower, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionAdjust::Lower, false, false>(_read_path, _write_path);
                                 }
                             } else if (extension_adjust == ExtensionAdjust::Upper) {
                                 if (pack_mode == PackMode::Include) {
-                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Include, false, false, false, false, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Exclude) {
-                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Exclude, false, false, false, false, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 } else if (pack_mode == PackMode::Everything) {
-                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionAdjust::Upper, false, false>(_read_path, write_path);
+                                    _pack_files<PackMode::Everything, false, false, false, false, ExtensionAdjust::Upper, false, false>(_read_path, _write_path);
                                 }
                             }
                         }

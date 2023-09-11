@@ -24,7 +24,36 @@
 #include "TestPacker.h"
 
 TestResult TestPacker::test() {
+
+
+
+
+
+    // Create a testsuite for Packer
+    String current_path = FileAccess::current_path().string();
+
+    std::cout << (current_path + "\n");
+
+    String cross_platform_path;
+    for (char c : current_path) {
+        if (c == '\\') {
+            cross_platform_path += '/';
+        } else {
+            cross_platform_path += c;
+        }
+    }
+
+    std::cout << (cross_platform_path + "\n");
+
+	if (FileAccess::exists(cross_platform_path)) {
+		std::cout << cross_platform_path << " exists\n";
+	} else {
+		std::cout << cross_platform_path << " does not exist\n";
+	}
+
     // @TODO: Add tests
+    return TEST_FAILED("Failed Packer");
+
     return TEST_PASSED();
 }
 
