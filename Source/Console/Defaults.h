@@ -28,6 +28,8 @@
 
 #pragma once
 
+#include "../Packer/Defaults.h"
+
 /**
  * @def DEFAULT_CONFIG_FILE_NAME
  * @brief The default configuration file name for Packer Console.
