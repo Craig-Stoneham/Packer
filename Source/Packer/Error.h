@@ -28,6 +28,8 @@
 
 #pragma once
 
+#include "Typedefs.h"
+
 /**
  * @enum Error
  * @brief Enumerates error codes.
