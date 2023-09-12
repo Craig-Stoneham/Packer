@@ -23,6 +23,14 @@
 
 #include "TestSuite.h"
 
+bool TestResult::operator==(Error p_error) const {
+    return error == p_error;
+}
+
+bool TestResult::operator!=(Error p_error) const {
+    return error != p_error;
+}
+
 TestResult::TestResult() :
     error(OK) {
 }

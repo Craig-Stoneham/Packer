@@ -43,18 +43,42 @@ struct TestResult {
     Error error; ///< The error status of the test.
     String message; ///< A message describing the test result.
 
+    /**
+     * @brief Checks if the test result has the specified error status.
+     * @param p_error The error status to compare with.
+     * @return True if the test result has the specified error status, false otherwise.
+     */
+    bool operator==(Error p_error) const;
+
+    /**
+     * @brief Checks if the test result does not have the specified error status.
+     * @param p_error The error status to compare with.
+     * @return True if the test result does not have the specified error status, false otherwise.
+     */
+    bool operator!=(Error p_error) const;
+
     /// Default constructor for a passing test.
     TestResult();
 
-    /// Constructor to set a custom error status.
+    /**
+     * @brief Constructor to set a custom error status.
+     * @param p_error The custom error status for the test result.
+     */
     TestResult(Error p_error);
 
-    /// Constructor for a failed test with a custom message.
+    /**
+     * @brief Constructor for a failed test with a custom message.
+     * @param p_message The custom message describing the test result.
+     */
     TestResult(const char* p_message);
 
-    /// Constructor for a failed test with a custom message.
+    /**
+     * @brief Constructor for a failed test with a custom message.
+     * @param p_message The custom message describing the test result.
+     */
     TestResult(const String& p_message);
 };
+
 
 /// Defines a function type for test cases that returns a TestResult.
 using TestFunction = Function <TestResult()>;
