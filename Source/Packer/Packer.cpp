@@ -86,7 +86,9 @@ void Packer::_pack_files(const String& p_read_path, const String& p_write_path) 
 
     for (auto& path : FileAccess::directory_iterator(p_read_path)) {
         String _read_path = path.path().string();
+#if __cplusplus < 201703L
         normalize_path_separators(_read_path);
+#endif // __cplusplus < 201703L
 
         if (FileAccess::is_directory(path)) {
             String _write_path = p_write_path + _read_path.substr(_read_path.find_last_of('/'));
@@ -437,7 +439,9 @@ Error Packer::pack_files() {
     }
 
     String _read_path = read_path;
+#if __cplusplus < 201703L
     normalize_path_separators(_read_path);
+#endif // __cplusplus <>=> 201703L
 
     if (!FileAccess::exists(_read_path)) {
         return Error::DoesNotExist;
@@ -466,7 +470,9 @@ Error Packer::pack_files() {
 #endif // IGNORE_FILE_DISABLED
 
     String _write_path = write_path;
+#if __cplusplus < 201703L
     normalize_path_separators(_write_path);
+#endif // __cplusplus < 201703L
  
     if (overwrite_files) {
         if (move_files) {
