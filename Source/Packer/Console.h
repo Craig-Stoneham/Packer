@@ -29,7 +29,6 @@
 #pragma once
 
 #include "Log.h"
-#include "Color.h"
 
 /**
  * @class Console
@@ -39,6 +38,37 @@
  * and provides methods for printing and logging messages to the console with various log levels.
  */
 class Console {
+public:
+#ifndef CONSOLE_FEATURES_DISABLED
+    /**
+     * @enum Color
+     * @brief Represents text color options.
+     *
+     * This enumeration defines various text color options that can be used
+     * in the application's console output.
+     */
+    enum class Color {
+        None,           /**< No color */
+        Red,            /**< Red color */
+        Green,          /**< Green color */
+        Blue,           /**< Blue color */
+        Yellow,         /**< Yellow color */
+        Magenta,        /**< Magenta color */
+        Cyan,           /**< Cyan color */
+        White,          /**< White color */
+        Grey,           /**< Grey color */
+        LightRed,       /**< Light red color */
+        LightGreen,     /**< Light green color */
+        LightBlue,      /**< Light blue color */
+        LightYellow,    /**< Light yellow color */
+        LightMagenta,   /**< Light magenta color */
+        LightCyan,      /**< Light cyan color */
+        BrightWhite,    /**< Bright white color */
+        Max             /**< Maximum color value (for internal use) */
+    };
+#endif // CONSOLE_FEATURES_DISABLED
+
+private:
 #ifndef CONSOLE_FEATURES_DISABLED
     Color text_colors[(int)Log::Level::Max]; ///< Array of text colors for different log levels.
     Color current_color; ///< The current text color.

@@ -22,7 +22,72 @@
 /**************************************************************************/
 
 #include "Console.h"
-#include "Platform.h"
+
+#ifndef CONSOLE_FEATURES_DISABLED
+#ifdef _WIN32
+#include <windows.h>
+#elif defined(__unix__) || defined(__APPLE__)
+#include <iostream>
+#endif // (__unix__) || defined(__APPLE__)
+#endif // CONSOLE_FEATURES_DISABLED
+
+#ifndef CONSOLE_FEATURES_DISABLED
+#ifdef _WIN32
+static WORD text_colors[] = {
+    0, // None
+    FOREGROUND_RED, // Red
+    FOREGROUND_GREEN, // Green
+    FOREGROUND_BLUE, // Blue
+    FOREGROUND_RED | FOREGROUND_GREEN, // Yellow
+    FOREGROUND_RED | FOREGROUND_BLUE, // Magenta
+    FOREGROUND_GREEN | FOREGROUND_BLUE, // Cyan
+    FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE, // White
+    0 | FOREGROUND_INTENSITY, // Grey
+    FOREGROUND_RED | FOREGROUND_INTENSITY, // LightRed
+    FOREGROUND_GREEN | FOREGROUND_INTENSITY, // LightGreen
+    FOREGROUND_BLUE | FOREGROUND_INTENSITY, // LightBlue
+    FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY, // LightYellow
+    FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY, // LightMagenta
+    FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY, // LightCyan
+    FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY // BrightWhite
+};
+#elif defined(__unix__) || defined(__APPLE__)
+static int text_colors[] = {
+    0,   // None
+    31,  // Red
+    32,  // Green
+    34,  // Blue
+    33,  // Yellow
+    35,  // Magenta
+    36,  // Cyan
+    37,  // White
+    90,  // Grey
+    91,  // LightRed
+    92,  // LightGreen
+    94,  // LightBlue
+    93,  // LightYellow
+    95,  // LightMagenta
+    96,  // LightCyan
+    97   // BrightWhite
+};
+#endif // (__unix__) || defined(__APPLE__)
+#endif // CONSOLE_FEATURES_DISABLED
+
+#ifndef CONSOLE_FEATURES_DISABLED
+static bool set_console_text_color(Console::Color p_color) {
+    if (p_color < static_cast<Console::Color>(0) || p_color >= Console::Color::Max) {
+        return false;
+    }
+#ifdef _WIN32
+    if (!SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), text_colors[static_cast<int>(p_color)])) {
+        return false;
+    }
+#elif defined(__unix__) || defined(__APPLE__)
+    std::cout << "\x1B[" << text_colors[p_color] << "m";
+#endif // (__unix__) || defined(__APPLE__)
+    return true;
+}
+#endif // CONSOLE_FEATURES_DISABLED
 
 #ifndef LOG_DISABLED
 static void log_callback(void* p_logger, Log::Level p_level, const String& p_string) {
@@ -42,7 +107,7 @@ void Console::set_text_color(Log::Level p_level, Color p_color) {
     text_colors[static_cast<int>(p_level)] = p_color;
 }
 
-Color Console::get_text_color(Log::Level p_level) const {
+Console::Color Console::get_text_color(Log::Level p_level) const {
     if (static_cast<int>(p_level) < 0 || p_level >= Log::Level::Max) {
         return Color::None;
     }
@@ -54,10 +119,10 @@ void Console::set_text_color(Color p_color) {
         return;
     }
     current_color = p_color;
-    Platform::set_console_text_color(p_color);
+    set_console_text_color(p_color);
 }
 
-Color Console::get_text_color() const {
+Console::Color Console::get_text_color() const {
     return current_color;
 }
 
@@ -73,13 +138,13 @@ void Console::print_line(const String& p_string) {
 
 void Console::print_string(Log::Level p_level, const String& p_string) {
 #ifndef CONSOLE_FEATURES_DISABLED
-    Platform::set_console_text_color(text_colors[static_cast<int>(p_level)]);
+    set_console_text_color(text_colors[static_cast<int>(p_level)]);
 #endif // CONSOLE_FEATURES_DISABLED
 
     print_string(p_string);
 
 #ifndef CONSOLE_FEATURES_DISABLED
-    Platform::set_console_text_color(current_color);
+    set_console_text_color(current_color);
 #endif // CONSOLE_FEATURES_DISABLED
 }
 
