@@ -24,6 +24,18 @@
 #include "Packer.h"
 #include "Defaults.h"
 
+static String normalize_path_separators(const String& p_path) {
+    String path;
+    for (char c : p_path) {
+        if (c == '\\') {
+            path += '/';
+        } else {
+            path += c;
+        }
+    }
+    return path;
+}
+
 static const char* _pack_mode[] = {
     "include",
     "exclude",
@@ -438,14 +450,7 @@ Error Packer::pack_files() {
         }
     }
 
-    String _read_path;
-    for (char c : read_path) {
-        if (c == '\\') {
-            _read_path += '/';
-        } else {
-            _read_path += c;
-        }
-    }
+    String _read_path = normalize_path_separators(read_path);
 
     if (!FileAccess::exists(_read_path)) {
         return Error::DoesNotExist;
@@ -473,15 +478,8 @@ Error Packer::pack_files() {
     _log_enabled = log_enabled;
 #endif // IGNORE_FILE_DISABLED
 
-    String _write_path;
-    for (char c : write_path) {
-        if (c == '\\') {
-            _write_path += '/';
-        } else {
-            _write_path += c;
-        }
-    }
-
+    String _write_path = normalize_path_separators(write_path);
+ 
     if (overwrite_files) {
         if (move_files) {
             if (_suffix_enabled) {
