@@ -137,3 +137,25 @@ using FileStreamO = std::ofstream;
  * @details Use this constant as an argument to set binary mode when opening files.
  */
 static constexpr int BinaryIOS = std::ios::binary;
+
+/**
+ * @brief Normalizes path separators in a string.
+ *
+ * This function replaces all backslashes ('\') in the given string with forward slashes ('/').
+ *
+ * @param p_path The string to normalize path separators in.
+ */
+void normalize_path_separators(String& p_path);
+
+/**
+ * @brief Removes a specified suffix from a path string.
+ *
+ * This function searches for the specified suffix in the path string, starting from the first forward slash ('/').
+ * If the suffix is found, it is removed from the path string, and the function returns true. If the suffix is not
+ * found, the function returns false.
+ *
+ * @param p_path The path string from which to remove the suffix.
+ * @param p_suffix The suffix to remove from the path string.
+ * @return True if the suffix was found and removed, false otherwise.
+ */
+bool remove_path_suffix(String& p_path, const String& p_suffix);

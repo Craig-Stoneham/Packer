@@ -21,33 +21,22 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-/**
- * @file Version.h
- * @brief Defines the version information for the software.
- */
+#include "Typedefs.h"
 
-#pragma once
+void normalize_path_separators(String& p_path) {
+    for (size_t i = 0; i < p_path.size(); ++i) {
+        if (p_path[i] == '\\') {
+            p_path[i] = '/';
+        }
+    }
+}
 
-/**
- * @def VERSION_MAJOR
- * @brief The major version number of the software.
- */
-#define VERSION_MAJOR 2
-
-/**
- * @def VERSION_MINOR
- * @brief The minor version number of the software.
- */
-#define VERSION_MINOR 4
-
-/**
- * @def VERSION_PATCH
- * @brief The patch version number of the software.
- */
-#define VERSION_PATCH 1
-
-/**
- * @def VERSION_STRING
- * @brief A string representation of the software version in the format "MAJOR.MINOR.PATCH".
- */
-#define VERSION_STRING MAKE_STRING(VERSION_MAJOR) "." MAKE_STRING(VERSION_MINOR) "." MAKE_STRING(VERSION_PATCH)
+bool remove_path_suffix(String& p_path, const String& p_suffix) {
+    size_t suffix_pos = p_path.find(p_suffix, p_path.find('/'));
+    if (suffix_pos != String::npos) {
+        p_path.erase(suffix_pos, p_suffix.length());
+        return true;
+    } else {
+        return false;
+    }
+}

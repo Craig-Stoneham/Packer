@@ -24,18 +24,6 @@
 #include "Packer.h"
 #include "Defaults.h"
 
-static String normalize_path_separators(const String& p_path) {
-    String path;
-    for (char c : p_path) {
-        if (c == '\\') {
-            path += '/';
-        } else {
-            path += c;
-        }
-    }
-    return path;
-}
-
 static const char* _pack_mode[] = {
     "include",
     "exclude",
@@ -98,6 +86,7 @@ void Packer::_pack_files(const String& p_read_path, const String& p_write_path) 
 
     for (auto& path : FileAccess::directory_iterator(p_read_path)) {
         String _read_path = path.path().string();
+        normalize_path_separators(_read_path);
 
         if (FileAccess::is_directory(path)) {
             String _write_path = p_write_path + _read_path.substr(_read_path.find_last_of('/'));
@@ -146,10 +135,7 @@ void Packer::_pack_files(const String& p_read_path, const String& p_write_path) 
             String _write_path = p_write_path + _read_path.substr(_read_path.find_last_of('/'));
 
             if (SUFFIX) {
-                size_t suffix_pos = _write_path.find(suffix_string, _write_path.find('/'));
-                if (suffix_pos != String::npos) {
-                    _write_path.erase(suffix_pos, suffix_string.length());
-                }
+                remove_path_suffix(_write_path, suffix_string);
             }
 
             if (EXT_ADJUST == ExtensionAdjust::Lower) {
@@ -450,7 +436,8 @@ Error Packer::pack_files() {
         }
     }
 
-    String _read_path = normalize_path_separators(read_path);
+    String _read_path = read_path;
+    normalize_path_separators(_read_path);
 
     if (!FileAccess::exists(_read_path)) {
         return Error::DoesNotExist;
@@ -478,7 +465,8 @@ Error Packer::pack_files() {
     _log_enabled = log_enabled;
 #endif // IGNORE_FILE_DISABLED
 
-    String _write_path = normalize_path_separators(write_path);
+    String _write_path = write_path;
+    normalize_path_separators(_write_path);
  
     if (overwrite_files) {
         if (move_files) {
