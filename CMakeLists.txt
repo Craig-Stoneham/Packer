@@ -27,6 +27,9 @@ cmake_policy(SET CMP0076 NEW)
 # Set global compiler flags - this is needed
 add_compile_options(/bigobj)
 
+# Set c plus plus flag needed for filesystem
+add_compile_options(/Zc:__cplusplus)
+
 # Define source files for targets
 set(Packer_Headers
     Source/Packer/Color.h
