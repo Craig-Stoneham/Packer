@@ -93,7 +93,7 @@ private:
     bool log_enabled; ///< Flag indicating whether logging is enabled.
 #endif // LOG_DISABLED
 
-    template <PackMode, bool, bool, bool, bool, ExtensionAdjust, bool, bool>
+    template <bool, bool, bool, bool, bool, bool, PackMode, ExtensionAdjust>
     void _pack_files(const String& p_read_path, const String& p_write_path);
 
 public:
