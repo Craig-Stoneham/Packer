@@ -322,7 +322,7 @@ void Application::_run_packer() {
 
     packer.pack_files();
 
-    print_line("Finished packing files");
+    print_line("Finished packing");
 }
 
 void Application::_quit_program() {
