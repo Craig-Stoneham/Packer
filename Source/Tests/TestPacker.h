@@ -30,27 +30,18 @@
 
 #include "TestSuite.h"
 
-class FileStructure {
-
-public:
-    FileStructure();
-};
-
-
-
- /**
-  * @class TestPacker
-  * @brief Test suite for the Packer class.
-  *
-  * This class contains test cases for the functionality provided by the Packer class.
-  */
+/**
+ * @class TestPacker
+ * @brief Test suite for the Packer class.
+ *
+ * This class contains test cases for the functionality provided by the Packer class.
+ */
 class TestPacker : public TestSuite {
+    Packer packer; ///< The Packer object used for testing.
 
-    Packer packer;
-
-
-
-
+    String read_path; ///< The path for reading test files.
+    String write_path; ///< The path for writing packed files.
+    Vector<String> files; ///< A list of test file names.
 
     /**
      * @brief Run the Packer test cases.
@@ -61,6 +52,15 @@ class TestPacker : public TestSuite {
      */
     TestResult test();
 
+    /**
+     * @brief Test the functionality of the Packer class.
+     *
+     * This function creates, packs, and tests various scenarios using the Packer class.
+     *
+     * @return True if all test cases pass, false otherwise.
+     */
+    bool test_packer();
+
 public:
     /**
      * @brief Construct a new TestPacker object.
@@ -68,4 +68,11 @@ public:
      * Initializes the test suite for the Packer class.
      */
     TestPacker();
+
+    /**
+     * @brief Destructor for the TestPacker object.
+     *
+     * Cleans up any resources used by the test suite.
+     */
+    ~TestPacker();
 };
