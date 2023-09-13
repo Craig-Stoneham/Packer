@@ -164,7 +164,6 @@ void Packer::_pack_files(const String& p_read_path, const String& p_write_path) 
             }
 
             if (MOVE) {
-                std::cout << "Removing file\n";
                 FileAccess::remove(_read_path);
             }
 
