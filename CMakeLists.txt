@@ -32,7 +32,6 @@ add_compile_options(/Zc:__cplusplus)
 
 # Define source files for targets
 set(Packer_Headers
-    Source/Packer/Color.h
     Source/Packer/ConfigFile.h
     Source/Packer/Console.h
     Source/Packer/Crypto.h
@@ -41,7 +40,6 @@ set(Packer_Headers
     Source/Packer/Log.h
     Source/Packer/LogFile.h
     Source/Packer/Packer.h
-    Source/Packer/Platform.h
     Source/Packer/Typedefs.h
     Source/Packer/Variant.h
     Source/Packer/Version.h
@@ -55,7 +53,6 @@ set(Packer_Sources
     Source/Packer/Log.cpp
     Source/Packer/LogFile.cpp
     Source/Packer/Packer.cpp
-    Source/Packer/Platform.cpp
     Source/Packer/Variant.cpp
 )
 
