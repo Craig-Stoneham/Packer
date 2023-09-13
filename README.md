@@ -45,8 +45,7 @@ Once the build is complete, you'll find the Packer executable in the appropriate
 
 ## **Available Executables:**
 
-In the [Releases]
-(https://github.com/Craig-Stoneham/packer/releases) section, you will find both Debug and Release executables for Packer. These executables are built for the x64 architecture, ensuring compatibility with a wide range of systems. Choose the version that suits your needs:
+In the [Releases](https://github.com/Craig-Stoneham/packer/releases) section, you will find both Debug and Release executables for Packer. These executables are built for the x64 architecture, ensuring compatibility with a wide range of systems. Choose the version that suits your needs:
 
 - **Debug:** The Debug executable is intended for development and debugging purposes. It includes additional debugging information and is recommended for developers or those who want to investigate issues in-depth.
 
