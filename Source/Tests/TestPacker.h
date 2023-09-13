@@ -44,15 +44,6 @@ class TestPacker : public TestSuite {
     Vector<String> files; ///< A list of test file names.
 
     /**
-     * @brief Run the Packer test cases.
-     *
-     * This function is responsible for executing the test cases for the Packer class.
-     *
-     * @return The result of the cryptographic tests, indicating success or failure.
-     */
-    TestResult test();
-
-    /**
      * @brief Test the functionality of the Packer class.
      *
      * This function creates, packs, and tests various scenarios using the Packer class.
@@ -60,6 +51,15 @@ class TestPacker : public TestSuite {
      * @return True if all test cases pass, false otherwise.
      */
     bool test_packer();
+
+    /**
+     * @brief Run the Packer test cases.
+     *
+     * This function is responsible for executing the test cases for the Packer class.
+     *
+     * @return The result of the cryptographic tests, indicating success or failure.
+     */
+    TestResult test();
 
 public:
     /**
