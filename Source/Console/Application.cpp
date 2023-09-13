@@ -57,7 +57,7 @@ void Application::_set_read_path() {
         print_line("Read path is already '" + read_path + "'.");
         return;
     }
-    if (!FileAccess::exists(input)) {
+    if (FileAccess::exists(read_path) == false) {
         print_line("Path does not exist.");
         return;
     }
@@ -321,6 +321,8 @@ void Application::_run_packer() {
     print_line("Packing files...");
 
     packer.pack_files();
+
+    print_line("Finished packing files");
 }
 
 void Application::_quit_program() {
