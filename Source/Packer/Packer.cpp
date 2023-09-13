@@ -109,21 +109,14 @@ void Packer::_pack_files(const String& p_read_path, const String& p_write_path) 
                         std::transform(transformed.begin(), transformed.end(), transformed.begin(), tolower);
 
                         if (extension == transformed) {
-                            goto match_found;
+                            skip_file = MODE == PackMode::Exclude;
+                            break;
                         }
                     } else {
                         if (extension == e) {
-                            goto match_found;
+                            skip_file = MODE == PackMode::Exclude;
+                            break;
                         }
-                    }
-                    continue;
-                match_found:
-                    if (MODE == PackMode::Include) {
-                        skip_file = false;
-                        break;
-                    } else if (MODE == PackMode::Exclude) {
-                        skip_file = true;
-                        break;
                     }
                 }
                 if (skip_file) {
