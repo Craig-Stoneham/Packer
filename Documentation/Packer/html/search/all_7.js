@@ -25,6 +25,6 @@ var searchData=
   ['get_5fvalue_22',['get_value',['../class_config_file.html#a96ea67ce1451ec33db8d6b806787dc9d',1,'ConfigFile']]],
   ['get_5fvalues_23',['get_values',['../class_config_file.html#adc85403be9589c5d619feab22df63e95',1,'ConfigFile']]],
   ['get_5fwrite_5fpath_24',['get_write_path',['../class_packer.html#ad538fb9d4f596bae16ee30b16309bbfa',1,'Packer']]],
-  ['green_25',['Green',['../_color_8h.html#ab87bacfdad76e61b9412d7124be44c1cad382816a3cbeed082c9e216e7392eed1',1,'Color.h']]],
-  ['grey_26',['Grey',['../_color_8h.html#ab87bacfdad76e61b9412d7124be44c1cacaf3a042a037c064b7513ed640c22f77',1,'Color.h']]]
+  ['green_25',['Green',['../class_console.html#a72bbc3908734dffa72bf6fc7341efe60ad382816a3cbeed082c9e216e7392eed1',1,'Console']]],
+  ['grey_26',['Grey',['../class_console.html#a72bbc3908734dffa72bf6fc7341efe60acaf3a042a037c064b7513ed640c22f77',1,'Console']]]
 ];

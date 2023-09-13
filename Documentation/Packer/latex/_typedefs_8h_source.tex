@@ -40,40 +40,45 @@
 \DoxyCodeLine{00041\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ \_\_cplusplus\ >=\ 201703L}}
 \DoxyCodeLine{00042\ \textcolor{preprocessor}{\#define\ \_SILENCE\_EXPERIMENTAL\_FILESYSTEM\_DEPRECATION\_WARNING}}
 \DoxyCodeLine{00043\ \textcolor{preprocessor}{\#include\ <experimental/filesystem>}}
-\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \_\_cplusplus\ >=\ 201703L}}
-\DoxyCodeLine{00045\ }
-\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#define\ STRINGIFY(p\_x)\ \#p\_x}}
-\DoxyCodeLine{00052\ }
-\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#define\ MAKE\_STRING(m\_x)\ STRINGIFY(m\_x)}}
-\DoxyCodeLine{00059\ }
-\DoxyCodeLine{00064\ \textcolor{keyword}{using\ }\mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\ =\ std::string;}
-\DoxyCodeLine{00065\ }
-\DoxyCodeLine{00072\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T,\ \textcolor{keyword}{class}\ ALLOC\ =\ std::allocator<T>>}
-\DoxyCodeLine{00073\ \textcolor{keyword}{using\ }\mbox{\hyperlink{_typedefs_8h_a2e19bd9826ad447934133cebebbb5239}{Vector}}\ =\ std::vector<T,\ ALLOC>;}
-\DoxyCodeLine{00074\ }
-\DoxyCodeLine{00083\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ K,\ \textcolor{keyword}{class}\ T,\ \textcolor{keyword}{class}\ COMPARE\ =\ std::less<K>,\ \textcolor{keyword}{class}\ ALLOC\ =\ std::allocator<std::pair<const\ K,\ T>>>}
-\DoxyCodeLine{00084\ \textcolor{keyword}{using\ }\mbox{\hyperlink{_typedefs_8h_aaadbf0532a4a78bf0ef54be7a045d86e}{Map}}\ =\ std::map<K,\ T,\ COMPARE,\ ALLOC>;}
-\DoxyCodeLine{00085\ }
-\DoxyCodeLine{00090\ \textcolor{keyword}{using\ }\mbox{\hyperlink{_typedefs_8h_a307ae07901ccd5dcc8d3a6d0214d357f}{StringVector}}\ =\ \mbox{\hyperlink{_typedefs_8h_a2e19bd9826ad447934133cebebbb5239}{Vector<String>}};}
-\DoxyCodeLine{00091\ }
-\DoxyCodeLine{00096\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_file_access}{FileAccess}}\ \{}
-\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#if\ \_\_cplusplus\ >=\ 201703L}}
-\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keyword}{using\ namespace\ }std::filesystem;}
-\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ \_\_cplusplus\ >=\ 201703L}}
-\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keyword}{using\ namespace\ }std::experimental::filesystem;}
-\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \_\_cplusplus\ >=\ 201703L}}
-\DoxyCodeLine{00102\ \};}
-\DoxyCodeLine{00103\ }
-\DoxyCodeLine{00108\ \textcolor{keyword}{using\ }\mbox{\hyperlink{_typedefs_8h_aa064825782fa755e46cda0a5f567f788}{StringStream}}\ =\ std::stringstream;}
-\DoxyCodeLine{00109\ }
-\DoxyCodeLine{00114\ \textcolor{keyword}{using\ }\mbox{\hyperlink{_typedefs_8h_ab86c95c4ac6aa852f220ebd56ab6c1eb}{StringStreamI}}\ =\ std::istringstream;}
-\DoxyCodeLine{00115\ }
-\DoxyCodeLine{00120\ \textcolor{keyword}{using\ }\mbox{\hyperlink{_typedefs_8h_a7ed8ca7caf8df4f08d7f85254dc3100c}{StringStreamO}}\ =\ std::ostringstream;}
-\DoxyCodeLine{00121\ }
-\DoxyCodeLine{00126\ \textcolor{keyword}{using\ }\mbox{\hyperlink{_typedefs_8h_ab1f93b31bddcb0e867a7ce4491b3891f}{FileStreamI}}\ =\ std::ifstream;}
-\DoxyCodeLine{00127\ }
-\DoxyCodeLine{00132\ \textcolor{keyword}{using\ }\mbox{\hyperlink{_typedefs_8h_a75a54c12feaff508b9051abfb4d3437c}{FileStreamO}}\ =\ std::ofstream;}
-\DoxyCodeLine{00133\ }
-\DoxyCodeLine{00139\ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ BinaryIOS\ =\ std::ios::binary;}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#define\ EXPERIMENTAL\_FILESYSTEM}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \_\_cplusplus\ >=\ 201703L}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#define\ STRINGIFY(p\_x)\ \#p\_x}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#define\ MAKE\_STRING(m\_x)\ STRINGIFY(m\_x)}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00065\ \textcolor{keyword}{using\ }\mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\ =\ std::string;}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00073\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T,\ \textcolor{keyword}{class}\ ALLOC\ =\ std::allocator<T>>}
+\DoxyCodeLine{00074\ \textcolor{keyword}{using\ }\mbox{\hyperlink{_typedefs_8h_a2e19bd9826ad447934133cebebbb5239}{Vector}}\ =\ std::vector<T,\ ALLOC>;}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00084\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ K,\ \textcolor{keyword}{class}\ T,\ \textcolor{keyword}{class}\ COMPARE\ =\ std::less<K>,\ \textcolor{keyword}{class}\ ALLOC\ =\ std::allocator<std::pair<const\ K,\ T>>>}
+\DoxyCodeLine{00085\ \textcolor{keyword}{using\ }\mbox{\hyperlink{_typedefs_8h_aaadbf0532a4a78bf0ef54be7a045d86e}{Map}}\ =\ std::map<K,\ T,\ COMPARE,\ ALLOC>;}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00091\ \textcolor{keyword}{using\ }\mbox{\hyperlink{_typedefs_8h_a307ae07901ccd5dcc8d3a6d0214d357f}{StringVector}}\ =\ \mbox{\hyperlink{_typedefs_8h_a2e19bd9826ad447934133cebebbb5239}{Vector<String>}};}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00097\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_file_access}{FileAccess}}\ \{}
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#ifndef\ EXPERIMENTAL\_FILESYSTEM}}
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keyword}{using\ namespace\ }std::filesystem;}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ EXPERIMENTAL\_FILESYSTEM}}
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keyword}{using\ namespace\ }std::experimental::filesystem;}
+\DoxyCodeLine{00102\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EXPERIMENTAL\_FILESYSTEM}}
+\DoxyCodeLine{00103\ \};}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00109\ \textcolor{keyword}{using\ }\mbox{\hyperlink{_typedefs_8h_aa064825782fa755e46cda0a5f567f788}{StringStream}}\ =\ std::stringstream;}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00115\ \textcolor{keyword}{using\ }\mbox{\hyperlink{_typedefs_8h_ab86c95c4ac6aa852f220ebd56ab6c1eb}{StringStreamI}}\ =\ std::istringstream;}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00121\ \textcolor{keyword}{using\ }\mbox{\hyperlink{_typedefs_8h_a7ed8ca7caf8df4f08d7f85254dc3100c}{StringStreamO}}\ =\ std::ostringstream;}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00127\ \textcolor{keyword}{using\ }\mbox{\hyperlink{_typedefs_8h_ab1f93b31bddcb0e867a7ce4491b3891f}{FileStreamI}}\ =\ std::ifstream;}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00133\ \textcolor{keyword}{using\ }\mbox{\hyperlink{_typedefs_8h_a75a54c12feaff508b9051abfb4d3437c}{FileStreamO}}\ =\ std::ofstream;}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00140\ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ BinaryIOS\ =\ std::ios::binary;}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00149\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_typedefs_8h_ae51e371fc6a71587aff24cb609aaeb13}{normalize\_path\_separators}}(\mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_path);}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00162\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{_typedefs_8h_a0687da241446d0fb451ce05fcf688c49}{remove\_path\_suffix}}(\mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_path,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_suffix);}
 
 \end{DoxyCode}

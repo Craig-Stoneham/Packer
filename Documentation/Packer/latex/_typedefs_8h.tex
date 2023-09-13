@@ -24,6 +24,9 @@ namespace \mbox{\hyperlink{namespace_file_access}{File\+Access}}
 \Hypertarget{_typedefs_8h_aab6af62131aad81d17d3b4afd9db334f}\label{_typedefs_8h_aab6af62131aad81d17d3b4afd9db334f} 
 \#define {\bfseries \+\_\+\+SILENCE\+\_\+\+EXPERIMENTAL\+\_\+\+FILESYSTEM\+\_\+\+DEPRECATION\+\_\+\+WARNING}
 \item 
+\Hypertarget{_typedefs_8h_a7cb5b6a7c401130b0ab64302afd30a40}\label{_typedefs_8h_a7cb5b6a7c401130b0ab64302afd30a40} 
+\#define {\bfseries EXPERIMENTAL\+\_\+\+FILESYSTEM}
+\item 
 \#define \mbox{\hyperlink{_typedefs_8h_a787429515c2cbc0ae1c4f1668b124113}{STRINGIFY}}(p\+\_\+x)~\#p\+\_\+x
 \begin{DoxyCompactList}\small\item\em Converts a token into a string literal. \end{DoxyCompactList}\item 
 \#define \mbox{\hyperlink{_typedefs_8h_a9f8592f50c59cc89616b379403f7a01c}{MAKE\+\_\+\+STRING}}(m\+\_\+x)~\mbox{\hyperlink{_typedefs_8h_a787429515c2cbc0ae1c4f1668b124113}{STRINGIFY}}(m\+\_\+x)
@@ -56,6 +59,13 @@ using {\bfseries File\+StreamI} = std\+::ifstream
 \Hypertarget{_typedefs_8h_a75a54c12feaff508b9051abfb4d3437c}\label{_typedefs_8h_a75a54c12feaff508b9051abfb4d3437c} 
 using {\bfseries File\+StreamO} = std\+::ofstream
 \begin{DoxyCompactList}\small\item\em Alias for std\+::ofstream, representing an output file stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{_typedefs_8h_ae51e371fc6a71587aff24cb609aaeb13}{normalize\+\_\+path\+\_\+separators}} (\mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Normalizes path separators in a string. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{_typedefs_8h_a0687da241446d0fb451ce05fcf688c49}{remove\+\_\+path\+\_\+suffix}} (\mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+path, const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+suffix)
+\begin{DoxyCompactList}\small\item\em Removes a specified suffix from a path string. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -137,3 +147,45 @@ Alias for std\+::vector, representing a dynamic array.
 {\em ALLOC} & The allocator type for memory management (optional). \\
 \hline
 \end{DoxyTemplParams}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{_typedefs_8h_ae51e371fc6a71587aff24cb609aaeb13}\label{_typedefs_8h_ae51e371fc6a71587aff24cb609aaeb13} 
+\index{Typedefs.h@{Typedefs.h}!normalize\_path\_separators@{normalize\_path\_separators}}
+\index{normalize\_path\_separators@{normalize\_path\_separators}!Typedefs.h@{Typedefs.h}}
+\doxysubsubsection{\texorpdfstring{normalize\_path\_separators()}{normalize\_path\_separators()}}
+{\footnotesize\ttfamily void normalize\+\_\+path\+\_\+separators (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+path }\end{DoxyParamCaption})}
+
+
+
+Normalizes path separators in a string. 
+
+This function replaces all backslashes (\textquotesingle{}\textbackslash{}\textquotesingle{}) in the given string with forward slashes (\textquotesingle{}/\textquotesingle{}).
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+path} & The string to normalize path separators in. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{_typedefs_8h_a0687da241446d0fb451ce05fcf688c49}\label{_typedefs_8h_a0687da241446d0fb451ce05fcf688c49} 
+\index{Typedefs.h@{Typedefs.h}!remove\_path\_suffix@{remove\_path\_suffix}}
+\index{remove\_path\_suffix@{remove\_path\_suffix}!Typedefs.h@{Typedefs.h}}
+\doxysubsubsection{\texorpdfstring{remove\_path\_suffix()}{remove\_path\_suffix()}}
+{\footnotesize\ttfamily bool remove\+\_\+path\+\_\+suffix (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+path,  }\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+suffix }\end{DoxyParamCaption})}
+
+
+
+Removes a specified suffix from a path string. 
+
+This function searches for the specified suffix in the path string, starting from the first forward slash (\textquotesingle{}/\textquotesingle{}). If the suffix is found, it is removed from the path string, and the function returns true. If the suffix is not found, the function returns false.
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+path} & The path string from which to remove the suffix. \\
+\hline
+{\em p\+\_\+suffix} & The suffix to remove from the path string. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the suffix was found and removed, false otherwise. 
+\end{DoxyReturn}

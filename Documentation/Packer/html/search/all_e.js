@@ -5,11 +5,9 @@ var searchData=
   ['packer_2eh_2',['Packer.h',['../_packer_8h.html',1,'']]],
   ['packmode_3',['PackMode',['../class_packer.html#a9e1110713ff84fd4698f34c77098e1a5',1,'Packer']]],
   ['parse_4',['parse',['../class_variant.html#a54587db7adc44cff0e695dd6c29c848c',1,'Variant']]],
-  ['platform_5',['Platform',['../class_platform.html',1,'']]],
-  ['platform_2eh_6',['Platform.h',['../_platform_8h.html',1,'']]],
-  ['print_5ferror_7',['print_error',['../class_console.html#a8d041a608f2848918c1922ba30581978',1,'Console']]],
-  ['print_5finfo_8',['print_info',['../class_console.html#acf2b6a23fa32c455e84ce889188988a2',1,'Console']]],
-  ['print_5fline_9',['print_line',['../class_console.html#aa10e788cf14380010cde9f5f3a100daa',1,'Console']]],
-  ['print_5fstring_10',['print_string',['../class_console.html#a75c1f51a5d5256fcc76c1d96aad457b4',1,'Console::print_string(const String &amp;p_string)'],['../class_console.html#a58f861fdab7d2f8feef5494dd5868707',1,'Console::print_string(Log::Level p_level, const String &amp;p_string)']]],
-  ['print_5fwarn_11',['print_warn',['../class_console.html#a987efa629c741344fcb7d010ce28e23c',1,'Console']]]
+  ['print_5ferror_5',['print_error',['../class_console.html#a8d041a608f2848918c1922ba30581978',1,'Console']]],
+  ['print_5finfo_6',['print_info',['../class_console.html#acf2b6a23fa32c455e84ce889188988a2',1,'Console']]],
+  ['print_5fline_7',['print_line',['../class_console.html#aa10e788cf14380010cde9f5f3a100daa',1,'Console']]],
+  ['print_5fstring_8',['print_string',['../class_console.html#a75c1f51a5d5256fcc76c1d96aad457b4',1,'Console::print_string(const String &amp;p_string)'],['../class_console.html#a58f861fdab7d2f8feef5494dd5868707',1,'Console::print_string(Log::Level p_level, const String &amp;p_string)']]],
+  ['print_5fwarn_9',['print_warn',['../class_console.html#a987efa629c741344fcb7d010ce28e23c',1,'Console']]]
 ];

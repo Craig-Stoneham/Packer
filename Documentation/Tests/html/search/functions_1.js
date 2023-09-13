@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['run_5ftests_0',['run_tests',['../class_test_suite.html#afd32bd2cd3f75868d932b49c22fe1929',1,'TestSuite']]]
+  ['operator_21_3d_0',['operator!=',['../struct_test_result.html#a8e34e0b32d682a96c2a8f02ab3625b4a',1,'TestResult']]],
+  ['operator_3d_3d_1',['operator==',['../struct_test_result.html#a8ddb535064e81bb3710d3c2476df4407',1,'TestResult']]]
 ];

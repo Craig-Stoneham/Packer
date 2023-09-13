@@ -38,36 +38,41 @@
 \DoxyCodeLine{00043\ \ \ \ \ \mbox{\hyperlink{struct_test_result_ae5eba0a8caf3fbf7fdbee1140d1f5619}{Error}}\ \mbox{\hyperlink{struct_test_result_ab4adb8427bd2d82f246bd9246bb3af4d}{error}};\ }
 \DoxyCodeLine{00044\ \ \ \ \ String\ \mbox{\hyperlink{struct_test_result_a45fe925e70f56bb5e3533f2c233c42aa}{message}};\ }
 \DoxyCodeLine{00045\ }
-\DoxyCodeLine{00047\ \ \ \ \ \mbox{\hyperlink{struct_test_result_af77fa5c098e06de9a1dd456169a6b329}{TestResult}}();}
-\DoxyCodeLine{00048\ }
-\DoxyCodeLine{00050\ \ \ \ \ \mbox{\hyperlink{struct_test_result_a0ec0a96b324d5bcdc1dc3cd7d62bbeb1}{TestResult}}(\mbox{\hyperlink{struct_test_result_ae5eba0a8caf3fbf7fdbee1140d1f5619}{Error}}\ p\_error);}
-\DoxyCodeLine{00051\ }
-\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{struct_test_result_abf43ed91e2eb47e3801c9a97562e2d23}{TestResult}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ p\_message);}
-\DoxyCodeLine{00054\ }
-\DoxyCodeLine{00056\ \ \ \ \ \mbox{\hyperlink{struct_test_result_a8f5014aa9f4851eb3738bfc5a4581b58}{TestResult}}(\textcolor{keyword}{const}\ String\&\ p\_message);}
-\DoxyCodeLine{00057\ \};}
-\DoxyCodeLine{00058\ }
-\DoxyCodeLine{00060\ \textcolor{keyword}{using\ }\mbox{\hyperlink{_test_suite_8h_a3093f60f8920a628cfd072aabf75caac}{TestFunction}}\ =\ \mbox{\hyperlink{_typedefs_8h_a4c9eaf0a03e818763b65ec4f5080d963}{Function}}\ <\mbox{\hyperlink{struct_test_result}{TestResult}}()>;}
-\DoxyCodeLine{00061\ }
-\DoxyCodeLine{00066\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_test_suite}{TestSuite}}\ \{}
-\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keyword}{struct\ }TestCase\ \{}
-\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ String\ name;\ }
-\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_test_suite_8h_a3093f60f8920a628cfd072aabf75caac}{TestFunction}}\ function;\ }
-\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_test_result}{TestResult}}\ result;\ }
-\DoxyCodeLine{00071\ \ \ \ \ \};}
-\DoxyCodeLine{00072\ }
-\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keyword}{static}\ Vector<TestCase>\ test\_cases;\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_test_result_a8ddb535064e81bb3710d3c2476df4407}{operator==}}(\mbox{\hyperlink{struct_test_result_ae5eba0a8caf3fbf7fdbee1140d1f5619}{Error}}\ p\_error)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_test_result_a8e34e0b32d682a96c2a8f02ab3625b4a}{operator!=}}(\mbox{\hyperlink{struct_test_result_ae5eba0a8caf3fbf7fdbee1140d1f5619}{Error}}\ p\_error)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00061\ \ \ \ \ \mbox{\hyperlink{struct_test_result_af77fa5c098e06de9a1dd456169a6b329}{TestResult}}();}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00067\ \ \ \ \ \mbox{\hyperlink{struct_test_result_a0ec0a96b324d5bcdc1dc3cd7d62bbeb1}{TestResult}}(\mbox{\hyperlink{struct_test_result_ae5eba0a8caf3fbf7fdbee1140d1f5619}{Error}}\ p\_error);}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00073\ \ \ \ \ \mbox{\hyperlink{struct_test_result_abf43ed91e2eb47e3801c9a97562e2d23}{TestResult}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ p\_message);}
 \DoxyCodeLine{00074\ }
-\DoxyCodeLine{00075\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_test_suite_afa0f4fd7e89838f6761fb3c454f4c82c}{add\_test}}(\textcolor{keyword}{const}\ String\&\ p\_name,\ \mbox{\hyperlink{_test_suite_8h_a3093f60f8920a628cfd072aabf75caac}{TestFunction}}\ p\_function);}
+\DoxyCodeLine{00079\ \ \ \ \ \mbox{\hyperlink{struct_test_result_a8f5014aa9f4851eb3738bfc5a4581b58}{TestResult}}(\textcolor{keyword}{const}\ String\&\ p\_message);}
+\DoxyCodeLine{00080\ \};}
+\DoxyCodeLine{00081\ }
 \DoxyCodeLine{00082\ }
-\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_test_suite_afd32bd2cd3f75868d932b49c22fe1929}{run\_tests}}();}
-\DoxyCodeLine{00088\ \};}
-\DoxyCodeLine{00089\ }
-\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#define\ TEST\_PASSED()\ TestResult(TestResult::OK)}}
+\DoxyCodeLine{00084\ \textcolor{keyword}{using\ }\mbox{\hyperlink{_test_suite_8h_a3093f60f8920a628cfd072aabf75caac}{TestFunction}}\ =\ \mbox{\hyperlink{_typedefs_8h_a4c9eaf0a03e818763b65ec4f5080d963}{Function}}\ <\mbox{\hyperlink{struct_test_result}{TestResult}}()>;}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00090\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_test_suite}{TestSuite}}\ \{}
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keyword}{struct\ }TestCase\ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ String\ name;\ }
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_test_suite_8h_a3093f60f8920a628cfd072aabf75caac}{TestFunction}}\ function;\ }
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_test_result}{TestResult}}\ result;\ }
+\DoxyCodeLine{00095\ \ \ \ \ \};}
 \DoxyCodeLine{00096\ }
-\DoxyCodeLine{00103\ \textcolor{preprocessor}{\#define\ TEST\_FAILED(p\_message)\ TestResult(p\_message)}}
-\DoxyCodeLine{00104\ }
-\DoxyCodeLine{00112\ \textcolor{preprocessor}{\#define\ ADD\_TEST(p\_name,\ p\_function)\ TestSuite::add\_test(p\_name,\ p\_function)}}
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keyword}{static}\ Vector<TestCase>\ test\_cases;\ }
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_test_suite_afa0f4fd7e89838f6761fb3c454f4c82c}{add\_test}}(\textcolor{keyword}{const}\ String\&\ p\_name,\ \mbox{\hyperlink{_test_suite_8h_a3093f60f8920a628cfd072aabf75caac}{TestFunction}}\ p\_function);}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_test_suite_a654a2c2e387153c2a0e2c88c4cddd377}{run\_tests}}(\textcolor{keywordtype}{bool}\ p\_pause\ =\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00113\ \};}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00120\ \textcolor{preprocessor}{\#define\ TEST\_PASSED()\ TestResult(TestResult::OK)}}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00128\ \textcolor{preprocessor}{\#define\ TEST\_FAILED(p\_message)\ TestResult(p\_message)}}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00137\ \textcolor{preprocessor}{\#define\ ADD\_TEST(p\_name,\ p\_function)\ TestSuite::add\_test(p\_name,\ p\_function)}}
 
 \end{DoxyCode}
