@@ -154,12 +154,12 @@ void Packer::_pack_files(const String& p_read_path, const String& p_write_path) 
                 }
             }
 
-            if (!write_directory_exists) {
+            if (write_directory_exists == false) {
                 write_directory_exists = true;
                 FileAccess::create_directories(p_write_path);
             }
 
-            if (!copy_file(_read_path, _write_path, FileAccess::copy_options::update_existing)) {
+            if (copy_file(_read_path, _write_path, FileAccess::copy_options::update_existing) == false) {
                 continue;
             }
 
