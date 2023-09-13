@@ -105,55 +105,55 @@ TestResult TestPacker::test() {
 #endif // LOG_DISABLED
 
     if (test_packer() == false) {
-        return TEST_FAILED("Everything pack mode not working correctly");
+        return TEST_FAILED("Everything pack mode not working correctly.");
     }
     packer.add_extension("txt");
     packer.add_extension("TXT");
 
     packer.set_pack_mode(Packer::PackMode::Exclude);
     if (test_packer() == false) {
-        return TEST_FAILED("Exclude pack mode not working correctly");
+        return TEST_FAILED("Exclude pack mode not working correctly.");
     }
 
     packer.set_pack_mode(Packer::PackMode::Include);
     if (test_packer() == false) {
-        return TEST_FAILED("Include pack mode not working correctly");
+        return TEST_FAILED("Include pack mode not working correctly.");
     }
 
     packer.set_ignore_file_enabled(true);
     if (test_packer() == false) {
-        return TEST_FAILED("Ignore file not working correctly");
+        return TEST_FAILED("Ignore file not working correctly.");
     }
     packer.set_ignore_file_enabled(false);
 
     packer.set_move_files(true);
     if (test_packer() == false) {
-        return TEST_FAILED("Move files not working correctly");
+        return TEST_FAILED("Move files not working correctly.");
     }
     packer.set_move_files(false);
 
     packer.set_suffix_enabled(true);
     if (test_packer() == false) {
-        return TEST_FAILED("Suffix not working correctly");
+        return TEST_FAILED("Suffix not working correctly.");
     }
     packer.set_suffix_enabled(false);
 
     packer.remove_extension("TXT");
     packer.set_extension_insensitive(true);
     if (test_packer() == false) {
-        return TEST_FAILED("Extension insensitive not working correctly");
+        return TEST_FAILED("Extension insensitive not working correctly.");
     }
     packer.set_extension_insensitive(false);
     packer.add_extension("TXT");
 
     packer.set_extension_adjust(Packer::ExtensionAdjust::Lower);
     if (test_packer() == false) {
-        return TEST_FAILED("Extension adjust to upper not working correctly");
+        return TEST_FAILED("Extension adjust to upper not working correctly.");
     }
 
     packer.set_extension_adjust(Packer::ExtensionAdjust::Upper);
     if (test_packer() == false) {
-        return TEST_FAILED("Extension adjust to lower not working correctly");
+        return TEST_FAILED("Extension adjust to lower not working correctly.");
     }
 
     FileAccess::remove_all(read_path);
