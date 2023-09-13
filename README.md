@@ -18,6 +18,8 @@ Packer boasts a range of features designed to enhance your file management exper
 
 * **Extension Case Insensitivity:** Packer enables seamless copying and moving of files, regardless of the case of their extensions. This feature eliminates the need to worry about matching the extension case precisely.
 
+* **Ignore File:** Packer allows you to specify an "Ignore File" in any directory. When an "Ignore File" is found in a directory, Packer will skip that directory and any sub-directories within it during file copying or moving operations. This flexible feature gives you granular control over which directories are processed.
+
 ## **Using CMake for Building:**
 
 Packer can be built using CMake, a popular build system generator. Follow these steps to build Packer using CMake:
