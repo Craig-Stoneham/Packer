@@ -86,7 +86,7 @@ void Packer::_pack_files(const String& p_read_path, const String& p_write_path) 
 
     for (auto& path : FileAccess::directory_iterator(p_read_path)) {
         String _read_path = path.path().string();
-#ifdef EXPERIMENTAL_FILESYSTEM
+#if EXPERIMENTAL_FILESYSTEM
         normalize_path_separators(_read_path);
 #endif // EXPERIMENTAL_FILESYSTEM
 
@@ -439,7 +439,7 @@ Error Packer::pack_files() {
     }
 
     String _read_path = read_path;
-#ifdef EXPERIMENTAL_FILESYSTEM
+#if EXPERIMENTAL_FILESYSTEM
     normalize_path_separators(_read_path);
 #endif // EXPERIMENTAL_FILESYSTEM
 
@@ -470,7 +470,7 @@ Error Packer::pack_files() {
 #endif // IGNORE_FILE_DISABLED
 
     String _write_path = write_path;
-#ifdef EXPERIMENTAL_FILESYSTEM
+#if EXPERIMENTAL_FILESYSTEM
     normalize_path_separators(_write_path);
 #endif // EXPERIMENTAL_FILESYSTEM
 
