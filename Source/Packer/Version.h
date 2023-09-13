@@ -44,7 +44,7 @@
  * @def VERSION_PATCH
  * @brief The patch version number of the software.
  */
-#define VERSION_PATCH 1
+#define VERSION_PATCH 2
 
 /**
  * @def VERSION_STRING
