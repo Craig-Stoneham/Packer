@@ -120,12 +120,14 @@ TestResult TestPacker::test() {
         return TEST_FAILED("Include pack mode not working correctly.");
     }
 
-    packer.set_ignore_file_enabled(true);
+#ifndef IGNORE_FILE_DISABLED
+   packer.set_ignore_file_enabled(true);
     if (test_packer() == false) {
         return TEST_FAILED("Ignore file not working correctly.");
     }
     packer.set_ignore_file_enabled(false);
-
+#endif //PACKER_IGNORE_FILE
+    
     packer.set_move_files(true);
     if (test_packer() == false) {
         return TEST_FAILED("Move files not working correctly.");
