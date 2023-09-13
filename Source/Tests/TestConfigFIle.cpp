@@ -47,7 +47,7 @@ TestResult TestConfigFile::test() {
         config_file.get_value(string_entry.name) == string_entry.value &&
         config_file.get_value(string_vector_entry.name) == string_vector_entry.value) {
     } else {
-        return TEST_FAILED("Values not stored properly.");
+        return TEST_FAILED("Values not stored correctly.");
     }
 
     String test_file_name = "test_config.cfg";
