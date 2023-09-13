@@ -41,6 +41,7 @@
 #else // __cplusplus >= 201703L
 #define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
 #include <experimental/filesystem>
+#define EXPERIMENTAL_FILESYSTEM
 #endif // __cplusplus >= 201703L
 
 /**
@@ -94,11 +95,11 @@ using StringVector = Vector<String>;
  * @brief Namespace containing filesystem-related types and functions.
  */
 namespace FileAccess {
-#if __cplusplus >= 201703L
+#ifndef EXPERIMENTAL_FILESYSTEM
     using namespace std::filesystem;
-#else // __cplusplus >= 201703L
+#else // EXPERIMENTAL_FILESYSTEM
     using namespace std::experimental::filesystem;
-#endif // __cplusplus >= 201703L
+#endif // EXPERIMENTAL_FILESYSTEM
 };
 
 /**
