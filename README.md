@@ -43,6 +43,17 @@ Packer can be built using CMake, a popular build system generator. Follow these 
 
 Once the build is complete, you'll find the Packer executable in the appropriate build directory.
 
+## **Available Executables:**
+
+In the [Releases]
+(https://github.com/Craig-Stoneham/packer/releases) section, you will find both Debug and Release executables for Packer. These executables are built for the x64 architecture, ensuring compatibility with a wide range of systems. Choose the version that suits your needs:
+
+- **Debug:** The Debug executable is intended for development and debugging purposes. It includes additional debugging information and is recommended for developers or those who want to investigate issues in-depth.
+
+- **Release:** The Release executable is optimized for performance and efficiency. It's the recommended choice for everyday use and offers the best performance.
+
+Feel free to download the executable that matches your requirements from the Releases section.
+
 ## **Contribute and Report Bugs:**
 
 We welcome contributions from the community to improve and enhance Packer. If you'd like to contribute, please follow these steps:
