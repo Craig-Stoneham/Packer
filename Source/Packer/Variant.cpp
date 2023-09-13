@@ -23,7 +23,7 @@
 
 #include "Variant.h"
 
-static const char* variant_type[] = {
+static const char* type_names[] = {
     "Null",
     "Bool",
     "Int",
@@ -31,9 +31,9 @@ static const char* variant_type[] = {
     "StringVector"
 };
 
-String Variant::get_type_string(Type p_type) {
+String Variant::get_type_name(Type p_type) {
     if (p_type >= static_cast<Type>(0) && p_type < Type::Max) {
-        return variant_type[static_cast<size_t>(p_type)];
+        return type_names[static_cast<size_t>(p_type)];
     } else {
         return "Unknown";
     }
@@ -42,7 +42,7 @@ String Variant::get_type_string(Type p_type) {
 
 Variant::Type Variant::find_type(const String& p_type) {
     for (size_t i = 0; i < static_cast<size_t>(Type::Max); ++i) {
-        if (p_type == variant_type[i]) {
+        if (p_type == type_names[i]) {
             return static_cast<Type>(i);
         }
     }

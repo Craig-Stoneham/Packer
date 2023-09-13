@@ -24,15 +24,15 @@
 #include "Packer.h"
 #include "Defaults.h"
 
-static const char* _pack_mode[] = {
+static const char* pack_mode_names[] = {
     "include",
     "exclude",
     "everything"
 };
 
-String Packer::get_pack_mode_string(PackMode p_mode) {
+String Packer::get_pack_mode_name(PackMode p_mode) {
     if (p_mode >= static_cast<PackMode>(0) && p_mode < PackMode::Max) {
-        return _pack_mode[static_cast<size_t>(p_mode)];
+        return pack_mode_names[static_cast<size_t>(p_mode)];
     } else {
         return "unknown";
     }
@@ -40,22 +40,22 @@ String Packer::get_pack_mode_string(PackMode p_mode) {
 
 Packer::PackMode Packer::find_pack_mode(const String& p_mode) {
     for (size_t i = 0; i < static_cast<size_t>(PackMode::Max); ++i) {
-        if (p_mode == _pack_mode[i]) {
+        if (p_mode == pack_mode_names[i]) {
             return static_cast<PackMode>(i);
         }
     }
     return PackMode::Unknown;
 }
 
-static const char* _extension_adjust[] = {
+static const char* extension_adjust_names[] = {
     "default",
     "lower",
     "upper"
 };
 
-String Packer::get_extension_adjust_string(ExtensionAdjust p_adjust) {
+String Packer::get_extension_adjust_name(ExtensionAdjust p_adjust) {
     if (p_adjust >= static_cast<ExtensionAdjust>(0) && p_adjust < ExtensionAdjust::Max) {
-        return _extension_adjust[static_cast<size_t>(p_adjust)];
+        return extension_adjust_names[static_cast<size_t>(p_adjust)];
     } else {
         return "unknown";
     }
@@ -63,7 +63,7 @@ String Packer::get_extension_adjust_string(ExtensionAdjust p_adjust) {
 
 Packer::ExtensionAdjust Packer::find_extension_adjust(const String& p_adjust) {
     for (size_t i = 0; i < static_cast<size_t>(ExtensionAdjust::Max); ++i) {
-        if (p_adjust == _extension_adjust[i]) {
+        if (p_adjust == extension_adjust_names[i]) {
             return static_cast<ExtensionAdjust>(i);
         }
     }

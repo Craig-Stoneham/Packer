@@ -102,7 +102,7 @@ public:
      * @param p_mode The PackMode enum value.
      * @return A string representation of the PackMode.
      */
-    static String get_pack_mode_string(PackMode p_mode);
+    static String get_pack_mode_name(PackMode p_mode);
 
     /**
      * @brief Find a PackMode enum value based on its string representation.
@@ -116,7 +116,7 @@ public:
      * @param p_adjust The ExtensionAdjust enum value.
      * @return A string representation of the ExtensionAdjust.
      */
-    static String get_extension_adjust_string(ExtensionAdjust p_adjust);
+    static String get_extension_adjust_name(ExtensionAdjust p_adjust);
 
     /**
      * @brief Find an ExtensionAdjust enum value based on its string representation.

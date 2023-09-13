@@ -40,7 +40,7 @@ void LogFile::log_string(Log::Level p_level, const String& p_string) {
         return;
     }
     if (print_level_details) {
-        stream << Log::get_level_string(p_level) << ":";
+        stream << Log::get_level_name(p_level) << ":";
     }
     stream << p_string;
 }

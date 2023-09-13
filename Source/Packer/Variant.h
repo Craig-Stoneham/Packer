@@ -80,7 +80,7 @@ public:
      * @param p_type The Type enumeration value.
      * @return A string representing the Type.
      */
-    static String get_type_string(Type p_type);
+    static String get_type_name(Type p_type);
 
     /**
      * @brief Find the Type enumeration value from a string representation.

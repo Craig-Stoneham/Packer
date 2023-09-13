@@ -54,7 +54,7 @@ enum class Error {
  * @param p_error The error code.
  * @return A string describing the error.
  */
-String get_error_string(Error p_error);
+String get_error_name(Error p_error);
 
 /**
  * @brief Find an error code by its string representation.

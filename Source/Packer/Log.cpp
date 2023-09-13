@@ -23,15 +23,15 @@
 
 #include "Log.h"
 
-const char* log_level[] = {
+static const char* level_names[] = {
     "Info",
     "Warn",
     "Error"
 };
 
-String Log::get_level_string(Level p_level) {
+String Log::get_level_name(Level p_level) {
     if (p_level >= static_cast<Level>(0) && p_level < Level::Max) {
-        return log_level[static_cast<size_t>(p_level)];
+        return level_names[static_cast<size_t>(p_level)];
     } else {
         return "Unknown";
     }
@@ -39,7 +39,7 @@ String Log::get_level_string(Level p_level) {
 
 Log::Level Log::find_level(const String& p_level) {
     for (size_t i = 0; i < static_cast<size_t>(Level::Max); ++i) {
-        if (p_level == log_level[i]) {
+        if (p_level == level_names[i]) {
             return static_cast<Level>(i);
         }
     }

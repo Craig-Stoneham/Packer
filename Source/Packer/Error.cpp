@@ -23,7 +23,7 @@
 
 #include "Error.h"
 
-static const char* error[] = {
+static const char* error_names[] = {
     "ok",
     "failed",
     "unconfigured",
@@ -36,9 +36,9 @@ static const char* error[] = {
     "does not exist",
 };
 
-String get_error_string(Error p_error) {
+String get_error_name(Error p_error) {
     if (p_error >= static_cast<Error>(0) && p_error < Error::Max) {
-        return error[static_cast<size_t>(p_error)];
+        return error_names[static_cast<size_t>(p_error)];
     }  else {
         return "unknown";
     }
@@ -46,7 +46,7 @@ String get_error_string(Error p_error) {
 
 Error find_error(const String& p_error) {
     for (int i = 0; i < static_cast<size_t>(Error::Max); ++i) {
-        if (p_error == error[i]) {
+        if (p_error == error_names[i]) {
             return static_cast<Error>(i);
         }
     }

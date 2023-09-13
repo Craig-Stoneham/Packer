@@ -61,7 +61,7 @@ public:
      * @param p_level The log level.
      * @return A string describing the log level.
      */
-    static String get_level_string(Level p_level);
+    static String get_level_name(Level p_level);
 
     /**
      * @brief Find a log level by its string representation.

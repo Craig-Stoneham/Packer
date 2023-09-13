@@ -228,13 +228,13 @@ void Application::_print_info() {
     } else {
         print_line("No extensions added");
     }
-    print_line("Pack mode: " + Packer::get_pack_mode_string(packer.get_pack_mode()));
+    print_line("Pack mode: " + Packer::get_pack_mode_name(packer.get_pack_mode()));
     print_line("Overwrite files: " + String(packer.get_overwrite_files() ? "enabled" : "disabled"));
     print_line("Move files: " + String(packer.get_move_files() ? "enabled" : "disabled"));
     print_line("Suffix string: " + packer.get_suffix_string());
     print_line("Suffix: " + String(packer.get_suffix_enabled() ? "enabled" : "disabled"));
     print_line("Extension insensitive: " + String(packer.get_extension_insensitive() ? "enabled" : "disabled"));
-    print_line("Extension adjust: " + Packer::get_extension_adjust_string(packer.get_extension_adjust()));
+    print_line("Extension adjust: " + Packer::get_extension_adjust_name(packer.get_extension_adjust()));
 #ifndef IGNORE_FILE_DISABLED
     print_line("Ignore file name: " + packer.get_ignore_file_name());
     print_line("Ignore file: " + String(packer.get_ignore_file_enabled() ? "enabled" : "disabled"));
@@ -293,7 +293,7 @@ void Application::_run_packer() {
         }
         LOG_INFO(extension_string + "\n");
     }
-    LOG_INFO("Pack mode: " + Packer::get_pack_mode_string(packer.get_pack_mode()) + "\n");
+    LOG_INFO("Pack mode: " + Packer::get_pack_mode_name(packer.get_pack_mode()) + "\n");
     LOG_INFO("Overwrite files: " + String(packer.get_overwrite_files() ? "enabled" : "disabled") + "\n");
     LOG_INFO("Move files: " + String(packer.get_move_files() ? "enabled" : "disabled") + "\n");
     LOG_INFO("Suffix string: " + packer.get_suffix_string() + "\n");
@@ -302,7 +302,7 @@ void Application::_run_packer() {
         LOG_WARN("Suffix is enabled but suffix string is invalid\n");
     }
     LOG_INFO("Extension insensitive: " + String(packer.get_extension_insensitive() ? "enabled" : "disabled") + "\n");
-    LOG_INFO("Extension adjust: " + Packer::get_extension_adjust_string(packer.get_extension_adjust()) + "\n");
+    LOG_INFO("Extension adjust: " + Packer::get_extension_adjust_name(packer.get_extension_adjust()) + "\n");
 #ifndef IGNORE_FILE_DISABLED
     LOG_INFO("Ignore file name: " + packer.get_ignore_file_name() + "\n");
     LOG_INFO("Ignore file: " + String(packer.get_ignore_file_enabled() ? "enabled" : "disabled") + "\n");
@@ -442,13 +442,13 @@ Application::Application() :
     _add_prompt_command(&Application::_add_extension, "add_extension", "Add an extension to the extension list", "Type the extension to add:");
     _add_prompt_command(&Application::_remove_extension, "remove_extension", "Remove an extension from the extension list", "Type the extension to remove:");
     _add_simple_command(&Application::_clear_extensions, "clear_extensions", "Clear all of the extensions in the extension list");
-    _add_prompt_command(&Application::_set_pack_mode, "pack_mode", "Pack matching extensions, exclude matching extensions or pack everything", "Type '" + Packer::get_pack_mode_string(Packer::PackMode::Include) + "', '" + Packer::get_pack_mode_string(Packer::PackMode::Exclude) + "', '" + Packer::get_pack_mode_string(Packer::PackMode::Everything) + ":");
+    _add_prompt_command(&Application::_set_pack_mode, "pack_mode", "Pack matching extensions, exclude matching extensions or pack everything", "Type '" + Packer::get_pack_mode_name(Packer::PackMode::Include) + "', '" + Packer::get_pack_mode_name(Packer::PackMode::Exclude) + "', '" + Packer::get_pack_mode_name(Packer::PackMode::Everything) + ":");
     _add_simple_command(&Application::_set_overwrite_files, "overwrite_files", "Overwrite existing files");
     _add_simple_command(&Application::_set_move_files, "move_files", "Move the files");
     _add_prompt_command(&Application::_set_suffix_string, "suffix_string", "The suffix string to remove", "Type the suffix string to remove:");
     _add_simple_command(&Application::_set_suffix_enabled, "suffix_enabled", "Enable suffix string removal");
     _add_simple_command(&Application::_set_extension_insensitive, "extension_insensitive", "Ignore extension case in the extension list");
-    _add_prompt_command(&Application::_set_extension_adjust, "extension_adjust", "Adjust the extension case", "Type '" + Packer::get_extension_adjust_string(Packer::ExtensionAdjust::Default) + "', '" + Packer::get_extension_adjust_string(Packer::ExtensionAdjust::Lower) + "', '" + Packer::get_extension_adjust_string(Packer::ExtensionAdjust::Upper) + ":");
+    _add_prompt_command(&Application::_set_extension_adjust, "extension_adjust", "Adjust the extension case", "Type '" + Packer::get_extension_adjust_name(Packer::ExtensionAdjust::Default) + "', '" + Packer::get_extension_adjust_name(Packer::ExtensionAdjust::Lower) + "', '" + Packer::get_extension_adjust_name(Packer::ExtensionAdjust::Upper) + ":");
 #ifndef IGNORE_FILE_DISABLED
     _add_prompt_command(&Application::_set_ignore_file_name, "ignore_file_name", "Change the name of the ignore file", "Type the name of the ignore file (or 'default' to use to the default):");
     _add_simple_command(&Application::_set_ignore_file_enabled, "ignore_file_enabled", "Check for an ignore file");
