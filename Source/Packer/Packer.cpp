@@ -109,24 +109,21 @@ void Packer::_pack_files(const String& p_read_path, const String& p_write_path) 
                         std::transform(transformed.begin(), transformed.end(), transformed.begin(), tolower);
 
                         if (extension == transformed) {
-                            if (MODE == PackMode::Include) {
-                                skip_file = false;
-                                break;
-                            } else if (MODE == PackMode::Exclude) {
-                                skip_file = true;
-                                break;
-                            }
+                            goto match_found;
                         }
                     } else {
                         if (extension == e) {
-                            if (MODE == PackMode::Include) {
-                                skip_file = false;
-                                break;
-                            } else if (MODE == PackMode::Exclude) {
-                                skip_file = true;
-                                break;
-                            }
+                            goto match_found;
                         }
+                    }
+                    continue;
+                match_found:
+                    if (MODE == PackMode::Include) {
+                        skip_file = false;
+                        break;
+                    } else if (MODE == PackMode::Exclude) {
+                        skip_file = true;
+                        break;
                     }
                 }
                 if (skip_file) {
@@ -140,12 +137,11 @@ void Packer::_pack_files(const String& p_read_path, const String& p_write_path) 
                 remove_path_suffix(_write_path, suffix_string);
             }
 
-            if (EXT_ADJUST == ExtensionAdjust::Lower) {
+            if (EXT_ADJUST != ExtensionAdjust::Default) {
                 size_t ext_pos = _write_path.find_last_of('.') + 1;
-                std::transform(_write_path.begin() + ext_pos, _write_path.end(), _write_path.begin() + ext_pos, tolower);
-            } else if (EXT_ADJUST == ExtensionAdjust::Upper) {
-                size_t ext_pos = _write_path.find_last_of('.') + 1;
-                std::transform(_write_path.begin() + ext_pos, _write_path.end(), _write_path.begin() + ext_pos, toupper);
+				if (ext_pos != String::npos) {
+                    std::transform(_write_path.begin() + ext_pos, _write_path.end(), _write_path.begin() + ext_pos, EXT_ADJUST == ExtensionAdjust::Lower ? tolower : toupper);
+				}                
             }
 
             if (!OVERWRITE) {
