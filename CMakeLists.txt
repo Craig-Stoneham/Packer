@@ -53,6 +53,7 @@ set(Packer_Sources
     Source/Packer/Log.cpp
     Source/Packer/LogFile.cpp
     Source/Packer/Packer.cpp
+    Source/Packer/Typedefs.cpp
     Source/Packer/Variant.cpp
 )
 
