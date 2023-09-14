@@ -94,7 +94,7 @@ if(WIN32)
 endif()
         
 # Set the output directory for Packer project
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Bin/$<CONFIG>/Console)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Build/$<CONFIG>/Console)
 
 source_group("Packer/Headers" FILES ${Packer_Headers})
 source_group("Packer/Source" FILES ${Packer_Sources})
@@ -106,7 +106,7 @@ source_group("Console/Source" FILES ${Console_Sources})
 add_executable(Packer ${Packer_Headers} ${Packer_Sources} ${Console_Headers} ${Console_Sources})
 
 # Set the output directory for Tests project
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Bin/$<CONFIG>/Tests)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Build/$<CONFIG>/Tests)
 
 source_group("Packer/Headers" FILES ${Packer_Headers})
 source_group("Packer/Source" FILES ${Packer_Sources})
