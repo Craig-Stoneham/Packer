@@ -44,7 +44,7 @@ file(GLOB Console_Headers
 )
 
 file(GLOB Console_Sources
-    Source/Packer/*.cpp
+    Source/Console/*.cpp
 )
 
 file(GLOB Tests_Headers
@@ -52,7 +52,7 @@ file(GLOB Tests_Headers
 )
 
 file(GLOB Tests_Sources
-    Source/Packer/*.cpp
+    Source/Tests/*.cpp
 )
 
 # Add resource file conditionally for Windows
@@ -72,7 +72,7 @@ source_group("Console/Headers" FILES ${Console_Headers})
 source_group("Console/Source" FILES ${Console_Sources})
 
 # Create Packer target
-add_executable(Packer ${Packer_Headers} ${Packer_Sources} ${Console_Headers} ${Console_Sources})
+add_executable(Console ${Packer_Headers} ${Packer_Sources} ${Console_Headers} ${Console_Sources})
 
 # Set the output directory for Tests project
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Build/$<CONFIG>/Tests)
