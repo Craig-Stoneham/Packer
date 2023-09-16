@@ -85,3 +85,6 @@ source_group("Tests/Source" FILES ${Tests_Sources})
 
 # Create Tests target
 add_executable(Tests ${Packer_Headers} ${Packer_Sources} ${Tests_Headers} ${Tests_Sources})
+
+# Set the startup project to Console
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Console)
