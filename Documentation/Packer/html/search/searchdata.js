@@ -9,7 +9,7 @@ var indexSectionsWithContent =
   6: "cfmsv",
   7: "celpt",
   8: "bcdefgilmnorsuwy",
-  9: "dlmsv"
+  9: "_delmpsuv"
 };
 
 var indexSectionNames =

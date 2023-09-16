@@ -1,0 +1,68 @@
+\doxysection{Crypto.\+h}
+\hypertarget{_crypto_8h_source}{}\label{_crypto_8h_source}\index{Source/Packer/Crypto.h@{Source/Packer/Crypto.h}}
+\mbox{\hyperlink{_crypto_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/**************************************************************************/}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ Copyright\ (c)\ 2023\ Craig\ Stoneham.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ a\ copy\ of\ this\ software\ and\ associated\ documentation\ files\ (the\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ "{}Software"{}),\ to\ deal\ in\ the\ Software\ without\ restriction,\ including\ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ without\ limitation\ the\ rights\ to\ use,\ copy,\ modify,\ merge,\ publish,\ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ distribute,\ sublicense,\ and/or\ sell\ copies\ of\ the\ Software,\ and\ to\ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ permit\ persons\ to\ whom\ the\ Software\ is\ furnished\ to\ do\ so,\ subject\ to\ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ the\ following\ conditions:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00011\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00012\ \textcolor{comment}{/*\ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00013\ \textcolor{comment}{/*\ included\ in\ all\ copies\ or\ substantial\ portions\ of\ the\ Software.\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00014\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00015\ \textcolor{comment}{/*\ THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00016\ \textcolor{comment}{/*\ EXPRESS\ OR\ IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ \ \ \ \ */}}
+\DoxyCodeLine{00017\ \textcolor{comment}{/*\ MERCHANTABILITY,\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ */}}
+\DoxyCodeLine{00018\ \textcolor{comment}{/*\ IN\ NO\ EVENT\ SHALL\ THE\ AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ \ \ */}}
+\DoxyCodeLine{00019\ \textcolor{comment}{/*\ CLAIM,\ DAMAGES\ OR\ OTHER\ LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ \ \ */}}
+\DoxyCodeLine{00020\ \textcolor{comment}{/*\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,\ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ \ \ \ \ \ */}}
+\DoxyCodeLine{00021\ \textcolor{comment}{/*\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE\ SOFTWARE.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00022\ \textcolor{comment}{/**************************************************************************/}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_typedefs_8h}{Typedefs.h}}"{}}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \mbox{\hyperlink{_typedefs_8h_adbc0df4d1fa04f27787ea0240400dbdf}{PACKER\_NAMESPACE\_BEGIN}}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00039\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_crypto_key}{CryptoKey}}\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_crypto}{Crypto}};}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{size\_t}\ DefaultKey\ =\ 0xDEADBEEF;\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ key;\ }
+\DoxyCodeLine{00046\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_crypto_key_ae37526e3019b12772c8d25355ba74dcb}{set\_key}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ p\_key);}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_crypto_key_a684a8c2a88aa22ba870828b470cbaacd}{set\_key}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_key);}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_crypto_key_a94bf07e42032737f82e2d280fc4d3c14}{set\_key}}()\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_crypto_key_a94bf07e42032737f82e2d280fc4d3c14}{set\_key}}(\mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}(\textcolor{keyword}{typeid}(T).name()));}
+\DoxyCodeLine{00066\ \ \ \ \ \}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00072\ \ \ \ \ \mbox{\hyperlink{class_crypto_key_a470294975151bcf611cfd84fbceed5f5}{CryptoKey}}(\textcolor{keywordtype}{size\_t}\ p\_key\ =\ DefaultKey);}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00078\ \ \ \ \ \mbox{\hyperlink{class_crypto_key_a78ce7a9838a39698586b79a2a0b188cc}{CryptoKey}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_key);}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00086\ \ \ \ \ \mbox{\hyperlink{class_crypto_key_a3b6068edf43dbc6a3c873607d3d0ec3e}{CryptoKey}}(\textcolor{keyword}{const}\ T\&\ p\_class)\ :}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ key(std::hash<\mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}>\{\}(\mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}(\textcolor{keyword}{typeid}(T).name())))\ \{}
+\DoxyCodeLine{00088\ \ \ \ \ \}}
+\DoxyCodeLine{00089\ \};}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00095\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_crypto}{Crypto}}\ \{}
+\DoxyCodeLine{00096\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_crypto_a939752070cd29e808da9c48691806556}{encrypt\_decrypt}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_data,\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_result,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_crypto_key}{CryptoKey}}\&\ p\_key);}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\ \mbox{\hyperlink{class_crypto_a687810255891f376e39db1f9f85a599b}{encrypt\_decrypt}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_data,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_crypto_key}{CryptoKey}}\&\ p\_key);}
+\DoxyCodeLine{00112\ \};}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \mbox{\hyperlink{_typedefs_8h_a0392f3971db25ed1554aaf079f943911}{PACKER\_NAMESPACE\_END}}}
+
+\end{DoxyCode}

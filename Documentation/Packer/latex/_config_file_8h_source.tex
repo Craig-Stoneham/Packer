@@ -30,35 +30,39 @@
 \DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_variant_8h}{Variant.h}}"{}}}
 \DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_crypto_8h}{Crypto.h}}"{}}}
 \DoxyCodeLine{00033\ }
-\DoxyCodeLine{00041\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_config_file}{ConfigFile}}\ \{}
-\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{_typedefs_8h_aaadbf0532a4a78bf0ef54be7a045d86e}{Map<String,\ Variant>}}\ values;\ }
-\DoxyCodeLine{00043\ }
-\DoxyCodeLine{00044\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_config_file_a3571d5bc9be89b9770d301e2019985e2}{set\_value}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_key,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_variant}{Variant}}\&\ p\_value);}
-\DoxyCodeLine{00051\ }
-\DoxyCodeLine{00058\ \ \ \ \ \mbox{\hyperlink{class_variant}{Variant}}\ \mbox{\hyperlink{class_config_file_a96ea67ce1451ec33db8d6b806787dc9d}{get\_value}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_key,\ \mbox{\hyperlink{class_variant}{Variant}}\ p\_default\ =\ \mbox{\hyperlink{class_variant}{Variant}}())\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00059\ }
-\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_config_file_afd14867c8c0eea81cfd1b1f13a170662}{has\_value}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_key)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00066\ }
-\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_config_file_af2ccafcebd2daa8dd67fa83a20d44722}{erase\_value}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_key);}
-\DoxyCodeLine{00073\ }
-\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_config_file_a0c7d81b30b0107862d0836c3747443f5}{clear}}();}
-\DoxyCodeLine{00078\ }
-\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_aaadbf0532a4a78bf0ef54be7a045d86e}{Map<String,\ Variant>}}\&\ \mbox{\hyperlink{class_config_file_adc85403be9589c5d619feab22df63e95}{get\_values}}()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00084\ }
-\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_config_file_a23c0484fc6d144ab45a668bcf69f1830}{set\_values}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_aaadbf0532a4a78bf0ef54be7a045d86e}{Map<String,\ Variant>}}\&\ p\_values);}
-\DoxyCodeLine{00090\ }
-\DoxyCodeLine{00095\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_config_file_a592a0a3662ba2ecf023ad1a7684d19b2}{get\_keys}}(\mbox{\hyperlink{_typedefs_8h_a2e19bd9826ad447934133cebebbb5239}{Vector<String>}}\&\ p\_keys)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00096\ }
-\DoxyCodeLine{00102\ \ \ \ \ \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}}\ \mbox{\hyperlink{class_config_file_a8750c11d1625938b253e35a8c2dc66f3}{save}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_path)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00103\ }
-\DoxyCodeLine{00109\ \ \ \ \ \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}}\ \mbox{\hyperlink{class_config_file_a892e28fe1e2ffaf4d457535cf5065a24}{load}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_path);}
-\DoxyCodeLine{00110\ }
-\DoxyCodeLine{00117\ \ \ \ \ \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}}\ \mbox{\hyperlink{class_config_file_ab24f4413d97c3dfa70654981483a2428}{save\_encrypted}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_path,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_crypto_key}{CryptoKey}}\&\ p\_key)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00118\ }
-\DoxyCodeLine{00125\ \ \ \ \ \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}}\ \mbox{\hyperlink{class_config_file_a681cd61ead70e242f882020546d094cd}{load\_encrypted}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_path,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_crypto_key}{CryptoKey}}\&\ p\_key);}
-\DoxyCodeLine{00126\ }
-\DoxyCodeLine{00130\ \ \ \ \ \mbox{\hyperlink{class_config_file_a9ce259defdfaabeedb2455849ca6bd1e}{ConfigFile}}();}
-\DoxyCodeLine{00131\ \};}
+\DoxyCodeLine{00034\ \mbox{\hyperlink{_typedefs_8h_adbc0df4d1fa04f27787ea0240400dbdf}{PACKER\_NAMESPACE\_BEGIN}}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00043\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_config_file}{ConfigFile}}\ \{}
+\DoxyCodeLine{00044\ \ \ \ \ \mbox{\hyperlink{_typedefs_8h_aaadbf0532a4a78bf0ef54be7a045d86e}{Map<String,\ Variant>}}\ values;\ }
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_config_file_a3571d5bc9be89b9770d301e2019985e2}{set\_value}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_key,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_variant}{Variant}}\&\ p\_value);}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00060\ \ \ \ \ \mbox{\hyperlink{class_variant}{Variant}}\ \mbox{\hyperlink{class_config_file_a96ea67ce1451ec33db8d6b806787dc9d}{get\_value}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_key,\ \mbox{\hyperlink{class_variant}{Variant}}\ p\_default\ =\ \mbox{\hyperlink{class_variant}{Variant}}())\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_config_file_afd14867c8c0eea81cfd1b1f13a170662}{has\_value}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_key)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_config_file_af2ccafcebd2daa8dd67fa83a20d44722}{erase\_value}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_key);}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_config_file_a0c7d81b30b0107862d0836c3747443f5}{clear}}();}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_aaadbf0532a4a78bf0ef54be7a045d86e}{Map<String,\ Variant>}}\&\ \mbox{\hyperlink{class_config_file_adc85403be9589c5d619feab22df63e95}{get\_values}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_config_file_a23c0484fc6d144ab45a668bcf69f1830}{set\_values}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_aaadbf0532a4a78bf0ef54be7a045d86e}{Map<String,\ Variant>}}\&\ p\_values);}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_config_file_a592a0a3662ba2ecf023ad1a7684d19b2}{get\_keys}}(\mbox{\hyperlink{_typedefs_8h_a2e19bd9826ad447934133cebebbb5239}{Vector<String>}}\&\ p\_keys)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00104\ \ \ \ \ \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}}\ \mbox{\hyperlink{class_config_file_a8750c11d1625938b253e35a8c2dc66f3}{save}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_path)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00111\ \ \ \ \ \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}}\ \mbox{\hyperlink{class_config_file_a892e28fe1e2ffaf4d457535cf5065a24}{load}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_path);}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00119\ \ \ \ \ \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}}\ \mbox{\hyperlink{class_config_file_ab24f4413d97c3dfa70654981483a2428}{save\_encrypted}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_path,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_crypto_key}{CryptoKey}}\&\ p\_key)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00127\ \ \ \ \ \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}}\ \mbox{\hyperlink{class_config_file_a681cd61ead70e242f882020546d094cd}{load\_encrypted}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_path,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_crypto_key}{CryptoKey}}\&\ p\_key);}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00132\ \ \ \ \ \mbox{\hyperlink{class_config_file_a9ce259defdfaabeedb2455849ca6bd1e}{ConfigFile}}();}
+\DoxyCodeLine{00133\ \};}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \mbox{\hyperlink{_typedefs_8h_a0392f3971db25ed1554aaf079f943911}{PACKER\_NAMESPACE\_END}}}
 
 \end{DoxyCode}

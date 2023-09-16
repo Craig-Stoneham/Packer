@@ -1,0 +1,94 @@
+\doxysection{Source/\+Packer/\+Log.h File Reference}
+\hypertarget{_log_8h}{}\label{_log_8h}\index{Source/Packer/Log.h@{Source/Packer/Log.h}}
+
+
+Provides logging functionality for the application.  
+
+
+{\ttfamily \#include "{}Typedefs.\+h"{}}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_log}{Log}}
+\begin{DoxyCompactList}\small\item\em Provides logging functionality for the application. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_log_8h_a8dc35aa43386dfbee97635bf52dd3c55}{LOG\+\_\+\+STRING}}(p\+\_\+level,  p\+\_\+string)~\mbox{\hyperlink{class_log_ab52dea097974dcdd3d4e0bd702dbad7a}{Log\+::log\+\_\+string}}(p\+\_\+level, p\+\_\+string)
+\begin{DoxyCompactList}\small\item\em \doxylink{class_log}{Log} a string message with a specified log level. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_log_8h_a80a6af185ae7cead66d7ca112c637347}{LOG\+\_\+\+INFO}}(p\+\_\+string)~\mbox{\hyperlink{class_log_a6ba5c4963eee2740e3ca19cb14507087}{Log\+::log\+\_\+info}}(p\+\_\+string)
+\begin{DoxyCompactList}\small\item\em \doxylink{class_log}{Log} an informational message. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_log_8h_a187c5886eb0d5997e6123c313fbf5836}{LOG\+\_\+\+WARN}}(p\+\_\+string)~\mbox{\hyperlink{class_log_ae6ba86896298a925b7dcba4fd978700f}{Log\+::log\+\_\+warn}}(p\+\_\+string)
+\begin{DoxyCompactList}\small\item\em \doxylink{class_log}{Log} a warning message. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_log_8h_abf9cdbc6c17fdc371b80a04f99af826e}{LOG\+\_\+\+ERROR}}(p\+\_\+string)~\mbox{\hyperlink{class_log_ac53ec594f61f5ef3b756043ecf1380b5}{Log\+::log\+\_\+error}}(p\+\_\+string)
+\begin{DoxyCompactList}\small\item\em \doxylink{class_log}{Log} an error message. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Provides logging functionality for the application. 
+
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{_log_8h_abf9cdbc6c17fdc371b80a04f99af826e}\label{_log_8h_abf9cdbc6c17fdc371b80a04f99af826e} 
+\index{Log.h@{Log.h}!LOG\_ERROR@{LOG\_ERROR}}
+\index{LOG\_ERROR@{LOG\_ERROR}!Log.h@{Log.h}}
+\doxysubsubsection{\texorpdfstring{LOG\_ERROR}{LOG\_ERROR}}
+{\footnotesize\ttfamily \#define LOG\+\_\+\+ERROR(\begin{DoxyParamCaption}\item[{}]{p\+\_\+string }\end{DoxyParamCaption})~\mbox{\hyperlink{class_log_ac53ec594f61f5ef3b756043ecf1380b5}{Log\+::log\+\_\+error}}(p\+\_\+string)}
+
+
+
+\doxylink{class_log}{Log} an error message. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+string} & The log message. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{_log_8h_a80a6af185ae7cead66d7ca112c637347}\label{_log_8h_a80a6af185ae7cead66d7ca112c637347} 
+\index{Log.h@{Log.h}!LOG\_INFO@{LOG\_INFO}}
+\index{LOG\_INFO@{LOG\_INFO}!Log.h@{Log.h}}
+\doxysubsubsection{\texorpdfstring{LOG\_INFO}{LOG\_INFO}}
+{\footnotesize\ttfamily \#define LOG\+\_\+\+INFO(\begin{DoxyParamCaption}\item[{}]{p\+\_\+string }\end{DoxyParamCaption})~\mbox{\hyperlink{class_log_a6ba5c4963eee2740e3ca19cb14507087}{Log\+::log\+\_\+info}}(p\+\_\+string)}
+
+
+
+\doxylink{class_log}{Log} an informational message. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+string} & The log message. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{_log_8h_a8dc35aa43386dfbee97635bf52dd3c55}\label{_log_8h_a8dc35aa43386dfbee97635bf52dd3c55} 
+\index{Log.h@{Log.h}!LOG\_STRING@{LOG\_STRING}}
+\index{LOG\_STRING@{LOG\_STRING}!Log.h@{Log.h}}
+\doxysubsubsection{\texorpdfstring{LOG\_STRING}{LOG\_STRING}}
+{\footnotesize\ttfamily \#define LOG\+\_\+\+STRING(\begin{DoxyParamCaption}\item[{}]{p\+\_\+level,  }\item[{}]{p\+\_\+string }\end{DoxyParamCaption})~\mbox{\hyperlink{class_log_ab52dea097974dcdd3d4e0bd702dbad7a}{Log\+::log\+\_\+string}}(p\+\_\+level, p\+\_\+string)}
+
+
+
+\doxylink{class_log}{Log} a string message with a specified log level. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+level} & The log level. \\
+\hline
+{\em p\+\_\+string} & The log message. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{_log_8h_a187c5886eb0d5997e6123c313fbf5836}\label{_log_8h_a187c5886eb0d5997e6123c313fbf5836} 
+\index{Log.h@{Log.h}!LOG\_WARN@{LOG\_WARN}}
+\index{LOG\_WARN@{LOG\_WARN}!Log.h@{Log.h}}
+\doxysubsubsection{\texorpdfstring{LOG\_WARN}{LOG\_WARN}}
+{\footnotesize\ttfamily \#define LOG\+\_\+\+WARN(\begin{DoxyParamCaption}\item[{}]{p\+\_\+string }\end{DoxyParamCaption})~\mbox{\hyperlink{class_log_ae6ba86896298a925b7dcba4fd978700f}{Log\+::log\+\_\+warn}}(p\+\_\+string)}
+
+
+
+\doxylink{class_log}{Log} a warning message. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+string} & The log message. \\
+\hline
+\end{DoxyParams}

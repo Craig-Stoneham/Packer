@@ -1,0 +1,142 @@
+\doxysection{Source/\+Packer/\+Error.h File Reference}
+\hypertarget{_error_8h}{}\label{_error_8h}\index{Source/Packer/Error.h@{Source/Packer/Error.h}}
+
+
+Defines error codes and associated functions.  
+
+
+{\ttfamily \#include "{}Typedefs.\+h"{}}\newline
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} \{ \newline
+\mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5a88183b946cc5f0e8c96b2e66e1c74a7e}{Unknown}} = -\/1
+, \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5ae0aa021e21dddbd6d8cecec71e9cf564}{OK}}
+, \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5ad7c8c85bf79bbe1b7188497c32c3b0ca}{Failed}}
+, \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5af5d49bc3243ac8419db1a2a0c448d1f3}{Unconfigured}}
+, \newline
+\mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5a66d83f56eefb07fec956c23a0ee5ad2d}{Range\+Error}}
+, \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5a2767828026039e8ba7b38973cbb701f2}{File\+Not\+Found}}
+, \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5aca461413d50634bb39293e63ae6317a6}{File\+Bad\+Path}}
+, \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5ade8c9ad7b0aee55c6022d7d4aa6a144f}{File\+Already\+In\+Use}}
+, \newline
+\mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5ae85794573a0f878d7070e1c63253947e}{File\+Cant\+Open}}
+, \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5a3c4b6828f5a12280debdb5a12e0e72ba}{Invalid\+Data}}
+, \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5ac47c93cf49de211bba5d62d65225f128}{Does\+Not\+Exist}}
+, \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5a6a061313d22e51e0f25b7cd4dc065233}{Max}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumerates error codes. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \mbox{\hyperlink{_error_8h_a1dfbdf44b82a4ee9e77d56e918d7f037}{get\+\_\+error\+\_\+name}} (\mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} p\+\_\+error)
+\begin{DoxyCompactList}\small\item\em Get a string representation of an error code. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} \mbox{\hyperlink{_error_8h_a789ebbf1daf9826ed1e9aaf1ad4cb007}{find\+\_\+error}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+error)
+\begin{DoxyCompactList}\small\item\em Find an error code by its string representation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Defines error codes and associated functions. 
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}\label{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5} 
+\index{Error.h@{Error.h}!Error@{Error}}
+\index{Error@{Error}!Error.h@{Error.h}}
+\doxysubsubsection{\texorpdfstring{Error}{Error}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+Enumerates error codes. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Unknown@{Unknown}!Error.h@{Error.h}}\index{Error.h@{Error.h}!Unknown@{Unknown}}}\Hypertarget{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5a88183b946cc5f0e8c96b2e66e1c74a7e}\label{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5a88183b946cc5f0e8c96b2e66e1c74a7e} 
+Unknown&Unknown error. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OK@{OK}!Error.h@{Error.h}}\index{Error.h@{Error.h}!OK@{OK}}}\Hypertarget{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5ae0aa021e21dddbd6d8cecec71e9cf564}\label{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5ae0aa021e21dddbd6d8cecec71e9cf564} 
+OK&No error; operation successful. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Failed@{Failed}!Error.h@{Error.h}}\index{Error.h@{Error.h}!Failed@{Failed}}}\Hypertarget{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5ad7c8c85bf79bbe1b7188497c32c3b0ca}\label{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5ad7c8c85bf79bbe1b7188497c32c3b0ca} 
+Failed&General operation failure. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Unconfigured@{Unconfigured}!Error.h@{Error.h}}\index{Error.h@{Error.h}!Unconfigured@{Unconfigured}}}\Hypertarget{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5af5d49bc3243ac8419db1a2a0c448d1f3}\label{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5af5d49bc3243ac8419db1a2a0c448d1f3} 
+Unconfigured&Configuration not set. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RangeError@{RangeError}!Error.h@{Error.h}}\index{Error.h@{Error.h}!RangeError@{RangeError}}}\Hypertarget{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5a66d83f56eefb07fec956c23a0ee5ad2d}\label{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5a66d83f56eefb07fec956c23a0ee5ad2d} 
+Range\+Error&Value out of valid range. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FileNotFound@{FileNotFound}!Error.h@{Error.h}}\index{Error.h@{Error.h}!FileNotFound@{FileNotFound}}}\Hypertarget{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5a2767828026039e8ba7b38973cbb701f2}\label{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5a2767828026039e8ba7b38973cbb701f2} 
+File\+Not\+Found&File not found. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FileBadPath@{FileBadPath}!Error.h@{Error.h}}\index{Error.h@{Error.h}!FileBadPath@{FileBadPath}}}\Hypertarget{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5aca461413d50634bb39293e63ae6317a6}\label{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5aca461413d50634bb39293e63ae6317a6} 
+File\+Bad\+Path&Invalid file path. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FileAlreadyInUse@{FileAlreadyInUse}!Error.h@{Error.h}}\index{Error.h@{Error.h}!FileAlreadyInUse@{FileAlreadyInUse}}}\Hypertarget{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5ade8c9ad7b0aee55c6022d7d4aa6a144f}\label{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5ade8c9ad7b0aee55c6022d7d4aa6a144f} 
+File\+Already\+In\+Use&File is already in use. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FileCantOpen@{FileCantOpen}!Error.h@{Error.h}}\index{Error.h@{Error.h}!FileCantOpen@{FileCantOpen}}}\Hypertarget{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5ae85794573a0f878d7070e1c63253947e}\label{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5ae85794573a0f878d7070e1c63253947e} 
+File\+Cant\+Open&Unable to open file. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{InvalidData@{InvalidData}!Error.h@{Error.h}}\index{Error.h@{Error.h}!InvalidData@{InvalidData}}}\Hypertarget{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5a3c4b6828f5a12280debdb5a12e0e72ba}\label{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5a3c4b6828f5a12280debdb5a12e0e72ba} 
+Invalid\+Data&Invalid data format. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DoesNotExist@{DoesNotExist}!Error.h@{Error.h}}\index{Error.h@{Error.h}!DoesNotExist@{DoesNotExist}}}\Hypertarget{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5ac47c93cf49de211bba5d62d65225f128}\label{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5ac47c93cf49de211bba5d62d65225f128} 
+Does\+Not\+Exist&The requested item does not exist. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Max@{Max}!Error.h@{Error.h}}\index{Error.h@{Error.h}!Max@{Max}}}\Hypertarget{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5a6a061313d22e51e0f25b7cd4dc065233}\label{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5a6a061313d22e51e0f25b7cd4dc065233} 
+Max&Maximum value for error codes. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{_error_8h_a789ebbf1daf9826ed1e9aaf1ad4cb007}\label{_error_8h_a789ebbf1daf9826ed1e9aaf1ad4cb007} 
+\index{Error.h@{Error.h}!find\_error@{find\_error}}
+\index{find\_error@{find\_error}!Error.h@{Error.h}}
+\doxysubsubsection{\texorpdfstring{find\_error()}{find\_error()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} find\+\_\+error (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+error }\end{DoxyParamCaption})}
+
+
+
+Find an error code by its string representation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+error} & The string representation of the error. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The corresponding error code, or \doxylink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5a88183b946cc5f0e8c96b2e66e1c74a7e}{Error\+::\+Unknown} if not found. 
+\end{DoxyReturn}
+\Hypertarget{_error_8h_a1dfbdf44b82a4ee9e77d56e918d7f037}\label{_error_8h_a1dfbdf44b82a4ee9e77d56e918d7f037} 
+\index{Error.h@{Error.h}!get\_error\_name@{get\_error\_name}}
+\index{get\_error\_name@{get\_error\_name}!Error.h@{Error.h}}
+\doxysubsubsection{\texorpdfstring{get\_error\_name()}{get\_error\_name()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} get\+\_\+error\+\_\+name (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}}}]{p\+\_\+error }\end{DoxyParamCaption})}
+
+
+
+Get a string representation of an error code. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+error} & The error code. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A string describing the error. 
+\end{DoxyReturn}

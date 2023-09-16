@@ -1,0 +1,65 @@
+\doxysection{Log\+File.\+h}
+\hypertarget{_log_file_8h_source}{}\label{_log_file_8h_source}\index{Source/Packer/LogFile.h@{Source/Packer/LogFile.h}}
+\mbox{\hyperlink{_log_file_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/**************************************************************************/}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ Copyright\ (c)\ 2023\ Craig\ Stoneham.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ a\ copy\ of\ this\ software\ and\ associated\ documentation\ files\ (the\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ "{}Software"{}),\ to\ deal\ in\ the\ Software\ without\ restriction,\ including\ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ without\ limitation\ the\ rights\ to\ use,\ copy,\ modify,\ merge,\ publish,\ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ distribute,\ sublicense,\ and/or\ sell\ copies\ of\ the\ Software,\ and\ to\ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ permit\ persons\ to\ whom\ the\ Software\ is\ furnished\ to\ do\ so,\ subject\ to\ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ the\ following\ conditions:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00011\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00012\ \textcolor{comment}{/*\ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00013\ \textcolor{comment}{/*\ included\ in\ all\ copies\ or\ substantial\ portions\ of\ the\ Software.\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00014\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00015\ \textcolor{comment}{/*\ THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00016\ \textcolor{comment}{/*\ EXPRESS\ OR\ IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ \ \ \ \ */}}
+\DoxyCodeLine{00017\ \textcolor{comment}{/*\ MERCHANTABILITY,\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ */}}
+\DoxyCodeLine{00018\ \textcolor{comment}{/*\ IN\ NO\ EVENT\ SHALL\ THE\ AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ \ \ */}}
+\DoxyCodeLine{00019\ \textcolor{comment}{/*\ CLAIM,\ DAMAGES\ OR\ OTHER\ LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ \ \ */}}
+\DoxyCodeLine{00020\ \textcolor{comment}{/*\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,\ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ \ \ \ \ \ */}}
+\DoxyCodeLine{00021\ \textcolor{comment}{/*\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE\ SOFTWARE.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00022\ \textcolor{comment}{/**************************************************************************/}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_log_8h}{Log.h}}"{}}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_error_8h}{Error.h}}"{}}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \mbox{\hyperlink{_typedefs_8h_adbc0df4d1fa04f27787ea0240400dbdf}{PACKER\_NAMESPACE\_BEGIN}}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00040\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_log_file}{LogFile}}\ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{bool}\ print\_level\_details;\ }
+\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{_typedefs_8h_a75a54c12feaff508b9051abfb4d3437c}{FileStreamO}}\ stream;\ }
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_log_file_a76ff093c6bdf092f07482b8d78e963bd}{set\_print\_level\_details}}(\textcolor{keywordtype}{bool}\ p\_enabled);}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_log_file_a56936d0bc75993612748d75b857882fa}{get\_print\_level\_details}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_log_file_ae8f0a6d6629b34cc6d6f89c368800e96}{log\_string}}(\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Log::Level}}\ p\_level,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_string);}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_log_file_a56e45c8e8842e05600a065312cdbcf37}{log\_info}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_string);}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_log_file_a545e217fa3a704e94fbde0c47d6e473b}{log\_warn}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_string);}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_log_file_adfdbd8a73967568d2f9a24bcb9952929}{log\_error}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_string);}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00087\ \ \ \ \ \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}}\ \mbox{\hyperlink{class_log_file_a1edcfb28024000745bab8d2581c5ca50}{open}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_path);}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00093\ \ \ \ \ \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}}\ \mbox{\hyperlink{class_log_file_ae3f30c816b09efef5b8582169a807586}{close}}();}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00099\ \ \ \ \ \mbox{\hyperlink{class_log_file_ae34dd7e5ada0b29232343b67c20796b2}{LogFile}}(\textcolor{keywordtype}{bool}\ p\_print\_level\_details\ =\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00106\ \ \ \ \ \mbox{\hyperlink{class_log_file_ac9e22cbd2128c392d904b20c46c33d46}{LogFile}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_path,\ \textcolor{keywordtype}{bool}\ p\_print\_level\_details\ =\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_log_file_a138968d21e3fd3bdd7aeb46ca5096597}{\string~LogFile}}();}
+\DoxyCodeLine{00112\ \};}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \mbox{\hyperlink{_typedefs_8h_a0392f3971db25ed1554aaf079f943911}{PACKER\_NAMESPACE\_END}}}
+
+\end{DoxyCode}

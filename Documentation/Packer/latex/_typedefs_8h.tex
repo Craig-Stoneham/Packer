@@ -23,10 +23,16 @@ namespace \mbox{\hyperlink{namespace_file_access}{File\+Access}}
 \item 
 \Hypertarget{_typedefs_8h_aab6af62131aad81d17d3b4afd9db334f}\label{_typedefs_8h_aab6af62131aad81d17d3b4afd9db334f} 
 \#define {\bfseries \+\_\+\+SILENCE\+\_\+\+EXPERIMENTAL\+\_\+\+FILESYSTEM\+\_\+\+DEPRECATION\+\_\+\+WARNING}
-\item 
+\begin{DoxyCompactList}\small\item\em Suppress \textquotesingle{}std\+::experimental\+::filesystem is deprecated\textquotesingle{} warning. \end{DoxyCompactList}\item 
 \Hypertarget{_typedefs_8h_a7cb5b6a7c401130b0ab64302afd30a40}\label{_typedefs_8h_a7cb5b6a7c401130b0ab64302afd30a40} 
 \#define {\bfseries EXPERIMENTAL\+\_\+\+FILESYSTEM}
-\item 
+\begin{DoxyCompactList}\small\item\em Indicates that the file system is experimental. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_typedefs_8h_adbc0df4d1fa04f27787ea0240400dbdf}{PACKER\+\_\+\+NAMESPACE\+\_\+\+BEGIN}}
+\begin{DoxyCompactList}\small\item\em Defines the beginning of the optional \doxylink{class_packer}{Packer} namespace. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_typedefs_8h_a0392f3971db25ed1554aaf079f943911}{PACKER\+\_\+\+NAMESPACE\+\_\+\+END}}
+\begin{DoxyCompactList}\small\item\em Defines the end of the optional \doxylink{class_packer}{Packer} namespace. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_typedefs_8h_a4f46856e205e5267c5d7d329c8b185b3}{USING\+\_\+\+NAMESPACE\+\_\+\+PACKER}}
+\begin{DoxyCompactList}\small\item\em Provides the option to use the "{}\+Packer"{} namespace. \end{DoxyCompactList}\item 
 \#define \mbox{\hyperlink{_typedefs_8h_a787429515c2cbc0ae1c4f1668b124113}{STRINGIFY}}(p\+\_\+x)~\#p\+\_\+x
 \begin{DoxyCompactList}\small\item\em Converts a token into a string literal. \end{DoxyCompactList}\item 
 \#define \mbox{\hyperlink{_typedefs_8h_a9f8592f50c59cc89616b379403f7a01c}{MAKE\+\_\+\+STRING}}(m\+\_\+x)~\mbox{\hyperlink{_typedefs_8h_a787429515c2cbc0ae1c4f1668b124113}{STRINGIFY}}(m\+\_\+x)
@@ -89,7 +95,27 @@ Macro to convert a token into a string literal.
 {\em m\+\_\+x} & The token to convert. \\
 \hline
 \end{DoxyParams}
-\Hypertarget{_typedefs_8h_a787429515c2cbc0ae1c4f1668b124113}\label{_typedefs_8h_a787429515c2cbc0ae1c4f1668b124113} 
+\Hypertarget{_typedefs_8h_adbc0df4d1fa04f27787ea0240400dbdf}\label{_typedefs_8h_adbc0df4d1fa04f27787ea0240400dbdf} 
+\index{Typedefs.h@{Typedefs.h}!PACKER\_NAMESPACE\_BEGIN@{PACKER\_NAMESPACE\_BEGIN}}
+\index{PACKER\_NAMESPACE\_BEGIN@{PACKER\_NAMESPACE\_BEGIN}!Typedefs.h@{Typedefs.h}}
+\doxysubsubsection{\texorpdfstring{PACKER\_NAMESPACE\_BEGIN}{PACKER\_NAMESPACE\_BEGIN}}
+{\footnotesize\ttfamily \#define PACKER\+\_\+\+NAMESPACE\+\_\+\+BEGIN}
+
+
+
+Defines the beginning of the optional \doxylink{class_packer}{Packer} namespace. 
+
+This macro defines the beginning of an optional namespace, allowing the code within it to be encapsulated within the "{}\+Packer"{} namespace. The namespace encapsulation is controlled by the presence or absence of the "{}\+PACKER\+\_\+\+NAMESPACE\+\_\+\+ENABLED"{} preprocessor macro. \Hypertarget{_typedefs_8h_a0392f3971db25ed1554aaf079f943911}\label{_typedefs_8h_a0392f3971db25ed1554aaf079f943911} 
+\index{Typedefs.h@{Typedefs.h}!PACKER\_NAMESPACE\_END@{PACKER\_NAMESPACE\_END}}
+\index{PACKER\_NAMESPACE\_END@{PACKER\_NAMESPACE\_END}!Typedefs.h@{Typedefs.h}}
+\doxysubsubsection{\texorpdfstring{PACKER\_NAMESPACE\_END}{PACKER\_NAMESPACE\_END}}
+{\footnotesize\ttfamily \#define PACKER\+\_\+\+NAMESPACE\+\_\+\+END}
+
+
+
+Defines the end of the optional \doxylink{class_packer}{Packer} namespace. 
+
+This macro defines the end of an optional namespace, closing the "{}\+Packer"{} namespace encapsulation. The namespace encapsulation is controlled by the presence or absence of the "{}\+PACKER\+\_\+\+NAMESPACE\+\_\+\+ENABLED"{} preprocessor macro. \Hypertarget{_typedefs_8h_a787429515c2cbc0ae1c4f1668b124113}\label{_typedefs_8h_a787429515c2cbc0ae1c4f1668b124113} 
 \index{Typedefs.h@{Typedefs.h}!STRINGIFY@{STRINGIFY}}
 \index{STRINGIFY@{STRINGIFY}!Typedefs.h@{Typedefs.h}}
 \doxysubsubsection{\texorpdfstring{STRINGIFY}{STRINGIFY}}
@@ -104,7 +130,17 @@ Converts a token into a string literal.
 {\em p\+\_\+x} & The token to convert. \\
 \hline
 \end{DoxyParams}
+\Hypertarget{_typedefs_8h_a4f46856e205e5267c5d7d329c8b185b3}\label{_typedefs_8h_a4f46856e205e5267c5d7d329c8b185b3} 
+\index{Typedefs.h@{Typedefs.h}!USING\_NAMESPACE\_PACKER@{USING\_NAMESPACE\_PACKER}}
+\index{USING\_NAMESPACE\_PACKER@{USING\_NAMESPACE\_PACKER}!Typedefs.h@{Typedefs.h}}
+\doxysubsubsection{\texorpdfstring{USING\_NAMESPACE\_PACKER}{USING\_NAMESPACE\_PACKER}}
+{\footnotesize\ttfamily \#define USING\+\_\+\+NAMESPACE\+\_\+\+PACKER}
 
+
+
+Provides the option to use the "{}\+Packer"{} namespace. 
+
+This macro allows the option to include the entire "{}\+Packer"{} namespace in the current scope, making all classes, functions, and variables within the "{}\+Packer"{} namespace accessible without qualifying them with "{}\+Packer\+::"{}. The usage of this macro is determined by the presence or absence of the "{}\+USING\+\_\+\+NAMESPACE\+\_\+\+PACKER"{} preprocessor macro. 
 
 \doxysubsection{Typedef Documentation}
 \Hypertarget{_typedefs_8h_aaadbf0532a4a78bf0ef54be7a045d86e}\label{_typedefs_8h_aaadbf0532a4a78bf0ef54be7a045d86e} 

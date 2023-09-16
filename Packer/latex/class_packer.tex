@@ -1,0 +1,819 @@
+\doxysection{Packer Class Reference}
+\hypertarget{class_packer}{}\label{class_packer}\index{Packer@{Packer}}
+
+
+A utility class for packing and managing files based on user-\/defined rules.  
+
+
+
+
+{\ttfamily \#include $<$Packer.\+h$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{class_packer_a9e1110713ff84fd4698f34c77098e1a5}{Pack\+Mode}} \{ \newline
+\mbox{\hyperlink{class_packer_a9e1110713ff84fd4698f34c77098e1a5a88183b946cc5f0e8c96b2e66e1c74a7e}{Unknown}} = -\/1
+, \mbox{\hyperlink{class_packer_a9e1110713ff84fd4698f34c77098e1a5af4d72a64acd8929c0cc9ed96a7a336cc}{Include}}
+, \mbox{\hyperlink{class_packer_a9e1110713ff84fd4698f34c77098e1a5a843f2812f595e7ec7c5036e89fde02d6}{Exclude}}
+, \mbox{\hyperlink{class_packer_a9e1110713ff84fd4698f34c77098e1a5a709468af25e91284821d1bdbfdded24c}{Everything}}
+, \newline
+\mbox{\hyperlink{class_packer_a9e1110713ff84fd4698f34c77098e1a5a6a061313d22e51e0f25b7cd4dc065233}{Max}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration defining different packing modes. \end{DoxyCompactList}\item 
+enum class \mbox{\hyperlink{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2e}{Extension\+Adjust}} \{ \newline
+\mbox{\hyperlink{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2ea88183b946cc5f0e8c96b2e66e1c74a7e}{Unknown}} = -\/1
+, \mbox{\hyperlink{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2ea7a1920d61156abc05a60135aefe8bc67}{Default}}
+, \mbox{\hyperlink{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2eab75fcdd2d72d9e000beab48622402d93}{Lower}}
+, \mbox{\hyperlink{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2ea19de5b94f7b83900d4b296d9fa491aec}{Upper}}
+, \newline
+\mbox{\hyperlink{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2ea6a061313d22e51e0f25b7cd4dc065233}{Max}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration defining different extension adjustment options. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_packer_a5d8c1cbf4259645d3767a2b7d5ea7840}{set\+\_\+read\+\_\+path}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Set the source directory to pack files from. \end{DoxyCompactList}\item 
+const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \& \mbox{\hyperlink{class_packer_aad0a752fdcb54d4c81e2acb69014ae0f}{get\+\_\+read\+\_\+path}} () const
+\begin{DoxyCompactList}\small\item\em Get the source directory where files are packed from. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_packer_ad27c185d76bb099d7be7e8f124478b09}{set\+\_\+write\+\_\+path}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Set the destination directory to write packed files to. \end{DoxyCompactList}\item 
+const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \& \mbox{\hyperlink{class_packer_ad538fb9d4f596bae16ee30b16309bbfa}{get\+\_\+write\+\_\+path}} () const
+\begin{DoxyCompactList}\small\item\em Get the destination directory where packed files are written to. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{class_packer_a708b21842aa03507b8b82a5a65d037b7}{get\+\_\+extension\+\_\+count}} () const
+\begin{DoxyCompactList}\small\item\em Get the number of extensions in the list. \end{DoxyCompactList}\item 
+const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \& \mbox{\hyperlink{class_packer_a0178b2e41818de59749bb731307f3fbf}{get\+\_\+extension}} (size\+\_\+t p\+\_\+index) const
+\begin{DoxyCompactList}\small\item\em Get an extension at a specified index in the list. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_packer_a4dc004045d226cbf0f41224b1ce42afb}{add\+\_\+extension}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+extension)
+\begin{DoxyCompactList}\small\item\em Add an extension to the list of extensions. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_packer_ae85599de19b8ae78b599d112ed824ac0}{remove\+\_\+extension}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+extension)
+\begin{DoxyCompactList}\small\item\em Remove an extension from the list of extensions. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_packer_a17db75e4bba22c38be1871dedeb6f084}{has\+\_\+extension}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+extension) const
+\begin{DoxyCompactList}\small\item\em Check if a specific extension exists in the list. \end{DoxyCompactList}\item 
+\Hypertarget{class_packer_aeb1f25ccfcbd2c37bea34d8c2b4780ae}\label{class_packer_aeb1f25ccfcbd2c37bea34d8c2b4780ae} 
+void {\bfseries clear\+\_\+extensions} ()
+\begin{DoxyCompactList}\small\item\em Clear the list of extensions. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_packer_a6895fd29a62340e7bc8bcafdb1071cc7}{set\+\_\+pack\+\_\+mode}} (\mbox{\hyperlink{class_packer_a9e1110713ff84fd4698f34c77098e1a5}{Pack\+Mode}} p\+\_\+mode)
+\begin{DoxyCompactList}\small\item\em Set the packing mode. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_packer_a9e1110713ff84fd4698f34c77098e1a5}{Pack\+Mode}} \mbox{\hyperlink{class_packer_a0ba3b60d809e0fe79def74ec8f6787fa}{get\+\_\+pack\+\_\+mode}} () const
+\begin{DoxyCompactList}\small\item\em Get the current packing mode. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_packer_a763febe29f330c33eb941582395971d4}{set\+\_\+overwrite\+\_\+files}} (bool p\+\_\+enable)
+\begin{DoxyCompactList}\small\item\em Set whether to overwrite existing files. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_packer_a6aa2af2a04a1c3bdf8f6915599b800ba}{get\+\_\+overwrite\+\_\+files}} () const
+\begin{DoxyCompactList}\small\item\em Check if overwriting existing files is enabled. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_packer_a4a43c79e49337119d0649a2589ecb5c8}{set\+\_\+move\+\_\+files}} (bool p\+\_\+enable)
+\begin{DoxyCompactList}\small\item\em Set whether to move files instead of copying them. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_packer_ae778942334bb4a7d6bda68f7f771bfcf}{get\+\_\+move\+\_\+files}} () const
+\begin{DoxyCompactList}\small\item\em Check if moving files is enabled. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_packer_ab4361129165c40d6baf1bc976b2cdb45}{set\+\_\+suffix\+\_\+string}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+suffix)
+\begin{DoxyCompactList}\small\item\em Set the suffix string to append to packed file names. \end{DoxyCompactList}\item 
+const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \& \mbox{\hyperlink{class_packer_ae8b7839b8d4fc41b0784a0533d06eb98}{get\+\_\+suffix\+\_\+string}} () const
+\begin{DoxyCompactList}\small\item\em Get the current suffix string. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_packer_a29a8211a619ac1ba21e3017504df06b9}{set\+\_\+suffix\+\_\+enabled}} (bool p\+\_\+enable)
+\begin{DoxyCompactList}\small\item\em Enable or disable suffixes. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_packer_a236825a814a4cb74bd0f9ada1066d324}{get\+\_\+suffix\+\_\+enabled}} () const
+\begin{DoxyCompactList}\small\item\em Check if suffixes are enabled. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_packer_a33c80c7beb2659f6bdbb3d39809452fc}{set\+\_\+extension\+\_\+insensitive}} (bool p\+\_\+enable)
+\begin{DoxyCompactList}\small\item\em Enable or disable case-\/insensitive handling of extensions. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_packer_a7e7c62c940e5e05a045ecd791154e3c7}{get\+\_\+extension\+\_\+insensitive}} () const
+\begin{DoxyCompactList}\small\item\em Check if case-\/insensitive handling of extensions is enabled. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_packer_ac97cf2140c02cfff19c483c3cf65a8a9}{set\+\_\+extension\+\_\+adjust}} (\mbox{\hyperlink{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2e}{Extension\+Adjust}} p\+\_\+case)
+\begin{DoxyCompactList}\small\item\em Set the adjustment to apply to file extensions. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2e}{Extension\+Adjust}} \mbox{\hyperlink{class_packer_a54980c552427901409a617d28860fe01}{get\+\_\+extension\+\_\+adjust}} () const
+\begin{DoxyCompactList}\small\item\em Get the current extension adjustment. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_packer_ad45f53790e6fb1785154f12f484ebd83}{set\+\_\+ignore\+\_\+file\+\_\+name}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+name)
+\begin{DoxyCompactList}\small\item\em Set the name of the ignore file to use. \end{DoxyCompactList}\item 
+const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \& \mbox{\hyperlink{class_packer_aced17421c3fa0c278f268e0ac59ce886}{get\+\_\+ignore\+\_\+file\+\_\+name}} () const
+\begin{DoxyCompactList}\small\item\em Get the name of the ignore file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_packer_a98a2fcfbafdade42967e17dce1ec2941}{set\+\_\+ignore\+\_\+file\+\_\+enabled}} (bool p\+\_\+enable)
+\begin{DoxyCompactList}\small\item\em Enable or disable the use of ignore files. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_packer_a572b6f787c3d64279de7527930c3e402}{get\+\_\+ignore\+\_\+file\+\_\+enabled}} () const
+\begin{DoxyCompactList}\small\item\em Check if ignore files are enabled. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_packer_ae847f8b3a25e281e9c51e00d3e88a9a4}{set\+\_\+log\+\_\+enabled}} (bool p\+\_\+enable)
+\begin{DoxyCompactList}\small\item\em Enable or disable logging. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_packer_a2634c7c93185dc1ac6b2e6d5fea08474}{get\+\_\+log\+\_\+enabled}} () const
+\begin{DoxyCompactList}\small\item\em Check if logging is enabled. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_packer_a218c64caec022f2128298a9188bfde08}{to\+\_\+config\+\_\+file}} (\mbox{\hyperlink{class_config_file}{Config\+File}} \&p\+\_\+file) const
+\begin{DoxyCompactList}\small\item\em Serialize the \doxylink{class_packer}{Packer} configuration to a \doxylink{class_config_file}{Config\+File}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_packer_ad69aa9f470fba9144413e263199214c7}{from\+\_\+config\+\_\+file}} (const \mbox{\hyperlink{class_config_file}{Config\+File}} \&p\+\_\+file)
+\begin{DoxyCompactList}\small\item\em Deserialize the \doxylink{class_packer}{Packer} configuration from a \doxylink{class_config_file}{Config\+File}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} \mbox{\hyperlink{class_packer_a208e7678934a5220cfb12a432be47ff3}{save}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+path) const
+\begin{DoxyCompactList}\small\item\em Save the \doxylink{class_packer}{Packer} configuration to a file. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} \mbox{\hyperlink{class_packer_a0571081ccccfbfeec26446e4fd71b0fe}{load}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Load the \doxylink{class_packer}{Packer} configuration from a file. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} \mbox{\hyperlink{class_packer_a31b51d78a02579f0f6eff1f569501e69}{save\+\_\+encrypted}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+path, const \mbox{\hyperlink{class_crypto_key}{Crypto\+Key}} \&p\+\_\+key) const
+\begin{DoxyCompactList}\small\item\em Save the encrypted \doxylink{class_packer}{Packer} configuration to a file. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} \mbox{\hyperlink{class_packer_a7b6682c65b38ef4738504f5bd70045c9}{load\+\_\+encrypted}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+path, const \mbox{\hyperlink{class_crypto_key}{Crypto\+Key}} \&p\+\_\+key)
+\begin{DoxyCompactList}\small\item\em Load encrypted \doxylink{class_packer}{Packer} configuration data from a file. \end{DoxyCompactList}\item 
+\Hypertarget{class_packer_a60b909a59518e48ac6bf44189b27cd38}\label{class_packer_a60b909a59518e48ac6bf44189b27cd38} 
+void {\bfseries revert\+\_\+state} ()
+\begin{DoxyCompactList}\small\item\em Revert the \doxylink{class_packer}{Packer}\textquotesingle{}s state to its default values. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} \mbox{\hyperlink{class_packer_a2a62fd86146dd12d05884b88c10694a5}{pack\+\_\+files}} ()
+\begin{DoxyCompactList}\small\item\em Pack files based on the \doxylink{class_packer}{Packer}\textquotesingle{}s configuration. \end{DoxyCompactList}\item 
+\Hypertarget{class_packer_ae2ee8236805b0cf36cd1f1dd6f6cd924}\label{class_packer_ae2ee8236805b0cf36cd1f1dd6f6cd924} 
+{\bfseries Packer} ()
+\begin{DoxyCompactList}\small\item\em Constructor for the \doxylink{class_packer}{Packer} class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \mbox{\hyperlink{class_packer_a8b2a5988ebb1edf993d59c08ce04c2f3}{get\+\_\+pack\+\_\+mode\+\_\+name}} (\mbox{\hyperlink{class_packer_a9e1110713ff84fd4698f34c77098e1a5}{Pack\+Mode}} p\+\_\+mode)
+\begin{DoxyCompactList}\small\item\em Get a string representation of a Pack\+Mode enum value. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{class_packer_a9e1110713ff84fd4698f34c77098e1a5}{Pack\+Mode}} \mbox{\hyperlink{class_packer_a772f29168ec841b279466a6b81d84b47}{find\+\_\+pack\+\_\+mode}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+mode)
+\begin{DoxyCompactList}\small\item\em Find a Pack\+Mode enum value based on its string representation. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \mbox{\hyperlink{class_packer_a13192cf92c3df93f85540382b787f528}{get\+\_\+extension\+\_\+adjust\+\_\+name}} (\mbox{\hyperlink{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2e}{Extension\+Adjust}} p\+\_\+adjust)
+\begin{DoxyCompactList}\small\item\em Get a string representation of an Extension\+Adjust enum value. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2e}{Extension\+Adjust}} \mbox{\hyperlink{class_packer_a8538ec8db32b938b975f420f5e9bb0d9}{find\+\_\+extension\+\_\+adjust}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+adjust)
+\begin{DoxyCompactList}\small\item\em Find an Extension\+Adjust enum value based on its string representation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A utility class for packing and managing files based on user-\/defined rules. 
+
+The {\ttfamily \doxylink{class_packer}{Packer}} class allows you to specify rules for packing and managing files in a directory. It supports various packing modes, extension handling, file suffixes, and more. 
+
+\doxysubsection{Member Enumeration Documentation}
+\Hypertarget{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2e}\label{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2e} 
+\index{Packer@{Packer}!ExtensionAdjust@{ExtensionAdjust}}
+\index{ExtensionAdjust@{ExtensionAdjust}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{ExtensionAdjust}{ExtensionAdjust}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2e}{Packer\+::\+Extension\+Adjust}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+Enumeration defining different extension adjustment options. 
+
+This enumeration represents options for adjusting the case of file extensions. \begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Unknown@{Unknown}!Packer@{Packer}}\index{Packer@{Packer}!Unknown@{Unknown}}}\Hypertarget{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2ea88183b946cc5f0e8c96b2e66e1c74a7e}\label{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2ea88183b946cc5f0e8c96b2e66e1c74a7e} 
+Unknown&An unknown extension adjustment option. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Default@{Default}!Packer@{Packer}}\index{Packer@{Packer}!Default@{Default}}}\Hypertarget{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2ea7a1920d61156abc05a60135aefe8bc67}\label{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2ea7a1920d61156abc05a60135aefe8bc67} 
+Default&Leave extension case as-\/is. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Lower@{Lower}!Packer@{Packer}}\index{Packer@{Packer}!Lower@{Lower}}}\Hypertarget{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2eab75fcdd2d72d9e000beab48622402d93}\label{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2eab75fcdd2d72d9e000beab48622402d93} 
+Lower&Convert extension case to lower case. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Upper@{Upper}!Packer@{Packer}}\index{Packer@{Packer}!Upper@{Upper}}}\Hypertarget{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2ea19de5b94f7b83900d4b296d9fa491aec}\label{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2ea19de5b94f7b83900d4b296d9fa491aec} 
+Upper&Convert extension case to upper case. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Max@{Max}!Packer@{Packer}}\index{Packer@{Packer}!Max@{Max}}}\Hypertarget{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2ea6a061313d22e51e0f25b7cd4dc065233}\label{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2ea6a061313d22e51e0f25b7cd4dc065233} 
+Max&The maximum value for the Extension\+Adjust enumeration. \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{class_packer_a9e1110713ff84fd4698f34c77098e1a5}\label{class_packer_a9e1110713ff84fd4698f34c77098e1a5} 
+\index{Packer@{Packer}!PackMode@{PackMode}}
+\index{PackMode@{PackMode}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{PackMode}{PackMode}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{class_packer_a9e1110713ff84fd4698f34c77098e1a5}{Packer\+::\+Pack\+Mode}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+Enumeration defining different packing modes. 
+
+This enumeration represents various packing modes that control how files are packed. \begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Unknown@{Unknown}!Packer@{Packer}}\index{Packer@{Packer}!Unknown@{Unknown}}}\Hypertarget{class_packer_a9e1110713ff84fd4698f34c77098e1a5a88183b946cc5f0e8c96b2e66e1c74a7e}\label{class_packer_a9e1110713ff84fd4698f34c77098e1a5a88183b946cc5f0e8c96b2e66e1c74a7e} 
+Unknown&An unknown packing mode. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Include@{Include}!Packer@{Packer}}\index{Packer@{Packer}!Include@{Include}}}\Hypertarget{class_packer_a9e1110713ff84fd4698f34c77098e1a5af4d72a64acd8929c0cc9ed96a7a336cc}\label{class_packer_a9e1110713ff84fd4698f34c77098e1a5af4d72a64acd8929c0cc9ed96a7a336cc} 
+Include&Pack only extensions found in the extensions list. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Exclude@{Exclude}!Packer@{Packer}}\index{Packer@{Packer}!Exclude@{Exclude}}}\Hypertarget{class_packer_a9e1110713ff84fd4698f34c77098e1a5a843f2812f595e7ec7c5036e89fde02d6}\label{class_packer_a9e1110713ff84fd4698f34c77098e1a5a843f2812f595e7ec7c5036e89fde02d6} 
+Exclude&Pack everything excluding extensions found in the extensions list. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Everything@{Everything}!Packer@{Packer}}\index{Packer@{Packer}!Everything@{Everything}}}\Hypertarget{class_packer_a9e1110713ff84fd4698f34c77098e1a5a709468af25e91284821d1bdbfdded24c}\label{class_packer_a9e1110713ff84fd4698f34c77098e1a5a709468af25e91284821d1bdbfdded24c} 
+Everything&Pack everything regardless of extension. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Max@{Max}!Packer@{Packer}}\index{Packer@{Packer}!Max@{Max}}}\Hypertarget{class_packer_a9e1110713ff84fd4698f34c77098e1a5a6a061313d22e51e0f25b7cd4dc065233}\label{class_packer_a9e1110713ff84fd4698f34c77098e1a5a6a061313d22e51e0f25b7cd4dc065233} 
+Max&The maximum value for the Pack\+Mode enumeration. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_packer_a4dc004045d226cbf0f41224b1ce42afb}\label{class_packer_a4dc004045d226cbf0f41224b1ce42afb} 
+\index{Packer@{Packer}!add\_extension@{add\_extension}}
+\index{add\_extension@{add\_extension}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{add\_extension()}{add\_extension()}}
+{\footnotesize\ttfamily bool Packer\+::add\+\_\+extension (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+extension }\end{DoxyParamCaption})}
+
+
+
+Add an extension to the list of extensions. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+extension} & The extension to add. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily true} if the extension was added, {\ttfamily false} if it already exists. 
+\end{DoxyReturn}
+\Hypertarget{class_packer_a8538ec8db32b938b975f420f5e9bb0d9}\label{class_packer_a8538ec8db32b938b975f420f5e9bb0d9} 
+\index{Packer@{Packer}!find\_extension\_adjust@{find\_extension\_adjust}}
+\index{find\_extension\_adjust@{find\_extension\_adjust}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{find\_extension\_adjust()}{find\_extension\_adjust()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2e}{Extension\+Adjust}} Packer\+::find\+\_\+extension\+\_\+adjust (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+adjust }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Find an Extension\+Adjust enum value based on its string representation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+adjust} & The string representation of the Extension\+Adjust. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The corresponding Extension\+Adjust enum value. 
+\end{DoxyReturn}
+\Hypertarget{class_packer_a772f29168ec841b279466a6b81d84b47}\label{class_packer_a772f29168ec841b279466a6b81d84b47} 
+\index{Packer@{Packer}!find\_pack\_mode@{find\_pack\_mode}}
+\index{find\_pack\_mode@{find\_pack\_mode}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{find\_pack\_mode()}{find\_pack\_mode()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{class_packer_a9e1110713ff84fd4698f34c77098e1a5}{Pack\+Mode}} Packer\+::find\+\_\+pack\+\_\+mode (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+mode }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Find a Pack\+Mode enum value based on its string representation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+mode} & The string representation of the Pack\+Mode. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The corresponding Pack\+Mode enum value. 
+\end{DoxyReturn}
+\Hypertarget{class_packer_ad69aa9f470fba9144413e263199214c7}\label{class_packer_ad69aa9f470fba9144413e263199214c7} 
+\index{Packer@{Packer}!from\_config\_file@{from\_config\_file}}
+\index{from\_config\_file@{from\_config\_file}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{from\_config\_file()}{from\_config\_file()}}
+{\footnotesize\ttfamily void Packer\+::from\+\_\+config\+\_\+file (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_config_file}{Config\+File}} \&}]{p\+\_\+file }\end{DoxyParamCaption})}
+
+
+
+Deserialize the \doxylink{class_packer}{Packer} configuration from a \doxylink{class_config_file}{Config\+File}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+file} & The \doxylink{class_config_file}{Config\+File} containing the configuration data. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_packer_a0178b2e41818de59749bb731307f3fbf}\label{class_packer_a0178b2e41818de59749bb731307f3fbf} 
+\index{Packer@{Packer}!get\_extension@{get\_extension}}
+\index{get\_extension@{get\_extension}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{get\_extension()}{get\_extension()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \& Packer\+::get\+\_\+extension (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{p\+\_\+index }\end{DoxyParamCaption}) const}
+
+
+
+Get an extension at a specified index in the list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+index} & The index of the extension to retrieve. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The extension at the specified index. 
+\end{DoxyReturn}
+\Hypertarget{class_packer_a54980c552427901409a617d28860fe01}\label{class_packer_a54980c552427901409a617d28860fe01} 
+\index{Packer@{Packer}!get\_extension\_adjust@{get\_extension\_adjust}}
+\index{get\_extension\_adjust@{get\_extension\_adjust}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{get\_extension\_adjust()}{get\_extension\_adjust()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2e}{Extension\+Adjust}} Packer\+::get\+\_\+extension\+\_\+adjust (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the current extension adjustment. 
+
+\begin{DoxyReturn}{Returns}
+The current extension adjustment. 
+\end{DoxyReturn}
+\Hypertarget{class_packer_a13192cf92c3df93f85540382b787f528}\label{class_packer_a13192cf92c3df93f85540382b787f528} 
+\index{Packer@{Packer}!get\_extension\_adjust\_name@{get\_extension\_adjust\_name}}
+\index{get\_extension\_adjust\_name@{get\_extension\_adjust\_name}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{get\_extension\_adjust\_name()}{get\_extension\_adjust\_name()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} Packer\+::get\+\_\+extension\+\_\+adjust\+\_\+name (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2e}{Extension\+Adjust}}}]{p\+\_\+adjust }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Get a string representation of an Extension\+Adjust enum value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+adjust} & The Extension\+Adjust enum value. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A string representation of the Extension\+Adjust. 
+\end{DoxyReturn}
+\Hypertarget{class_packer_a708b21842aa03507b8b82a5a65d037b7}\label{class_packer_a708b21842aa03507b8b82a5a65d037b7} 
+\index{Packer@{Packer}!get\_extension\_count@{get\_extension\_count}}
+\index{get\_extension\_count@{get\_extension\_count}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{get\_extension\_count()}{get\_extension\_count()}}
+{\footnotesize\ttfamily size\+\_\+t Packer\+::get\+\_\+extension\+\_\+count (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the number of extensions in the list. 
+
+\begin{DoxyReturn}{Returns}
+The number of extensions. 
+\end{DoxyReturn}
+\Hypertarget{class_packer_a7e7c62c940e5e05a045ecd791154e3c7}\label{class_packer_a7e7c62c940e5e05a045ecd791154e3c7} 
+\index{Packer@{Packer}!get\_extension\_insensitive@{get\_extension\_insensitive}}
+\index{get\_extension\_insensitive@{get\_extension\_insensitive}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{get\_extension\_insensitive()}{get\_extension\_insensitive()}}
+{\footnotesize\ttfamily bool Packer\+::get\+\_\+extension\+\_\+insensitive (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Check if case-\/insensitive handling of extensions is enabled. 
+
+\begin{DoxyReturn}{Returns}
+{\ttfamily true} if case-\/insensitivity is enabled, {\ttfamily false} otherwise. 
+\end{DoxyReturn}
+\Hypertarget{class_packer_a572b6f787c3d64279de7527930c3e402}\label{class_packer_a572b6f787c3d64279de7527930c3e402} 
+\index{Packer@{Packer}!get\_ignore\_file\_enabled@{get\_ignore\_file\_enabled}}
+\index{get\_ignore\_file\_enabled@{get\_ignore\_file\_enabled}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{get\_ignore\_file\_enabled()}{get\_ignore\_file\_enabled()}}
+{\footnotesize\ttfamily bool Packer\+::get\+\_\+ignore\+\_\+file\+\_\+enabled (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Check if ignore files are enabled. 
+
+\begin{DoxyReturn}{Returns}
+{\ttfamily true} if ignore files are enabled, {\ttfamily false} otherwise. 
+\end{DoxyReturn}
+\Hypertarget{class_packer_aced17421c3fa0c278f268e0ac59ce886}\label{class_packer_aced17421c3fa0c278f268e0ac59ce886} 
+\index{Packer@{Packer}!get\_ignore\_file\_name@{get\_ignore\_file\_name}}
+\index{get\_ignore\_file\_name@{get\_ignore\_file\_name}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{get\_ignore\_file\_name()}{get\_ignore\_file\_name()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \& Packer\+::get\+\_\+ignore\+\_\+file\+\_\+name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the name of the ignore file. 
+
+\begin{DoxyReturn}{Returns}
+The name of the ignore file. 
+\end{DoxyReturn}
+\Hypertarget{class_packer_a2634c7c93185dc1ac6b2e6d5fea08474}\label{class_packer_a2634c7c93185dc1ac6b2e6d5fea08474} 
+\index{Packer@{Packer}!get\_log\_enabled@{get\_log\_enabled}}
+\index{get\_log\_enabled@{get\_log\_enabled}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{get\_log\_enabled()}{get\_log\_enabled()}}
+{\footnotesize\ttfamily bool Packer\+::get\+\_\+log\+\_\+enabled (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Check if logging is enabled. 
+
+\begin{DoxyReturn}{Returns}
+{\ttfamily true} if logging is enabled, {\ttfamily false} otherwise. 
+\end{DoxyReturn}
+\Hypertarget{class_packer_ae778942334bb4a7d6bda68f7f771bfcf}\label{class_packer_ae778942334bb4a7d6bda68f7f771bfcf} 
+\index{Packer@{Packer}!get\_move\_files@{get\_move\_files}}
+\index{get\_move\_files@{get\_move\_files}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{get\_move\_files()}{get\_move\_files()}}
+{\footnotesize\ttfamily bool Packer\+::get\+\_\+move\+\_\+files (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Check if moving files is enabled. 
+
+\begin{DoxyReturn}{Returns}
+{\ttfamily true} if moving files is enabled, {\ttfamily false} otherwise. 
+\end{DoxyReturn}
+\Hypertarget{class_packer_a6aa2af2a04a1c3bdf8f6915599b800ba}\label{class_packer_a6aa2af2a04a1c3bdf8f6915599b800ba} 
+\index{Packer@{Packer}!get\_overwrite\_files@{get\_overwrite\_files}}
+\index{get\_overwrite\_files@{get\_overwrite\_files}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{get\_overwrite\_files()}{get\_overwrite\_files()}}
+{\footnotesize\ttfamily bool Packer\+::get\+\_\+overwrite\+\_\+files (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Check if overwriting existing files is enabled. 
+
+\begin{DoxyReturn}{Returns}
+{\ttfamily true} if overwriting is enabled, {\ttfamily false} otherwise. 
+\end{DoxyReturn}
+\Hypertarget{class_packer_a0ba3b60d809e0fe79def74ec8f6787fa}\label{class_packer_a0ba3b60d809e0fe79def74ec8f6787fa} 
+\index{Packer@{Packer}!get\_pack\_mode@{get\_pack\_mode}}
+\index{get\_pack\_mode@{get\_pack\_mode}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{get\_pack\_mode()}{get\_pack\_mode()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_packer_a9e1110713ff84fd4698f34c77098e1a5}{Pack\+Mode}} Packer\+::get\+\_\+pack\+\_\+mode (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the current packing mode. 
+
+\begin{DoxyReturn}{Returns}
+The current packing mode. 
+\end{DoxyReturn}
+\Hypertarget{class_packer_a8b2a5988ebb1edf993d59c08ce04c2f3}\label{class_packer_a8b2a5988ebb1edf993d59c08ce04c2f3} 
+\index{Packer@{Packer}!get\_pack\_mode\_name@{get\_pack\_mode\_name}}
+\index{get\_pack\_mode\_name@{get\_pack\_mode\_name}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{get\_pack\_mode\_name()}{get\_pack\_mode\_name()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} Packer\+::get\+\_\+pack\+\_\+mode\+\_\+name (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_packer_a9e1110713ff84fd4698f34c77098e1a5}{Pack\+Mode}}}]{p\+\_\+mode }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Get a string representation of a Pack\+Mode enum value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+mode} & The Pack\+Mode enum value. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A string representation of the Pack\+Mode. 
+\end{DoxyReturn}
+\Hypertarget{class_packer_aad0a752fdcb54d4c81e2acb69014ae0f}\label{class_packer_aad0a752fdcb54d4c81e2acb69014ae0f} 
+\index{Packer@{Packer}!get\_read\_path@{get\_read\_path}}
+\index{get\_read\_path@{get\_read\_path}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{get\_read\_path()}{get\_read\_path()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \& Packer\+::get\+\_\+read\+\_\+path (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the source directory where files are packed from. 
+
+\begin{DoxyReturn}{Returns}
+The source directory path. 
+\end{DoxyReturn}
+\Hypertarget{class_packer_a236825a814a4cb74bd0f9ada1066d324}\label{class_packer_a236825a814a4cb74bd0f9ada1066d324} 
+\index{Packer@{Packer}!get\_suffix\_enabled@{get\_suffix\_enabled}}
+\index{get\_suffix\_enabled@{get\_suffix\_enabled}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{get\_suffix\_enabled()}{get\_suffix\_enabled()}}
+{\footnotesize\ttfamily bool Packer\+::get\+\_\+suffix\+\_\+enabled (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Check if suffixes are enabled. 
+
+\begin{DoxyReturn}{Returns}
+{\ttfamily true} if suffixes are enabled, {\ttfamily false} otherwise. 
+\end{DoxyReturn}
+\Hypertarget{class_packer_ae8b7839b8d4fc41b0784a0533d06eb98}\label{class_packer_ae8b7839b8d4fc41b0784a0533d06eb98} 
+\index{Packer@{Packer}!get\_suffix\_string@{get\_suffix\_string}}
+\index{get\_suffix\_string@{get\_suffix\_string}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{get\_suffix\_string()}{get\_suffix\_string()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \& Packer\+::get\+\_\+suffix\+\_\+string (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the current suffix string. 
+
+\begin{DoxyReturn}{Returns}
+The current suffix string. 
+\end{DoxyReturn}
+\Hypertarget{class_packer_ad538fb9d4f596bae16ee30b16309bbfa}\label{class_packer_ad538fb9d4f596bae16ee30b16309bbfa} 
+\index{Packer@{Packer}!get\_write\_path@{get\_write\_path}}
+\index{get\_write\_path@{get\_write\_path}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{get\_write\_path()}{get\_write\_path()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \& Packer\+::get\+\_\+write\+\_\+path (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the destination directory where packed files are written to. 
+
+\begin{DoxyReturn}{Returns}
+The destination directory path. 
+\end{DoxyReturn}
+\Hypertarget{class_packer_a17db75e4bba22c38be1871dedeb6f084}\label{class_packer_a17db75e4bba22c38be1871dedeb6f084} 
+\index{Packer@{Packer}!has\_extension@{has\_extension}}
+\index{has\_extension@{has\_extension}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{has\_extension()}{has\_extension()}}
+{\footnotesize\ttfamily bool Packer\+::has\+\_\+extension (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+extension }\end{DoxyParamCaption}) const}
+
+
+
+Check if a specific extension exists in the list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+extension} & The extension to check. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily true} if the extension exists, {\ttfamily false} otherwise. 
+\end{DoxyReturn}
+\Hypertarget{class_packer_a0571081ccccfbfeec26446e4fd71b0fe}\label{class_packer_a0571081ccccfbfeec26446e4fd71b0fe} 
+\index{Packer@{Packer}!load@{load}}
+\index{load@{load}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{load()}{load()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} Packer\+::load (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+path }\end{DoxyParamCaption})}
+
+
+
+Load the \doxylink{class_packer}{Packer} configuration from a file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+path} & The path to the file from which configuration data will be loaded. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An {\ttfamily Error} code indicating the success or failure of the operation. 
+\end{DoxyReturn}
+\Hypertarget{class_packer_a7b6682c65b38ef4738504f5bd70045c9}\label{class_packer_a7b6682c65b38ef4738504f5bd70045c9} 
+\index{Packer@{Packer}!load\_encrypted@{load\_encrypted}}
+\index{load\_encrypted@{load\_encrypted}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{load\_encrypted()}{load\_encrypted()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} Packer\+::load\+\_\+encrypted (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+path,  }\item[{const \mbox{\hyperlink{class_crypto_key}{Crypto\+Key}} \&}]{p\+\_\+key }\end{DoxyParamCaption})}
+
+
+
+Load encrypted \doxylink{class_packer}{Packer} configuration data from a file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+path} & The path to the file from which encrypted configuration data will be loaded. \\
+\hline
+{\em p\+\_\+key} & The encryption key used to decrypt the configuration. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An {\ttfamily Error} code indicating the success or failure of the operation. 
+\end{DoxyReturn}
+\Hypertarget{class_packer_a2a62fd86146dd12d05884b88c10694a5}\label{class_packer_a2a62fd86146dd12d05884b88c10694a5} 
+\index{Packer@{Packer}!pack\_files@{pack\_files}}
+\index{pack\_files@{pack\_files}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{pack\_files()}{pack\_files()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} Packer\+::pack\+\_\+files (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Pack files based on the \doxylink{class_packer}{Packer}\textquotesingle{}s configuration. 
+
+\begin{DoxyReturn}{Returns}
+An {\ttfamily Error} code indicating the success or failure of the packing operation. 
+\end{DoxyReturn}
+\Hypertarget{class_packer_ae85599de19b8ae78b599d112ed824ac0}\label{class_packer_ae85599de19b8ae78b599d112ed824ac0} 
+\index{Packer@{Packer}!remove\_extension@{remove\_extension}}
+\index{remove\_extension@{remove\_extension}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{remove\_extension()}{remove\_extension()}}
+{\footnotesize\ttfamily bool Packer\+::remove\+\_\+extension (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+extension }\end{DoxyParamCaption})}
+
+
+
+Remove an extension from the list of extensions. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+extension} & The extension to remove. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily true} if the extension was removed, {\ttfamily false} if it does not exist. 
+\end{DoxyReturn}
+\Hypertarget{class_packer_a208e7678934a5220cfb12a432be47ff3}\label{class_packer_a208e7678934a5220cfb12a432be47ff3} 
+\index{Packer@{Packer}!save@{save}}
+\index{save@{save}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{save()}{save()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} Packer\+::save (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+path }\end{DoxyParamCaption}) const}
+
+
+
+Save the \doxylink{class_packer}{Packer} configuration to a file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+path} & The path to the file where the configuration will be saved. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An {\ttfamily Error} code indicating the success or failure of the operation. 
+\end{DoxyReturn}
+\Hypertarget{class_packer_a31b51d78a02579f0f6eff1f569501e69}\label{class_packer_a31b51d78a02579f0f6eff1f569501e69} 
+\index{Packer@{Packer}!save\_encrypted@{save\_encrypted}}
+\index{save\_encrypted@{save\_encrypted}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{save\_encrypted()}{save\_encrypted()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} Packer\+::save\+\_\+encrypted (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+path,  }\item[{const \mbox{\hyperlink{class_crypto_key}{Crypto\+Key}} \&}]{p\+\_\+key }\end{DoxyParamCaption}) const}
+
+
+
+Save the encrypted \doxylink{class_packer}{Packer} configuration to a file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+path} & The path to the file where the encrypted configuration will be saved. \\
+\hline
+{\em p\+\_\+key} & The encryption key used to protect the configuration. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An {\ttfamily Error} code indicating the success or failure of the operation. 
+\end{DoxyReturn}
+\Hypertarget{class_packer_ac97cf2140c02cfff19c483c3cf65a8a9}\label{class_packer_ac97cf2140c02cfff19c483c3cf65a8a9} 
+\index{Packer@{Packer}!set\_extension\_adjust@{set\_extension\_adjust}}
+\index{set\_extension\_adjust@{set\_extension\_adjust}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{set\_extension\_adjust()}{set\_extension\_adjust()}}
+{\footnotesize\ttfamily void Packer\+::set\+\_\+extension\+\_\+adjust (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2e}{Extension\+Adjust}}}]{p\+\_\+case }\end{DoxyParamCaption})}
+
+
+
+Set the adjustment to apply to file extensions. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+case} & The extension adjustment to set. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_packer_a33c80c7beb2659f6bdbb3d39809452fc}\label{class_packer_a33c80c7beb2659f6bdbb3d39809452fc} 
+\index{Packer@{Packer}!set\_extension\_insensitive@{set\_extension\_insensitive}}
+\index{set\_extension\_insensitive@{set\_extension\_insensitive}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{set\_extension\_insensitive()}{set\_extension\_insensitive()}}
+{\footnotesize\ttfamily void Packer\+::set\+\_\+extension\+\_\+insensitive (\begin{DoxyParamCaption}\item[{bool}]{p\+\_\+enable }\end{DoxyParamCaption})}
+
+
+
+Enable or disable case-\/insensitive handling of extensions. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+enable} & {\ttfamily true} to enable case-\/insensitivity, {\ttfamily false} to disable it. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_packer_a98a2fcfbafdade42967e17dce1ec2941}\label{class_packer_a98a2fcfbafdade42967e17dce1ec2941} 
+\index{Packer@{Packer}!set\_ignore\_file\_enabled@{set\_ignore\_file\_enabled}}
+\index{set\_ignore\_file\_enabled@{set\_ignore\_file\_enabled}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{set\_ignore\_file\_enabled()}{set\_ignore\_file\_enabled()}}
+{\footnotesize\ttfamily void Packer\+::set\+\_\+ignore\+\_\+file\+\_\+enabled (\begin{DoxyParamCaption}\item[{bool}]{p\+\_\+enable }\end{DoxyParamCaption})}
+
+
+
+Enable or disable the use of ignore files. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+enable} & {\ttfamily true} to enable ignore files, {\ttfamily false} to disable them. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_packer_ad45f53790e6fb1785154f12f484ebd83}\label{class_packer_ad45f53790e6fb1785154f12f484ebd83} 
+\index{Packer@{Packer}!set\_ignore\_file\_name@{set\_ignore\_file\_name}}
+\index{set\_ignore\_file\_name@{set\_ignore\_file\_name}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{set\_ignore\_file\_name()}{set\_ignore\_file\_name()}}
+{\footnotesize\ttfamily void Packer\+::set\+\_\+ignore\+\_\+file\+\_\+name (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+name }\end{DoxyParamCaption})}
+
+
+
+Set the name of the ignore file to use. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+name} & The name of the ignore file. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_packer_ae847f8b3a25e281e9c51e00d3e88a9a4}\label{class_packer_ae847f8b3a25e281e9c51e00d3e88a9a4} 
+\index{Packer@{Packer}!set\_log\_enabled@{set\_log\_enabled}}
+\index{set\_log\_enabled@{set\_log\_enabled}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{set\_log\_enabled()}{set\_log\_enabled()}}
+{\footnotesize\ttfamily void Packer\+::set\+\_\+log\+\_\+enabled (\begin{DoxyParamCaption}\item[{bool}]{p\+\_\+enable }\end{DoxyParamCaption})}
+
+
+
+Enable or disable logging. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+enable} & {\ttfamily true} to enable logging, {\ttfamily false} to disable it. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_packer_a4a43c79e49337119d0649a2589ecb5c8}\label{class_packer_a4a43c79e49337119d0649a2589ecb5c8} 
+\index{Packer@{Packer}!set\_move\_files@{set\_move\_files}}
+\index{set\_move\_files@{set\_move\_files}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{set\_move\_files()}{set\_move\_files()}}
+{\footnotesize\ttfamily void Packer\+::set\+\_\+move\+\_\+files (\begin{DoxyParamCaption}\item[{bool}]{p\+\_\+enable }\end{DoxyParamCaption})}
+
+
+
+Set whether to move files instead of copying them. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+enable} & {\ttfamily true} to enable moving, {\ttfamily false} to disable it. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_packer_a763febe29f330c33eb941582395971d4}\label{class_packer_a763febe29f330c33eb941582395971d4} 
+\index{Packer@{Packer}!set\_overwrite\_files@{set\_overwrite\_files}}
+\index{set\_overwrite\_files@{set\_overwrite\_files}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{set\_overwrite\_files()}{set\_overwrite\_files()}}
+{\footnotesize\ttfamily void Packer\+::set\+\_\+overwrite\+\_\+files (\begin{DoxyParamCaption}\item[{bool}]{p\+\_\+enable }\end{DoxyParamCaption})}
+
+
+
+Set whether to overwrite existing files. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+enable} & {\ttfamily true} to enable overwriting, {\ttfamily false} to disable it. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_packer_a6895fd29a62340e7bc8bcafdb1071cc7}\label{class_packer_a6895fd29a62340e7bc8bcafdb1071cc7} 
+\index{Packer@{Packer}!set\_pack\_mode@{set\_pack\_mode}}
+\index{set\_pack\_mode@{set\_pack\_mode}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{set\_pack\_mode()}{set\_pack\_mode()}}
+{\footnotesize\ttfamily void Packer\+::set\+\_\+pack\+\_\+mode (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_packer_a9e1110713ff84fd4698f34c77098e1a5}{Pack\+Mode}}}]{p\+\_\+mode }\end{DoxyParamCaption})}
+
+
+
+Set the packing mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+mode} & The packing mode to set. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_packer_a5d8c1cbf4259645d3767a2b7d5ea7840}\label{class_packer_a5d8c1cbf4259645d3767a2b7d5ea7840} 
+\index{Packer@{Packer}!set\_read\_path@{set\_read\_path}}
+\index{set\_read\_path@{set\_read\_path}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{set\_read\_path()}{set\_read\_path()}}
+{\footnotesize\ttfamily void Packer\+::set\+\_\+read\+\_\+path (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+path }\end{DoxyParamCaption})}
+
+
+
+Set the source directory to pack files from. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+path} & The path to the source directory. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_packer_a29a8211a619ac1ba21e3017504df06b9}\label{class_packer_a29a8211a619ac1ba21e3017504df06b9} 
+\index{Packer@{Packer}!set\_suffix\_enabled@{set\_suffix\_enabled}}
+\index{set\_suffix\_enabled@{set\_suffix\_enabled}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{set\_suffix\_enabled()}{set\_suffix\_enabled()}}
+{\footnotesize\ttfamily void Packer\+::set\+\_\+suffix\+\_\+enabled (\begin{DoxyParamCaption}\item[{bool}]{p\+\_\+enable }\end{DoxyParamCaption})}
+
+
+
+Enable or disable suffixes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+enable} & {\ttfamily true} to enable suffixes, {\ttfamily false} to disable them. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_packer_ab4361129165c40d6baf1bc976b2cdb45}\label{class_packer_ab4361129165c40d6baf1bc976b2cdb45} 
+\index{Packer@{Packer}!set\_suffix\_string@{set\_suffix\_string}}
+\index{set\_suffix\_string@{set\_suffix\_string}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{set\_suffix\_string()}{set\_suffix\_string()}}
+{\footnotesize\ttfamily void Packer\+::set\+\_\+suffix\+\_\+string (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+suffix }\end{DoxyParamCaption})}
+
+
+
+Set the suffix string to append to packed file names. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+suffix} & The suffix string to set. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_packer_ad27c185d76bb099d7be7e8f124478b09}\label{class_packer_ad27c185d76bb099d7be7e8f124478b09} 
+\index{Packer@{Packer}!set\_write\_path@{set\_write\_path}}
+\index{set\_write\_path@{set\_write\_path}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{set\_write\_path()}{set\_write\_path()}}
+{\footnotesize\ttfamily void Packer\+::set\+\_\+write\+\_\+path (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+path }\end{DoxyParamCaption})}
+
+
+
+Set the destination directory to write packed files to. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+path} & The path to the destination directory. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_packer_a218c64caec022f2128298a9188bfde08}\label{class_packer_a218c64caec022f2128298a9188bfde08} 
+\index{Packer@{Packer}!to\_config\_file@{to\_config\_file}}
+\index{to\_config\_file@{to\_config\_file}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{to\_config\_file()}{to\_config\_file()}}
+{\footnotesize\ttfamily void Packer\+::to\+\_\+config\+\_\+file (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_config_file}{Config\+File}} \&}]{p\+\_\+file }\end{DoxyParamCaption}) const}
+
+
+
+Serialize the \doxylink{class_packer}{Packer} configuration to a \doxylink{class_config_file}{Config\+File}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+file} & The \doxylink{class_config_file}{Config\+File} to store the configuration in. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Source/\+Packer/\mbox{\hyperlink{_packer_8h}{Packer.\+h}}\end{DoxyCompactItemize}
