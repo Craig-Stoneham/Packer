@@ -104,7 +104,6 @@ public:
     Type get_type() const;
 
     /**
-    /**
      * @brief Assigns the value of another Variant to this Variant.
      * @param p_value The Variant to copy from.
      * @return Reference to this Variant.
