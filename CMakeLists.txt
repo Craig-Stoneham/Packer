@@ -31,59 +31,28 @@ add_compile_options(/bigobj)
 add_compile_options(/Zc:__cplusplus)
 
 # Define source files for targets
-set(Packer_Headers
-    Source/Packer/ConfigFile.h
-    Source/Packer/Console.h
-    Source/Packer/Crypto.h
-    Source/Packer/Defaults.h
-    Source/Packer/Error.h
-    Source/Packer/Log.h
-    Source/Packer/LogFile.h
-    Source/Packer/Packer.h
-    Source/Packer/Typedefs.h
-    Source/Packer/Variant.h
-    Source/Packer/Version.h
+file(GLOB Packer_Headers
+    Source/Packer/*.h
 )
 
-set(Packer_Sources
-    Source/Packer/ConfigFile.cpp
-    Source/Packer/Console.cpp
-    Source/Packer/Crypto.cpp
-    Source/Packer/Error.cpp
-    Source/Packer/Log.cpp
-    Source/Packer/LogFile.cpp
-    Source/Packer/Packer.cpp
-    Source/Packer/Typedefs.cpp
-    Source/Packer/Variant.cpp
+file(GLOB Packer_Sources
+    Source/Packer/*.cpp
 )
 
-set(Console_Headers
-    Source/Console/Application.h
-    Source/Console/Defaults.h
-    Source/Console/Typedefs.h
+file(GLOB Console_Headers
+    Source/Console/*.h
 )
 
-set(Console_Sources
-    Source/Console/Application.cpp
-    Source/Console/Main.cpp
+file(GLOB Console_Sources
+    Source/Packer/*.cpp
 )
 
-set(Tests_Headers
-    Source/Tests/TestConfigFile.h
-    Source/Tests/TestCrypto.h
-    Source/Tests/TestPacker.h
-    Source/Tests/TestSuite.h
-    Source/Tests/TestVariant.h
-    Source/Tests/Typedefs.h
+file(GLOB Tests_Headers
+    Source/Tests/*.h
 )
 
-set(Tests_Sources
-    Source/Tests/Main.cpp
-    Source/Tests/TestConfigFile.cpp
-    Source/Tests/TestCrypto.cpp
-    Source/Tests/TestPacker.cpp
-    Source/Tests/TestSuite.cpp
-    Source/Tests/TestVariant.cpp
+file(GLOB Tests_Sources
+    Source/Packer/*.cpp
 )
 
 # Add resource file conditionally for Windows
