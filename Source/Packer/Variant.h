@@ -104,56 +104,165 @@ public:
     Type get_type() const;
 
     /**
-     * @name Assignment Operators
-     * @brief Assign values to the Variant.
-     * @{
+    /**
+     * @brief Assigns the value of another Variant to this Variant.
+     * @param p_value The Variant to copy from.
+     * @return Reference to this Variant.
      */
     Variant& operator=(const Variant& p_value);
-    Variant& operator=(bool p_value);
-    Variant& operator=(int p_value);
-    Variant& operator=(const String& p_value);
-    Variant& operator=(const char* p_value);
-    Variant& operator=(const StringVector& p_value);
-    /** @} */
 
     /**
-     * @name Conversion Operators
-     * @brief Convert Variant to other data types.
-     * @{
+     * @brief Assigns a boolean value to this Variant.
+     * @param p_value The boolean value to set.
+     * @return Reference to this Variant.
+     */
+    Variant& operator=(bool p_value);
+
+    /**
+     * @brief Assigns an integer value to this Variant.
+     * @param p_value The integer value to set.
+     * @return Reference to this Variant.
+     */
+    Variant& operator=(int p_value);
+
+    /**
+     * @brief Assigns a string value to this Variant.
+     * @param p_value The string value to set.
+     * @return Reference to this Variant.
+     */
+    Variant& operator=(const String& p_value);
+
+    /**
+     * @brief Assigns a C-string value to this Variant.
+     * @param p_value The C-string value to set.
+     * @return Reference to this Variant.
+     */
+    Variant& operator=(const char* p_value);
+
+    /**
+     * @brief Assigns a vector of strings to this Variant.
+     * @param p_value The vector of strings to set.
+     * @return Reference to this Variant.
+     */
+    Variant& operator=(const StringVector& p_value);
+
+    /**
+     * @brief Converts the Variant to a constant boolean value.
+     * @return The boolean value of the Variant.
      */
     operator const bool() const;
-    operator bool();
-    operator const int() const;
-    operator int();
-    operator const String& () const;
-    operator String& ();
-    operator const StringVector& () const;
-    operator StringVector& ();
-    /** @} */
 
     /**
-     * @name Equality Operators
-     * @brief Compare the Variant to other values.
-     * @{
+     * @brief Converts the Variant to a boolean value.
+     * @return The boolean value of the Variant.
+     */
+    operator bool();
+
+    /**
+     * @brief Converts the Variant to a constant integer value.
+     * @return The integer value of the Variant.
+     */
+    operator const int() const;
+
+    /**
+     * @brief Converts the Variant to an integer value.
+     * @return The integer value of the Variant.
+     */
+    operator int();
+
+    /**
+     * @brief Converts the Variant to a constant string reference.
+     * @return The string value of the Variant.
+     */
+    operator const String& () const;
+
+    /**
+     * @brief Converts the Variant to a string reference.
+     * @return The string value of the Variant.
+     */
+    operator String& ();
+
+    /**
+     * @brief Converts the Variant to a constant vector of strings reference.
+     * @return The vector of strings value of the Variant.
+     */
+    operator const StringVector& () const;
+
+    /**
+     * @brief Converts the Variant to a vector of strings reference.
+     * @return The vector of strings value of the Variant.
+     */
+    operator StringVector& ();
+
+    /**
+     * @brief Compares the Variant to another Variant for equality.
+     * @param p_value The Variant to compare with.
+     * @return True if both Variants are equal, false otherwise.
      */
     bool operator == (const Variant& p_value);
-    bool operator == (const bool& p_value);
-    bool operator == (const int& p_value);
-    bool operator == (const String& p_value);
-    bool operator == (const StringVector& p_value);
-    /** @} */
 
     /**
-     * @name Inequality Operators
-     * @brief Compare the Variant to other values.
-     * @{
+     * @brief Compares the Variant to a boolean value for equality.
+     * @param p_value The boolean value to compare with.
+     * @return True if the Variant and the boolean value are equal, false otherwise.
+     */
+    bool operator == (const bool& p_value);
+
+    /**
+     * @brief Compares the Variant to an integer value for equality.
+     * @param p_value The integer value to compare with.
+     * @return True if the Variant and the integer value are equal, false otherwise.
+     */
+    bool operator == (const int& p_value);
+
+    /**
+     * @brief Compares the Variant to a string value for equality.
+     * @param p_value The string value to compare with.
+     * @return True if the Variant and the string value are equal, false otherwise.
+     */
+    bool operator == (const String& p_value);
+
+    /**
+     * @brief Compares the Variant to a vector of strings for equality.
+     * @param p_value The vector of strings to compare with.
+     * @return True if the Variant and the vector of strings are equal, false otherwise.
+     */
+    bool operator == (const StringVector& p_value);
+
+    /**
+     * @brief Compares the Variant to another Variant for inequality.
+     * @param p_value The Variant to compare with.
+     * @return True if both Variants are not equal, false otherwise.
      */
     bool operator != (const Variant& p_value);
+
+    /**
+     * @brief Compares the Variant to a boolean value for inequality.
+     * @param p_value The boolean value to compare with.
+     * @return True if the Variant and the boolean value are not equal, false otherwise.
+     */
     bool operator != (const bool& p_value);
+
+    /**
+     * @brief Compares the Variant to an integer value for inequality.
+     * @param p_value The integer value to compare with.
+     * @return True if the Variant and the integer value are not equal, false otherwise.
+     */
     bool operator != (const int& p_value);
+
+    /**
+     * @brief Compares the Variant to a string value for inequality.
+     * @param p_value The string value to compare with.
+     * @return True if the Variant and the string value are not equal, false otherwise.
+     */
     bool operator != (const String& p_value);
+
+    /**
+     * @brief Compares the Variant to a vector of strings for inequality.
+     * @param p_value The vector of strings to compare with.
+     * @return True if the Variant and the vector of strings are not equal, false otherwise.
+     */
     bool operator != (const StringVector& p_value);
-    /** @} */
 
     /**
      * @brief Serialize the Variant to a string.

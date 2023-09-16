@@ -39,11 +39,12 @@
 #if __cplusplus >= 201703L
 #include <filesystem>
 #else // __cplusplus >= 201703L
+/// @brief Suppress 'std::experimental::filesystem is deprecated' warning.
 #define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
-#include <experimental/filesystem>
+/// @brief Indicates that the file system is experimental.
 #define EXPERIMENTAL_FILESYSTEM
+#include <experimental/filesystem>
 #endif // __cplusplus >= 201703L
-
 
 /**
  * @def PACKER_NAMESPACE_BEGIN
