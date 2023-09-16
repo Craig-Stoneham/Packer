@@ -30,6 +30,8 @@
 
 #include "TestSuite.h"
 
+PACKER_NAMESPACE_BEGIN
+
  /**
   * @class TestCrypto
   * @brief Represents a test suite for cryptographic functionality.
@@ -58,3 +60,5 @@ public:
      */
     TestCrypto();
 };
+
+PACKER_NAMESPACE_END

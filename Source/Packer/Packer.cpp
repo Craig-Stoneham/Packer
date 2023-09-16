@@ -24,6 +24,8 @@
 #include "Packer.h"
 #include "Defaults.h"
 
+PACKER_NAMESPACE_BEGIN
+
 static const char* pack_mode_names[] = {
     "include",
     "exclude",
@@ -2268,3 +2270,5 @@ Packer::Packer() :
     extension_insensitive(DEFAULT_EXTENSION_INSENSITIVE),
     extension_adjust(DEFAULT_EXTENSION_ADJUST) {
 }
+
+PACKER_NAMESPACE_END

@@ -30,6 +30,8 @@
 
 #include "Typedefs.h"
 
+PACKER_NAMESPACE_BEGIN
+
 /**
  * @class Application
  * @brief Manages the Packer application, providing a command-line interface.
@@ -279,3 +281,5 @@ public:
      */
     Application();
 };
+
+PACKER_NAMESPACE_END

@@ -23,6 +23,8 @@
 
 #include "Variant.h"
 
+PACKER_NAMESPACE_BEGIN
+
 static const char* type_names[] = {
     "Null",
     "Bool",
@@ -409,3 +411,5 @@ Variant::Variant(const StringVector& p_value) :
 Variant::~Variant() {
     _destruct();
 }
+
+PACKER_NAMESPACE_END

@@ -30,6 +30,8 @@
 
 #include "Typedefs.h"
 
+PACKER_NAMESPACE_BEGIN
+
 /**
  * @class CryptoKey
  * @brief Represents a cryptographic key for encryption and decryption.
@@ -108,3 +110,5 @@ public:
      */
     static String encrypt_decrypt(const String& p_data, const CryptoKey& p_key);
 };
+
+PACKER_NAMESPACE_END

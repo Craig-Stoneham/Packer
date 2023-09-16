@@ -23,6 +23,8 @@
 
 #include "Application.h"
 
+USING_NAMESPACE_PACKER
+
 int main() {
     Application application;
 

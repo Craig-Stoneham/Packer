@@ -30,6 +30,8 @@
 
 #include "Error.h"
 
+PACKER_NAMESPACE_BEGIN
+
 /**
  * @class Variant
  * @brief Represents a variant that can hold various data types.
@@ -218,3 +220,5 @@ public:
      */
     ~Variant();
 };
+
+PACKER_NAMESPACE_END

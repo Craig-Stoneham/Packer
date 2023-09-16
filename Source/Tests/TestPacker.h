@@ -30,6 +30,8 @@
 
 #include "TestSuite.h"
 
+PACKER_NAMESPACE_BEGIN
+
 /**
  * @class TestPacker
  * @brief Test suite for the Packer class.
@@ -76,3 +78,5 @@ public:
      */
     ~TestPacker();
 };
+
+PACKER_NAMESPACE_END

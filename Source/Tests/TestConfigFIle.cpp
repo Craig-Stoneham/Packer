@@ -23,6 +23,8 @@
 
 #include "TestConfigFile.h"
 
+PACKER_NAMESPACE_BEGIN
+
 template <class T>
 struct Entry {
     String name;
@@ -93,3 +95,5 @@ TestResult TestConfigFile::test() {
 TestConfigFile::TestConfigFile() {
     ADD_TEST("ConfigFile", [this]() { return test(); });
 }
+
+PACKER_NAMESPACE_END

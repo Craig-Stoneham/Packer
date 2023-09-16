@@ -23,6 +23,8 @@
 
 #include "ConfigFile.h"
 
+PACKER_NAMESPACE_BEGIN
+
 void ConfigFile::set_value(const String& p_key, const Variant& p_value) {
     values[p_key] = p_value;
 }
@@ -156,3 +158,5 @@ Error ConfigFile::load_encrypted(const String& p_path, const CryptoKey& p_key) {
 
 ConfigFile::ConfigFile() {
 }
+
+PACKER_NAMESPACE_END

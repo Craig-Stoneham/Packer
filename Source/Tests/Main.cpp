@@ -26,6 +26,8 @@
 #include "TestConfigFile.h"
 #include "TestPacker.h"
 
+USING_NAMESPACE_PACKER
+
 int main() {
     TestCrypto test_crypto;
     TestVariant test_variant;

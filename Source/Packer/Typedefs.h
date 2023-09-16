@@ -44,6 +44,48 @@
 #define EXPERIMENTAL_FILESYSTEM
 #endif // __cplusplus >= 201703L
 
+
+/**
+ * @def PACKER_NAMESPACE_BEGIN
+ * @brief Defines the beginning of the optional Packer namespace.
+ *
+ * This macro defines the beginning of an optional namespace, allowing the code within it to be encapsulated within the
+ * "Packer" namespace. The namespace encapsulation is controlled by the presence or absence of the "PACKER_NAMESPACE_ENABLED"
+ * preprocessor macro.
+ */
+#ifdef PACKER_NAMESPACE_ENABLED
+#define PACKER_NAMESPACE_BEGIN namespace Packer {
+#else // PACKER_NAMESPACE_ENABLED
+#define PACKER_NAMESPACE_BEGIN
+#endif // PACKER_NAMESPACE_ENABLED
+
+ /**
+  * @def PACKER_NAMESPACE_END
+  * @brief Defines the end of the optional Packer namespace.
+  *
+  * This macro defines the end of an optional namespace, closing the "Packer" namespace encapsulation. The namespace
+  * encapsulation is controlled by the presence or absence of the "PACKER_NAMESPACE_ENABLED" preprocessor macro.
+  */
+#ifdef PACKER_NAMESPACE_ENABLED
+#define PACKER_NAMESPACE_END };
+#else // PACKER_NAMESPACE_ENABLED
+#define PACKER_NAMESPACE_END
+#endif // PACKER_NAMESPACE_ENABLED
+
+/**
+ * @def USING_NAMESPACE_PACKER
+ * @brief Provides the option to use the "Packer" namespace.
+ *
+ * This macro allows the option to include the entire "Packer" namespace in the current scope, making all classes, functions,
+ * and variables within the "Packer" namespace accessible without qualifying them with "Packer::". The usage of this macro is
+ * determined by the presence or absence of the "USING_NAMESPACE_PACKER" preprocessor macro.
+ */
+#ifdef PACKER_NAMESPACE_ENABLED
+#define USING_NAMESPACE_PACKER using namespace Packer;
+#else // PACKER_NAMESPACE_ENABLED
+#define USING_NAMESPACE_PACKER
+#endif // PACKER_NAMESPACE_ENABLED
+
 /**
  * @def STRINGIFY(p_x)
  * @brief Converts a token into a string literal.
@@ -91,18 +133,6 @@ using Map = std::map<K, T, COMPARE, ALLOC>;
 using StringVector = Vector<String>;
 
 /**
- * @namespace FileAccess
- * @brief Namespace containing filesystem-related types and functions.
- */
-namespace FileAccess {
-#ifndef EXPERIMENTAL_FILESYSTEM
-    using namespace std::filesystem;
-#else // EXPERIMENTAL_FILESYSTEM
-    using namespace std::experimental::filesystem;
-#endif // EXPERIMENTAL_FILESYSTEM
-};
-
-/**
 * @typedef StringStream
 * @brief Alias for std::stringstream, representing a stream for string operations.
 */
@@ -138,6 +168,18 @@ using FileStreamO = std::ofstream;
  * @details Use this constant as an argument to set binary mode when opening files.
  */
 static constexpr int BinaryIOS = std::ios::binary;
+
+/**
+ * @namespace FileAccess
+ * @brief Namespace containing filesystem-related types and functions.
+ */
+namespace FileAccess {
+#ifndef EXPERIMENTAL_FILESYSTEM
+    using namespace std::filesystem;
+#else // EXPERIMENTAL_FILESYSTEM
+    using namespace std::experimental::filesystem;
+#endif // EXPERIMENTAL_FILESYSTEM
+};
 
 /**
  * @brief Normalizes path separators in a string.

@@ -23,6 +23,8 @@
 
 #include "LogFile.h"
 
+PACKER_NAMESPACE_BEGIN
+
 static void log_callback(void* p_logger, Log::Level p_level, const String& p_string) {
     static_cast<LogFile*>(p_logger)->log_string(p_level, p_string);
 }
@@ -99,3 +101,5 @@ LogFile::~LogFile() {
         stream.close();
     }
 }
+
+PACKER_NAMESPACE_END

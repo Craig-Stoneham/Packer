@@ -23,6 +23,8 @@
 
 #include "Error.h"
 
+PACKER_NAMESPACE_BEGIN
+
 static const char* error_names[] = {
     "ok",
     "failed",
@@ -52,3 +54,5 @@ Error find_error(const String& p_error) {
     }
     return Error::Unknown;
 }
+
+PACKER_NAMESPACE_END

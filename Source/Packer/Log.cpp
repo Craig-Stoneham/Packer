@@ -23,6 +23,8 @@
 
 #include "Log.h"
 
+PACKER_NAMESPACE_BEGIN
+
 static const char* level_names[] = {
     "Info",
     "Warn",
@@ -103,3 +105,5 @@ void Log::log_error(const String& p_string) {
     log_string(Level::Error, p_string);
 #endif // LOG_DISABLED
 }
+
+PACKER_NAMESPACE_END

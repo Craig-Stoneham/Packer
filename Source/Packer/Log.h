@@ -30,6 +30,8 @@
 
 #include "Typedefs.h"
 
+PACKER_NAMESPACE_BEGIN
+
 /**
  * @class Log
  * @brief Provides logging functionality for the application.
@@ -154,3 +156,5 @@ public:
 #else // LOG_DISABLED
 #define LOG_ERROR(p_level, p_string)
 #endif // LOG_DISABLED
+
+PACKER_NAMESPACE_END

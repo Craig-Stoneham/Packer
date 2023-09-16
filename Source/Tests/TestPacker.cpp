@@ -23,6 +23,8 @@
 
 #include "TestPacker.h"
 
+PACKER_NAMESPACE_BEGIN
+
 bool TestPacker::test_packer() {
     FileAccess::remove_all(read_path);
     FileAccess::remove_all(write_path);
@@ -175,3 +177,5 @@ TestPacker::~TestPacker() {
     FileAccess::remove_all(read_path);
     FileAccess::remove_all(write_path);
 }
+
+PACKER_NAMESPACE_END

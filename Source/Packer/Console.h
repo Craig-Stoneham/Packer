@@ -30,6 +30,8 @@
 
 #include "Log.h"
 
+PACKER_NAMESPACE_BEGIN
+
 /**
  * @class Console
  * @brief Provides functionality for managing console output and text colors.
@@ -175,3 +177,5 @@ public:
      */
     virtual ~Console();
 };
+
+PACKER_NAMESPACE_END

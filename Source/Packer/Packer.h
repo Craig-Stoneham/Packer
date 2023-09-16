@@ -31,6 +31,8 @@
 #include "ConfigFile.h"
 #include "Log.h"
 
+PACKER_NAMESPACE_BEGIN
+
 /**
  * @class Packer
  * @brief A utility class for packing and managing files based on user-defined rules.
@@ -370,3 +372,5 @@ public:
      */
     Packer();
 };
+
+PACKER_NAMESPACE_END

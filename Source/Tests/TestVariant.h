@@ -30,6 +30,8 @@
 
 #include "TestSuite.h"
 
+PACKER_NAMESPACE_BEGIN
+
  /**
   * @class TestVariant
   * @brief Test cases for the Variant class.
@@ -62,3 +64,5 @@ public:
      */
     TestVariant();
 };
+
+PACKER_NAMESPACE_END

@@ -31,6 +31,8 @@
 #include "Variant.h"
 #include "Crypto.h"
 
+PACKER_NAMESPACE_BEGIN
+
 /**
  * @class ConfigFile
  * @brief Provides functionality for managing key-value configuration data in a file.
@@ -129,3 +131,5 @@ public:
      */
     ConfigFile();
 };
+
+PACKER_NAMESPACE_END

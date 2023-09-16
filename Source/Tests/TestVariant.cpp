@@ -23,6 +23,8 @@
 
 #include "TestVariant.h"
 
+PACKER_NAMESPACE_BEGIN
+
 template <class T>
 Variant::Type get_variant_type();
 
@@ -63,3 +65,5 @@ TestVariant::TestVariant() {
     ADD_TEST("Variant<String>", [this]() { return test(String("Hello World!")); });
     ADD_TEST("Variant<StringVector>", [this]() { return test(StringVector({ "One", "Two", "Three" })); });
 }
+
+PACKER_NAMESPACE_END

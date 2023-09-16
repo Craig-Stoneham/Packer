@@ -31,6 +31,8 @@
 #include "Log.h"
 #include "Error.h"
 
+PACKER_NAMESPACE_BEGIN
+
 /**
  * @class LogFile
  * @brief Provides functionality for logging to a file.
@@ -108,3 +110,5 @@ public:
      */
     virtual ~LogFile();
 };
+
+PACKER_NAMESPACE_END

@@ -23,6 +23,8 @@
 
 #include "Crypto.h"
 
+PACKER_NAMESPACE_BEGIN
+
 void CryptoKey::set_key(const size_t p_key) {
 	key = p_key;
 }
@@ -65,3 +67,5 @@ String Crypto::encrypt_decrypt(const String& p_data, const CryptoKey& p_key) {
 	encrypt_decrypt(p_data, data, p_key);
 	return data;
 }
+
+PACKER_NAMESPACE_END

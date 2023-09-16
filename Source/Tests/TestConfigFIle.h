@@ -30,6 +30,8 @@
 
 #include "TestSuite.h"
 
+PACKER_NAMESPACE_BEGIN
+
 /**
  * @class TestConfigFile
  * @brief A test suite for the ConfigFile class.
@@ -61,3 +63,5 @@ public:
      */
     TestConfigFile();
 };
+
+PACKER_NAMESPACE_END

@@ -23,6 +23,8 @@
 
 #include "TestSuite.h"
 
+PACKER_NAMESPACE_BEGIN
+
 bool TestResult::operator==(Error p_error) const {
     return error == p_error;
 }
@@ -75,3 +77,5 @@ int TestSuite::run_tests(bool p_pause) {
 
     return num_failures ? EXIT_FAILURE : EXIT_SUCCESS;
 }
+
+PACKER_NAMESPACE_END

@@ -30,6 +30,8 @@
 
 #include "Typedefs.h"
 
+PACKER_NAMESPACE_BEGIN
+
 /**
  * @struct TestResult
  * @brief Represents the result of a test case.
@@ -135,3 +137,5 @@ public:
  * @details Use this macro in your test suite's initialization code to add test cases.
  */
 #define ADD_TEST(p_name, p_function) TestSuite::add_test(p_name, p_function)
+
+PACKER_NAMESPACE_END

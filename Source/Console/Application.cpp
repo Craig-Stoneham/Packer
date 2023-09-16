@@ -24,6 +24,8 @@
 #include "Application.h"
 #include "Defaults.h"
 
+PACKER_NAMESPACE_BEGIN
+
 void Application::_add_hidden_command(Function p_function, const String& p_name) {
     Command command;
     command.type = Command::Hidden;
@@ -465,3 +467,5 @@ Application::Application() :
     _add_simple_command(&Application::_quit_program, "quit", "Quit the application");
     _add_hidden_command(&Application::_print_help, "help");
 }
+
+PACKER_NAMESPACE_END

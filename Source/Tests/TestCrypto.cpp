@@ -23,6 +23,8 @@
 
 #include "TestCrypto.h"
 
+PACKER_NAMESPACE_BEGIN
+
 TestResult TestCrypto::test(uint32_t p_initial, size_t p_num_tests) {
 
     std::srand(p_initial);
@@ -43,3 +45,5 @@ TestResult TestCrypto::test(uint32_t p_initial, size_t p_num_tests) {
 TestCrypto::TestCrypto() {
     ADD_TEST("Crypto", [this]() { return test(); });
 }
+
+PACKER_NAMESPACE_END

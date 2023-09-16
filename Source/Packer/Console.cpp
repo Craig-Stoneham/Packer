@@ -31,6 +31,8 @@
 #endif // (__unix__) || defined(__APPLE__)
 #endif // CONSOLE_FEATURES_DISABLED
 
+PACKER_NAMESPACE_BEGIN
+
 #ifndef CONSOLE_FEATURES_DISABLED
 #ifdef _WIN32
 static WORD text_colors[] = {
@@ -193,3 +195,5 @@ Console::~Console() {
     Log::remove_callback(log_callback, this);
 #endif // LOG_DISABLED
 }
+
+PACKER_NAMESPACE_END

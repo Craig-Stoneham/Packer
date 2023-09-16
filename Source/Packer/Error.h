@@ -30,6 +30,8 @@
 
 #include "Typedefs.h"
 
+PACKER_NAMESPACE_BEGIN
+
 /**
  * @enum Error
  * @brief Enumerates error codes.
@@ -62,3 +64,5 @@ String get_error_name(Error p_error);
  * @return The corresponding error code, or Error::Unknown if not found.
  */
 Error find_error(const String& p_error);
+
+PACKER_NAMESPACE_END
