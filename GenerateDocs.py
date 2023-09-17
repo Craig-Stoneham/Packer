@@ -22,6 +22,7 @@ projects = [
 
 for project in projects:    
     print(f"Generating documentation for {project['name']}...")
+    
     with tempfile.NamedTemporaryFile(mode='w+', delete=False) as temp:
         temp.write(f"PROJECT_NAME = {project['name']}\n")
         temp.write(f"OUTPUT_DIRECTORY = {project['output']}\n")
