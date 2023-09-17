@@ -38,7 +38,7 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git pull origin master  # Ensure we are up-to-date with master
-        git checkout -b docs-update  # Create a new branch
+        git checkout -b docs-update-${{ github.run_id }}  # Create a new branch with a unique name
         git add Documentation/*
         git commit -m "Automatically update documentation" || echo "No changes to commit"
-        git push -u origin docs-update  # Push to the new branch
+        git push -u origin docs-update-${{ github.run_id }}  # Push to the new branch
