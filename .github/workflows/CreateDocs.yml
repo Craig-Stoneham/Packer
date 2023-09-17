@@ -43,6 +43,6 @@ jobs:
         git checkout -b auto-doc-update
         git add Documentation/*
         git commit -m "Automatically update documentation" || echo "No changes to commit"
-        git push origin auto-doc-update
+        git push -f origin auto-doc-update  # Force push
         # Create a pull request using GitHub CLI (gh)
         echo 'y' | gh pr create --base master --head auto-doc-update --title "Automatically update documentation" --body "Update documentation" --reviewer "YourGitHubUsername" --draft
