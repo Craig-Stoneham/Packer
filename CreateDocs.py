@@ -8,7 +8,6 @@ documentation_dir = os.path.join(script_dir, "Documentation")
 if not os.path.exists(documentation_dir):
     os.makedirs(documentation_dir)
 
-# List of projects to document
 projects = [
     {
         "name": "Packer",
