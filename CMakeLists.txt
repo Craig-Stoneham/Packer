@@ -66,7 +66,7 @@ target_compile_features(Console PRIVATE cxx_std_17)
 target_compile_options(Console PRIVATE /bigobj /Zc:__cplusplus)
 
 # Option for building Tests
-option(BUILD_TESTS "Build test executable" ON)
+option(BUILD_TESTS "Build test executable" OFF)
 if(BUILD_TESTS)
     # Create Tests target
     add_executable(Tests ${Packer_Headers} ${Packer_Sources} ${Tests_Headers} ${Tests_Sources})
