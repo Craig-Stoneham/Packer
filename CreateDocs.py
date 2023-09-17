@@ -12,7 +12,7 @@ if not os.path.exists(documentation_dir):
 
 # List of projects to document
 projects = [
-    {"name": "Packer", "input": os.path.join(script_dir, "Source/Packer"), "output": "Packer", "file_patterns": "*.h"}
+    {"name": "Packer", "input": os.path.join(script_dir, "Source/Packer"), "output": ".", "file_patterns": "*.h"}
 ]
 
 for project in projects:
@@ -21,7 +21,7 @@ for project in projects:
     # Create a temporary Doxyfile
     with tempfile.NamedTemporaryFile(mode='w+', delete=False) as temp:
         temp.write(f"PROJECT_NAME = {project['name']}\n")
-        temp.write(f"OUTPUT_DIRECTORY = {project['output']}\n")
+        temp.write(f"OUTPUT_DIRECTORY = {project['output']}\n")  # Set to current directory
         temp.write(f"INPUT = {project['input']}\n")
         temp.write(f"FILE_PATTERNS = {project['file_patterns']}\n")
         temp_file_name = temp.name
