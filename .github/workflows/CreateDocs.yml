@@ -1,0 +1,40 @@
+name: Generate Documentation
+
+on:
+  push:
+    paths:
+      - 'CreateDocs.py'
+      - 'Source/Packer/**'
+      - 'Source/Console/**'
+
+jobs:
+  generate-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install Doxygen
+      run: sudo apt-get install doxygen
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        # Add any other dependencies here
+
+    - name: Generate Documentation
+      run: python CreateDocs.py
+
+    - name: Commit and Push Documentation
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add Documentation/*
+        git commit -m "Automatically update documentation" || echo "No changes to commit"
+        git push
