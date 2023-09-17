@@ -1,6 +1,7 @@
 import subprocess
 import os
 import tempfile
+import sys  # Don't forget to import sys
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 documentation_dir = os.path.join(script_dir, "Documentation")
@@ -31,10 +32,15 @@ for project in projects:
         temp.write(f"FILE_PATTERNS = {project['file_patterns']}\n")
         temp_file_name = temp.name
     
-    subprocess.run(["doxygen", temp_file_name], cwd=documentation_dir)
+    result = subprocess.run(["doxygen", temp_file_name], cwd=documentation_dir)
+    
+    if result.returncode != 0:
+        print(f"Failed to generate documentation for {project['name']}.")
+        sys.exit(1)  # Exit with an error code
     
     os.remove(temp_file_name)
     
     print(f"Documentation generated for {project['name']}.")
 
 print("Documentation generation complete.")
+sys.exit(0)  # Exit successfully
