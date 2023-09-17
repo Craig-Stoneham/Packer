@@ -56,14 +56,35 @@ if(WIN32)
     )
 endif()
 
+# Add the new option for namespace
+option(USE_PACKER_NAMESPACE "Use Packer namespace" OFF)
+
+# Common compile options
+set(COMMON_COMPILE_OPTIONS "/bigobj;/Zc:__cplusplus")
+
+# Add option for C++ standard version
+set(CPP_STD 17 CACHE STRING "C++ standard version")
+set_property(CACHE CPP_STD PROPERTY STRINGS "14;17;20")
+
 # Set the output directory for Packer project
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Bin/$<CONFIG>)
+
+# Set the install prefix to the root directory
+set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR})
 
 # Create Console target
 add_executable(Console ${Packer_Headers} ${Packer_Sources} ${Console_Headers} ${Console_Sources})
 target_include_directories(Console PRIVATE Source/Packer)
-target_compile_features(Console PRIVATE cxx_std_17)
-target_compile_options(Console PRIVATE /bigobj /Zc:__cplusplus)
+set_target_properties(Console PROPERTIES
+    CXX_STANDARD ${CPP_STD}
+    CXX_STANDARD_REQUIRED ON
+)
+target_compile_options(Console PRIVATE ${COMMON_COMPILE_OPTIONS})
+
+# Conditionally add the preprocessor definition
+if(USE_PACKER_NAMESPACE)
+    target_compile_definitions(Console PRIVATE PACKER_NAMESPACE_ENABLED)
+endif()
 
 # Option for building Tests
 option(BUILD_TESTS "Build test executable" OFF)
@@ -71,17 +92,25 @@ if(BUILD_TESTS)
     # Create Tests target
     add_executable(Tests ${Packer_Headers} ${Packer_Sources} ${Tests_Headers} ${Tests_Sources})
     target_include_directories(Tests PRIVATE Source/Packer Source/Tests)
-    target_compile_features(Tests PRIVATE cxx_std_17)
-    target_compile_options(Tests PRIVATE /bigobj /Zc:__cplusplus)
+    set_target_properties(Tests PROPERTIES
+        CXX_STANDARD ${CPP_STD}
+        CXX_STANDARD_REQUIRED ON
+    )
+    target_compile_options(Tests PRIVATE ${COMMON_COMPILE_OPTIONS})
+    
+    # Conditionally add the preprocessor definition for Tests as well
+    if(USE_PACKER_NAMESPACE)
+        target_compile_definitions(Tests PRIVATE PACKER_NAMESPACE_ENABLED)
+    endif()
 endif()
 
 # Set the startup project to Console
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Console)
 
 # Install targets
-install(TARGETS Console DESTINATION bin)
+install(TARGETS Console DESTINATION Bin)
 if(BUILD_TESTS)
-    install(TARGETS Tests DESTINATION bin)
+    install(TARGETS Tests DESTINATION Bin)
 endif()
 
 # Source groups
