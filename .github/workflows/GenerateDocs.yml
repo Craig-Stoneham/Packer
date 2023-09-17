@@ -37,14 +37,8 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
+        git pull origin master  # Ensure we are up-to-date with master
         git checkout -b docs-update  # Create a new branch
         git add Documentation/*
         git commit -m "Automatically update documentation" || echo "No changes to commit"
-        git push origin docs-update  # Push to the new branch
-
-    - name: Create Pull Request
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        gh auth login --with-token <<< "${GH_TOKEN}"
-        gh pr create --base master --head docs-update --title "Automatically update documentation" --body "Update documentation" --reviewer "YourGitHubUsername" --draft
+        git push -u origin docs-update  # Push to the new branch
