@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['packer_0',['Packer',['../class_packer.html',1,'']]]
+  ['log_0',['Log',['../class_log.html',1,'']]],
+  ['logfile_1',['LogFile',['../class_log_file.html',1,'']]]
 ];

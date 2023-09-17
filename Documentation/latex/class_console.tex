@@ -9,6 +9,12 @@ Provides functionality for managing console output and text colors.
 
 {\ttfamily \#include $<$Console.\+h$>$}
 
+Inheritance diagram for Console\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_console}
+\end{center}
+\end{figure}
 \doxysubsubsection*{Public Types}
 \begin{DoxyCompactItemize}
 \item 
@@ -47,25 +53,25 @@ void \mbox{\hyperlink{class_console_aecf1e8efeb70533a7f4c227c7a259bb7}{set\+\_\+
 \begin{DoxyCompactList}\small\item\em Set the text color for all log levels. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60}{Color}} \mbox{\hyperlink{class_console_af7b1f84b1fc94bb5976d3d6ff7f12097}{get\+\_\+text\+\_\+color}} () const
 \begin{DoxyCompactList}\small\item\em Get the current text color. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_console_a75c1f51a5d5256fcc76c1d96aad457b4}{print\+\_\+string}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
+void \mbox{\hyperlink{class_console_a75c1f51a5d5256fcc76c1d96aad457b4}{print\+\_\+string}} (const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
 \begin{DoxyCompactList}\small\item\em Print a string to the console without a newline. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_console_aa10e788cf14380010cde9f5f3a100daa}{print\+\_\+line}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
+void \mbox{\hyperlink{class_console_aa10e788cf14380010cde9f5f3a100daa}{print\+\_\+line}} (const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
 \begin{DoxyCompactList}\small\item\em Print a string to the console with a newline. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_console_a58f861fdab7d2f8feef5494dd5868707}{print\+\_\+string}} (\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Log\+::\+Level}} p\+\_\+level, const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
+void \mbox{\hyperlink{class_console_a58f861fdab7d2f8feef5494dd5868707}{print\+\_\+string}} (\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Log\+::\+Level}} p\+\_\+level, const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
 \begin{DoxyCompactList}\small\item\em Print a string to the console with the specified log level\textquotesingle{}s text color. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_console_acf2b6a23fa32c455e84ce889188988a2}{print\+\_\+info}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
+void \mbox{\hyperlink{class_console_acf2b6a23fa32c455e84ce889188988a2}{print\+\_\+info}} (const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
 \begin{DoxyCompactList}\small\item\em Print a string to the console with the "{}\+Info"{} log level\textquotesingle{}s text color. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_console_a987efa629c741344fcb7d010ce28e23c}{print\+\_\+warn}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
+void \mbox{\hyperlink{class_console_a987efa629c741344fcb7d010ce28e23c}{print\+\_\+warn}} (const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
 \begin{DoxyCompactList}\small\item\em Print a string to the console with the "{}\+Warn"{} log level\textquotesingle{}s text color. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_console_a8d041a608f2848918c1922ba30581978}{print\+\_\+error}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
+void \mbox{\hyperlink{class_console_a8d041a608f2848918c1922ba30581978}{print\+\_\+error}} (const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
 \begin{DoxyCompactList}\small\item\em Print a string to the console with the "{}\+Error"{} log level\textquotesingle{}s text color. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_console_adea36054467f93d6249cb767c9eba2d4}{log\+\_\+string}} (\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Log\+::\+Level}} p\+\_\+level, const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
+void \mbox{\hyperlink{class_console_adea36054467f93d6249cb767c9eba2d4}{log\+\_\+string}} (\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Log\+::\+Level}} p\+\_\+level, const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
 \begin{DoxyCompactList}\small\item\em \doxylink{class_log}{Log} a string with the specified log level\textquotesingle{}s text color. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_console_a0d65776d97f5560235684878c4070085}{log\+\_\+info}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
+void \mbox{\hyperlink{class_console_a0d65776d97f5560235684878c4070085}{log\+\_\+info}} (const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
 \begin{DoxyCompactList}\small\item\em \doxylink{class_log}{Log} a string with the "{}\+Info"{} log level\textquotesingle{}s text color. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_console_ae995c19892978e46153e66b3d6dc742a}{log\+\_\+warn}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
+void \mbox{\hyperlink{class_console_ae995c19892978e46153e66b3d6dc742a}{log\+\_\+warn}} (const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
 \begin{DoxyCompactList}\small\item\em \doxylink{class_log}{Log} a string with the "{}\+Warn"{} log level\textquotesingle{}s text color. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_console_a19f7665ebb4aa81ca73d0c400226bf84}{log\+\_\+error}} (const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
+void \mbox{\hyperlink{class_console_a19f7665ebb4aa81ca73d0c400226bf84}{log\+\_\+error}} (const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
 \begin{DoxyCompactList}\small\item\em \doxylink{class_log}{Log} a string with the "{}\+Error"{} log level\textquotesingle{}s text color. \end{DoxyCompactList}\item 
 \Hypertarget{class_console_aba16cfd9f0894eb1312b1bc1155b6646}\label{class_console_aba16cfd9f0894eb1312b1bc1155b6646} 
 {\bfseries Console} ()
@@ -199,7 +205,7 @@ The color associated with the specified log level.
 \index{Console@{Console}!log\_error@{log\_error}}
 \index{log\_error@{log\_error}!Console@{Console}}
 \doxysubsubsection{\texorpdfstring{log\_error()}{log\_error()}}
-{\footnotesize\ttfamily void Console\+::log\+\_\+error (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void Console\+::log\+\_\+error (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
 
 
 
@@ -214,7 +220,7 @@ The color associated with the specified log level.
 \index{Console@{Console}!log\_info@{log\_info}}
 \index{log\_info@{log\_info}!Console@{Console}}
 \doxysubsubsection{\texorpdfstring{log\_info()}{log\_info()}}
-{\footnotesize\ttfamily void Console\+::log\+\_\+info (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void Console\+::log\+\_\+info (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
 
 
 
@@ -229,7 +235,7 @@ The color associated with the specified log level.
 \index{Console@{Console}!log\_string@{log\_string}}
 \index{log\_string@{log\_string}!Console@{Console}}
 \doxysubsubsection{\texorpdfstring{log\_string()}{log\_string()}}
-{\footnotesize\ttfamily void Console\+::log\+\_\+string (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Log\+::\+Level}}}]{p\+\_\+level,  }\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void Console\+::log\+\_\+string (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Log\+::\+Level}}}]{p\+\_\+level,  }\item[{const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
 
 
 
@@ -246,7 +252,7 @@ The color associated with the specified log level.
 \index{Console@{Console}!log\_warn@{log\_warn}}
 \index{log\_warn@{log\_warn}!Console@{Console}}
 \doxysubsubsection{\texorpdfstring{log\_warn()}{log\_warn()}}
-{\footnotesize\ttfamily void Console\+::log\+\_\+warn (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void Console\+::log\+\_\+warn (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
 
 
 
@@ -261,7 +267,7 @@ The color associated with the specified log level.
 \index{Console@{Console}!print\_error@{print\_error}}
 \index{print\_error@{print\_error}!Console@{Console}}
 \doxysubsubsection{\texorpdfstring{print\_error()}{print\_error()}}
-{\footnotesize\ttfamily void Console\+::print\+\_\+error (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void Console\+::print\+\_\+error (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
 
 
 
@@ -276,7 +282,7 @@ Print a string to the console with the "{}\+Error"{} log level\textquotesingle{}
 \index{Console@{Console}!print\_info@{print\_info}}
 \index{print\_info@{print\_info}!Console@{Console}}
 \doxysubsubsection{\texorpdfstring{print\_info()}{print\_info()}}
-{\footnotesize\ttfamily void Console\+::print\+\_\+info (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void Console\+::print\+\_\+info (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
 
 
 
@@ -291,7 +297,7 @@ Print a string to the console with the "{}\+Info"{} log level\textquotesingle{}s
 \index{Console@{Console}!print\_line@{print\_line}}
 \index{print\_line@{print\_line}!Console@{Console}}
 \doxysubsubsection{\texorpdfstring{print\_line()}{print\_line()}}
-{\footnotesize\ttfamily void Console\+::print\+\_\+line (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void Console\+::print\+\_\+line (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
 
 
 
@@ -306,7 +312,7 @@ Print a string to the console with a newline.
 \index{Console@{Console}!print\_string@{print\_string}}
 \index{print\_string@{print\_string}!Console@{Console}}
 \doxysubsubsection{\texorpdfstring{print\_string()}{print\_string()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily void Console\+::print\+\_\+string (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void Console\+::print\+\_\+string (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
 
 
 
@@ -321,7 +327,7 @@ Print a string to the console without a newline.
 \index{Console@{Console}!print\_string@{print\_string}}
 \index{print\_string@{print\_string}!Console@{Console}}
 \doxysubsubsection{\texorpdfstring{print\_string()}{print\_string()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily void Console\+::print\+\_\+string (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Log\+::\+Level}}}]{p\+\_\+level,  }\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void Console\+::print\+\_\+string (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Log\+::\+Level}}}]{p\+\_\+level,  }\item[{const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
 
 
 
@@ -338,7 +344,7 @@ Print a string to the console with the specified log level\textquotesingle{}s te
 \index{Console@{Console}!print\_warn@{print\_warn}}
 \index{print\_warn@{print\_warn}!Console@{Console}}
 \doxysubsubsection{\texorpdfstring{print\_warn()}{print\_warn()}}
-{\footnotesize\ttfamily void Console\+::print\+\_\+warn (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void Console\+::print\+\_\+warn (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
 
 
 
