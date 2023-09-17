@@ -31,12 +31,20 @@ jobs:
     - name: Generate Documentation
       run: python GenerateDocs.py
 
-    - name: Commit and Push Documentation to Master
+    - name: Commit and Push Documentation to New Branch
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
+        git checkout -b docs-update  # Create a new branch
         git add Documentation/*
         git commit -m "Automatically update documentation" || echo "No changes to commit"
-        git push origin master  # Push directly to master
+        git push origin docs-update  # Push to the new branch
+
+    - name: Create Pull Request
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        gh auth login --with-token <<< "${GH_TOKEN}"
+        gh pr create --base master --head docs-update --title "Automatically update documentation" --body "Update documentation" --reviewer "YourGitHubUsername" --draft
