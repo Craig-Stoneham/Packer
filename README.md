@@ -47,8 +47,6 @@ Once the build is complete, you'll find the Packer executable in the appropriate
 
 In the [Releases](https://github.com/Craig-Stoneham/packer/releases) section, you will find the Release executable for Packer. This executable is built for the x64 architecture, ensuring compatibility with a wide range of systems. It's optimized for performance and efficiency, making it the recommended choice for everyday use.
 
-Feel free to download the executable that matches your requirements from the Releases section.
-
 ## **Contribute and Report Bugs:**
 
 We welcome contributions from the community to improve and enhance Packer. If you'd like to contribute, please follow these steps:
