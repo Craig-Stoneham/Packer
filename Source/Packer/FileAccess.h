@@ -55,7 +55,7 @@ namespace FileAccess {
     using Callback = void (*)(const String&, const String&, bool);
 
     /**
-     * @brief Set a callback function for file access operations.
+     * @brief Set a callback function for pack file operation.
      *
      * This function allows you to set a callback that will be called when the file packing
      * operation is performed. The callback receives source and destination paths, and a flag
@@ -66,7 +66,7 @@ namespace FileAccess {
     void set_callback(Callback p_callback);
 
     /**
-     * @brief Get the currently registered file access callback function.
+     * @brief Get the currently registered pack file callback function.
      *
      * @return The currently registered callback function or nullptr if no callback is set.
      */

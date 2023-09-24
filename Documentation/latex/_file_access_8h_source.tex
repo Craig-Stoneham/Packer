@@ -33,9 +33,9 @@
 \DoxyCodeLine{00034\ }
 \DoxyCodeLine{00042\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_file_access}{FileAccess}}\ \{}
 \DoxyCodeLine{00043\ \textcolor{preprocessor}{\#ifndef\ EXPERIMENTAL\_FILESYSTEM}}
-\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keyword}{using\ namespace\ }std::filesystem;}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keyword}{using\ namespace\ }std::filesystem;\ \textcolor{comment}{//\ Use\ C++17\ filesystem\ API.}}
 \DoxyCodeLine{00045\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ EXPERIMENTAL\_FILESYSTEM}}
-\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keyword}{using\ namespace\ }std::experimental::filesystem;}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keyword}{using\ namespace\ }std::experimental::filesystem;\ \textcolor{comment}{//\ Use\ experimental\ filesystem\ API.}}
 \DoxyCodeLine{00047\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EXPERIMENTAL\_FILESYSTEM}}
 \DoxyCodeLine{00048\ }
 \DoxyCodeLine{00055\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_file_access_addf0a96e01f1631cba582dad5bc06332}{Callback}}\ =\ void\ (*)(\textcolor{keyword}{const}\ \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&,\ bool);}

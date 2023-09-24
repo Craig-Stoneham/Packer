@@ -14,9 +14,9 @@ using \mbox{\hyperlink{namespace_file_access_addf0a96e01f1631cba582dad5bc06332}{
 \begin{DoxyCompactItemize}
 \item 
 void \mbox{\hyperlink{namespace_file_access_a6777a9ecb122519af2030f2c83c1afcd}{set\+\_\+callback}} (\mbox{\hyperlink{namespace_file_access_addf0a96e01f1631cba582dad5bc06332}{Callback}} p\+\_\+callback)
-\begin{DoxyCompactList}\small\item\em Set a callback function for file access operations. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Set a callback function for pack file operation. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{namespace_file_access_addf0a96e01f1631cba582dad5bc06332}{Callback}} \mbox{\hyperlink{namespace_file_access_a56dcbd1d35b88c628a820a3f6371c095}{get\+\_\+callback}} ()
-\begin{DoxyCompactList}\small\item\em Get the currently registered file access callback function. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Get the currently registered pack file callback function. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{namespace_file_access_afd777d25b46546e8c41e0a2f747d3266}{pack\+\_\+file}} (const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+read\+\_\+path, const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+write\+\_\+path, bool p\+\_\+move=false)
 \begin{DoxyCompactList}\small\item\em Pack a file from the source path to the destination path. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{namespace_file_access_a399cf9db9b829cc93b6b1107455a53de}{normalize\+\_\+separators}} (\mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+path)
@@ -52,7 +52,7 @@ This callback function is used to notify external code about the pack file opera
 
 
 
-Get the currently registered file access callback function. 
+Get the currently registered pack file callback function. 
 
 \begin{DoxyReturn}{Returns}
 The currently registered callback function or nullptr if no callback is set. 
@@ -128,7 +128,7 @@ True if the suffix was found and removed, false otherwise.
 
 
 
-Set a callback function for file access operations. 
+Set a callback function for pack file operation. 
 
 This function allows you to set a callback that will be called when the file packing operation is performed. The callback receives source and destination paths, and a flag indicating whether the operation is a move (true) or not (false).
 
