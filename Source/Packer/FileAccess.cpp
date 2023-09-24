@@ -27,7 +27,6 @@
 
 PACKER_NAMESPACE_BEGIN
 
-
 static FileAccess::Callback callback = nullptr;
 
 void FileAccess::set_callback(Callback p_callback) {
