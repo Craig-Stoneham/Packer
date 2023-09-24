@@ -72,16 +72,17 @@ void Application::_set_read_path() {
 }
 
 void Application::_set_write_path() {
-    if (input == packer.get_write_path()) {
-        print_line("Write path is already '" + input + "'.");
+    String write_path = input;
+    if (write_path == packer.get_write_path()) {
+        print_line("Write path is already '" + write_path + "'.");
         return;
     }
-    if (input == packer.get_read_path()) {
-        print_line("Write path '" + input + "' cannot be the same as the read path.");
+    if (write_path == packer.get_read_path()) {
+        print_line("Write path '" + write_path + "' cannot be the same as the read path.");
         return;
     }
-    packer.set_write_path(input);
-    print_line("Write path changed to '" + input + "'.");
+    packer.set_write_path(write_path);
+    print_line("Write path changed to '" + write_path + "'.");
 }
 
 void Application::_add_extension() {
