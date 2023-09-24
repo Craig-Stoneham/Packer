@@ -195,16 +195,6 @@ void Application::_revert_state() {
     print_line("State reverted.");
 }
 
-void Application::_load_config() {
-    String file_name = input != "default" ? input : DEFAULT_CONFIG_FILE_NAME;
-
-    if (_load(file_name) == Error::OK) {
-        print_line("Config file '" + file_name + "' loaded.");
-    } else {
-        print_line("Failed to load config file '" + file_name + "'.");
-    }
-}
-
 void Application::_save_config() {
     String file_name = input != "default" ? input : DEFAULT_CONFIG_FILE_NAME;
 
@@ -212,6 +202,16 @@ void Application::_save_config() {
         print_line("Config file '" + file_name + "' saved.");
     } else {
         print_line("Failed to save config file '" + file_name + "'.");
+    }
+}
+
+void Application::_load_config() {
+    String file_name = input != "default" ? input : DEFAULT_CONFIG_FILE_NAME;
+
+    if (_load(file_name) == Error::OK) {
+        print_line("Config file '" + file_name + "' loaded.");
+    } else {
+        print_line("Failed to load config file '" + file_name + "'.");
     }
 }
 
@@ -460,8 +460,8 @@ Application::Application() :
     _add_simple_command(&Application::_set_log_enabled, "log_enabled", "Enable logging");
 #endif // LOG_DISABLED
     _add_simple_command(&Application::_revert_state, "revert", "Revert all of the settings to their defaults");
-    _add_prompt_command(&Application::_load_config, "load", "Load a state from a config file", "Type the name of the config file (or 'default' to use the default):");
     _add_prompt_command(&Application::_save_config, "save", "Save the state to a config file", "Type the name of the config file (or 'default' to use the default):");
+    _add_prompt_command(&Application::_load_config, "load", "Load a state from a config file", "Type the name of the config file (or 'default' to use the default):");
     _add_simple_command(&Application::_print_info, "info", "Print the current state of the packer");
     _add_simple_command(&Application::_run_packer, "run", "Run the packer");
     _add_simple_command(&Application::_quit_program, "quit", "Quit the application");

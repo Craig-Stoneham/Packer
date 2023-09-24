@@ -207,14 +207,14 @@ class Application : public Console {
     void _revert_state();
 
     /**
-     * @brief Loads configuration settings from a file.
-     */
-    void _load_config();
-
-    /**
      * @brief Saves configuration settings to a file.
      */
     void _save_config();
+
+    /**
+     * @brief Loads configuration settings from a file.
+     */
+    void _load_config();
 
     /**
      * @brief Prints information about the current configuration.
