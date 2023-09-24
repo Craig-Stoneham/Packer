@@ -51,7 +51,7 @@ file(GLOB Tests_Sources
 
 # Add resource file conditionally for Windows
 if(WIN32)
-    list(APPEND Console_Sources
+    list(APPEND Console_Resources
         Source/Console/Resources.rc
     )
 endif()
@@ -73,7 +73,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Bin/$<CONFIG>)
 set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR})
 
 # Create Console target
-add_executable(Console ${Packer_Headers} ${Packer_Sources} ${Console_Headers} ${Console_Sources})
+add_executable(Console ${Packer_Headers} ${Packer_Sources} ${Console_Headers} ${Console_Sources} ${Console_Resources})
 target_include_directories(Console PRIVATE Source/Packer)
 set_target_properties(Console PROPERTIES
     CXX_STANDARD ${CPP_STD}
@@ -118,5 +118,8 @@ source_group("Packer/Headers" FILES ${Packer_Headers})
 source_group("Packer/Source" FILES ${Packer_Sources})
 source_group("Console/Headers" FILES ${Console_Headers})
 source_group("Console/Source" FILES ${Console_Sources})
+if(WIN32)
+source_group("Console/Resources" FILES ${Console_Resources})
+endif()
 source_group("Tests/Headers" FILES ${Tests_Headers})
 source_group("Tests/Source" FILES ${Tests_Sources})
