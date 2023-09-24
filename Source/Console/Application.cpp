@@ -480,7 +480,7 @@ Application::Application() :
     _add_prompt_command(&Application::_set_log_file_name, "log_file_name", "Change the name of the log file", "Type the name of the log file (or 'default' to use the default):");
     _add_simple_command(&Application::_set_log_enabled, "log_enabled", "Enable logging");
 #endif // LOG_DISABLED
-    _add_simple_command(&Application::_swap_paths, "swap_paths", "Swap the read and write path directories");
+    _add_simple_command(&Application::_swap_paths, "swap_paths", "Swap the read and write directories");
     _add_simple_command(&Application::_revert_state, "revert", "Revert all of the settings to their defaults");
     _add_prompt_command(&Application::_save_config, "save", "Save the state to a config file", "Type the name of the config file (or 'default' to use the default):");
     _add_prompt_command(&Application::_load_config, "load", "Load a state from a config file", "Type the name of the config file (or 'default' to use the default):");
