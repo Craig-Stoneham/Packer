@@ -59,6 +59,10 @@ void Application::_set_read_path() {
         print_line("Read path is already '" + read_path + "'.");
         return;
     }
+    if (read_path == packer.get_write_path()) {
+        print_line("Read path '" + read_path + "' cannot be the same as the write path.");
+        return;
+    }
     if (FileAccess::exists(read_path) == false) {
         print_line("Path does not exist.");
         return;
@@ -70,6 +74,10 @@ void Application::_set_read_path() {
 void Application::_set_write_path() {
     if (input == packer.get_write_path()) {
         print_line("Write path is already '" + input + "'.");
+        return;
+    }
+    if (input == packer.get_read_path()) {
+        print_line("Write path '" + input + "' cannot be the same as the read path.");
         return;
     }
     packer.set_write_path(input);
