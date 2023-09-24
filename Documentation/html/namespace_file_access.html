@@ -120,7 +120,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>A callback function signature for file access operations. </p>
-<p>This callback function is used to notify external code about file access operations, including file packing. It receives the source path, destination path, and whether the operation is a move (true) or not (false). </p>
+<p>This callback function is used to notify external code about the pack file operations It receives the source path, destination path, and whether the operation is a move. </p>
 
 </div>
 </div>
@@ -274,7 +274,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Set a callback function for file access operations. </p>
-<p>This function allows you to set a callback that will be called when certain file access operations, such as file packing, are performed. The callback receives source and destination paths, and a flag indicating whether the operation is a move (true) or not (false).</p>
+<p>This function allows you to set a callback that will be called when the file packing operation is performed. The callback receives source and destination paths, and a flag indicating whether the operation is a move (true) or not (false).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">p_callback</td><td>The callback function to set. </td></tr>

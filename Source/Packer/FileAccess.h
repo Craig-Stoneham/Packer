@@ -49,18 +49,17 @@ namespace FileAccess {
     /**
      * @brief A callback function signature for file access operations.
      *
-     * This callback function is used to notify external code about file access operations,
-     * including file packing. It receives the source path, destination path, and whether the
-     * operation is a move (true) or not (false).
+     * This callback function is used to notify external code about the pack file operations 
+     * It receives the source path, destination path, and whether the operation is a move.
      */
     using Callback = void (*)(const String&, const String&, bool);
 
     /**
      * @brief Set a callback function for file access operations.
      *
-     * This function allows you to set a callback that will be called when certain file access
-     * operations, such as file packing, are performed. The callback receives source and destination
-     * paths, and a flag indicating whether the operation is a move (true) or not (false).
+     * This function allows you to set a callback that will be called when the file packing
+     * operation is performed. The callback receives source and destination paths, and a flag
+     * indicating whether the operation is a move (true) or not (false).
      *
      * @param p_callback The callback function to set.
      */
