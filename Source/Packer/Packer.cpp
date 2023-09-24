@@ -22,7 +22,9 @@
 /**************************************************************************/
 
 #include "Packer.h"
+
 #include "Defaults.h"
+#include "FileAccess.h"
 
 PACKER_NAMESPACE_BEGIN
 
@@ -87,7 +89,7 @@ void Packer::_pack_files(const String& p_read_path, const String& p_write_path) 
 
     for (auto& path : FileAccess::directory_iterator(p_read_path)) {
         String _read_path = path.path().string();
-        normalize_path_separators(_read_path);
+        FileAccess::normalize_separators(_read_path);
 
         if (FileAccess::is_directory(path)) {
             _pack_files(_read_path, p_write_path + _read_path.substr(_read_path.find_last_of('/')));
@@ -124,7 +126,7 @@ void Packer::_pack_files(const String& p_read_path, const String& p_write_path) 
             String _write_path = p_write_path + _read_path.substr(_read_path.find_last_of('/'));
 
             if (suffix_enabled) {
-                remove_path_suffix(_write_path, suffix_string);
+                FileAccess::remove_suffix(_write_path, suffix_string);
             }
 
             if (extension_adjust != ExtensionAdjust::Default) {
@@ -145,13 +147,7 @@ void Packer::_pack_files(const String& p_read_path, const String& p_write_path) 
                 FileAccess::create_directories(p_write_path);
             }
 
-            if (copy_file(_read_path, _write_path, FileAccess::copy_options::update_existing) == false) {
-                continue;
-            }
-
-            if (move_files) {
-                FileAccess::remove(_read_path);
-            }
+            FileAccess::pack_file(_read_path, _write_path, move_files);
 
 #ifndef LOG_DISABLED
             if (log_enabled) {
@@ -427,7 +423,7 @@ Error Packer::pack_files() {
     }
 
     String _read_path = read_path;
-    normalize_path_separators(_read_path);
+    FileAccess::normalize_separators(_read_path);
 
     if (!FileAccess::exists(_read_path)) {
         return Error::DoesNotExist;
@@ -438,7 +434,7 @@ Error Packer::pack_files() {
     }
 
     String _write_path = write_path;
-    normalize_path_separators(_write_path);
+    FileAccess::normalize_separators(_write_path);
 
     _pack_files(_read_path, _write_path);
 

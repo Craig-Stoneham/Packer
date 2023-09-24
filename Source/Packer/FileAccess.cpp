@@ -21,9 +21,40 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#include "Typedefs.h"
+#include "FileAccess.h"
 
-void normalize_path_separators(String& p_path) {
+#include "Defaults.h"
+
+PACKER_NAMESPACE_BEGIN
+
+
+static FileAccess::Callback callback = nullptr;
+
+void FileAccess::set_callback(Callback p_callback) {
+    callback = p_callback;
+}
+
+FileAccess::Callback FileAccess::get_callback() {
+    return callback;
+}
+
+bool FileAccess::pack_file(const String& p_read_path, const String& p_write_path, bool p_move) {
+    if (copy_file(p_read_path, p_write_path, FileAccess::copy_options::update_existing) == false) {
+        return false;
+    }
+
+    if (p_move) {
+        FileAccess::remove(p_read_path);
+    }
+
+    if (callback) {
+        callback(p_write_path, p_write_path, p_move);
+    }
+
+    return true;
+}
+
+void FileAccess::normalize_separators(String& p_path) {
     for (size_t i = 0; i < p_path.size(); ++i) {
         if (p_path[i] == '\\') {
             p_path[i] = '/';
@@ -31,7 +62,7 @@ void normalize_path_separators(String& p_path) {
     }
 }
 
-bool remove_path_suffix(String& p_path, const String& p_suffix) {
+bool FileAccess::remove_suffix(String& p_path, const String& p_suffix) {
     if (p_suffix.empty()) {
         return true;
     }
@@ -43,3 +74,5 @@ bool remove_path_suffix(String& p_path, const String& p_suffix) {
         return false;
     }
 }
+
+PACKER_NAMESPACE_END

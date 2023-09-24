@@ -31,6 +31,7 @@
 #include "../Packer/ConfigFile.h"
 #include "../Packer/Crypto.h"
 #include "../Packer/Variant.h"
+#include "../Packer/FileAccess.h"
 #include "../Packer/Packer.h"
 
 #include <functional>
