@@ -64,7 +64,7 @@ void FileAccess::normalize_separators(String& p_path) {
 
 bool FileAccess::remove_suffix(String& p_path, const String& p_suffix) {
     if (p_suffix.empty()) {
-        return true;
+        return false;
     }
     size_t suffix_pos = p_path.find(p_suffix, p_path.find('/'));
     if (suffix_pos != String::npos) {
