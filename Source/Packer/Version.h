@@ -38,13 +38,13 @@
  * @def VERSION_MINOR
  * @brief The minor version number of the software.
  */
-#define VERSION_MINOR 4
+#define VERSION_MINOR 5
 
 /**
  * @def VERSION_PATCH
  * @brief The patch version number of the software.
  */
-#define VERSION_PATCH 2
+#define VERSION_PATCH 0
 
 /**
  * @def VERSION_STRING
