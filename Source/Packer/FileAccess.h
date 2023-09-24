@@ -47,12 +47,12 @@ namespace FileAccess {
 #endif // EXPERIMENTAL_FILESYSTEM
 
     /**
-     * @brief A callback function signature for file access operations.
-     *
-     * This callback function is used to notify external code about the pack file operations 
-     * It receives the source path, destination path, and whether the operation is a move.
+     * @brief A callback function type for the pack file operation.
+     * @param p_read_path The source path of the file to pack.
+     * @param p_write_path The destination path where the file will be written.
+     * @param p_move If true, the function will move the file; otherwise, it will copy the file.
      */
-    using Callback = void (*)(const String&, const String&, bool);
+    using Callback = void (*)(const String& p_read_path, const String& p_write_path, bool p_move);
 
     /**
      * @brief Set a callback function for pack file operation.
@@ -80,8 +80,7 @@ namespace FileAccess {
      *
      * @param p_read_path The source path of the file to pack.
      * @param p_write_path The destination path where the file will be written.
-     * @param p_move If true, the function will move the file (delete the source); otherwise, it will
-     *               copy the file.
+     * @param p_move If true, the function will move the file; otherwise, it will copy the file.
      *
      * @return true if the operation was successful, false otherwise.
      */

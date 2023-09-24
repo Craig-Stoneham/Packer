@@ -8,14 +8,14 @@ A namespace containing utilities for file access operations.
 \doxysubsubsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
-using \mbox{\hyperlink{namespace_file_access_addf0a96e01f1631cba582dad5bc06332}{Callback}} = void(\texorpdfstring{$\ast$}{*})(const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&, const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&, bool)
-\begin{DoxyCompactList}\small\item\em A callback function signature for file access operations. \end{DoxyCompactList}\end{DoxyCompactItemize}
+using \mbox{\hyperlink{namespace_file_access_af73aaf742962a0eaeb27f2a320f87dbf}{Callback}} = void(\texorpdfstring{$\ast$}{*})(const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+read\+\_\+path, const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+write\+\_\+path, bool p\+\_\+move)
+\begin{DoxyCompactList}\small\item\em A callback function type for the pack file operation. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \mbox{\hyperlink{namespace_file_access_a6777a9ecb122519af2030f2c83c1afcd}{set\+\_\+callback}} (\mbox{\hyperlink{namespace_file_access_addf0a96e01f1631cba582dad5bc06332}{Callback}} p\+\_\+callback)
+void \mbox{\hyperlink{namespace_file_access_a6777a9ecb122519af2030f2c83c1afcd}{set\+\_\+callback}} (\mbox{\hyperlink{namespace_file_access_af73aaf742962a0eaeb27f2a320f87dbf}{Callback}} p\+\_\+callback)
 \begin{DoxyCompactList}\small\item\em Set a callback function for pack file operation. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{namespace_file_access_addf0a96e01f1631cba582dad5bc06332}{Callback}} \mbox{\hyperlink{namespace_file_access_a56dcbd1d35b88c628a820a3f6371c095}{get\+\_\+callback}} ()
+\mbox{\hyperlink{namespace_file_access_af73aaf742962a0eaeb27f2a320f87dbf}{Callback}} \mbox{\hyperlink{namespace_file_access_a56dcbd1d35b88c628a820a3f6371c095}{get\+\_\+callback}} ()
 \begin{DoxyCompactList}\small\item\em Get the currently registered pack file callback function. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{namespace_file_access_afd777d25b46546e8c41e0a2f747d3266}{pack\+\_\+file}} (const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+read\+\_\+path, const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+write\+\_\+path, bool p\+\_\+move=false)
 \begin{DoxyCompactList}\small\item\em Pack a file from the source path to the destination path. \end{DoxyCompactList}\item 
@@ -31,24 +31,33 @@ A namespace containing utilities for file access operations.
 The {\ttfamily \doxylink{namespace_file_access}{File\+Access}} namespace provides functions and a callback mechanism for performing various file access operations such as reading, writing, copying, moving, and removal of files. 
 
 \doxysubsection{Typedef Documentation}
-\Hypertarget{namespace_file_access_addf0a96e01f1631cba582dad5bc06332}\label{namespace_file_access_addf0a96e01f1631cba582dad5bc06332} 
+\Hypertarget{namespace_file_access_af73aaf742962a0eaeb27f2a320f87dbf}\label{namespace_file_access_af73aaf742962a0eaeb27f2a320f87dbf} 
 \index{FileAccess@{FileAccess}!Callback@{Callback}}
 \index{Callback@{Callback}!FileAccess@{FileAccess}}
 \doxysubsubsection{\texorpdfstring{Callback}{Callback}}
-{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_file_access_addf0a96e01f1631cba582dad5bc06332}{File\+Access\+::\+Callback}} = typedef void (\texorpdfstring{$\ast$}{*})(const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&, const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&, bool)}
+{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_file_access_af73aaf742962a0eaeb27f2a320f87dbf}{File\+Access\+::\+Callback}} = typedef void (\texorpdfstring{$\ast$}{*})(const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\& p\+\_\+read\+\_\+path, const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\& p\+\_\+write\+\_\+path, bool p\+\_\+move)}
 
 
 
-A callback function signature for file access operations. 
+A callback function type for the pack file operation. 
 
-This callback function is used to notify external code about the pack file operations It receives the source path, destination path, and whether the operation is a move. 
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+read\+\_\+path} & The source path of the file to pack. \\
+\hline
+{\em p\+\_\+write\+\_\+path} & The destination path where the file will be written. \\
+\hline
+{\em p\+\_\+move} & If true, the function will move the file; otherwise, it will copy the file. \\
+\hline
+\end{DoxyParams}
+
 
 \doxysubsection{Function Documentation}
 \Hypertarget{namespace_file_access_a56dcbd1d35b88c628a820a3f6371c095}\label{namespace_file_access_a56dcbd1d35b88c628a820a3f6371c095} 
 \index{FileAccess@{FileAccess}!get\_callback@{get\_callback}}
 \index{get\_callback@{get\_callback}!FileAccess@{FileAccess}}
 \doxysubsubsection{\texorpdfstring{get\_callback()}{get\_callback()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{namespace_file_access_addf0a96e01f1631cba582dad5bc06332}{Callback}} File\+Access\+::get\+\_\+callback (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespace_file_access_af73aaf742962a0eaeb27f2a320f87dbf}{Callback}} File\+Access\+::get\+\_\+callback (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 
 
@@ -92,7 +101,7 @@ This function copies a file from the source path to the destination path. It als
 \hline
 {\em p\+\_\+write\+\_\+path} & The destination path where the file will be written. \\
 \hline
-{\em p\+\_\+move} & If true, the function will move the file (delete the source); otherwise, it will copy the file.\\
+{\em p\+\_\+move} & If true, the function will move the file; otherwise, it will copy the file.\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -124,7 +133,7 @@ True if the suffix was found and removed, false otherwise.
 \index{FileAccess@{FileAccess}!set\_callback@{set\_callback}}
 \index{set\_callback@{set\_callback}!FileAccess@{FileAccess}}
 \doxysubsubsection{\texorpdfstring{set\_callback()}{set\_callback()}}
-{\footnotesize\ttfamily void File\+Access\+::set\+\_\+callback (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespace_file_access_addf0a96e01f1631cba582dad5bc06332}{Callback}}}]{p\+\_\+callback }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void File\+Access\+::set\+\_\+callback (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespace_file_access_af73aaf742962a0eaeb27f2a320f87dbf}{Callback}}}]{p\+\_\+callback }\end{DoxyParamCaption})}
 
 
 

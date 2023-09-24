@@ -81,16 +81,16 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:addf0a96e01f1631cba582dad5bc06332" id="r_addf0a96e01f1631cba582dad5bc06332"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_file_access.html#addf0a96e01f1631cba582dad5bc06332">Callback</a> = void(*)(const <a class="el" href="_packer_2_typedefs_8h.html#a626ea521670a14e666c265c566fe9f86">String</a> &amp;, const <a class="el" href="_packer_2_typedefs_8h.html#a626ea521670a14e666c265c566fe9f86">String</a> &amp;, bool)</td></tr>
-<tr class="memdesc:addf0a96e01f1631cba582dad5bc06332"><td class="mdescLeft">&#160;</td><td class="mdescRight">A callback function signature for file access operations.  <br /></td></tr>
-<tr class="separator:addf0a96e01f1631cba582dad5bc06332"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af73aaf742962a0eaeb27f2a320f87dbf" id="r_af73aaf742962a0eaeb27f2a320f87dbf"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_file_access.html#af73aaf742962a0eaeb27f2a320f87dbf">Callback</a> = void(*)(const <a class="el" href="_packer_2_typedefs_8h.html#a626ea521670a14e666c265c566fe9f86">String</a> &amp;p_read_path, const <a class="el" href="_packer_2_typedefs_8h.html#a626ea521670a14e666c265c566fe9f86">String</a> &amp;p_write_path, bool p_move)</td></tr>
+<tr class="memdesc:af73aaf742962a0eaeb27f2a320f87dbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">A callback function type for the pack file operation.  <br /></td></tr>
+<tr class="separator:af73aaf742962a0eaeb27f2a320f87dbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a6777a9ecb122519af2030f2c83c1afcd" id="r_a6777a9ecb122519af2030f2c83c1afcd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_file_access.html#a6777a9ecb122519af2030f2c83c1afcd">set_callback</a> (<a class="el" href="namespace_file_access.html#addf0a96e01f1631cba582dad5bc06332">Callback</a> p_callback)</td></tr>
+<tr class="memitem:a6777a9ecb122519af2030f2c83c1afcd" id="r_a6777a9ecb122519af2030f2c83c1afcd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_file_access.html#a6777a9ecb122519af2030f2c83c1afcd">set_callback</a> (<a class="el" href="namespace_file_access.html#af73aaf742962a0eaeb27f2a320f87dbf">Callback</a> p_callback)</td></tr>
 <tr class="memdesc:a6777a9ecb122519af2030f2c83c1afcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a callback function for pack file operation.  <br /></td></tr>
 <tr class="separator:a6777a9ecb122519af2030f2c83c1afcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a56dcbd1d35b88c628a820a3f6371c095" id="r_a56dcbd1d35b88c628a820a3f6371c095"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_file_access.html#addf0a96e01f1631cba582dad5bc06332">Callback</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_file_access.html#a56dcbd1d35b88c628a820a3f6371c095">get_callback</a> ()</td></tr>
+<tr class="memitem:a56dcbd1d35b88c628a820a3f6371c095" id="r_a56dcbd1d35b88c628a820a3f6371c095"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_file_access.html#af73aaf742962a0eaeb27f2a320f87dbf">Callback</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_file_access.html#a56dcbd1d35b88c628a820a3f6371c095">get_callback</a> ()</td></tr>
 <tr class="memdesc:a56dcbd1d35b88c628a820a3f6371c095"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the currently registered pack file callback function.  <br /></td></tr>
 <tr class="separator:a56dcbd1d35b88c628a820a3f6371c095"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd777d25b46546e8c41e0a2f747d3266" id="r_afd777d25b46546e8c41e0a2f747d3266"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_file_access.html#afd777d25b46546e8c41e0a2f747d3266">pack_file</a> (const <a class="el" href="_packer_2_typedefs_8h.html#a626ea521670a14e666c265c566fe9f86">String</a> &amp;p_read_path, const <a class="el" href="_packer_2_typedefs_8h.html#a626ea521670a14e666c265c566fe9f86">String</a> &amp;p_write_path, bool p_move=false)</td></tr>
@@ -107,20 +107,27 @@ Functions</h2></td></tr>
 <div class="textblock"><p>A namespace containing utilities for file access operations. </p>
 <p>The <code><a class="el" href="namespace_file_access.html" title="A namespace containing utilities for file access operations.">FileAccess</a></code> namespace provides functions and a callback mechanism for performing various file access operations such as reading, writing, copying, moving, and removal of files. </p>
 </div><h2 class="groupheader">Typedef Documentation</h2>
-<a id="addf0a96e01f1631cba582dad5bc06332" name="addf0a96e01f1631cba582dad5bc06332"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#addf0a96e01f1631cba582dad5bc06332">&#9670;&#160;</a></span>Callback</h2>
+<a id="af73aaf742962a0eaeb27f2a320f87dbf" name="af73aaf742962a0eaeb27f2a320f87dbf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af73aaf742962a0eaeb27f2a320f87dbf">&#9670;&#160;</a></span>Callback</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="namespace_file_access.html#addf0a96e01f1631cba582dad5bc06332">FileAccess::Callback</a> = typedef void (*)(const <a class="el" href="_packer_2_typedefs_8h.html#a626ea521670a14e666c265c566fe9f86">String</a>&amp;, const <a class="el" href="_packer_2_typedefs_8h.html#a626ea521670a14e666c265c566fe9f86">String</a>&amp;, bool)</td>
+          <td class="memname">using <a class="el" href="namespace_file_access.html#af73aaf742962a0eaeb27f2a320f87dbf">FileAccess::Callback</a> = typedef void (*)(const <a class="el" href="_packer_2_typedefs_8h.html#a626ea521670a14e666c265c566fe9f86">String</a>&amp; p_read_path, const <a class="el" href="_packer_2_typedefs_8h.html#a626ea521670a14e666c265c566fe9f86">String</a>&amp; p_write_path, bool p_move)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>A callback function signature for file access operations. </p>
-<p>This callback function is used to notify external code about the pack file operations It receives the source path, destination path, and whether the operation is a move. </p>
+<p>A callback function type for the pack file operation. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p_read_path</td><td>The source path of the file to pack. </td></tr>
+    <tr><td class="paramname">p_write_path</td><td>The destination path where the file will be written. </td></tr>
+    <tr><td class="paramname">p_move</td><td>If true, the function will move the file; otherwise, it will copy the file. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -132,7 +139,7 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespace_file_access.html#addf0a96e01f1631cba582dad5bc06332">Callback</a> FileAccess::get_callback </td>
+          <td class="memname"><a class="el" href="namespace_file_access.html#af73aaf742962a0eaeb27f2a320f87dbf">Callback</a> FileAccess::get_callback </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -210,7 +217,7 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">p_read_path</td><td>The source path of the file to pack. </td></tr>
     <tr><td class="paramname">p_write_path</td><td>The destination path where the file will be written. </td></tr>
-    <tr><td class="paramname">p_move</td><td>If true, the function will move the file (delete the source); otherwise, it will copy the file.</td></tr>
+    <tr><td class="paramname">p_move</td><td>If true, the function will move the file; otherwise, it will copy the file.</td></tr>
   </table>
   </dd>
 </dl>
@@ -266,7 +273,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void FileAccess::set_callback </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespace_file_access.html#addf0a96e01f1631cba582dad5bc06332">Callback</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_file_access.html#af73aaf742962a0eaeb27f2a320f87dbf">Callback</a>&#160;</td>
           <td class="paramname"><em>p_callback</em></td><td>)</td>
           <td></td>
         </tr>
