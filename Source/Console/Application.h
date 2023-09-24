@@ -202,6 +202,11 @@ class Application : public Console {
 #endif // LOG_DISABLED
 
     /**
+     * @brief Swaps the read and write paths.
+     */
+    void _swap_paths();
+
+    /**
      * @brief Reverts the application state to defaults.
      */
     void _revert_state();
