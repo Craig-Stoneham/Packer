@@ -32,6 +32,9 @@ void normalize_path_separators(String& p_path) {
 }
 
 bool remove_path_suffix(String& p_path, const String& p_suffix) {
+    if (p_suffix.empty()) {
+        return true;
+    }
     size_t suffix_pos = p_path.find(p_suffix, p_path.find('/'));
     if (suffix_pos != String::npos) {
         p_path.erase(suffix_pos, p_suffix.length());
