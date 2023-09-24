@@ -60,7 +60,7 @@ endif()
 option(USE_PACKER_NAMESPACE "Use Packer namespace" OFF)
 
 # Common compile options
-set(COMMON_COMPILE_OPTIONS "/bigobj;/Zc:__cplusplus")
+set(COMMON_COMPILE_OPTIONS "/Zc:__cplusplus")
 
 # Add option for C++ standard version
 set(CPP_STD 17 CACHE STRING "C++ standard version")
