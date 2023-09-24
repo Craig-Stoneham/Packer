@@ -74,10 +74,8 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a> &#124;
 <a href="#define-members">Macros</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#typedef-members">Typedefs</a>  </div>
   <div class="headertitle"><div class="title">Typedefs.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -95,12 +93,6 @@ $(function() {
 </div>
 <p><a href="_packer_2_typedefs_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:namespace_file_access" id="r_namespace_file_access"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_file_access.html">FileAccess</a></td></tr>
-<tr class="memdesc:namespace_file_access"><td class="mdescLeft">&#160;</td><td class="mdescRight">Namespace containing filesystem-related types and functions. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:aab6af62131aad81d17d3b4afd9db334f" id="r_aab6af62131aad81d17d3b4afd9db334f"><td class="memItemLeft" align="right" valign="top"><a id="aab6af62131aad81d17d3b4afd9db334f" name="aab6af62131aad81d17d3b4afd9db334f"></a>
@@ -165,15 +157,6 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>FileStreamI</b> = st
 using&#160;</td><td class="memItemRight" valign="bottom"><b>FileStreamO</b> = std::ofstream</td></tr>
 <tr class="memdesc:a75a54c12feaff508b9051abfb4d3437c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for std::ofstream, representing an output file stream. <br /></td></tr>
 <tr class="separator:a75a54c12feaff508b9051abfb4d3437c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ae51e371fc6a71587aff24cb609aaeb13" id="r_ae51e371fc6a71587aff24cb609aaeb13"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_packer_2_typedefs_8h.html#ae51e371fc6a71587aff24cb609aaeb13">normalize_path_separators</a> (<a class="el" href="_packer_2_typedefs_8h.html#a626ea521670a14e666c265c566fe9f86">String</a> &amp;p_path)</td></tr>
-<tr class="memdesc:ae51e371fc6a71587aff24cb609aaeb13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Normalizes path separators in a string.  <br /></td></tr>
-<tr class="separator:ae51e371fc6a71587aff24cb609aaeb13"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0687da241446d0fb451ce05fcf688c49" id="r_a0687da241446d0fb451ce05fcf688c49"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_packer_2_typedefs_8h.html#a0687da241446d0fb451ce05fcf688c49">remove_path_suffix</a> (<a class="el" href="_packer_2_typedefs_8h.html#a626ea521670a14e666c265c566fe9f86">String</a> &amp;p_path, const <a class="el" href="_packer_2_typedefs_8h.html#a626ea521670a14e666c265c566fe9f86">String</a> &amp;p_suffix)</td></tr>
-<tr class="memdesc:a0687da241446d0fb451ce05fcf688c49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a specified suffix from a path string.  <br /></td></tr>
-<tr class="separator:a0687da241446d0fb451ce05fcf688c49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Defines common types and utility macros for the application. </p>
@@ -331,73 +314,6 @@ template&lt;class T , class ALLOC  = std::allocator&lt;T&gt;&gt; </div>
   </table>
   </dd>
 </dl>
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ae51e371fc6a71587aff24cb609aaeb13" name="ae51e371fc6a71587aff24cb609aaeb13"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae51e371fc6a71587aff24cb609aaeb13">&#9670;&#160;</a></span>normalize_path_separators()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void normalize_path_separators </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="_packer_2_typedefs_8h.html#a626ea521670a14e666c265c566fe9f86">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>p_path</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Normalizes path separators in a string. </p>
-<p>This function replaces all backslashes ('\') in the given string with forward slashes ('/').</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">p_path</td><td>The string to normalize path separators in. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a0687da241446d0fb451ce05fcf688c49" name="a0687da241446d0fb451ce05fcf688c49"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0687da241446d0fb451ce05fcf688c49">&#9670;&#160;</a></span>remove_path_suffix()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool remove_path_suffix </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="_packer_2_typedefs_8h.html#a626ea521670a14e666c265c566fe9f86">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>p_path</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="_packer_2_typedefs_8h.html#a626ea521670a14e666c265c566fe9f86">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>p_suffix</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Removes a specified suffix from a path string. </p>
-<p>This function searches for the specified suffix in the path string, starting from the first forward slash ('/'). If the suffix is found, it is removed from the path string, and the function returns true. If the suffix is not found, the function returns false.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">p_path</td><td>The path string from which to remove the suffix. </td></tr>
-    <tr><td class="paramname">p_suffix</td><td>The suffix to remove from the path string. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the suffix was found and removed, false otherwise. </dd></dl>
 
 </div>
 </div>

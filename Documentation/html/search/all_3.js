@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['callback_0',['Callback',['../class_log.html#afa85443490d5e3a9d6b7e8b1ebff2b29',1,'Log']]],
+  ['callback_0',['callback',['../class_log.html#afa85443490d5e3a9d6b7e8b1ebff2b29',1,'Log::Callback'],['../namespace_file_access.html#addf0a96e01f1631cba582dad5bc06332',1,'FileAccess::Callback']]],
   ['clear_1',['clear',['../class_config_file.html#a0c7d81b30b0107862d0836c3747443f5',1,'ConfigFile']]],
   ['clear_5fextensions_2',['clear_extensions',['../class_packer.html#aeb1f25ccfcbd2c37bea34d8c2b4780ae',1,'Packer']]],
   ['close_3',['close',['../class_log_file.html#ae3f30c816b09efef5b8582169a807586',1,'LogFile']]],
