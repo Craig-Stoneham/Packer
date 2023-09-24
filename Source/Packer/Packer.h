@@ -95,7 +95,16 @@ private:
     bool log_enabled; ///< Flag indicating whether logging is enabled.
 #endif // LOG_DISABLED
 
-    template <bool, bool, bool, bool, bool, bool, PackMode, ExtensionAdjust>
+    /**
+     * @brief Recursively pack files from the source directory to the destination directory.
+     *
+     * This private function is responsible for recursively packing files from the source directory
+     * to the destination directory based on the Packer's configuration, including packing mode,
+     * extensions, suffixes, and more. It is used internally by the public `pack_files` method.
+     *
+     * @param p_read_path The current source directory to pack files from.
+     * @param p_write_path The current destination directory to write packed files to.
+     */
     void _pack_files(const String& p_read_path, const String& p_write_path);
 
 public:
