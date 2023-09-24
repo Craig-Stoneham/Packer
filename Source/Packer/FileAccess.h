@@ -41,9 +41,9 @@ PACKER_NAMESPACE_BEGIN
  */
 namespace FileAccess {
 #ifndef EXPERIMENTAL_FILESYSTEM
-    using namespace std::filesystem;
+    using namespace std::filesystem; // Use C++17 filesystem API.
 #else // EXPERIMENTAL_FILESYSTEM
-    using namespace std::experimental::filesystem;
+    using namespace std::experimental::filesystem; // Use experimental filesystem API.
 #endif // EXPERIMENTAL_FILESYSTEM
 
     /**
