@@ -29,14 +29,6 @@ static void log_callback(void* p_logger, Log::Level p_level, const String& p_str
     static_cast<LogFile*>(p_logger)->log_string(p_level, p_string);
 }
 
-void LogFile::set_print_level_details(bool p_enabled) {
-    print_level_details = p_enabled;
-}
-
-bool LogFile::get_print_level_details() const {
-    return print_level_details;
-}
-
 void LogFile::log_string(Log::Level p_level, const String& p_string) {
     if (!stream.is_open()) {
         return;
@@ -57,6 +49,14 @@ void LogFile::log_warn(const String& p_string) {
 
 void LogFile::log_error(const String& p_string) {
     log_string(Log::Level::Error, p_string);
+}
+
+void LogFile::set_print_level_details(bool p_enabled) {
+    print_level_details = p_enabled;
+}
+
+bool LogFile::get_print_level_details() const {
+    return print_level_details;
 }
 
 Error LogFile::open(const String& p_path) {

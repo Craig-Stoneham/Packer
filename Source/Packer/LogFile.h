@@ -38,22 +38,10 @@ PACKER_NAMESPACE_BEGIN
  * @brief Provides functionality for logging to a file.
  */
 class LogFile {
-    bool print_level_details; ///< Indicates whether to print log level details.
     FileStreamO stream; ///< The output file stream for logging.
+    bool print_level_details; ///< Indicates whether to print log level details.
 
 public:
-    /**
-     * @brief Set whether to print log level details.
-     * @param p_enabled If true, log level details will be included in log messages.
-     */
-    void set_print_level_details(bool p_enabled);
-
-    /**
-     * @brief Get the current setting for printing log level details.
-     * @return true if log level details are included in log messages, false otherwise.
-     */
-    bool get_print_level_details() const;
-
     /**
      * @brief Log a string message with a specified log level to the file.
      * @param p_level The log level.
@@ -78,6 +66,18 @@ public:
      * @param p_string The log message.
      */
     void log_error(const String& p_string);
+
+    /**
+     * @brief Set whether to print log level details.
+     * @param p_enabled If true, log level details will be included in log messages.
+     */
+    void set_print_level_details(bool p_enabled);
+
+    /**
+     * @brief Get the current setting for printing log level details.
+     * @return true if log level details are included in log messages, false otherwise.
+     */
+    bool get_print_level_details() const;
 
     /**
      * @brief Open the log file at the specified path.
