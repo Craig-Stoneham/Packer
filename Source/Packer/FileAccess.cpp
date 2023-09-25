@@ -47,7 +47,7 @@ bool FileAccess::pack_file(const String& p_read_path, const String& p_write_path
     }
 
     if (callback) {
-        callback(p_write_path, p_write_path, p_move);
+        callback(p_read_path, p_write_path, p_move);
     }
 
     return true;
