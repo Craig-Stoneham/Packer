@@ -85,6 +85,7 @@ class Application : public Console {
     Vector<Command> commands; ///< List of available console commands.
     bool process_commands; ///< Flag indicating whether to process user commands.
 
+
 #ifdef CONSOLE_FEATURES_ENABLED
     Color command_text_color; ///< The text color for command text in the console.
 #endif // CONSOLE_FEATURES_ENABLED

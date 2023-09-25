@@ -375,8 +375,33 @@ void Application::_read_input(bool p_lower_case) {
     set_text_color(command_text_color);
 #endif // CONSOLE_FEATURES_ENABLED
 
+    static String line;
+    bool is_string = false;
+    int read_chars = 0;
+    bool skip_space = true;
+
     input.clear();
-    std::cin >> input;
+
+    if (line.empty()) {
+        std::getline(std::cin, line);
+    }
+
+    for (char c : line) {
+        ++read_chars;
+        if (c == '"') {
+            is_string = !is_string;
+            skip_space = false;
+        } else if (!is_string && skip_space && c == ' ') {
+            continue;
+        } else if (!is_string && c == ' ') {
+            break;
+        } else {
+            input += c;
+            skip_space = false;
+        }
+    }
+
+    line = line.substr(read_chars);
 
     if (p_lower_case) {
         std::transform(input.begin(), input.end(), input.begin(), ::tolower);
