@@ -59,6 +59,12 @@ endif()
 # Add the new option for namespace
 option(USE_PACKER_NAMESPACE "Use Packer namespace" OFF)
 
+# Add the new option for namespace
+option(LOG_DISABLED "Disable logging functionallity" OFF)
+
+# Add the new option for namespace
+option(IGNORE_FILE_DISABLED "Use ignore file functionallity" OFF)
+
 # Common compile options
 set(COMMON_COMPILE_OPTIONS "/Zc:__cplusplus")
 
@@ -83,7 +89,13 @@ target_compile_options(Console PRIVATE ${COMMON_COMPILE_OPTIONS})
 
 # Conditionally add the preprocessor definition
 if(USE_PACKER_NAMESPACE)
-    target_compile_definitions(Console PRIVATE PACKER_NAMESPACE_ENABLED)
+    target_compile_definitions(Console PUBLIC PACKER_NAMESPACE_ENABLED)
+endif()
+if(LOG_DISABLED)
+    target_compile_definitions(Console PUBLIC LOG_DISABLED)
+endif()
+if(IGNORE_FILE_DISABLED)
+    target_compile_definitions(Console PUBLIC IGNORE_FILE_DISABLED)
 endif()
 
 # Option for building Tests
@@ -100,7 +112,13 @@ if(BUILD_TESTS)
     
     # Conditionally add the preprocessor definition for Tests as well
     if(USE_PACKER_NAMESPACE)
-        target_compile_definitions(Tests PRIVATE PACKER_NAMESPACE_ENABLED)
+        target_compile_definitions(Tests PUBLIC PACKER_NAMESPACE_ENABLED)
+    endif()
+    if(LOG_DISABLED)
+        target_compile_definitions(Console PUBLIC LOG_DISABLED)
+    endif()
+    if(IGNORE_FILE_DISABLED)
+        target_compile_definitions(Console PUBLIC IGNORE_FILE_DISABLED)
     endif()
 endif()
 
