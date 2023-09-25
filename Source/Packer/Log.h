@@ -132,7 +132,7 @@ public:
 #ifndef LOG_DISABLED
 #define LOG_INFO(p_string) Log::log_info(p_string)
 #else // LOG_DISABLED
-#define LOG_INFO(p_level, p_string)
+#define LOG_INFO(p_string)
 #endif // LOG_DISABLED
 
 /**
@@ -143,7 +143,7 @@ public:
 #ifndef LOG_DISABLED
 #define LOG_WARN(p_string) Log::log_warn(p_string)
 #else // LOG_DISABLED
-#define LOG_WARN(p_level, p_string)
+#define LOG_WARN(p_string)
 #endif // LOG_DISABLED
 
 /**
@@ -154,7 +154,7 @@ public:
 #ifndef LOG_DISABLED
 #define LOG_ERROR(p_string) Log::log_error(p_string)
 #else // LOG_DISABLED
-#define LOG_ERROR(p_level, p_string)
+#define LOG_ERROR(p_string)
 #endif // LOG_DISABLED
 
 PACKER_NAMESPACE_END
