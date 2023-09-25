@@ -63,7 +63,7 @@ option(USE_PACKER_NAMESPACE "Use Packer namespace" OFF)
 option(LOG_DISABLED "Disable logging functionallity" OFF)
 
 # Add the new option for namespace
-option(IGNORE_FILE_DISABLED "Use ignore file functionallity" OFF)
+option(IGNORE_FILE_DISABLED "Disable ignore file functionallity" OFF)
 
 # Common compile options
 set(COMMON_COMPILE_OPTIONS "/Zc:__cplusplus")
