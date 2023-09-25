@@ -39,7 +39,7 @@ PACKER_NAMESPACE_BEGIN
  */
 class LogFile {
     FileStreamO stream; ///< The output file stream for logging.
-    bool print_level_details; ///< Indicates whether to print log level details.
+    bool print_level; ///< Indicates whether to print log level details.
 
 public:
     /**
@@ -71,13 +71,13 @@ public:
      * @brief Set whether to print log level details.
      * @param p_enabled If true, log level details will be included in log messages.
      */
-    void set_print_level_details(bool p_enabled);
+    void set_print_level(bool p_enabled);
 
     /**
      * @brief Get the current setting for printing log level details.
      * @return true if log level details are included in log messages, false otherwise.
      */
-    bool get_print_level_details() const;
+    bool get_print_level() const;
 
     /**
      * @brief Open the log file at the specified path.
@@ -94,16 +94,16 @@ public:
 
     /**
      * @brief Default constructor for the LogFile class.
-     * @param p_print_level_details If true, log level details will be included in log messages.
+     * @param p_print_level If true, log level details will be included in log messages.
      */
-    LogFile(bool p_print_level_details = false);
+    LogFile(bool p_print_level = false);
 
     /**
      * @brief Constructor for the LogFile class that opens a log file at the specified path.
      * @param p_path The path to the log file.
-     * @param p_print_level_details If true, log level details will be included in log messages.
+     * @param p_print_level If true, log level details will be included in log messages.
      */
-    LogFile(const String& p_path, bool p_print_level_details = false);
+    LogFile(const String& p_path, bool p_print_level = false);
 
     /**
      * @brief Destructor for the LogFile class.

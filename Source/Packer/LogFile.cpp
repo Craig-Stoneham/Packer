@@ -33,7 +33,7 @@ void LogFile::log_string(Log::Level p_level, const String& p_string) {
     if (!stream.is_open()) {
         return;
     }
-    if (print_level_details) {
+    if (print_level) {
         stream << Log::get_level_name(p_level) << ":";
     }
     stream << p_string;
@@ -51,12 +51,12 @@ void LogFile::log_error(const String& p_string) {
     log_string(Log::Level::Error, p_string);
 }
 
-void LogFile::set_print_level_details(bool p_enabled) {
-    print_level_details = p_enabled;
+void LogFile::set_print_level(bool p_enabled) {
+    print_level = p_enabled;
 }
 
-bool LogFile::get_print_level_details() const {
-    return print_level_details;
+bool LogFile::get_print_level() const {
+    return print_level;
 }
 
 Error LogFile::open(const String& p_path) {
@@ -78,15 +78,15 @@ Error LogFile::close() {
     }
 }
 
-LogFile::LogFile(bool p_print_level_details) :
-    print_level_details(p_print_level_details) {
+LogFile::LogFile(bool p_print_level) :
+    print_level(p_print_level) {
 #ifdef LOG_ENABLED
     Log::add_callback(log_callback, this);
 #endif // LOG_ENABLED
 }
 
-LogFile::LogFile(const String& p_path, bool p_print_level_details) :
-    print_level_details(p_print_level_details) {
+LogFile::LogFile(const String& p_path, bool p_print_level) :
+    print_level(p_print_level) {
 #ifdef LOG_ENABLED
     Log::add_callback(log_callback, this);
 #endif // LOG_ENABLED
