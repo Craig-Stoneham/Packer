@@ -75,7 +75,7 @@ Packer::ExtensionAdjust Packer::find_extension_adjust(const String& p_adjust) {
 }
 
 void Packer::_pack_files(const String& p_read_path, const String& p_write_path) {
-#ifndef IGNORE_FILE_DISABLED
+#ifdef IGNORE_FILE_ENABLED
     if (ignore_file_enabled) {
         if (FileAccess::is_directory(p_read_path) == true) {
             if (FileAccess::exists(p_read_path + "/" + ignore_file_name)) {
@@ -83,7 +83,7 @@ void Packer::_pack_files(const String& p_read_path, const String& p_write_path) 
             }
         }
     }
-#endif //IGNORE_FILE_DISABLED
+#endif //IGNORE_FILE_ENABLED
 
     bool write_directory_exists = false;
 
@@ -147,13 +147,15 @@ void Packer::_pack_files(const String& p_read_path, const String& p_write_path) 
                 FileAccess::create_directories(p_write_path);
             }
 
+#ifndef LOG_ENABLED
             FileAccess::pack_file(_read_path, _write_path, move_files);
-
-#ifndef LOG_DISABLED
-            if (log_enabled) {
-                LOG_INFO((move_files ? "Moved " : "Copied ") + _read_path + " to " + _write_path + "\n");
+#else // LOG_ENABLED
+            if (FileAccess::pack_file(_read_path, _write_path, move_files)) {
+                if (log_enabled) {
+                    LOG_INFO((move_files ? "Moved " : "Copied ") + _read_path + " to " + _write_path + "\n");
+                }
             }
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
         }
     }
 }
@@ -277,7 +279,7 @@ Packer::ExtensionAdjust Packer::get_extension_adjust() const {
     return extension_adjust;
 }
 
-#ifndef IGNORE_FILE_DISABLED
+#ifdef IGNORE_FILE_ENABLED
 
 void Packer::set_ignore_file_name(const String& p_name) {
     ignore_file_name = p_name;
@@ -297,7 +299,7 @@ bool Packer::get_ignore_file_enabled() const {
 
 #endif //PACKER_IGNORE_FILE
 
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
 
 void Packer::set_log_enabled(bool p_enable) {
     log_enabled = p_enable;
@@ -307,7 +309,7 @@ bool Packer::get_log_enabled() const {
     return log_enabled;
 }
 
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
 
 void Packer::to_config_file(ConfigFile& p_file) const {
     p_file.set_value("read_path", read_path);
@@ -321,14 +323,14 @@ void Packer::to_config_file(ConfigFile& p_file) const {
     p_file.set_value("extension_insensitive", extension_insensitive);
     p_file.set_value("extension_adjust", static_cast<int>(extension_adjust));
 
-#ifndef IGNORE_FILE_DISABLED
+#ifdef IGNORE_FILE_ENABLED
     p_file.set_value("ignore_file_name", ignore_file_name);
     p_file.set_value("ignore_file_enabled", ignore_file_enabled);
-#endif // IGNORE_FILE_DISABLED
+#endif // IGNORE_FILE_ENABLED
 
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
     p_file.set_value("log_enabled", log_enabled);
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
 }
 
 void Packer::from_config_file(const ConfigFile& p_file) {
@@ -343,14 +345,14 @@ void Packer::from_config_file(const ConfigFile& p_file) {
     extension_insensitive = p_file.get_value("extension_insensitive", DEFAULT_EXTENSION_INSENSITIVE);
     extension_adjust = static_cast<ExtensionAdjust>(p_file.get_value("extension_adjust", static_cast<int>(DEFAULT_EXTENSION_ADJUST)).operator const int());
 
-#ifndef IGNORE_FILE_DISABLED
+#ifdef IGNORE_FILE_ENABLED
     ignore_file_name = p_file.get_value("ignore_file_name", DEFAULT_IGNORE_FILE_NAME);
     ignore_file_enabled = p_file.get_value("ignore_file_enabled", DEFAULT_IGNORE_FILE_ENABLED);
-#endif // IGNORE_FILE_DISABLED
+#endif // IGNORE_FILE_ENABLED
 
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
     log_enabled = p_file.get_value("log_enabled", DEFAULT_LOG_ENABLED);
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
 }
 
 Error Packer::save(const String& p_path) const {
@@ -397,14 +399,14 @@ void Packer::revert_state() {
     extension_insensitive = DEFAULT_EXTENSION_INSENSITIVE;
     extension_adjust = DEFAULT_EXTENSION_ADJUST;
 
-#ifndef IGNORE_FILE_DISABLED
+#ifdef IGNORE_FILE_ENABLED
     ignore_file_name = DEFAULT_IGNORE_FILE_NAME;
     ignore_file_enabled = DEFAULT_IGNORE_FILE_ENABLED;
-#endif // IGNORE_FILE_DISABLED
+#endif // IGNORE_FILE_ENABLED
 
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
     log_enabled = DEFAULT_LOG_ENABLED;
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
 }
 
 Error Packer::pack_files() {
@@ -442,13 +444,13 @@ Error Packer::pack_files() {
 }
 
 Packer::Packer() :
-#ifndef IGNORE_FILE_DISABLED
+#ifdef IGNORE_FILE_ENABLED
     ignore_file_name(DEFAULT_IGNORE_FILE_NAME),
     ignore_file_enabled(DEFAULT_IGNORE_FILE_ENABLED),
-#endif // IGNORE_FILE_DISABLED
-#ifndef LOG_DISABLED
+#endif // IGNORE_FILE_ENABLED
+#ifdef LOG_ENABLED
     log_enabled(DEFAULT_LOG_ENABLED),
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
     read_path(DEFAULT_READ_PATH),
     write_path(DEFAULT_WRITE_PATH),
     extensions(DEFAULT_EXTENTIONS),

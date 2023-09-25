@@ -85,13 +85,13 @@ class Application : public Console {
     Vector<Command> commands; ///< List of available console commands.
     bool process_commands; ///< Flag indicating whether to process user commands.
 
-#ifndef CONSOLE_FEATURES_DISABLED
+#ifdef CONSOLE_FEATURES_ENABLED
     Color command_text_color; ///< The text color for command text in the console.
-#endif // CONSOLE_FEATURES_DISABLED
+#endif // CONSOLE_FEATURES_ENABLED
 
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
     String log_file_name; ///< The name of the log file.
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
 
     /**
      * @brief Adds a hidden command.
@@ -177,7 +177,7 @@ class Application : public Console {
      */
     void _set_extension_adjust();
 
-#ifndef IGNORE_FILE_DISABLED
+#ifdef IGNORE_FILE_ENABLED
     /**
      * @brief Sets the name of the ignore file.
      */
@@ -187,9 +187,9 @@ class Application : public Console {
      * @brief Sets whether the ignore file is enabled.
      */
     void _set_ignore_file_enabled();
-#endif // IGNORE_FILE_DISABLED
+#endif // IGNORE_FILE_ENABLED
 
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
     /**
      * @brief Sets the name of the log file.
      */
@@ -199,7 +199,7 @@ class Application : public Console {
      * @brief Sets whether logging is enabled.
      */
     void _set_log_enabled();
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
 
     /**
      * @brief Swaps the read and write paths.

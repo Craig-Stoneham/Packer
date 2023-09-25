@@ -48,62 +48,62 @@ Log::Level Log::find_level(const String& p_level) {
     return static_cast<Level>(-1);
 }
 
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
 struct CallbackData {
     Log::Callback callback;
     void* data;
 };
 
 static Vector<CallbackData> callbacks;
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
 
 
 void Log::add_callback(Callback p_callback, void* p_data) {
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
     CallbackData callback_data;
 
     callback_data.callback = p_callback;
     callback_data.data = p_data;
 
     callbacks.push_back(callback_data);
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
 }
 
 void Log::remove_callback(Callback p_callback, void* p_data) {
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
     for (size_t i = 0; i < callbacks.size(); ++i) {
         if (callbacks[i].callback == p_callback && callbacks[i].data == p_data) {
             callbacks.erase(callbacks.begin() + i);
             break;
         }
     }
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
 }
 
 void Log::log_string(Level p_level, const String& p_string) {
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
     for (const auto& callback_data : callbacks) {
         callback_data.callback(callback_data.data, p_level, p_string);
     }
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
 }
 
 void Log::log_info(const String& p_string) {
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
     log_string(Level::Info, p_string);
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
 }
 
 void Log::log_warn(const String& p_string) {
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
     log_string(Level::Warn, p_string);
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
 }
 
 void Log::log_error(const String& p_string) {
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
     log_string(Level::Error, p_string);
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
 }
 
 PACKER_NAMESPACE_END

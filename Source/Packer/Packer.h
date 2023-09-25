@@ -86,14 +86,14 @@ private:
     bool extension_insensitive; ///< Flag indicating case-insensitivity for extensions.
     ExtensionAdjust extension_adjust; ///< The adjustment to apply to file extensions.
 
-#ifndef IGNORE_FILE_DISABLED
+#ifdef IGNORE_FILE_ENABLED
     String ignore_file_name; ///< The name of the ignore file to use.
     bool ignore_file_enabled; ///< Flag indicating whether ignore files are enabled.
-#endif // IGNORE_FILE_DISABLED
+#endif // IGNORE_FILE_ENABLED
 
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
     bool log_enabled; ///< Flag indicating whether logging is enabled.
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
 
     /**
      * @brief Recursively pack files from the source directory to the destination directory.
@@ -283,7 +283,7 @@ public:
      */
     ExtensionAdjust get_extension_adjust() const;
 
-#ifndef IGNORE_FILE_DISABLED
+#ifdef IGNORE_FILE_ENABLED
     /**
      * @brief Set the name of the ignore file to use.
      * @param p_name The name of the ignore file.
@@ -309,7 +309,7 @@ public:
     bool get_ignore_file_enabled() const;
 #endif //PACKER_IGNORE_FILE
 
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
     /**
      * @brief Enable or disable logging.
      * @param p_enable `true` to enable logging, `false` to disable it.
@@ -321,7 +321,7 @@ public:
      * @return `true` if logging is enabled, `false` otherwise.
      */
     bool get_log_enabled() const;
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
 
     /**
      * @brief Serialize the Packer configuration to a ConfigFile.

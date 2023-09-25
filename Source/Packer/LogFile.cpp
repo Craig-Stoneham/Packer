@@ -80,23 +80,23 @@ Error LogFile::close() {
 
 LogFile::LogFile(bool p_print_level_details) :
     print_level_details(p_print_level_details) {
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
     Log::add_callback(log_callback, this);
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
 }
 
 LogFile::LogFile(const String& p_path, bool p_print_level_details) :
     print_level_details(p_print_level_details) {
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
     Log::add_callback(log_callback, this);
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
     stream.open(p_path, std::ios::binary);
 }
 
 LogFile::~LogFile() {
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
     Log::remove_callback(log_callback, this);
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
     if (stream.is_open()) {
         stream.close();
     }

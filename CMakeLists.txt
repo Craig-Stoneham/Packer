@@ -56,17 +56,20 @@ if(WIN32)
     )
 endif()
 
-# Add the new option for namespace
-option(USE_PACKER_NAMESPACE "Use Packer namespace" OFF)
-
-# Add the new option for namespace
-option(LOG_DISABLED "Disable logging functionallity" OFF)
-
-# Add the new option for namespace
-option(IGNORE_FILE_DISABLED "Disable ignore file functionallity" OFF)
-
 # Common compile options
 set(COMMON_COMPILE_OPTIONS "/Zc:__cplusplus")
+
+# Add the new option for namespace
+option(PACKER_NAMESPACE_ENABLED "Use Packer namespace" ON)
+
+# Add the new option for namespace
+option(LOG_ENABLED "Enabled logging functionallity" ON)
+
+# Add the new option for namespace
+option(IGNORE_FILE_ENABLED "Enabled ignore file functionallity" ON)
+
+# Add the new option for namespace
+option(CONSOLE_FEATURES_ENABLED "Enabled console features" ON)
 
 # Add option for C++ standard version
 set(CPP_STD 17 CACHE STRING "C++ standard version")
@@ -88,14 +91,17 @@ set_target_properties(Console PROPERTIES
 target_compile_options(Console PRIVATE ${COMMON_COMPILE_OPTIONS})
 
 # Conditionally add the preprocessor definition
-if(USE_PACKER_NAMESPACE)
-    target_compile_definitions(Console PUBLIC PACKER_NAMESPACE_ENABLED)
+if(PACKER_NAMESPACE_ENABLED)
+    target_compile_definitions(Tests PUBLIC PACKER_NAMESPACE_ENABLED)
 endif()
-if(LOG_DISABLED)
-    target_compile_definitions(Console PUBLIC LOG_DISABLED)
+if(LOG_ENABLED)
+    target_compile_definitions(Console PUBLIC LOG_ENABLED)
 endif()
-if(IGNORE_FILE_DISABLED)
-    target_compile_definitions(Console PUBLIC IGNORE_FILE_DISABLED)
+if(IGNORE_FILE_ENABLED)
+    target_compile_definitions(Console PUBLIC IGNORE_FILE_ENABLED)
+endif()
+if(CONSOLE_FEATURES_ENABLED)
+    target_compile_definitions(Console PUBLIC CONSOLE_FEATURES_ENABLED)
 endif()
 
 # Option for building Tests
@@ -111,14 +117,17 @@ if(BUILD_TESTS)
     target_compile_options(Tests PRIVATE ${COMMON_COMPILE_OPTIONS})
     
     # Conditionally add the preprocessor definition for Tests as well
-    if(USE_PACKER_NAMESPACE)
+    if(PACKER_NAMESPACE_ENABLED)
         target_compile_definitions(Tests PUBLIC PACKER_NAMESPACE_ENABLED)
     endif()
-    if(LOG_DISABLED)
-        target_compile_definitions(Console PUBLIC LOG_DISABLED)
+    if(LOG_ENABLED)
+        target_compile_definitions(Console PUBLIC LOG_ENABLED)
     endif()
-    if(IGNORE_FILE_DISABLED)
-        target_compile_definitions(Console PUBLIC IGNORE_FILE_DISABLED)
+    if(IGNORE_FILE_ENABLED)
+        target_compile_definitions(Console PUBLIC IGNORE_FILE_ENABLED)
+    endif()
+    if(CONSOLE_FEATURES_ENABLED)
+        target_compile_definitions(Console PUBLIC CONSOLE_FEATURES_ENABLED)
     endif()
 endif()
 

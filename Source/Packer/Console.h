@@ -41,7 +41,7 @@ PACKER_NAMESPACE_BEGIN
  */
 class Console {
 public:
-#ifndef CONSOLE_FEATURES_DISABLED
+#ifdef CONSOLE_FEATURES_ENABLED
     /**
      * @enum Color
      * @brief Represents text color options.
@@ -68,16 +68,16 @@ public:
         BrightWhite,    /**< Bright white color */
         Max             /**< Maximum color value (for internal use) */
     };
-#endif // CONSOLE_FEATURES_DISABLED
+#endif // CONSOLE_FEATURES_ENABLED
 
 private:
-#ifndef CONSOLE_FEATURES_DISABLED
+#ifdef CONSOLE_FEATURES_ENABLED
     Color text_colors[(int)Log::Level::Max]; ///< Array of text colors for different log levels.
     Color current_color; ///< The current text color.
-#endif // CONSOLE_FEATURES_DISABLED
+#endif // CONSOLE_FEATURES_ENABLED
 
 public:
-#ifndef CONSOLE_FEATURES_DISABLED
+#ifdef CONSOLE_FEATURES_ENABLED
     /**
      * @brief Set the text color for a specific log level.
      * @param p_level The log level to set the text color for.
@@ -103,7 +103,7 @@ public:
      * @return The current text color.
      */
     Color get_text_color() const;
-#endif // CONSOLE_FEATURES_DISABLED
+#endif // CONSOLE_FEATURES_ENABLED
 
     /**
      * @brief Print a string to the console without a newline.

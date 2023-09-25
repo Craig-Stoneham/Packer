@@ -118,43 +118,43 @@ public:
  * @param p_level The log level.
  * @param p_string The log message.
  */
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
 #define LOG_STRING(p_level, p_string) Log::log_string(p_level, p_string)
-#else // LOG_DISABLED
+#else // LOG_ENABLED
 #define LOG_STRING(p_level, p_string)
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
 
 /**
 * @def LOG_INFO(p_string)
 * @brief Log an informational message.
 * @param p_string The log message.
 */
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
 #define LOG_INFO(p_string) Log::log_info(p_string)
-#else // LOG_DISABLED
+#else // LOG_ENABLED
 #define LOG_INFO(p_string)
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
 
 /**
 * @def LOG_WARN(p_string)
 * @brief Log a warning message.
 * @param p_string The log message.
 */
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
 #define LOG_WARN(p_string) Log::log_warn(p_string)
-#else // LOG_DISABLED
+#else // LOG_ENABLED
 #define LOG_WARN(p_string)
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
 
 /**
 * @def LOG_ERROR(p_string)
 * @brief Log an error message.
 * @param p_string The log message.
 */
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
 #define LOG_ERROR(p_string) Log::log_error(p_string)
-#else // LOG_DISABLED
+#else // LOG_ENABLED
 #define LOG_ERROR(p_string)
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
 
 PACKER_NAMESPACE_END

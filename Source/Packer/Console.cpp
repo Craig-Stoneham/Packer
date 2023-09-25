@@ -23,17 +23,17 @@
 
 #include "Console.h"
 
-#ifndef CONSOLE_FEATURES_DISABLED
+#ifdef CONSOLE_FEATURES_ENABLED
 #ifdef _WIN32
 #include <windows.h>
 #elif defined(__unix__) || defined(__APPLE__)
 #include <iostream>
 #endif // (__unix__) || defined(__APPLE__)
-#endif // CONSOLE_FEATURES_DISABLED
+#endif // CONSOLE_FEATURES_ENABLED
 
 PACKER_NAMESPACE_BEGIN
 
-#ifndef CONSOLE_FEATURES_DISABLED
+#ifdef CONSOLE_FEATURES_ENABLED
 #ifdef _WIN32
 static WORD text_colors[] = {
     0, // None
@@ -73,9 +73,9 @@ static int text_colors[] = {
     97   // BrightWhite
 };
 #endif // (__unix__) || defined(__APPLE__)
-#endif // CONSOLE_FEATURES_DISABLED
+#endif // CONSOLE_FEATURES_ENABLED
 
-#ifndef CONSOLE_FEATURES_DISABLED
+#ifdef CONSOLE_FEATURES_ENABLED
 static bool set_console_text_color(Console::Color p_color) {
     if (p_color < static_cast<Console::Color>(0) || p_color >= Console::Color::Max) {
         return false;
@@ -89,15 +89,15 @@ static bool set_console_text_color(Console::Color p_color) {
 #endif // (__unix__) || defined(__APPLE__)
     return true;
 }
-#endif // CONSOLE_FEATURES_DISABLED
+#endif // CONSOLE_FEATURES_ENABLED
 
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
 static void log_callback(void* p_logger, Log::Level p_level, const String& p_string) {
     static_cast<Console*>(p_logger)->print_string(p_level, p_string);
 }
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
 
-#ifndef CONSOLE_FEATURES_DISABLED
+#ifdef CONSOLE_FEATURES_ENABLED
 
 void Console::set_text_color(Log::Level p_level, Color p_color) {
     if (static_cast<int>(p_level) < 0 || p_level >= Log::Level::Max) {
@@ -128,7 +128,7 @@ Console::Color Console::get_text_color() const {
     return current_color;
 }
 
-#endif // CONSOLE_FEATURES_DISABLED
+#endif // CONSOLE_FEATURES_ENABLED
 
 void Console::print_string(const String& p_string) {
     std::cout << p_string;
@@ -139,15 +139,15 @@ void Console::print_line(const String& p_string) {
 }
 
 void Console::print_string(Log::Level p_level, const String& p_string) {
-#ifndef CONSOLE_FEATURES_DISABLED
+#ifdef CONSOLE_FEATURES_ENABLED
     set_console_text_color(text_colors[static_cast<int>(p_level)]);
-#endif // CONSOLE_FEATURES_DISABLED
+#endif // CONSOLE_FEATURES_ENABLED
 
     print_string(p_string);
 
-#ifndef CONSOLE_FEATURES_DISABLED
+#ifdef CONSOLE_FEATURES_ENABLED
     set_console_text_color(current_color);
-#endif // CONSOLE_FEATURES_DISABLED
+#endif // CONSOLE_FEATURES_ENABLED
 }
 
 void Console::print_info(const String& p_string) {
@@ -179,21 +179,21 @@ void Console::log_error(const String& p_string) {
 }
 
 Console::Console()
-#ifndef CONSOLE_FEATURES_DISABLED
+#ifdef CONSOLE_FEATURES_ENABLED
     :
 text_colors{ Color::White, Color::LightRed, Color::Red },
 current_color(Color::White)
-#endif // CONSOLE_FEATURES_DISABLED 
+#endif // CONSOLE_FEATURES_ENABLED 
 {
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
     Log::add_callback(log_callback, this);
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
 }
 
 Console::~Console() {
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
     Log::remove_callback(log_callback, this);
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
 }
 
 PACKER_NAMESPACE_END

@@ -88,7 +88,7 @@
  */
 #define DEFAULT_EXTENSION_ADJUST ExtensionAdjust::Default
 
-#ifndef IGNORE_FILE_DISABLED
+#ifdef IGNORE_FILE_ENABLED
 /**
  * @def DEFAULT_IGNORE_FILE_NAME
  * @brief The default name of the ignore file.
@@ -101,7 +101,7 @@
  */
 #define DEFAULT_IGNORE_FILE_ENABLED true
 
-#endif // IGNORE_FILE_DISABLED
+#endif // IGNORE_FILE_ENABLED
 
 /**
  * @def DEFAULT_LOG_ENABLED

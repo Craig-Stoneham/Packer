@@ -38,12 +38,12 @@ FileAccess::Callback FileAccess::get_callback() {
 }
 
 bool FileAccess::pack_file(const String& p_read_path, const String& p_write_path, bool p_move) {
-    if (copy_file(p_read_path, p_write_path, FileAccess::copy_options::update_existing) == false) {
+    if (copy_file(p_read_path, p_write_path, copy_options::update_existing) == false) {
         return false;
     }
 
     if (p_move) {
-        FileAccess::remove(p_read_path);
+        remove(p_read_path);
     }
 
     if (callback) {

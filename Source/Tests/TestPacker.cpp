@@ -102,9 +102,9 @@ TestResult TestPacker::test() {
     packer.set_extension_adjust(Packer::ExtensionAdjust::Default);
     packer.set_ignore_file_name(".pkignore");
     packer.set_ignore_file_enabled(false);
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
     packer.set_log_enabled(false);
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
 
     if (test_packer() == false) {
         return TEST_FAILED("Everything pack mode not working correctly.");
@@ -122,7 +122,7 @@ TestResult TestPacker::test() {
         return TEST_FAILED("Include pack mode not working correctly.");
     }
 
-#ifndef IGNORE_FILE_DISABLED
+#ifdef IGNORE_FILE_ENABLED
    packer.set_ignore_file_enabled(true);
     if (test_packer() == false) {
         return TEST_FAILED("Ignore file not working correctly.");

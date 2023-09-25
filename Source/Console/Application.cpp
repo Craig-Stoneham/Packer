@@ -159,7 +159,7 @@ void Application::_set_extension_adjust() {
     print_line("Extension case changed to '" + input + "'.");
 }
 
-#ifndef IGNORE_FILE_DISABLED
+#ifdef IGNORE_FILE_ENABLED
 void Application::_set_ignore_file_name() {
     String ignore_file_name = input != "default" ? input : DEFAULT_IGNORE_FILE_NAME;
     if (ignore_file_name == packer.get_ignore_file_name()) {
@@ -175,9 +175,9 @@ void Application::_set_ignore_file_enabled() {
     print_line("Ignore file is " + String(packer.get_ignore_file_enabled() ? "enabled" : "disabled") + ".");
 }
 
-#endif // IGNORE_FILE_DISABLED
+#endif // IGNORE_FILE_ENABLED
 
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
 
 void Application::_set_log_file_name() {
     if (input == "default") {
@@ -192,7 +192,7 @@ void Application::_set_log_enabled() {
     print_line("Log " + String(packer.get_log_enabled() ? "enabled" : "disabled") + ".");
 }
 
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
 
 void Application::_swap_paths() {
 	const String& read_path = packer.get_read_path();
@@ -207,9 +207,9 @@ void Application::_swap_paths() {
 }
 
 void Application::_revert_state() {
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
     log_file_name = DEFAULT_LOG_FILE_NAME;
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
 
     packer.revert_state();
 
@@ -258,23 +258,23 @@ void Application::_print_info() {
     print_line("Suffix: " + String(packer.get_suffix_enabled() ? "enabled" : "disabled"));
     print_line("Extension insensitive: " + String(packer.get_extension_insensitive() ? "enabled" : "disabled"));
     print_line("Extension adjust: " + Packer::get_extension_adjust_name(packer.get_extension_adjust()));
-#ifndef IGNORE_FILE_DISABLED
+#ifdef IGNORE_FILE_ENABLED
     print_line("Ignore file name: " + packer.get_ignore_file_name());
     print_line("Ignore file: " + String(packer.get_ignore_file_enabled() ? "enabled" : "disabled"));
-#endif // IGNORE_FILE_DISABLED
-#ifndef LOG_DISABLED
+#endif // IGNORE_FILE_ENABLED
+#ifdef LOG_ENABLED
     print_line("Log file name: " + log_file_name);
     print_line("Log: " + String(packer.get_log_enabled() ? "enabled" : "disabled"));
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
 }
 
 void Application::_run_packer() {
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
     LogFile log_file;
     if (packer.get_log_enabled() && log_file_name.length()) {
         log_file.open(log_file_name);
     }
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
 
     if (packer.get_read_path().empty()) {
         LOG_ERROR("Read path is not configured\n");
@@ -326,20 +326,20 @@ void Application::_run_packer() {
     }
     LOG_INFO("Extension insensitive: " + String(packer.get_extension_insensitive() ? "enabled" : "disabled") + "\n");
     LOG_INFO("Extension adjust: " + Packer::get_extension_adjust_name(packer.get_extension_adjust()) + "\n");
-#ifndef IGNORE_FILE_DISABLED
+#ifdef IGNORE_FILE_ENABLED
     LOG_INFO("Ignore file name: " + packer.get_ignore_file_name() + "\n");
     LOG_INFO("Ignore file: " + String(packer.get_ignore_file_enabled() ? "enabled" : "disabled") + "\n");
     if (packer.get_ignore_file_enabled() && packer.get_ignore_file_name().empty()) {
         LOG_WARN("Ignore file is enabled but ignore file name is invalid\n");
     }
-#endif // IGNORE_FILE_DISABLED
-#ifndef LOG_DISABLED
+#endif // IGNORE_FILE_ENABLED
+#ifdef LOG_ENABLED
     LOG_INFO("Log file name: " + log_file_name + "\n");
     LOG_INFO("Log: " + String(packer.get_log_enabled() ? "enabled" : "disabled") + "\n");
     if (packer.get_log_enabled() && log_file_name.empty()) {
         LOG_WARN("Log is enabled but log file name is invalid\n");
     }
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
 
     print_line("Packing files...");
 
@@ -371,9 +371,9 @@ void Application::_print_help() {
 }
 
 void Application::_read_input(bool p_lower_case) {
-#ifndef CONSOLE_FEATURES_DISABLED
+#ifdef CONSOLE_FEATURES_ENABLED
     set_text_color(command_text_color);
-#endif // CONSOLE_FEATURES_DISABLED
+#endif // CONSOLE_FEATURES_ENABLED
 
     input.clear();
     std::cin >> input;
@@ -382,22 +382,22 @@ void Application::_read_input(bool p_lower_case) {
         std::transform(input.begin(), input.end(), input.begin(), ::tolower);
     }
 
-#ifndef CONSOLE_FEATURES_DISABLED
+#ifdef CONSOLE_FEATURES_ENABLED
     set_text_color(Color::White);
-#endif // CONSOLE_FEATURES_DISABLED
+#endif // CONSOLE_FEATURES_ENABLED
 }
 
 void Application::_to_config_file(ConfigFile& p_file) const {
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
     p_file.set_value("log_file_name", log_file_name);
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
     packer.to_config_file(p_file);
 }
 
 void Application::_from_config_file(const ConfigFile& p_file) {
-#ifndef LOG_DISABLED
+#ifdef LOG_ENABLED
     log_file_name = p_file.get_value("log_file_name", DEFAULT_LOG_FILE_NAME);
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
     packer.from_config_file(p_file);
 }
 
@@ -453,12 +453,12 @@ int Application::run() {
 }
 
 Application::Application() :
-#ifndef CONSOLE_FEATURES_DISABLED
+#ifdef CONSOLE_FEATURES_ENABLED
     command_text_color(DEFAULT_COMMAND_TEXT_COLOR),
-#endif // CONSOLE_FEATURES_DISABLED
-#ifndef LOG_DISABLED
+#endif // CONSOLE_FEATURES_ENABLED
+#ifdef LOG_ENABLED
     log_file_name(DEFAULT_LOG_FILE_NAME),
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
     process_commands(true) {
     _add_prompt_command(&Application::_set_read_path, "read_path", "Change the path that you would like to read from", "Type the path (or 'current' to use the current directory):");
     _add_prompt_command(&Application::_set_write_path, "write_path", "Change the path that you would like to write to", "Type the path:");
@@ -472,14 +472,14 @@ Application::Application() :
     _add_simple_command(&Application::_set_suffix_enabled, "suffix_enabled", "Enable suffix string removal");
     _add_simple_command(&Application::_set_extension_insensitive, "extension_insensitive", "Ignore extension case in the extension list");
     _add_prompt_command(&Application::_set_extension_adjust, "extension_adjust", "Adjust the extension case", "Type '" + Packer::get_extension_adjust_name(Packer::ExtensionAdjust::Default) + "', '" + Packer::get_extension_adjust_name(Packer::ExtensionAdjust::Lower) + "', '" + Packer::get_extension_adjust_name(Packer::ExtensionAdjust::Upper) + ":");
-#ifndef IGNORE_FILE_DISABLED
+#ifdef IGNORE_FILE_ENABLED
     _add_prompt_command(&Application::_set_ignore_file_name, "ignore_file_name", "Change the name of the ignore file", "Type the name of the ignore file (or 'default' to use to the default):");
     _add_simple_command(&Application::_set_ignore_file_enabled, "ignore_file_enabled", "Check for an ignore file");
-#endif // IGNORE_FILE_DISABLED
-#ifndef LOG_DISABLED
+#endif // IGNORE_FILE_ENABLED
+#ifdef LOG_ENABLED
     _add_prompt_command(&Application::_set_log_file_name, "log_file_name", "Change the name of the log file", "Type the name of the log file (or 'default' to use the default):");
     _add_simple_command(&Application::_set_log_enabled, "log_enabled", "Enable logging");
-#endif // LOG_DISABLED
+#endif // LOG_ENABLED
     _add_simple_command(&Application::_swap_paths, "swap_paths", "Swap the read and write directories");
     _add_simple_command(&Application::_revert_state, "revert", "Revert all of the settings to their defaults");
     _add_prompt_command(&Application::_save_config, "save", "Save the state to a config file", "Type the name of the config file (or 'default' to use the default):");
