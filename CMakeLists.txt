@@ -59,17 +59,20 @@ endif()
 # Common compile options
 set(COMMON_COMPILE_OPTIONS "/Zc:__cplusplus")
 
-# Add the new option for namespace
+# Add the option for packer namespace
 option(PACKER_NAMESPACE_ENABLED "Use Packer namespace" ON)
 
-# Add the new option for namespace
+# Add the option for logging functionallity
 option(LOG_ENABLED "Enabled logging functionallity" ON)
 
-# Add the new option for namespace
+# Add the options for ignore file functionallity
 option(IGNORE_FILE_ENABLED "Enabled ignore file functionallity" ON)
 
-# Add the new option for namespace
+# Add the option for console features
 option(CONSOLE_FEATURES_ENABLED "Enabled console features" ON)
+
+# Add the option for config file encryption
+option(CONFIG_FILE_ENCRYPTION_ENABLED "Enabled config file encryption" OFF)
 
 # Add option for C++ standard version
 set(CPP_STD 17 CACHE STRING "C++ standard version")
@@ -102,6 +105,9 @@ if(IGNORE_FILE_ENABLED)
 endif()
 if(CONSOLE_FEATURES_ENABLED)
     target_compile_definitions(Console PUBLIC CONSOLE_FEATURES_ENABLED)
+endif()
+if(CONFIG_FILE_ENCRYPTION_ENABLED)
+    target_compile_definitions(Console PUBLIC CONFIG_FILE_ENCRYPTION_ENABLED)
 endif()
 
 # Option for building Tests
