@@ -149,7 +149,7 @@ void Packer::_pack_files(const String& p_read_path, const String& p_write_path) 
             }
 
             if (copy_file(_read_path, _write_path, FileAccess::copy_options::update_existing) == false) {
-                return;
+                continue;
             }
 
             if (move_files) {
