@@ -134,13 +134,13 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <a class="code hl_typedef" href="_packer_2_typedefs_8h.html#a2e19bd9826ad447934133cebebbb5239">Vector&lt;Command&gt;</a> commands; </div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="keywordtype">bool</span> process_commands; </div>
 <div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="preprocessor">#ifndef CONSOLE_FEATURES_DISABLED</span></div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <a class="code hl_enumeration" href="class_console.html#a72bbc3908734dffa72bf6fc7341efe60">Color</a> command_text_color; </div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="preprocessor">#endif </span><span class="comment">// CONSOLE_FEATURES_DISABLED</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="preprocessor">#ifdef CONSOLE_FEATURES_ENABLED</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    Color command_text_color; </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="preprocessor">#endif </span><span class="comment">// CONSOLE_FEATURES_ENABLED</span></div>
 <div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="preprocessor">#ifndef LOG_DISABLED</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="preprocessor">#ifdef LOG_ENABLED</span></div>
 <div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <a class="code hl_typedef" href="_packer_2_typedefs_8h.html#a626ea521670a14e666c265c566fe9f86">String</a> log_file_name; </div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span><span class="preprocessor">#endif </span><span class="comment">// LOG_DISABLED</span></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span><span class="preprocessor">#endif </span><span class="comment">// LOG_ENABLED</span></div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
 <div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="keywordtype">void</span> _add_hidden_command(Function p_function, <span class="keyword">const</span> <a class="code hl_typedef" href="_packer_2_typedefs_8h.html#a626ea521670a14e666c265c566fe9f86">String</a>&amp; p_name);</div>
 <div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
@@ -172,63 +172,64 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
 <div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    <span class="keywordtype">void</span> _set_extension_adjust();</div>
 <div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span> </div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span><span class="preprocessor">#ifndef IGNORE_FILE_DISABLED</span></div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span><span class="preprocessor">#ifdef IGNORE_FILE_ENABLED</span></div>
 <div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>    <span class="keywordtype">void</span> _set_ignore_file_name();</div>
 <div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span> </div>
 <div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    <span class="keywordtype">void</span> _set_ignore_file_enabled();</div>
-<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span><span class="preprocessor">#endif </span><span class="comment">// IGNORE_FILE_DISABLED</span></div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span><span class="preprocessor">#endif </span><span class="comment">// IGNORE_FILE_ENABLED</span></div>
 <div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span> </div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span><span class="preprocessor">#ifndef LOG_DISABLED</span></div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span><span class="preprocessor">#ifdef LOG_ENABLED</span></div>
 <div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>    <span class="keywordtype">void</span> _set_log_file_name();</div>
 <div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span> </div>
 <div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>    <span class="keywordtype">void</span> _set_log_enabled();</div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span><span class="preprocessor">#endif </span><span class="comment">// LOG_DISABLED</span></div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span><span class="preprocessor">#endif </span><span class="comment">// LOG_ENABLED</span></div>
 <div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span> </div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>    <span class="keywordtype">void</span> _revert_state();</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>    <span class="keywordtype">void</span> _swap_paths();</div>
 <div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span> </div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>    <span class="keywordtype">void</span> _save_config();</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>    <span class="keywordtype">void</span> _revert_state();</div>
 <div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span> </div>
-<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>    <span class="keywordtype">void</span> _load_config();</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>    <span class="keywordtype">void</span> _save_config();</div>
 <div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span> </div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>    <span class="keywordtype">void</span> _print_info();</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>    <span class="keywordtype">void</span> _load_config();</div>
 <div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span> </div>
-<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    <span class="keywordtype">void</span> _run_packer();</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    <span class="keywordtype">void</span> _print_info();</div>
 <div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span> </div>
-<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>    <span class="keywordtype">void</span> _quit_program();</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>    <span class="keywordtype">void</span> _run_packer();</div>
 <div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span> </div>
-<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>    <span class="keywordtype">void</span> _print_help();</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>    <span class="keywordtype">void</span> _quit_program();</div>
 <div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span> </div>
-<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>    <span class="keywordtype">void</span> _read_input(<span class="keywordtype">bool</span> p_lower_case = <span class="keyword">false</span>);</div>
-<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span> </div>
-<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>    <span class="keywordtype">void</span> _to_config_file(<a class="code hl_class" href="class_config_file.html">ConfigFile</a>&amp; p_file) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span> </div>
-<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>    <span class="keywordtype">void</span> _from_config_file(<span class="keyword">const</span> <a class="code hl_class" href="class_config_file.html">ConfigFile</a>&amp; p_file);</div>
-<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span> </div>
-<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>    <a class="code hl_enumeration" href="_error_8h.html#a2c3e4bb40f36b262a5214e2da2bca9c5">Error</a> _save(<span class="keyword">const</span> <a class="code hl_typedef" href="_packer_2_typedefs_8h.html#a626ea521670a14e666c265c566fe9f86">String</a>&amp; p_path);</div>
-<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span> </div>
-<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>    <a class="code hl_enumeration" href="_error_8h.html#a2c3e4bb40f36b262a5214e2da2bca9c5">Error</a> _load(<span class="keyword">const</span> <a class="code hl_typedef" href="_packer_2_typedefs_8h.html#a626ea521670a14e666c265c566fe9f86">String</a>&amp; p_path);</div>
-<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span> </div>
-<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span> </div>
-<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno"><a class="line" href="class_application.html#a8cf8941c8db90117d3735bce5ae1fdf4">  277</a></span>    <span class="keywordtype">int</span> <a class="code hl_function" href="class_application.html#a8cf8941c8db90117d3735bce5ae1fdf4">run</a>();</div>
-<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span> </div>
-<div class="line"><a id="l00282" name="l00282"></a><span class="lineno"><a class="line" href="class_application.html#afa8cc05ce6b6092be5ecdfdae44e05f8">  282</a></span>    <a class="code hl_function" href="class_application.html#afa8cc05ce6b6092be5ecdfdae44e05f8">Application</a>();</div>
-<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>};</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>    <span class="keywordtype">void</span> _print_help();</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span> </div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>    <span class="keywordtype">void</span> _read_input(<span class="keywordtype">bool</span> p_lower_case = <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span> </div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>    <span class="keywordtype">void</span> _to_config_file(<a class="code hl_class" href="class_config_file.html">ConfigFile</a>&amp; p_file) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span> </div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>    <span class="keywordtype">void</span> _from_config_file(<span class="keyword">const</span> <a class="code hl_class" href="class_config_file.html">ConfigFile</a>&amp; p_file);</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span> </div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>    <a class="code hl_enumeration" href="_error_8h.html#a2c3e4bb40f36b262a5214e2da2bca9c5">Error</a> _save(<span class="keyword">const</span> <a class="code hl_typedef" href="_packer_2_typedefs_8h.html#a626ea521670a14e666c265c566fe9f86">String</a>&amp; p_path);</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span> </div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>    <a class="code hl_enumeration" href="_error_8h.html#a2c3e4bb40f36b262a5214e2da2bca9c5">Error</a> _load(<span class="keyword">const</span> <a class="code hl_typedef" href="_packer_2_typedefs_8h.html#a626ea521670a14e666c265c566fe9f86">String</a>&amp; p_path);</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span> </div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span> </div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno"><a class="line" href="class_application.html#a8cf8941c8db90117d3735bce5ae1fdf4">  282</a></span>    <span class="keywordtype">int</span> <a class="code hl_function" href="class_application.html#a8cf8941c8db90117d3735bce5ae1fdf4">run</a>();</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span> </div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno"><a class="line" href="class_application.html#afa8cc05ce6b6092be5ecdfdae44e05f8">  287</a></span>    <a class="code hl_function" href="class_application.html#afa8cc05ce6b6092be5ecdfdae44e05f8">Application</a>();</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>};</div>
 </div>
-<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span> </div>
-<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span><a class="code hl_define" href="_packer_2_typedefs_8h.html#a0392f3971db25ed1554aaf079f943911">PACKER_NAMESPACE_END</a></div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span> </div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span><a class="code hl_define" href="_packer_2_typedefs_8h.html#a0392f3971db25ed1554aaf079f943911">PACKER_NAMESPACE_END</a></div>
 <div class="ttc" id="a_error_8h_html_a2c3e4bb40f36b262a5214e2da2bca9c5"><div class="ttname"><a href="_error_8h.html#a2c3e4bb40f36b262a5214e2da2bca9c5">Error</a></div><div class="ttdeci">Error</div><div class="ttdoc">Enumerates error codes.</div><div class="ttdef"><b>Definition</b> Error.h:39</div></div>
 <div class="ttc" id="a_packer_2_typedefs_8h_html"><div class="ttname"><a href="_packer_2_typedefs_8h.html">Typedefs.h</a></div><div class="ttdoc">Defines common types and utility macros for the application.</div></div>
-<div class="ttc" id="a_packer_2_typedefs_8h_html_a0392f3971db25ed1554aaf079f943911"><div class="ttname"><a href="_packer_2_typedefs_8h.html#a0392f3971db25ed1554aaf079f943911">PACKER_NAMESPACE_END</a></div><div class="ttdeci">#define PACKER_NAMESPACE_END</div><div class="ttdoc">Defines the end of the optional Packer namespace.</div><div class="ttdef"><b>Definition</b> Typedefs.h:73</div></div>
-<div class="ttc" id="a_packer_2_typedefs_8h_html_a2e19bd9826ad447934133cebebbb5239"><div class="ttname"><a href="_packer_2_typedefs_8h.html#a2e19bd9826ad447934133cebebbb5239">Vector</a></div><div class="ttdeci">std::vector&lt; T, ALLOC &gt; Vector</div><div class="ttdoc">Alias for std::vector, representing a dynamic array.</div><div class="ttdef"><b>Definition</b> Typedefs.h:117</div></div>
-<div class="ttc" id="a_packer_2_typedefs_8h_html_a626ea521670a14e666c265c566fe9f86"><div class="ttname"><a href="_packer_2_typedefs_8h.html#a626ea521670a14e666c265c566fe9f86">String</a></div><div class="ttdeci">std::string String</div><div class="ttdoc">Alias for std::string, representing a sequence of characters.</div><div class="ttdef"><b>Definition</b> Typedefs.h:108</div></div>
-<div class="ttc" id="a_packer_2_typedefs_8h_html_adbc0df4d1fa04f27787ea0240400dbdf"><div class="ttname"><a href="_packer_2_typedefs_8h.html#adbc0df4d1fa04f27787ea0240400dbdf">PACKER_NAMESPACE_BEGIN</a></div><div class="ttdeci">#define PACKER_NAMESPACE_BEGIN</div><div class="ttdoc">Defines the beginning of the optional Packer namespace.</div><div class="ttdef"><b>Definition</b> Typedefs.h:60</div></div>
+<div class="ttc" id="a_packer_2_typedefs_8h_html_a0392f3971db25ed1554aaf079f943911"><div class="ttname"><a href="_packer_2_typedefs_8h.html#a0392f3971db25ed1554aaf079f943911">PACKER_NAMESPACE_END</a></div><div class="ttdeci">#define PACKER_NAMESPACE_END</div><div class="ttdoc">Defines the end of the optional Packer namespace.</div><div class="ttdef"><b>Definition</b> Typedefs.h:169</div></div>
+<div class="ttc" id="a_packer_2_typedefs_8h_html_a2e19bd9826ad447934133cebebbb5239"><div class="ttname"><a href="_packer_2_typedefs_8h.html#a2e19bd9826ad447934133cebebbb5239">Vector</a></div><div class="ttdeci">std::vector&lt; T, ALLOC &gt; Vector</div><div class="ttdoc">Alias for std::vector, representing a dynamic array.</div><div class="ttdef"><b>Definition</b> Typedefs.h:76</div></div>
+<div class="ttc" id="a_packer_2_typedefs_8h_html_a626ea521670a14e666c265c566fe9f86"><div class="ttname"><a href="_packer_2_typedefs_8h.html#a626ea521670a14e666c265c566fe9f86">String</a></div><div class="ttdeci">std::string String</div><div class="ttdoc">Alias for std::string, representing a sequence of characters.</div><div class="ttdef"><b>Definition</b> Typedefs.h:67</div></div>
+<div class="ttc" id="a_packer_2_typedefs_8h_html_adbc0df4d1fa04f27787ea0240400dbdf"><div class="ttname"><a href="_packer_2_typedefs_8h.html#adbc0df4d1fa04f27787ea0240400dbdf">PACKER_NAMESPACE_BEGIN</a></div><div class="ttdeci">#define PACKER_NAMESPACE_BEGIN</div><div class="ttdoc">Defines the beginning of the optional Packer namespace.</div><div class="ttdef"><b>Definition</b> Typedefs.h:156</div></div>
 <div class="ttc" id="aclass_application_html"><div class="ttname"><a href="class_application.html">Application</a></div><div class="ttdoc">Manages the Packer application, providing a command-line interface.</div><div class="ttdef"><b>Definition</b> Application.h:43</div></div>
 <div class="ttc" id="aclass_application_html_a8cf8941c8db90117d3735bce5ae1fdf4"><div class="ttname"><a href="class_application.html#a8cf8941c8db90117d3735bce5ae1fdf4">Application::run</a></div><div class="ttdeci">int run()</div><div class="ttdoc">Runs the application.</div></div>
 <div class="ttc" id="aclass_application_html_afa8cc05ce6b6092be5ecdfdae44e05f8"><div class="ttname"><a href="class_application.html#afa8cc05ce6b6092be5ecdfdae44e05f8">Application::Application</a></div><div class="ttdeci">Application()</div><div class="ttdoc">Default constructor for the Application class.</div></div>
 <div class="ttc" id="aclass_config_file_html"><div class="ttname"><a href="class_config_file.html">ConfigFile</a></div><div class="ttdoc">Provides functionality for managing key-value configuration data in a file.</div><div class="ttdef"><b>Definition</b> ConfigFile.h:43</div></div>
 <div class="ttc" id="aclass_console_html"><div class="ttname"><a href="class_console.html">Console</a></div><div class="ttdoc">Provides functionality for managing console output and text colors.</div><div class="ttdef"><b>Definition</b> Console.h:42</div></div>
-<div class="ttc" id="aclass_console_html_a72bbc3908734dffa72bf6fc7341efe60"><div class="ttname"><a href="class_console.html#a72bbc3908734dffa72bf6fc7341efe60">Console::Color</a></div><div class="ttdeci">Color</div><div class="ttdoc">Represents text color options.</div><div class="ttdef"><b>Definition</b> Console.h:52</div></div>
 <div class="ttc" id="aclass_packer_html"><div class="ttname"><a href="class_packer.html">Packer</a></div><div class="ttdoc">A utility class for packing and managing files based on user-defined rules.</div><div class="ttdef"><b>Definition</b> Packer.h:43</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

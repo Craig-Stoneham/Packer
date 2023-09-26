@@ -29,7 +29,9 @@ enum class \mbox{\hyperlink{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2e}{Exte
 , \newline
 \mbox{\hyperlink{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2ea6a061313d22e51e0f25b7cd4dc065233}{Max}}
  \}
-\begin{DoxyCompactList}\small\item\em Enumeration defining different extension adjustment options. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Enumeration defining different extension adjustment options. \end{DoxyCompactList}\item 
+using \mbox{\hyperlink{class_packer_a114978016649b28a2a04fd88bcd09613}{Callback}} = void(\texorpdfstring{$\ast$}{*})(const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+read\+\_\+path, const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+write\+\_\+path, bool p\+\_\+move)
+\begin{DoxyCompactList}\small\item\em A callback function type for post-\/pack file operations notification. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -82,18 +84,6 @@ void \mbox{\hyperlink{class_packer_ac97cf2140c02cfff19c483c3cf65a8a9}{set\+\_\+e
 \begin{DoxyCompactList}\small\item\em Set the adjustment to apply to file extensions. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2e}{Extension\+Adjust}} \mbox{\hyperlink{class_packer_a54980c552427901409a617d28860fe01}{get\+\_\+extension\+\_\+adjust}} () const
 \begin{DoxyCompactList}\small\item\em Get the current extension adjustment. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_packer_ad45f53790e6fb1785154f12f484ebd83}{set\+\_\+ignore\+\_\+file\+\_\+name}} (const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+name)
-\begin{DoxyCompactList}\small\item\em Set the name of the ignore file to use. \end{DoxyCompactList}\item 
-const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \& \mbox{\hyperlink{class_packer_aced17421c3fa0c278f268e0ac59ce886}{get\+\_\+ignore\+\_\+file\+\_\+name}} () const
-\begin{DoxyCompactList}\small\item\em Get the name of the ignore file. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_packer_a98a2fcfbafdade42967e17dce1ec2941}{set\+\_\+ignore\+\_\+file\+\_\+enabled}} (bool p\+\_\+enable)
-\begin{DoxyCompactList}\small\item\em Enable or disable the use of ignore files. \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{class_packer_a572b6f787c3d64279de7527930c3e402}{get\+\_\+ignore\+\_\+file\+\_\+enabled}} () const
-\begin{DoxyCompactList}\small\item\em Check if ignore files are enabled. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_packer_ae847f8b3a25e281e9c51e00d3e88a9a4}{set\+\_\+log\+\_\+enabled}} (bool p\+\_\+enable)
-\begin{DoxyCompactList}\small\item\em Enable or disable logging. \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{class_packer_a2634c7c93185dc1ac6b2e6d5fea08474}{get\+\_\+log\+\_\+enabled}} () const
-\begin{DoxyCompactList}\small\item\em Check if logging is enabled. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_packer_a218c64caec022f2128298a9188bfde08}{to\+\_\+config\+\_\+file}} (\mbox{\hyperlink{class_config_file}{Config\+File}} \&p\+\_\+file) const
 \begin{DoxyCompactList}\small\item\em Serialize the \doxylink{class_packer}{Packer} configuration to a \doxylink{class_config_file}{Config\+File}. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_packer_ad69aa9f470fba9144413e263199214c7}{from\+\_\+config\+\_\+file}} (const \mbox{\hyperlink{class_config_file}{Config\+File}} \&p\+\_\+file)
@@ -124,13 +114,41 @@ static \mbox{\hyperlink{class_packer_a9e1110713ff84fd4698f34c77098e1a5}{Pack\+Mo
 static \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \mbox{\hyperlink{class_packer_a13192cf92c3df93f85540382b787f528}{get\+\_\+extension\+\_\+adjust\+\_\+name}} (\mbox{\hyperlink{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2e}{Extension\+Adjust}} p\+\_\+adjust)
 \begin{DoxyCompactList}\small\item\em Get a string representation of an Extension\+Adjust enum value. \end{DoxyCompactList}\item 
 static \mbox{\hyperlink{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2e}{Extension\+Adjust}} \mbox{\hyperlink{class_packer_a8538ec8db32b938b975f420f5e9bb0d9}{find\+\_\+extension\+\_\+adjust}} (const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+adjust)
-\begin{DoxyCompactList}\small\item\em Find an Extension\+Adjust enum value based on its string representation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Find an Extension\+Adjust enum value based on its string representation. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_packer_a5a5d16afd88983d1159a257051ad5b1a}{set\+\_\+callback}} (\mbox{\hyperlink{class_packer_a114978016649b28a2a04fd88bcd09613}{Callback}} p\+\_\+callback)
+\begin{DoxyCompactList}\small\item\em Set a callback function to be notified after post-\/pack file operations. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{class_packer_a114978016649b28a2a04fd88bcd09613}{Callback}} \mbox{\hyperlink{class_packer_a50ac5e03d6dc650e225f17b489ae2bff}{get\+\_\+callback}} ()
+\begin{DoxyCompactList}\small\item\em Get the currently registered post-\/pack file operations callback function. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
 A utility class for packing and managing files based on user-\/defined rules. 
 
 The {\ttfamily \doxylink{class_packer}{Packer}} class allows you to specify rules for packing and managing files in a directory. It supports various packing modes, extension handling, file suffixes, and more. 
+
+\doxysubsection{Member Typedef Documentation}
+\Hypertarget{class_packer_a114978016649b28a2a04fd88bcd09613}\label{class_packer_a114978016649b28a2a04fd88bcd09613} 
+\index{Packer@{Packer}!Callback@{Callback}}
+\index{Callback@{Callback}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{Callback}{Callback}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{class_packer_a114978016649b28a2a04fd88bcd09613}{Packer\+::\+Callback}} =  void (\texorpdfstring{$\ast$}{*})(const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\& p\+\_\+read\+\_\+path, const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\& p\+\_\+write\+\_\+path, bool p\+\_\+move)}
+
+
+
+A callback function type for post-\/pack file operations notification. 
+
+This callback function is invoked after a file has been successfully copied or moved by the \doxylink{class_packer}{Packer} utility. It provides information about the source and destination paths of the file and whether the operation was a move (true) or a copy (false).
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+read\+\_\+path} & The source path of the file that was packed. \\
+\hline
+{\em p\+\_\+write\+\_\+path} & The destination path where the file was written. \\
+\hline
+{\em p\+\_\+move} & If true, the file was moved; otherwise, it was copied. \\
+\hline
+\end{DoxyParams}
+
 
 \doxysubsection{Member Enumeration Documentation}
 \Hypertarget{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2e}\label{class_packer_aa42b34e57d3febf7f4eb03446a2f3a2e} 
@@ -269,6 +287,19 @@ Deserialize the \doxylink{class_packer}{Packer} configuration from a \doxylink{c
 {\em p\+\_\+file} & The \doxylink{class_config_file}{Config\+File} containing the configuration data. \\
 \hline
 \end{DoxyParams}
+\Hypertarget{class_packer_a50ac5e03d6dc650e225f17b489ae2bff}\label{class_packer_a50ac5e03d6dc650e225f17b489ae2bff} 
+\index{Packer@{Packer}!get\_callback@{get\_callback}}
+\index{get\_callback@{get\_callback}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{get\_callback()}{get\_callback()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{class_packer_a114978016649b28a2a04fd88bcd09613}{Callback}} Packer\+::get\+\_\+callback (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Get the currently registered post-\/pack file operations callback function. 
+
+\begin{DoxyReturn}{Returns}
+The currently registered callback function or nullptr if no callback is set. 
+\end{DoxyReturn}
 \Hypertarget{class_packer_a0178b2e41818de59749bb731307f3fbf}\label{class_packer_a0178b2e41818de59749bb731307f3fbf} 
 \index{Packer@{Packer}!get\_extension@{get\_extension}}
 \index{get\_extension@{get\_extension}!Packer@{Packer}}
@@ -343,45 +374,6 @@ Check if case-\/insensitive handling of extensions is enabled.
 
 \begin{DoxyReturn}{Returns}
 {\ttfamily true} if case-\/insensitivity is enabled, {\ttfamily false} otherwise. 
-\end{DoxyReturn}
-\Hypertarget{class_packer_a572b6f787c3d64279de7527930c3e402}\label{class_packer_a572b6f787c3d64279de7527930c3e402} 
-\index{Packer@{Packer}!get\_ignore\_file\_enabled@{get\_ignore\_file\_enabled}}
-\index{get\_ignore\_file\_enabled@{get\_ignore\_file\_enabled}!Packer@{Packer}}
-\doxysubsubsection{\texorpdfstring{get\_ignore\_file\_enabled()}{get\_ignore\_file\_enabled()}}
-{\footnotesize\ttfamily bool Packer\+::get\+\_\+ignore\+\_\+file\+\_\+enabled (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
-
-
-
-Check if ignore files are enabled. 
-
-\begin{DoxyReturn}{Returns}
-{\ttfamily true} if ignore files are enabled, {\ttfamily false} otherwise. 
-\end{DoxyReturn}
-\Hypertarget{class_packer_aced17421c3fa0c278f268e0ac59ce886}\label{class_packer_aced17421c3fa0c278f268e0ac59ce886} 
-\index{Packer@{Packer}!get\_ignore\_file\_name@{get\_ignore\_file\_name}}
-\index{get\_ignore\_file\_name@{get\_ignore\_file\_name}!Packer@{Packer}}
-\doxysubsubsection{\texorpdfstring{get\_ignore\_file\_name()}{get\_ignore\_file\_name()}}
-{\footnotesize\ttfamily const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \& Packer\+::get\+\_\+ignore\+\_\+file\+\_\+name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
-
-
-
-Get the name of the ignore file. 
-
-\begin{DoxyReturn}{Returns}
-The name of the ignore file. 
-\end{DoxyReturn}
-\Hypertarget{class_packer_a2634c7c93185dc1ac6b2e6d5fea08474}\label{class_packer_a2634c7c93185dc1ac6b2e6d5fea08474} 
-\index{Packer@{Packer}!get\_log\_enabled@{get\_log\_enabled}}
-\index{get\_log\_enabled@{get\_log\_enabled}!Packer@{Packer}}
-\doxysubsubsection{\texorpdfstring{get\_log\_enabled()}{get\_log\_enabled()}}
-{\footnotesize\ttfamily bool Packer\+::get\+\_\+log\+\_\+enabled (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
-
-
-
-Check if logging is enabled. 
-
-\begin{DoxyReturn}{Returns}
-{\ttfamily true} if logging is enabled, {\ttfamily false} otherwise. 
 \end{DoxyReturn}
 \Hypertarget{class_packer_ae778942334bb4a7d6bda68f7f771bfcf}\label{class_packer_ae778942334bb4a7d6bda68f7f771bfcf} 
 \index{Packer@{Packer}!get\_move\_files@{get\_move\_files}}
@@ -617,6 +609,23 @@ Save the encrypted \doxylink{class_packer}{Packer} configuration to a file.
 \begin{DoxyReturn}{Returns}
 An {\ttfamily Error} code indicating the success or failure of the operation. 
 \end{DoxyReturn}
+\Hypertarget{class_packer_a5a5d16afd88983d1159a257051ad5b1a}\label{class_packer_a5a5d16afd88983d1159a257051ad5b1a} 
+\index{Packer@{Packer}!set\_callback@{set\_callback}}
+\index{set\_callback@{set\_callback}!Packer@{Packer}}
+\doxysubsubsection{\texorpdfstring{set\_callback()}{set\_callback()}}
+{\footnotesize\ttfamily static void Packer\+::set\+\_\+callback (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_packer_a114978016649b28a2a04fd88bcd09613}{Callback}}}]{p\+\_\+callback }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Set a callback function to be notified after post-\/pack file operations. 
+
+This function allows you to set a callback that will be called after the \doxylink{class_packer}{Packer} utility performs file copy or move operations. The callback receives information about the source and destination paths of the file and whether the operation was a move (true) or a copy (false).
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+callback} & The callback function to set. \\
+\hline
+\end{DoxyParams}
 \Hypertarget{class_packer_ac97cf2140c02cfff19c483c3cf65a8a9}\label{class_packer_ac97cf2140c02cfff19c483c3cf65a8a9} 
 \index{Packer@{Packer}!set\_extension\_adjust@{set\_extension\_adjust}}
 \index{set\_extension\_adjust@{set\_extension\_adjust}!Packer@{Packer}}
@@ -645,51 +654,6 @@ Enable or disable case-\/insensitive handling of extensions.
 
 \begin{DoxyParams}{Parameters}
 {\em p\+\_\+enable} & {\ttfamily true} to enable case-\/insensitivity, {\ttfamily false} to disable it. \\
-\hline
-\end{DoxyParams}
-\Hypertarget{class_packer_a98a2fcfbafdade42967e17dce1ec2941}\label{class_packer_a98a2fcfbafdade42967e17dce1ec2941} 
-\index{Packer@{Packer}!set\_ignore\_file\_enabled@{set\_ignore\_file\_enabled}}
-\index{set\_ignore\_file\_enabled@{set\_ignore\_file\_enabled}!Packer@{Packer}}
-\doxysubsubsection{\texorpdfstring{set\_ignore\_file\_enabled()}{set\_ignore\_file\_enabled()}}
-{\footnotesize\ttfamily void Packer\+::set\+\_\+ignore\+\_\+file\+\_\+enabled (\begin{DoxyParamCaption}\item[{bool}]{p\+\_\+enable }\end{DoxyParamCaption})}
-
-
-
-Enable or disable the use of ignore files. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em p\+\_\+enable} & {\ttfamily true} to enable ignore files, {\ttfamily false} to disable them. \\
-\hline
-\end{DoxyParams}
-\Hypertarget{class_packer_ad45f53790e6fb1785154f12f484ebd83}\label{class_packer_ad45f53790e6fb1785154f12f484ebd83} 
-\index{Packer@{Packer}!set\_ignore\_file\_name@{set\_ignore\_file\_name}}
-\index{set\_ignore\_file\_name@{set\_ignore\_file\_name}!Packer@{Packer}}
-\doxysubsubsection{\texorpdfstring{set\_ignore\_file\_name()}{set\_ignore\_file\_name()}}
-{\footnotesize\ttfamily void Packer\+::set\+\_\+ignore\+\_\+file\+\_\+name (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+name }\end{DoxyParamCaption})}
-
-
-
-Set the name of the ignore file to use. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em p\+\_\+name} & The name of the ignore file. \\
-\hline
-\end{DoxyParams}
-\Hypertarget{class_packer_ae847f8b3a25e281e9c51e00d3e88a9a4}\label{class_packer_ae847f8b3a25e281e9c51e00d3e88a9a4} 
-\index{Packer@{Packer}!set\_log\_enabled@{set\_log\_enabled}}
-\index{set\_log\_enabled@{set\_log\_enabled}!Packer@{Packer}}
-\doxysubsubsection{\texorpdfstring{set\_log\_enabled()}{set\_log\_enabled()}}
-{\footnotesize\ttfamily void Packer\+::set\+\_\+log\+\_\+enabled (\begin{DoxyParamCaption}\item[{bool}]{p\+\_\+enable }\end{DoxyParamCaption})}
-
-
-
-Enable or disable logging. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em p\+\_\+enable} & {\ttfamily true} to enable logging, {\ttfamily false} to disable it. \\
 \hline
 \end{DoxyParams}
 \Hypertarget{class_packer_a4a43c79e49337119d0649a2589ecb5c8}\label{class_packer_a4a43c79e49337119d0649a2589ecb5c8} 

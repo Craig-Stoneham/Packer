@@ -54,13 +54,13 @@
 \DoxyCodeLine{00085\ \ \ \ \ \mbox{\hyperlink{_packer_2_typedefs_8h_a2e19bd9826ad447934133cebebbb5239}{Vector<Command>}}\ commands;\ }
 \DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{bool}\ process\_commands;\ }
 \DoxyCodeLine{00087\ }
-\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#ifndef\ CONSOLE\_FEATURES\_DISABLED}}
-\DoxyCodeLine{00089\ \ \ \ \ \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60}{Color}}\ command\_text\_color;\ }
-\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CONSOLE\_FEATURES\_DISABLED}}
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#ifdef\ CONSOLE\_FEATURES\_ENABLED}}
+\DoxyCodeLine{00089\ \ \ \ \ Color\ command\_text\_color;\ }
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CONSOLE\_FEATURES\_ENABLED}}
 \DoxyCodeLine{00091\ }
-\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#ifndef\ LOG\_DISABLED}}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#ifdef\ LOG\_ENABLED}}
 \DoxyCodeLine{00093\ \ \ \ \ \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\ log\_file\_name;\ }
-\DoxyCodeLine{00094\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ LOG\_DISABLED}}
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ LOG\_ENABLED}}
 \DoxyCodeLine{00095\ }
 \DoxyCodeLine{00101\ \ \ \ \ \textcolor{keywordtype}{void}\ \_add\_hidden\_command(Function\ p\_function,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_name);}
 \DoxyCodeLine{00102\ }
@@ -92,49 +92,51 @@
 \DoxyCodeLine{00174\ }
 \DoxyCodeLine{00178\ \ \ \ \ \textcolor{keywordtype}{void}\ \_set\_extension\_adjust();}
 \DoxyCodeLine{00179\ }
-\DoxyCodeLine{00180\ \textcolor{preprocessor}{\#ifndef\ IGNORE\_FILE\_DISABLED}}
+\DoxyCodeLine{00180\ \textcolor{preprocessor}{\#ifdef\ IGNORE\_FILE\_ENABLED}}
 \DoxyCodeLine{00184\ \ \ \ \ \textcolor{keywordtype}{void}\ \_set\_ignore\_file\_name();}
 \DoxyCodeLine{00185\ }
 \DoxyCodeLine{00189\ \ \ \ \ \textcolor{keywordtype}{void}\ \_set\_ignore\_file\_enabled();}
-\DoxyCodeLine{00190\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ IGNORE\_FILE\_DISABLED}}
+\DoxyCodeLine{00190\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ IGNORE\_FILE\_ENABLED}}
 \DoxyCodeLine{00191\ }
-\DoxyCodeLine{00192\ \textcolor{preprocessor}{\#ifndef\ LOG\_DISABLED}}
+\DoxyCodeLine{00192\ \textcolor{preprocessor}{\#ifdef\ LOG\_ENABLED}}
 \DoxyCodeLine{00196\ \ \ \ \ \textcolor{keywordtype}{void}\ \_set\_log\_file\_name();}
 \DoxyCodeLine{00197\ }
 \DoxyCodeLine{00201\ \ \ \ \ \textcolor{keywordtype}{void}\ \_set\_log\_enabled();}
-\DoxyCodeLine{00202\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ LOG\_DISABLED}}
+\DoxyCodeLine{00202\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ LOG\_ENABLED}}
 \DoxyCodeLine{00203\ }
-\DoxyCodeLine{00207\ \ \ \ \ \textcolor{keywordtype}{void}\ \_revert\_state();}
+\DoxyCodeLine{00207\ \ \ \ \ \textcolor{keywordtype}{void}\ \_swap\_paths();}
 \DoxyCodeLine{00208\ }
-\DoxyCodeLine{00212\ \ \ \ \ \textcolor{keywordtype}{void}\ \_save\_config();}
+\DoxyCodeLine{00212\ \ \ \ \ \textcolor{keywordtype}{void}\ \_revert\_state();}
 \DoxyCodeLine{00213\ }
-\DoxyCodeLine{00217\ \ \ \ \ \textcolor{keywordtype}{void}\ \_load\_config();}
+\DoxyCodeLine{00217\ \ \ \ \ \textcolor{keywordtype}{void}\ \_save\_config();}
 \DoxyCodeLine{00218\ }
-\DoxyCodeLine{00222\ \ \ \ \ \textcolor{keywordtype}{void}\ \_print\_info();}
+\DoxyCodeLine{00222\ \ \ \ \ \textcolor{keywordtype}{void}\ \_load\_config();}
 \DoxyCodeLine{00223\ }
-\DoxyCodeLine{00227\ \ \ \ \ \textcolor{keywordtype}{void}\ \_run\_packer();}
+\DoxyCodeLine{00227\ \ \ \ \ \textcolor{keywordtype}{void}\ \_print\_info();}
 \DoxyCodeLine{00228\ }
-\DoxyCodeLine{00232\ \ \ \ \ \textcolor{keywordtype}{void}\ \_quit\_program();}
+\DoxyCodeLine{00232\ \ \ \ \ \textcolor{keywordtype}{void}\ \_run\_packer();}
 \DoxyCodeLine{00233\ }
-\DoxyCodeLine{00237\ \ \ \ \ \textcolor{keywordtype}{void}\ \_print\_help();}
+\DoxyCodeLine{00237\ \ \ \ \ \textcolor{keywordtype}{void}\ \_quit\_program();}
 \DoxyCodeLine{00238\ }
-\DoxyCodeLine{00243\ \ \ \ \ \textcolor{keywordtype}{void}\ \_read\_input(\textcolor{keywordtype}{bool}\ p\_lower\_case\ =\ \textcolor{keyword}{false});}
-\DoxyCodeLine{00244\ }
-\DoxyCodeLine{00249\ \ \ \ \ \textcolor{keywordtype}{void}\ \_to\_config\_file(\mbox{\hyperlink{class_config_file}{ConfigFile}}\&\ p\_file)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00250\ }
-\DoxyCodeLine{00255\ \ \ \ \ \textcolor{keywordtype}{void}\ \_from\_config\_file(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_config_file}{ConfigFile}}\&\ p\_file);}
-\DoxyCodeLine{00256\ }
-\DoxyCodeLine{00262\ \ \ \ \ \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}}\ \_save(\textcolor{keyword}{const}\ \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_path);}
-\DoxyCodeLine{00263\ }
-\DoxyCodeLine{00269\ \ \ \ \ \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}}\ \_load(\textcolor{keyword}{const}\ \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_path);}
-\DoxyCodeLine{00270\ }
-\DoxyCodeLine{00271\ }
-\DoxyCodeLine{00272\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00277\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_application_a8cf8941c8db90117d3735bce5ae1fdf4}{run}}();}
-\DoxyCodeLine{00278\ }
-\DoxyCodeLine{00282\ \ \ \ \ \mbox{\hyperlink{class_application_afa8cc05ce6b6092be5ecdfdae44e05f8}{Application}}();}
-\DoxyCodeLine{00283\ \};}
-\DoxyCodeLine{00284\ }
-\DoxyCodeLine{00285\ \mbox{\hyperlink{_packer_2_typedefs_8h_a0392f3971db25ed1554aaf079f943911}{PACKER\_NAMESPACE\_END}}}
+\DoxyCodeLine{00242\ \ \ \ \ \textcolor{keywordtype}{void}\ \_print\_help();}
+\DoxyCodeLine{00243\ }
+\DoxyCodeLine{00248\ \ \ \ \ \textcolor{keywordtype}{void}\ \_read\_input(\textcolor{keywordtype}{bool}\ p\_lower\_case\ =\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00249\ }
+\DoxyCodeLine{00254\ \ \ \ \ \textcolor{keywordtype}{void}\ \_to\_config\_file(\mbox{\hyperlink{class_config_file}{ConfigFile}}\&\ p\_file)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00255\ }
+\DoxyCodeLine{00260\ \ \ \ \ \textcolor{keywordtype}{void}\ \_from\_config\_file(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_config_file}{ConfigFile}}\&\ p\_file);}
+\DoxyCodeLine{00261\ }
+\DoxyCodeLine{00267\ \ \ \ \ \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}}\ \_save(\textcolor{keyword}{const}\ \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_path);}
+\DoxyCodeLine{00268\ }
+\DoxyCodeLine{00274\ \ \ \ \ \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}}\ \_load(\textcolor{keyword}{const}\ \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_path);}
+\DoxyCodeLine{00275\ }
+\DoxyCodeLine{00276\ }
+\DoxyCodeLine{00277\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00282\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_application_a8cf8941c8db90117d3735bce5ae1fdf4}{run}}();}
+\DoxyCodeLine{00283\ }
+\DoxyCodeLine{00287\ \ \ \ \ \mbox{\hyperlink{class_application_afa8cc05ce6b6092be5ecdfdae44e05f8}{Application}}();}
+\DoxyCodeLine{00288\ \};}
+\DoxyCodeLine{00289\ }
+\DoxyCodeLine{00290\ \mbox{\hyperlink{_packer_2_typedefs_8h_a0392f3971db25ed1554aaf079f943911}{PACKER\_NAMESPACE\_END}}}
 
 \end{DoxyCode}

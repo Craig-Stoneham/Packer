@@ -24,7 +24,6 @@
 #include "Packer.h"
 
 #include "Defaults.h"
-#include "FileAccess.h"
 
 PACKER_NAMESPACE_BEGIN
 
@@ -33,6 +32,8 @@ static const char* pack_mode_names[] = {
     "exclude",
     "everything"
 };
+
+static Packer::Callback callback = nullptr;
 
 String Packer::get_pack_mode_name(PackMode p_mode) {
     if (p_mode >= static_cast<PackMode>(0) && p_mode < PackMode::Max) {
@@ -89,7 +90,7 @@ void Packer::_pack_files(const String& p_read_path, const String& p_write_path) 
 
     for (auto& path : FileAccess::directory_iterator(p_read_path)) {
         String _read_path = path.path().string();
-        FileAccess::normalize_separators(_read_path);
+        normalize_path_separators(_read_path);
 
         if (FileAccess::is_directory(path)) {
             _pack_files(_read_path, p_write_path + _read_path.substr(_read_path.find_last_of('/')));
@@ -126,7 +127,7 @@ void Packer::_pack_files(const String& p_read_path, const String& p_write_path) 
             String _write_path = p_write_path + _read_path.substr(_read_path.find_last_of('/'));
 
             if (suffix_enabled) {
-                FileAccess::remove_suffix(_write_path, suffix_string);
+                remove_path_suffix(_write_path, suffix_string);
             }
 
             if (extension_adjust != ExtensionAdjust::Default) {
@@ -147,17 +148,33 @@ void Packer::_pack_files(const String& p_read_path, const String& p_write_path) 
                 FileAccess::create_directories(p_write_path);
             }
 
-#ifndef LOG_ENABLED
-            FileAccess::pack_file(_read_path, _write_path, move_files);
-#else // LOG_ENABLED
-            if (FileAccess::pack_file(_read_path, _write_path, move_files)) {
-                if (log_enabled) {
-                    LOG_INFO((move_files ? "Moved " : "Copied ") + _read_path + " to " + _write_path + "\n");
-                }
+            if (copy_file(_read_path, _write_path, FileAccess::copy_options::update_existing) == false) {
+                return;
+            }
+
+            if (move_files) {
+                FileAccess::remove(_read_path);
+            }
+
+            if (callback) {
+                callback(_read_path, _write_path, move_files);
+            }
+
+#ifdef LOG_ENABLED
+            if (log_enabled) {
+                LOG_INFO((move_files ? "Moved " : "Copied ") + _read_path + " to " + _write_path + "\n");
             }
 #endif // LOG_ENABLED
         }
     }
+}
+
+void Packer::set_callback(Callback p_callback) {
+    callback = p_callback;
+}
+
+Packer::Callback Packer::get_callback() {
+    return callback;
 }
 
 void Packer::set_read_path(const String& p_path) {
@@ -425,7 +442,7 @@ Error Packer::pack_files() {
     }
 
     String _read_path = read_path;
-    FileAccess::normalize_separators(_read_path);
+    normalize_path_separators(_read_path);
 
     if (!FileAccess::exists(_read_path)) {
         return Error::DoesNotExist;
@@ -436,7 +453,7 @@ Error Packer::pack_files() {
     }
 
     String _write_path = write_path;
-    FileAccess::normalize_separators(_write_path);
+    normalize_path_separators(_write_path);
 
     _pack_files(_read_path, _write_path);
 

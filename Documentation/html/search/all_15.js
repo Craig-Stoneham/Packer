@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['yellow_0',['Yellow',['../class_console.html#a72bbc3908734dffa72bf6fc7341efe60a51e6cd92b6c45f9affdc158ecca2b8b8',1,'Console']]]
+  ['_7econsole_0',['~Console',['../class_console.html#adde4537261151a8beedd8d5e8f90c60c',1,'Console']]],
+  ['_7elogfile_1',['~LogFile',['../class_log_file.html#a138968d21e3fd3bdd7aeb46ca5096597',1,'LogFile']]],
+  ['_7evariant_2',['~Variant',['../class_variant.html#afefce84ee3f94c9154c69e2e9a62f0b0',1,'Variant']]]
 ];

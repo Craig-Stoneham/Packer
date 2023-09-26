@@ -47,47 +47,6 @@
 #endif // __cplusplus >= 201703L
 
 /**
- * @def PACKER_NAMESPACE_BEGIN
- * @brief Defines the beginning of the optional Packer namespace.
- *
- * This macro defines the beginning of an optional namespace, allowing the code within it to be encapsulated within the
- * "Packer" namespace. The namespace encapsulation is controlled by the presence or absence of the "PACKER_NAMESPACE_ENABLED"
- * preprocessor macro.
- */
-#ifdef PACKER_NAMESPACE_ENABLED
-#define PACKER_NAMESPACE_BEGIN namespace Packer {
-#else // PACKER_NAMESPACE_ENABLED
-#define PACKER_NAMESPACE_BEGIN
-#endif // PACKER_NAMESPACE_ENABLED
-
- /**
-  * @def PACKER_NAMESPACE_END
-  * @brief Defines the end of the optional Packer namespace.
-  *
-  * This macro defines the end of an optional namespace, closing the "Packer" namespace encapsulation. The namespace
-  * encapsulation is controlled by the presence or absence of the "PACKER_NAMESPACE_ENABLED" preprocessor macro.
-  */
-#ifdef PACKER_NAMESPACE_ENABLED
-#define PACKER_NAMESPACE_END };
-#else // PACKER_NAMESPACE_ENABLED
-#define PACKER_NAMESPACE_END
-#endif // PACKER_NAMESPACE_ENABLED
-
-/**
- * @def USING_NAMESPACE_PACKER
- * @brief Provides the option to use the "Packer" namespace.
- *
- * This macro allows the option to include the entire "Packer" namespace in the current scope, making all classes, functions,
- * and variables within the "Packer" namespace accessible without qualifying them with "Packer::". The usage of this macro is
- * determined by the presence or absence of the "USING_NAMESPACE_PACKER" preprocessor macro.
- */
-#ifdef PACKER_NAMESPACE_ENABLED
-#define USING_NAMESPACE_PACKER using namespace Packer;
-#else // PACKER_NAMESPACE_ENABLED
-#define USING_NAMESPACE_PACKER
-#endif // PACKER_NAMESPACE_ENABLED
-
-/**
  * @def STRINGIFY(p_x)
  * @brief Converts a token into a string literal.
  * @param p_x The token to convert.
@@ -169,3 +128,95 @@ using FileStreamO = std::ofstream;
  * @details Use this constant as an argument to set binary mode when opening files.
  */
 static constexpr int BinaryIOS = std::ios::binary;
+
+/**
+ * @namespace FileAccess
+ * @brief Namespace containing filesystem-related types and functions.
+ */
+namespace FileAccess {
+#ifndef EXPERIMENTAL_FILESYSTEM
+    using namespace std::filesystem; // Use C++17 filesystem API.
+#else // EXPERIMENTAL_FILESYSTEM
+    using namespace std::experimental::filesystem; // Use experimental filesystem API.
+#endif // EXPERIMENTAL_FILESYSTEM
+};
+
+/**
+ * @def PACKER_NAMESPACE_BEGIN
+ * @brief Defines the beginning of the optional Packer namespace.
+ *
+ * This macro defines the beginning of an optional namespace, allowing the code within it to be encapsulated within the
+ * "Packer" namespace. The namespace encapsulation is controlled by the presence or absence of the "PACKER_NAMESPACE_ENABLED"
+ * preprocessor macro.
+ */
+#ifdef PACKER_NAMESPACE_ENABLED
+#define PACKER_NAMESPACE_BEGIN namespace Packer {
+#else // PACKER_NAMESPACE_ENABLED
+#define PACKER_NAMESPACE_BEGIN
+#endif // PACKER_NAMESPACE_ENABLED
+
+/**
+ * @def PACKER_NAMESPACE_END
+ * @brief Defines the end of the optional Packer namespace.
+ *
+ * This macro defines the end of an optional namespace, closing the "Packer" namespace encapsulation. The namespace
+ * encapsulation is controlled by the presence or absence of the "PACKER_NAMESPACE_ENABLED" preprocessor macro.
+ */
+#ifdef PACKER_NAMESPACE_ENABLED
+#define PACKER_NAMESPACE_END };
+#else // PACKER_NAMESPACE_ENABLED
+#define PACKER_NAMESPACE_END
+#endif // PACKER_NAMESPACE_ENABLED
+
+/**
+ * @def USING_NAMESPACE_PACKER
+ * @brief Provides the option to use the "Packer" namespace.
+ *
+ * This macro allows the option to include the entire "Packer" namespace in the current scope, making all classes, functions,
+ * and variables within the "Packer" namespace accessible without qualifying them with "Packer::". The usage of this macro is
+ * determined by the presence or absence of the "USING_NAMESPACE_PACKER" preprocessor macro.
+ */
+#ifdef PACKER_NAMESPACE_ENABLED
+#define USING_NAMESPACE_PACKER using namespace Packer;
+#else // PACKER_NAMESPACE_ENABLED
+#define USING_NAMESPACE_PACKER
+#endif // PACKER_NAMESPACE_ENABLED
+
+/**
+ * @brief Normalizes path separators in a string.
+ *
+ * This function replaces all backslashes ('\') in the given string with forward slashes ('/').
+ *
+ * @param p_path The string to normalize path separators in.
+ */
+inline void normalize_path_separators(String& p_path) {
+    for (size_t i = 0; i < p_path.size(); ++i) {
+        if (p_path[i] == '\\') {
+            p_path[i] = '/';
+        }
+    }
+}
+
+/**
+* @brief Removes a specified suffix from a path string.
+*
+* This function searches for the specified suffix in the path string, starting from the first forward slash ('/').
+* If the suffix is found, it is removed from the path string, and the function returns true. If the suffix is not
+* found, the function returns false.
+*
+* @param p_path The path string from which to remove the suffix.
+* @param p_suffix The suffix to remove from the path string.
+* @return True if the suffix was found and removed, false otherwise.
+*/
+inline bool remove_path_suffix(String& p_path, const String& p_suffix) {
+    if (p_suffix.empty()) {
+        return false;
+    }
+    size_t suffix_pos = p_path.find(p_suffix, p_path.find('/'));
+    if (suffix_pos != String::npos) {
+        p_path.erase(suffix_pos, p_suffix.length());
+        return true;
+    } else {
+        return false;
+    }
+}

@@ -60,7 +60,7 @@ bool TestPacker::test_packer() {
     for (const auto& file_name : files) {
 		String file_path = write_path + "/" + file_name;
         if (packer.get_suffix_enabled()) {
-            FileAccess::remove_suffix(file_path, packer.get_suffix_string());
+            remove_path_suffix(file_path, packer.get_suffix_string());
         }
         if (packer.get_extension_adjust() == Packer::ExtensionAdjust::Lower) {
             size_t ext_pos = file_path.find_last_of('.') + 1;
@@ -87,8 +87,8 @@ bool TestPacker::test_packer() {
 
 TestResult TestPacker::test() {
 #ifdef EXPERIMENTAL_FILESYSTEM
-    FileAccess::normalize_separators(read_path);
-    FileAccess::normalize_separators(write_path);
+    normalize_path_separators(read_path);
+    normalize_path_separators(write_path);
 #endif // EXPERIMENTAL_FILESYSTEM
 
     packer.set_read_path(read_path);

@@ -26,14 +26,6 @@ int \mbox{\hyperlink{class_application_a8cf8941c8db90117d3735bce5ae1fdf4}{run}} 
 \doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_console}{Console}}}
 \begin{DoxyCompactItemize}
 \item 
-void \mbox{\hyperlink{class_console_a59ff6bb377af4a3295fc8b8efbf5a3ba}{set\+\_\+text\+\_\+color}} (\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Log\+::\+Level}} p\+\_\+level, \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60}{Color}} p\+\_\+color)
-\begin{DoxyCompactList}\small\item\em Set the text color for a specific log level. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60}{Color}} \mbox{\hyperlink{class_console_a1e0b35fcccf9cf3bb5d7458797d67f44}{get\+\_\+text\+\_\+color}} (\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Log\+::\+Level}} p\+\_\+level) const
-\begin{DoxyCompactList}\small\item\em Get the text color for a specific log level. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_console_aecf1e8efeb70533a7f4c227c7a259bb7}{set\+\_\+text\+\_\+color}} (\mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60}{Color}} p\+\_\+color)
-\begin{DoxyCompactList}\small\item\em Set the text color for all log levels. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60}{Color}} \mbox{\hyperlink{class_console_af7b1f84b1fc94bb5976d3d6ff7f12097}{get\+\_\+text\+\_\+color}} () const
-\begin{DoxyCompactList}\small\item\em Get the current text color. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_console_a75c1f51a5d5256fcc76c1d96aad457b4}{print\+\_\+string}} (const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
 \begin{DoxyCompactList}\small\item\em Print a string to the console without a newline. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_console_aa10e788cf14380010cde9f5f3a100daa}{print\+\_\+line}} (const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
@@ -58,34 +50,6 @@ void \mbox{\hyperlink{class_console_a19f7665ebb4aa81ca73d0c400226bf84}{log\+\_\+
 \begin{DoxyCompactList}\small\item\em Constructor for the \doxylink{class_console}{Console} class. \end{DoxyCompactList}\item 
 virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+Console} ()
 \begin{DoxyCompactList}\small\item\em Destructor for the \doxylink{class_console}{Console} class. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\doxysubsubsection*{Additional Inherited Members}
-\doxysubsection*{Public Types inherited from \mbox{\hyperlink{class_console}{Console}}}
-\begin{DoxyCompactItemize}
-\item 
-enum class \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60}{Color}} \{ \newline
-\mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60a6adf97f83acf6453d4a6a4b1070f3754}{None}}
-, \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60aee38e4d5dd68c4e440825018d549cb47}{Red}}
-, \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60ad382816a3cbeed082c9e216e7392eed1}{Green}}
-, \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60a9594eec95be70e7b1710f730fdda33d9}{Blue}}
-, \newline
-\mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60a51e6cd92b6c45f9affdc158ecca2b8b8}{Yellow}}
-, \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60ab91cc2c1416fcca942b61c7ac5b1a9ac}{Magenta}}
-, \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60a023c239d2f2538f140a20e72c7b73f20}{Cyan}}
-, \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60a25a81701fbfa4a1efdf660a950c1d006}{White}}
-, \newline
-\mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60acaf3a042a037c064b7513ed640c22f77}{Grey}}
-, \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60af9a96fb667261a141d10021a66d6ad0f}{Light\+Red}}
-, \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60a7a6a38bec67cbc2a39ce22f34e4ed8e2}{Light\+Green}}
-, \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60a4d7ff7393a484a7b9ed2e381f5cdeaf7}{Light\+Blue}}
-, \newline
-\mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60afaf948b65bda38f44b17d156177d1728}{Light\+Yellow}}
-, \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60af1ec64ef9f82e9fb86b094f8b548f9f1}{Light\+Magenta}}
-, \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60ac37b5ce4ba80a097d82726ae74d34b13}{Light\+Cyan}}
-, \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60a44a07eabeb77868ee704ec159a59e8e4}{Bright\+White}}
-, \newline
-\mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60a6a061313d22e51e0f25b7cd4dc065233}{Max}}
- \}
-\begin{DoxyCompactList}\small\item\em Represents text color options. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}

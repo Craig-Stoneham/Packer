@@ -26,5 +26,4 @@
 #include "../Packer/Version.h"
 #include "../Packer/Console.h"
 #include "../Packer/LogFile.h"
-#include "../Packer/FileAccess.h"
 #include "../Packer/Packer.h"

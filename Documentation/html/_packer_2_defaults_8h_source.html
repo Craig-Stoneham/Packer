@@ -126,12 +126,12 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
 <div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="_packer_2_defaults_8h.html#a7c78a3b2aeacf3f765dd17f7ff9c03e8">   89</a></span><span class="preprocessor">#define DEFAULT_EXTENSION_ADJUST ExtensionAdjust::Default</span></div>
 <div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="preprocessor">#ifndef IGNORE_FILE_DISABLED</span></div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="_packer_2_defaults_8h.html#a83410d340d1760757ffe9cc40e03ba68">   96</a></span><span class="preprocessor">#define DEFAULT_IGNORE_FILE_NAME &quot;.pkignore&quot;</span></div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="preprocessor">#ifdef IGNORE_FILE_ENABLED</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><span class="preprocessor">#define DEFAULT_IGNORE_FILE_NAME &quot;.pkignore&quot;</span></div>
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno"><a class="line" href="_packer_2_defaults_8h.html#a522377934df5a7925be992467b7deaa4">  102</a></span><span class="preprocessor">#define DEFAULT_IGNORE_FILE_ENABLED true</span></div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span><span class="preprocessor">#define DEFAULT_IGNORE_FILE_ENABLED true</span></div>
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="preprocessor">#endif </span><span class="comment">// IGNORE_FILE_DISABLED</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="preprocessor">#endif </span><span class="comment">// IGNORE_FILE_ENABLED</span></div>
 <div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
 <div class="line"><a id="l00110" name="l00110"></a><span class="lineno"><a class="line" href="_packer_2_defaults_8h.html#a80a1379af52f6f5808c1046a76d96cf8">  110</a></span><span class="preprocessor">#define DEFAULT_LOG_ENABLED true</span></div>
 </div><!-- fragment --></div><!-- contents -->

@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['default_0',['Default',['../class_packer.html#aa42b34e57d3febf7f4eb03446a2f3a2ea7a1920d61156abc05a60135aefe8bc67',1,'Packer']]],
-  ['doesnotexist_1',['DoesNotExist',['../_error_8h.html#a2c3e4bb40f36b262a5214e2da2bca9c5ac47c93cf49de211bba5d62d65225f128',1,'Error.h']]]
+  ['error_0',['Error',['../class_log.html#afb5d4c945d835d194a295461d752531ea902b0d55fddef6f8d651fe1035b7d4bd',1,'Log']]],
+  ['everything_1',['Everything',['../class_packer.html#a9e1110713ff84fd4698f34c77098e1a5a709468af25e91284821d1bdbfdded24c',1,'Packer']]],
+  ['exclude_2',['Exclude',['../class_packer.html#a9e1110713ff84fd4698f34c77098e1a5a843f2812f595e7ec7c5036e89fde02d6',1,'Packer']]]
 ];

@@ -60,29 +60,29 @@
 \DoxyCodeLine{00112\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_log_ac53ec594f61f5ef3b756043ecf1380b5}{log\_error}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_string);}
 \DoxyCodeLine{00113\ \};}
 \DoxyCodeLine{00114\ }
-\DoxyCodeLine{00121\ \textcolor{preprocessor}{\#ifndef\ LOG\_DISABLED}}
+\DoxyCodeLine{00121\ \textcolor{preprocessor}{\#ifdef\ LOG\_ENABLED}}
 \DoxyCodeLine{00122\ \textcolor{preprocessor}{\#define\ LOG\_STRING(p\_level,\ p\_string)\ Log::log\_string(p\_level,\ p\_string)}}
-\DoxyCodeLine{00123\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ LOG\_DISABLED}}
+\DoxyCodeLine{00123\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ LOG\_ENABLED}}
 \DoxyCodeLine{00124\ \textcolor{preprocessor}{\#define\ LOG\_STRING(p\_level,\ p\_string)}}
-\DoxyCodeLine{00125\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ LOG\_DISABLED}}
+\DoxyCodeLine{00125\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ LOG\_ENABLED}}
 \DoxyCodeLine{00126\ }
-\DoxyCodeLine{00132\ \textcolor{preprocessor}{\#ifndef\ LOG\_DISABLED}}
+\DoxyCodeLine{00132\ \textcolor{preprocessor}{\#ifdef\ LOG\_ENABLED}}
 \DoxyCodeLine{00133\ \textcolor{preprocessor}{\#define\ LOG\_INFO(p\_string)\ Log::log\_info(p\_string)}}
-\DoxyCodeLine{00134\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ LOG\_DISABLED}}
-\DoxyCodeLine{00135\ \textcolor{preprocessor}{\#define\ LOG\_INFO(p\_level,\ p\_string)}}
-\DoxyCodeLine{00136\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ LOG\_DISABLED}}
+\DoxyCodeLine{00134\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ LOG\_ENABLED}}
+\DoxyCodeLine{00135\ \textcolor{preprocessor}{\#define\ LOG\_INFO(p\_string)}}
+\DoxyCodeLine{00136\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ LOG\_ENABLED}}
 \DoxyCodeLine{00137\ }
-\DoxyCodeLine{00143\ \textcolor{preprocessor}{\#ifndef\ LOG\_DISABLED}}
+\DoxyCodeLine{00143\ \textcolor{preprocessor}{\#ifdef\ LOG\_ENABLED}}
 \DoxyCodeLine{00144\ \textcolor{preprocessor}{\#define\ LOG\_WARN(p\_string)\ Log::log\_warn(p\_string)}}
-\DoxyCodeLine{00145\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ LOG\_DISABLED}}
-\DoxyCodeLine{00146\ \textcolor{preprocessor}{\#define\ LOG\_WARN(p\_level,\ p\_string)}}
-\DoxyCodeLine{00147\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ LOG\_DISABLED}}
+\DoxyCodeLine{00145\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ LOG\_ENABLED}}
+\DoxyCodeLine{00146\ \textcolor{preprocessor}{\#define\ LOG\_WARN(p\_string)}}
+\DoxyCodeLine{00147\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ LOG\_ENABLED}}
 \DoxyCodeLine{00148\ }
-\DoxyCodeLine{00154\ \textcolor{preprocessor}{\#ifndef\ LOG\_DISABLED}}
+\DoxyCodeLine{00154\ \textcolor{preprocessor}{\#ifdef\ LOG\_ENABLED}}
 \DoxyCodeLine{00155\ \textcolor{preprocessor}{\#define\ LOG\_ERROR(p\_string)\ Log::log\_error(p\_string)}}
-\DoxyCodeLine{00156\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ LOG\_DISABLED}}
-\DoxyCodeLine{00157\ \textcolor{preprocessor}{\#define\ LOG\_ERROR(p\_level,\ p\_string)}}
-\DoxyCodeLine{00158\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ LOG\_DISABLED}}
+\DoxyCodeLine{00156\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ LOG\_ENABLED}}
+\DoxyCodeLine{00157\ \textcolor{preprocessor}{\#define\ LOG\_ERROR(p\_string)}}
+\DoxyCodeLine{00158\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ LOG\_ENABLED}}
 \DoxyCodeLine{00159\ }
 \DoxyCodeLine{00160\ \mbox{\hyperlink{_packer_2_typedefs_8h_a0392f3971db25ed1554aaf079f943911}{PACKER\_NAMESPACE\_END}}}
 

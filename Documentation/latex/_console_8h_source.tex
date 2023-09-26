@@ -33,44 +33,44 @@
 \DoxyCodeLine{00034\ }
 \DoxyCodeLine{00042\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_console}{Console}}\ \{}
 \DoxyCodeLine{00043\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#ifndef\ CONSOLE\_FEATURES\_DISABLED}}
-\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60}{Color}}\ \{}
-\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60a6adf97f83acf6453d4a6a4b1070f3754}{None}},\ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60aee38e4d5dd68c4e440825018d549cb47}{Red}},\ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60ad382816a3cbeed082c9e216e7392eed1}{Green}},\ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60a9594eec95be70e7b1710f730fdda33d9}{Blue}},\ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60a51e6cd92b6c45f9affdc158ecca2b8b8}{Yellow}},\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60ab91cc2c1416fcca942b61c7ac5b1a9ac}{Magenta}},\ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60a023c239d2f2538f140a20e72c7b73f20}{Cyan}},\ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60a25a81701fbfa4a1efdf660a950c1d006}{White}},\ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60acaf3a042a037c064b7513ed640c22f77}{Grey}},\ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60af9a96fb667261a141d10021a66d6ad0f}{LightRed}},\ \ \ \ \ \ \ }
-\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60a7a6a38bec67cbc2a39ce22f34e4ed8e2}{LightGreen}},\ \ \ \ \ }
-\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60a4d7ff7393a484a7b9ed2e381f5cdeaf7}{LightBlue}},\ \ \ \ \ \ }
-\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60afaf948b65bda38f44b17d156177d1728}{LightYellow}},\ \ \ \ }
-\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60af1ec64ef9f82e9fb86b094f8b548f9f1}{LightMagenta}},\ \ \ }
-\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60ac37b5ce4ba80a097d82726ae74d34b13}{LightCyan}},\ \ \ \ \ \ }
-\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60a44a07eabeb77868ee704ec159a59e8e4}{BrightWhite}},\ \ \ \ }
-\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60a6a061313d22e51e0f25b7cd4dc065233}{Max}}\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#ifdef\ CONSOLE\_FEATURES\_ENABLED}}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keyword}{enum\ class}\ Color\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ None,\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ Red,\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ Green,\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ Blue,\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ Yellow,\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ Magenta,\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ Cyan,\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ White,\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ Grey,\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ LightRed,\ \ \ \ \ \ \ }
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ LightGreen,\ \ \ \ \ }
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ LightBlue,\ \ \ \ \ \ }
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ LightYellow,\ \ \ \ }
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ LightMagenta,\ \ \ }
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ LightCyan,\ \ \ \ \ \ }
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ BrightWhite,\ \ \ \ }
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5a6a061313d22e51e0f25b7cd4dc065233}{Max}}\ \ \ \ \ \ \ \ \ \ \ \ \ }
 \DoxyCodeLine{00070\ \ \ \ \ \};}
-\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CONSOLE\_FEATURES\_DISABLED}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CONSOLE\_FEATURES\_ENABLED}}
 \DoxyCodeLine{00072\ }
 \DoxyCodeLine{00073\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#ifndef\ CONSOLE\_FEATURES\_DISABLED}}
-\DoxyCodeLine{00075\ \ \ \ \ \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60}{Color}}\ text\_colors[(int)\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531ea6a061313d22e51e0f25b7cd4dc065233}{Log::Level::Max}}];\ }
-\DoxyCodeLine{00076\ \ \ \ \ \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60}{Color}}\ current\_color;\ }
-\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CONSOLE\_FEATURES\_DISABLED}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#ifdef\ CONSOLE\_FEATURES\_ENABLED}}
+\DoxyCodeLine{00075\ \ \ \ \ Color\ text\_colors[(int)\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531ea6a061313d22e51e0f25b7cd4dc065233}{Log::Level::Max}}];\ }
+\DoxyCodeLine{00076\ \ \ \ \ Color\ current\_color;\ }
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CONSOLE\_FEATURES\_ENABLED}}
 \DoxyCodeLine{00078\ }
 \DoxyCodeLine{00079\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#ifndef\ CONSOLE\_FEATURES\_DISABLED}}
-\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_console_a59ff6bb377af4a3295fc8b8efbf5a3ba}{set\_text\_color}}(\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Log::Level}}\ p\_level,\ \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60}{Color}}\ p\_color);}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#ifdef\ CONSOLE\_FEATURES\_ENABLED}}
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_text\_color(\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Log::Level}}\ p\_level,\ Color\ p\_color);}
 \DoxyCodeLine{00087\ }
-\DoxyCodeLine{00093\ \ \ \ \ \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60}{Color}}\ \mbox{\hyperlink{class_console_a1e0b35fcccf9cf3bb5d7458797d67f44}{get\_text\_color}}(\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Log::Level}}\ p\_level)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00093\ \ \ \ \ Color\ get\_text\_color(\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Log::Level}}\ p\_level)\ \textcolor{keyword}{const};}
 \DoxyCodeLine{00094\ }
-\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_console_aecf1e8efeb70533a7f4c227c7a259bb7}{set\_text\_color}}(\mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60}{Color}}\ p\_color);}
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_text\_color(Color\ p\_color);}
 \DoxyCodeLine{00100\ }
-\DoxyCodeLine{00105\ \ \ \ \ \mbox{\hyperlink{class_console_a72bbc3908734dffa72bf6fc7341efe60}{Color}}\ \mbox{\hyperlink{class_console_af7b1f84b1fc94bb5976d3d6ff7f12097}{get\_text\_color}}()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00106\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CONSOLE\_FEATURES\_DISABLED}}
+\DoxyCodeLine{00105\ \ \ \ \ Color\ get\_text\_color()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00106\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CONSOLE\_FEATURES\_ENABLED}}
 \DoxyCodeLine{00107\ }
 \DoxyCodeLine{00112\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_console_a75c1f51a5d5256fcc76c1d96aad457b4}{print\_string}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_string);}
 \DoxyCodeLine{00113\ }

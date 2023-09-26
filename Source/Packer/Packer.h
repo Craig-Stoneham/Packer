@@ -70,6 +70,19 @@ public:
         Max           ///< The maximum value for the ExtensionAdjust enumeration.
     };
 
+    /**
+     * @brief A callback function type for post-pack file operations notification.
+     *
+     * This callback function is invoked after a file has been successfully copied or moved by
+     * the Packer utility. It provides information about the source and destination paths
+     * of the file and whether the operation was a move (true) or a copy (false).
+     *
+     * @param p_read_path The source path of the file that was packed.
+     * @param p_write_path The destination path where the file was written.
+     * @param p_move If true, the file was moved; otherwise, it was copied.
+     */
+    using Callback = void (*)(const String& p_read_path, const String& p_write_path, bool p_move);
+
 private:
     String read_path; ///< The source directory to pack files from.
     String write_path; ///< The destination directory to write packed files to.
@@ -98,7 +111,7 @@ private:
     /**
      * @brief Recursively pack files from the source directory to the destination directory.
      *
-     * This private function is responsible for recursively packing files from the source directory
+     * This is responsible for recursively packing files from the source directory
      * to the destination directory based on the Packer's configuration, including packing mode,
      * extensions, suffixes, and more. It is used internally by the public `pack_files` method.
      *
@@ -135,6 +148,24 @@ public:
      * @return The corresponding ExtensionAdjust enum value.
      */
     static ExtensionAdjust find_extension_adjust(const String& p_adjust);
+
+    /**
+     * @brief Set a callback function to be notified after post-pack file operations.
+     *
+     * This function allows you to set a callback that will be called after the Packer utility
+     * performs file copy or move operations. The callback receives information about the source
+     * and destination paths of the file and whether the operation was a move (true) or a copy (false).
+     *
+     * @param p_callback The callback function to set.
+     */
+    static void set_callback(Callback p_callback);
+
+    /**
+     * @brief Get the currently registered post-pack file operations callback function.
+     *
+     * @return The currently registered callback function or nullptr if no callback is set.
+     */
+    static Callback get_callback();
 
     /**
      * @brief Set the source directory to pack files from.
