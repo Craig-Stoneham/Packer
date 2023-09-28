@@ -22,7 +22,7 @@
 /**************************************************************************/
 
 /**
- * @file Typedefs.h
+ * @file typedefs.h
  * @brief Defines common types and utility macros for the application.
  */
 

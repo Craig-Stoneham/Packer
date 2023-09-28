@@ -22,7 +22,7 @@
 /**************************************************************************/
 
 /**
- * @file Version.h
+ * @file version.h
  * @brief Defines the version information for the software.
  */
 

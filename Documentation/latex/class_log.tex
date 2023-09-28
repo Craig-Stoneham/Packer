@@ -7,7 +7,7 @@ Provides logging functionality for the application.
 
 
 
-{\ttfamily \#include $<$Log.\+h$>$}
+{\ttfamily \#include $<$log.\+h$>$}
 
 \doxysubsubsection*{Public Types}
 \begin{DoxyCompactItemize}
@@ -21,26 +21,26 @@ enum class \mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Level}}
 \mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531ea6a061313d22e51e0f25b7cd4dc065233}{Max}}
  \}
 \begin{DoxyCompactList}\small\item\em Enumerates log levels. \end{DoxyCompactList}\item 
-using \mbox{\hyperlink{class_log_afa85443490d5e3a9d6b7e8b1ebff2b29}{Callback}} = void(\texorpdfstring{$\ast$}{*})(void \texorpdfstring{$\ast$}{*}p\+\_\+data, \mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Level}} p\+\_\+level, const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
+using \mbox{\hyperlink{class_log_afa85443490d5e3a9d6b7e8b1ebff2b29}{Callback}} = void(\texorpdfstring{$\ast$}{*})(void \texorpdfstring{$\ast$}{*}p\+\_\+data, \mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Level}} p\+\_\+level, const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
 \begin{DoxyCompactList}\small\item\em Callback function type for custom log handling. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-static \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \mbox{\hyperlink{class_log_a2c388cc2a46762ad574ad399eb2c2dce}{get\+\_\+level\+\_\+name}} (\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Level}} p\+\_\+level)
+static \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \mbox{\hyperlink{class_log_a2c388cc2a46762ad574ad399eb2c2dce}{get\+\_\+level\+\_\+name}} (\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Level}} p\+\_\+level)
 \begin{DoxyCompactList}\small\item\em Get a string representation of a log level. \end{DoxyCompactList}\item 
-static \mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Level}} \mbox{\hyperlink{class_log_a1372e38a9f815db7fd18658ee336642d}{find\+\_\+level}} (const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+level)
+static \mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Level}} \mbox{\hyperlink{class_log_a1372e38a9f815db7fd18658ee336642d}{find\+\_\+level}} (const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+level)
 \begin{DoxyCompactList}\small\item\em Find a log level by its string representation. \end{DoxyCompactList}\item 
 static void \mbox{\hyperlink{class_log_a1fb464884f3daddf6b2c474c547d525a}{add\+\_\+callback}} (\mbox{\hyperlink{class_log_afa85443490d5e3a9d6b7e8b1ebff2b29}{Callback}} p\+\_\+callback, void \texorpdfstring{$\ast$}{*}p\+\_\+data)
 \begin{DoxyCompactList}\small\item\em Add a callback function for custom log handling. \end{DoxyCompactList}\item 
 static void \mbox{\hyperlink{class_log_ae8908409f361ccd5f6b532704a8b1b79}{remove\+\_\+callback}} (\mbox{\hyperlink{class_log_afa85443490d5e3a9d6b7e8b1ebff2b29}{Callback}} p\+\_\+callback, void \texorpdfstring{$\ast$}{*}p\+\_\+data)
 \begin{DoxyCompactList}\small\item\em Remove a callback function for custom log handling. \end{DoxyCompactList}\item 
-static void \mbox{\hyperlink{class_log_ab52dea097974dcdd3d4e0bd702dbad7a}{log\+\_\+string}} (\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Level}} p\+\_\+level, const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
+static void \mbox{\hyperlink{class_log_ab52dea097974dcdd3d4e0bd702dbad7a}{log\+\_\+string}} (\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Level}} p\+\_\+level, const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
 \begin{DoxyCompactList}\small\item\em \doxylink{class_log}{Log} a string message with a specified log level. \end{DoxyCompactList}\item 
-static void \mbox{\hyperlink{class_log_a6ba5c4963eee2740e3ca19cb14507087}{log\+\_\+info}} (const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
+static void \mbox{\hyperlink{class_log_a6ba5c4963eee2740e3ca19cb14507087}{log\+\_\+info}} (const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
 \begin{DoxyCompactList}\small\item\em \doxylink{class_log}{Log} an informational message. \end{DoxyCompactList}\item 
-static void \mbox{\hyperlink{class_log_ae6ba86896298a925b7dcba4fd978700f}{log\+\_\+warn}} (const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
+static void \mbox{\hyperlink{class_log_ae6ba86896298a925b7dcba4fd978700f}{log\+\_\+warn}} (const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
 \begin{DoxyCompactList}\small\item\em \doxylink{class_log}{Log} a warning message. \end{DoxyCompactList}\item 
-static void \mbox{\hyperlink{class_log_ac53ec594f61f5ef3b756043ecf1380b5}{log\+\_\+error}} (const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
+static void \mbox{\hyperlink{class_log_ac53ec594f61f5ef3b756043ecf1380b5}{log\+\_\+error}} (const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
 \begin{DoxyCompactList}\small\item\em \doxylink{class_log}{Log} an error message. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
@@ -52,7 +52,7 @@ Provides logging functionality for the application.
 \index{Log@{Log}!Callback@{Callback}}
 \index{Callback@{Callback}!Log@{Log}}
 \doxysubsubsection{\texorpdfstring{Callback}{Callback}}
-{\footnotesize\ttfamily using \mbox{\hyperlink{class_log_afa85443490d5e3a9d6b7e8b1ebff2b29}{Log\+::\+Callback}} =  void (\texorpdfstring{$\ast$}{*})(void\texorpdfstring{$\ast$}{*} p\+\_\+data, \mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Level}} p\+\_\+level, const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\& p\+\_\+string)}
+{\footnotesize\ttfamily using \mbox{\hyperlink{class_log_afa85443490d5e3a9d6b7e8b1ebff2b29}{Log\+::\+Callback}} =  void (\texorpdfstring{$\ast$}{*})(void\texorpdfstring{$\ast$}{*} p\+\_\+data, \mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Level}} p\+\_\+level, const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\& p\+\_\+string)}
 
 
 
@@ -126,7 +126,7 @@ Add a callback function for custom log handling.
 \index{Log@{Log}!find\_level@{find\_level}}
 \index{find\_level@{find\_level}!Log@{Log}}
 \doxysubsubsection{\texorpdfstring{find\_level()}{find\_level()}}
-{\footnotesize\ttfamily static \mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Level}} Log\+::find\+\_\+level (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+level }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Level}} Log\+::find\+\_\+level (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+level }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
@@ -144,7 +144,7 @@ The corresponding log level, or \doxylink{class_log_afb5d4c945d835d194a295461d75
 \index{Log@{Log}!get\_level\_name@{get\_level\_name}}
 \index{get\_level\_name@{get\_level\_name}!Log@{Log}}
 \doxysubsubsection{\texorpdfstring{get\_level\_name()}{get\_level\_name()}}
-{\footnotesize\ttfamily static \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} Log\+::get\+\_\+level\+\_\+name (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Level}}}]{p\+\_\+level }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} Log\+::get\+\_\+level\+\_\+name (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Level}}}]{p\+\_\+level }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
@@ -162,7 +162,7 @@ A string describing the log level.
 \index{Log@{Log}!log\_error@{log\_error}}
 \index{log\_error@{log\_error}!Log@{Log}}
 \doxysubsubsection{\texorpdfstring{log\_error()}{log\_error()}}
-{\footnotesize\ttfamily static void Log\+::log\+\_\+error (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily static void Log\+::log\+\_\+error (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
@@ -177,7 +177,7 @@ A string describing the log level.
 \index{Log@{Log}!log\_info@{log\_info}}
 \index{log\_info@{log\_info}!Log@{Log}}
 \doxysubsubsection{\texorpdfstring{log\_info()}{log\_info()}}
-{\footnotesize\ttfamily static void Log\+::log\+\_\+info (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily static void Log\+::log\+\_\+info (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
@@ -192,7 +192,7 @@ A string describing the log level.
 \index{Log@{Log}!log\_string@{log\_string}}
 \index{log\_string@{log\_string}!Log@{Log}}
 \doxysubsubsection{\texorpdfstring{log\_string()}{log\_string()}}
-{\footnotesize\ttfamily static void Log\+::log\+\_\+string (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Level}}}]{p\+\_\+level,  }\item[{const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily static void Log\+::log\+\_\+string (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Level}}}]{p\+\_\+level,  }\item[{const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
@@ -209,7 +209,7 @@ A string describing the log level.
 \index{Log@{Log}!log\_warn@{log\_warn}}
 \index{log\_warn@{log\_warn}!Log@{Log}}
 \doxysubsubsection{\texorpdfstring{log\_warn()}{log\_warn()}}
-{\footnotesize\ttfamily static void Log\+::log\+\_\+warn (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily static void Log\+::log\+\_\+warn (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
@@ -241,4 +241,4 @@ Remove a callback function for custom log handling.
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-D\+:/\+Dev/\+Apps/\+Packer/\+Source/\+Packer/\mbox{\hyperlink{_log_8h}{Log.\+h}}\end{DoxyCompactItemize}
+D\+:/\+Dev/\+Software/\+Packer/source/packer/\mbox{\hyperlink{log_8h}{log.\+h}}\end{DoxyCompactItemize}

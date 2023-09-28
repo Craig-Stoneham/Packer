@@ -3,5 +3,5 @@
 #include "winres.h"
 #undef APSTUDIO_READONLY_SYMBOLS
 
-MAINICON ICON "../../Resources/Icon.ico"
+MAINICON ICON "../../resources/icon.ico"
 #endif // _WIN32

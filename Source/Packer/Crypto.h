@@ -22,13 +22,13 @@
 /**************************************************************************/
 
 /**
- * @file Crypto.h
+ * @file crypto.h
  * @brief Declares the Crypto and CryptoKey classes for encryption and decryption.
  */
 
 #pragma once
 
-#include "Typedefs.h"
+#include "typedefs.h"
 
 PACKER_NAMESPACE_BEGIN
 

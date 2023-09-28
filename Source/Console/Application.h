@@ -22,13 +22,13 @@
 /**************************************************************************/
 
 /**
- * @file Application.h
+ * @file application.h
  * @brief Defines the Application class for the Packer Console.
  */
 
 #pragma once
 
-#include "Typedefs.h"
+#include "typedefs.h"
 
 PACKER_NAMESPACE_BEGIN
 

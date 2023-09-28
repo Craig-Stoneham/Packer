@@ -22,13 +22,13 @@
 /**************************************************************************/
 
 /**
- * @file Defaults.h
+ * @file defaults.h
  * @brief Defines default configuration values for the Packer Console.
  */
 
 #pragma once
 
-#include "../Packer/Defaults.h"
+#include "../packer/defaults.h"
 
 /**
  * @def DEFAULT_CONFIG_FILE_NAME

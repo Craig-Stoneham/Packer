@@ -1,0 +1,227 @@
+\doxysection{D\+:/\+Dev/\+Software/\+Packer/source/packer/typedefs.h File Reference}
+\hypertarget{packer_2typedefs_8h}{}\label{packer_2typedefs_8h}\index{D:/Dev/Software/Packer/source/packer/typedefs.h@{D:/Dev/Software/Packer/source/packer/typedefs.h}}
+
+
+Defines common types and utility macros for the application.  
+
+
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$map$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$experimental/filesystem$>$}\newline
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespace_file_access}{File\+Access}}
+\begin{DoxyCompactList}\small\item\em Namespace containing filesystem-\/related types and functions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{packer_2typedefs_8h_aab6af62131aad81d17d3b4afd9db334f}\label{packer_2typedefs_8h_aab6af62131aad81d17d3b4afd9db334f} 
+\#define {\bfseries \+\_\+\+SILENCE\+\_\+\+EXPERIMENTAL\+\_\+\+FILESYSTEM\+\_\+\+DEPRECATION\+\_\+\+WARNING}
+\begin{DoxyCompactList}\small\item\em Suppress \textquotesingle{}std\+::experimental\+::filesystem is deprecated\textquotesingle{} warning. \end{DoxyCompactList}\item 
+\Hypertarget{packer_2typedefs_8h_a7cb5b6a7c401130b0ab64302afd30a40}\label{packer_2typedefs_8h_a7cb5b6a7c401130b0ab64302afd30a40} 
+\#define {\bfseries EXPERIMENTAL\+\_\+\+FILESYSTEM}
+\begin{DoxyCompactList}\small\item\em Indicates that the file system is experimental. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{packer_2typedefs_8h_a787429515c2cbc0ae1c4f1668b124113}{STRINGIFY}}(p\+\_\+x)~\#p\+\_\+x
+\begin{DoxyCompactList}\small\item\em Converts a token into a string literal. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{packer_2typedefs_8h_a9f8592f50c59cc89616b379403f7a01c}{MAKE\+\_\+\+STRING}}(m\+\_\+x)~\mbox{\hyperlink{packer_2typedefs_8h_a787429515c2cbc0ae1c4f1668b124113}{STRINGIFY}}(m\+\_\+x)
+\begin{DoxyCompactList}\small\item\em Macro to convert a token into a string literal. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{packer_2typedefs_8h_adbc0df4d1fa04f27787ea0240400dbdf}{PACKER\+\_\+\+NAMESPACE\+\_\+\+BEGIN}}
+\begin{DoxyCompactList}\small\item\em Defines the beginning of the optional \doxylink{class_packer}{Packer} namespace. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{packer_2typedefs_8h_a0392f3971db25ed1554aaf079f943911}{PACKER\+\_\+\+NAMESPACE\+\_\+\+END}}
+\begin{DoxyCompactList}\small\item\em Defines the end of the optional \doxylink{class_packer}{Packer} namespace. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{packer_2typedefs_8h_a4f46856e205e5267c5d7d329c8b185b3}{USING\+\_\+\+NAMESPACE\+\_\+\+PACKER}}
+\begin{DoxyCompactList}\small\item\em Provides the option to use the "{}\+Packer"{} namespace. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}\label{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86} 
+using {\bfseries String} = std\+::string
+\begin{DoxyCompactList}\small\item\em Alias for std\+::string, representing a sequence of characters. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T , class ALLOC  = std\+::allocator$<$\+T$>$$>$ }\\using \mbox{\hyperlink{packer_2typedefs_8h_a2e19bd9826ad447934133cebebbb5239}{Vector}} = std\+::vector$<$ T, ALLOC $>$
+\begin{DoxyCompactList}\small\item\em Alias for std\+::vector, representing a dynamic array. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class K , class T , class COMPARE  = std\+::less$<$\+K$>$, class ALLOC  = std\+::allocator$<$std\+::pair$<$const K, T$>$$>$$>$ }\\using \mbox{\hyperlink{packer_2typedefs_8h_aaadbf0532a4a78bf0ef54be7a045d86e}{Map}} = std\+::map$<$ K, T, COMPARE, ALLOC $>$
+\begin{DoxyCompactList}\small\item\em Alias for std\+::map, representing an associative container. \end{DoxyCompactList}\item 
+\Hypertarget{packer_2typedefs_8h_a307ae07901ccd5dcc8d3a6d0214d357f}\label{packer_2typedefs_8h_a307ae07901ccd5dcc8d3a6d0214d357f} 
+using {\bfseries String\+Vector} = \mbox{\hyperlink{packer_2typedefs_8h_a2e19bd9826ad447934133cebebbb5239}{Vector}}$<$ \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} $>$
+\begin{DoxyCompactList}\small\item\em Alias for a vector of String, representing a collection of strings. \end{DoxyCompactList}\item 
+\Hypertarget{packer_2typedefs_8h_aa064825782fa755e46cda0a5f567f788}\label{packer_2typedefs_8h_aa064825782fa755e46cda0a5f567f788} 
+using {\bfseries String\+Stream} = std\+::stringstream
+\begin{DoxyCompactList}\small\item\em Alias for std\+::stringstream, representing a stream for string operations. \end{DoxyCompactList}\item 
+\Hypertarget{packer_2typedefs_8h_ab86c95c4ac6aa852f220ebd56ab6c1eb}\label{packer_2typedefs_8h_ab86c95c4ac6aa852f220ebd56ab6c1eb} 
+using {\bfseries String\+StreamI} = std\+::istringstream
+\begin{DoxyCompactList}\small\item\em Alias for std\+::istringstream, representing an input string stream. \end{DoxyCompactList}\item 
+\Hypertarget{packer_2typedefs_8h_a7ed8ca7caf8df4f08d7f85254dc3100c}\label{packer_2typedefs_8h_a7ed8ca7caf8df4f08d7f85254dc3100c} 
+using {\bfseries String\+StreamO} = std\+::ostringstream
+\begin{DoxyCompactList}\small\item\em Alias for std\+::ostringstream, representing an output string stream. \end{DoxyCompactList}\item 
+\Hypertarget{packer_2typedefs_8h_ab1f93b31bddcb0e867a7ce4491b3891f}\label{packer_2typedefs_8h_ab1f93b31bddcb0e867a7ce4491b3891f} 
+using {\bfseries File\+StreamI} = std\+::ifstream
+\begin{DoxyCompactList}\small\item\em Alias for std\+::ifstream, representing an input file stream. \end{DoxyCompactList}\item 
+\Hypertarget{packer_2typedefs_8h_a75a54c12feaff508b9051abfb4d3437c}\label{packer_2typedefs_8h_a75a54c12feaff508b9051abfb4d3437c} 
+using {\bfseries File\+StreamO} = std\+::ofstream
+\begin{DoxyCompactList}\small\item\em Alias for std\+::ofstream, representing an output file stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{packer_2typedefs_8h_ae51e371fc6a71587aff24cb609aaeb13}{normalize\+\_\+path\+\_\+separators}} (\mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Normalizes path separators in a string. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{packer_2typedefs_8h_a0687da241446d0fb451ce05fcf688c49}{remove\+\_\+path\+\_\+suffix}} (\mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+path, const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+suffix)
+\begin{DoxyCompactList}\small\item\em Removes a specified suffix from a path string. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Defines common types and utility macros for the application. 
+
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{packer_2typedefs_8h_a9f8592f50c59cc89616b379403f7a01c}\label{packer_2typedefs_8h_a9f8592f50c59cc89616b379403f7a01c} 
+\index{typedefs.h@{typedefs.h}!MAKE\_STRING@{MAKE\_STRING}}
+\index{MAKE\_STRING@{MAKE\_STRING}!typedefs.h@{typedefs.h}}
+\doxysubsubsection{\texorpdfstring{MAKE\_STRING}{MAKE\_STRING}}
+{\footnotesize\ttfamily \#define MAKE\+\_\+\+STRING(\begin{DoxyParamCaption}\item[{}]{m\+\_\+x }\end{DoxyParamCaption})~\mbox{\hyperlink{packer_2typedefs_8h_a787429515c2cbc0ae1c4f1668b124113}{STRINGIFY}}(m\+\_\+x)}
+
+
+
+Macro to convert a token into a string literal. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em m\+\_\+x} & The token to convert. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{packer_2typedefs_8h_adbc0df4d1fa04f27787ea0240400dbdf}\label{packer_2typedefs_8h_adbc0df4d1fa04f27787ea0240400dbdf} 
+\index{typedefs.h@{typedefs.h}!PACKER\_NAMESPACE\_BEGIN@{PACKER\_NAMESPACE\_BEGIN}}
+\index{PACKER\_NAMESPACE\_BEGIN@{PACKER\_NAMESPACE\_BEGIN}!typedefs.h@{typedefs.h}}
+\doxysubsubsection{\texorpdfstring{PACKER\_NAMESPACE\_BEGIN}{PACKER\_NAMESPACE\_BEGIN}}
+{\footnotesize\ttfamily \#define PACKER\+\_\+\+NAMESPACE\+\_\+\+BEGIN}
+
+
+
+Defines the beginning of the optional \doxylink{class_packer}{Packer} namespace. 
+
+This macro defines the beginning of an optional namespace, allowing the code within it to be encapsulated within the "{}\+Packer"{} namespace. The namespace encapsulation is controlled by the presence or absence of the "{}\+PACKER\+\_\+\+NAMESPACE\+\_\+\+ENABLED"{} preprocessor macro. \Hypertarget{packer_2typedefs_8h_a0392f3971db25ed1554aaf079f943911}\label{packer_2typedefs_8h_a0392f3971db25ed1554aaf079f943911} 
+\index{typedefs.h@{typedefs.h}!PACKER\_NAMESPACE\_END@{PACKER\_NAMESPACE\_END}}
+\index{PACKER\_NAMESPACE\_END@{PACKER\_NAMESPACE\_END}!typedefs.h@{typedefs.h}}
+\doxysubsubsection{\texorpdfstring{PACKER\_NAMESPACE\_END}{PACKER\_NAMESPACE\_END}}
+{\footnotesize\ttfamily \#define PACKER\+\_\+\+NAMESPACE\+\_\+\+END}
+
+
+
+Defines the end of the optional \doxylink{class_packer}{Packer} namespace. 
+
+This macro defines the end of an optional namespace, closing the "{}\+Packer"{} namespace encapsulation. The namespace encapsulation is controlled by the presence or absence of the "{}\+PACKER\+\_\+\+NAMESPACE\+\_\+\+ENABLED"{} preprocessor macro. \Hypertarget{packer_2typedefs_8h_a787429515c2cbc0ae1c4f1668b124113}\label{packer_2typedefs_8h_a787429515c2cbc0ae1c4f1668b124113} 
+\index{typedefs.h@{typedefs.h}!STRINGIFY@{STRINGIFY}}
+\index{STRINGIFY@{STRINGIFY}!typedefs.h@{typedefs.h}}
+\doxysubsubsection{\texorpdfstring{STRINGIFY}{STRINGIFY}}
+{\footnotesize\ttfamily \#define STRINGIFY(\begin{DoxyParamCaption}\item[{}]{p\+\_\+x }\end{DoxyParamCaption})~\#p\+\_\+x}
+
+
+
+Converts a token into a string literal. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+x} & The token to convert. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{packer_2typedefs_8h_a4f46856e205e5267c5d7d329c8b185b3}\label{packer_2typedefs_8h_a4f46856e205e5267c5d7d329c8b185b3} 
+\index{typedefs.h@{typedefs.h}!USING\_NAMESPACE\_PACKER@{USING\_NAMESPACE\_PACKER}}
+\index{USING\_NAMESPACE\_PACKER@{USING\_NAMESPACE\_PACKER}!typedefs.h@{typedefs.h}}
+\doxysubsubsection{\texorpdfstring{USING\_NAMESPACE\_PACKER}{USING\_NAMESPACE\_PACKER}}
+{\footnotesize\ttfamily \#define USING\+\_\+\+NAMESPACE\+\_\+\+PACKER}
+
+
+
+Provides the option to use the "{}\+Packer"{} namespace. 
+
+This macro allows the option to include the entire "{}\+Packer"{} namespace in the current scope, making all classes, functions, and variables within the "{}\+Packer"{} namespace accessible without qualifying them with "{}\+Packer\+::"{}. The usage of this macro is determined by the presence or absence of the "{}\+USING\+\_\+\+NAMESPACE\+\_\+\+PACKER"{} preprocessor macro. 
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{packer_2typedefs_8h_aaadbf0532a4a78bf0ef54be7a045d86e}\label{packer_2typedefs_8h_aaadbf0532a4a78bf0ef54be7a045d86e} 
+\index{typedefs.h@{typedefs.h}!Map@{Map}}
+\index{Map@{Map}!typedefs.h@{typedefs.h}}
+\doxysubsubsection{\texorpdfstring{Map}{Map}}
+{\footnotesize\ttfamily template$<$class K , class T , class COMPARE  = std\+::less$<$\+K$>$, class ALLOC  = std\+::allocator$<$std\+::pair$<$const K, T$>$$>$$>$ \\
+\mbox{\hyperlink{packer_2typedefs_8h_aaadbf0532a4a78bf0ef54be7a045d86e}{Map}}}
+
+
+
+Alias for std\+::map, representing an associative container. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em K} & The key type. \\
+\hline
+{\em T} & The mapped type. \\
+\hline
+{\em COMPARE} & The comparison function for keys (optional). \\
+\hline
+{\em ALLOC} & The allocator type for memory management (optional). \\
+\hline
+\end{DoxyTemplParams}
+\Hypertarget{packer_2typedefs_8h_a2e19bd9826ad447934133cebebbb5239}\label{packer_2typedefs_8h_a2e19bd9826ad447934133cebebbb5239} 
+\index{typedefs.h@{typedefs.h}!Vector@{Vector}}
+\index{Vector@{Vector}!typedefs.h@{typedefs.h}}
+\doxysubsubsection{\texorpdfstring{Vector}{Vector}}
+{\footnotesize\ttfamily template$<$class T , class ALLOC  = std\+::allocator$<$\+T$>$$>$ \\
+\mbox{\hyperlink{packer_2typedefs_8h_a2e19bd9826ad447934133cebebbb5239}{Vector}}}
+
+
+
+Alias for std\+::vector, representing a dynamic array. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & The type of elements stored in the vector. \\
+\hline
+{\em ALLOC} & The allocator type for memory management (optional). \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{packer_2typedefs_8h_ae51e371fc6a71587aff24cb609aaeb13}\label{packer_2typedefs_8h_ae51e371fc6a71587aff24cb609aaeb13} 
+\index{typedefs.h@{typedefs.h}!normalize\_path\_separators@{normalize\_path\_separators}}
+\index{normalize\_path\_separators@{normalize\_path\_separators}!typedefs.h@{typedefs.h}}
+\doxysubsubsection{\texorpdfstring{normalize\_path\_separators()}{normalize\_path\_separators()}}
+{\footnotesize\ttfamily void normalize\+\_\+path\+\_\+separators (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+path }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Normalizes path separators in a string. 
+
+This function replaces all backslashes (\textquotesingle{}\textbackslash{}\textquotesingle{}) in the given string with forward slashes (\textquotesingle{}/\textquotesingle{}).
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+path} & The string to normalize path separators in. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{packer_2typedefs_8h_a0687da241446d0fb451ce05fcf688c49}\label{packer_2typedefs_8h_a0687da241446d0fb451ce05fcf688c49} 
+\index{typedefs.h@{typedefs.h}!remove\_path\_suffix@{remove\_path\_suffix}}
+\index{remove\_path\_suffix@{remove\_path\_suffix}!typedefs.h@{typedefs.h}}
+\doxysubsubsection{\texorpdfstring{remove\_path\_suffix()}{remove\_path\_suffix()}}
+{\footnotesize\ttfamily bool remove\+\_\+path\+\_\+suffix (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+path,  }\item[{const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+suffix }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Removes a specified suffix from a path string. 
+
+This function searches for the specified suffix in the path string, starting from the first forward slash (\textquotesingle{}/\textquotesingle{}). If the suffix is found, it is removed from the path string, and the function returns true. If the suffix is not found, the function returns false.
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+path} & The path string from which to remove the suffix. \\
+\hline
+{\em p\+\_\+suffix} & The suffix to remove from the path string. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the suffix was found and removed, false otherwise. 
+\end{DoxyReturn}

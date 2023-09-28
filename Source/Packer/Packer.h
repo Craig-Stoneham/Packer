@@ -22,14 +22,14 @@
 /**************************************************************************/
 
 /**
- * @file Packer.h
+ * @file packer.h
  * @brief Defines a utility for packing and managing files based on user-defined rules.
  */
 
 #pragma once
 
-#include "ConfigFile.h"
-#include "Log.h"
+#include "config_file.h"
+#include "log.h"
 
 PACKER_NAMESPACE_BEGIN
 

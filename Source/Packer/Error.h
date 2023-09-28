@@ -22,13 +22,13 @@
 /**************************************************************************/
 
 /**
- * @file Error.h
+ * @file error.h
  * @brief Defines error codes and associated functions.
  */
 
 #pragma once
 
-#include "Typedefs.h"
+#include "typedefs.h"
 
 PACKER_NAMESPACE_BEGIN
 

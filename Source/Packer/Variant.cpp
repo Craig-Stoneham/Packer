@@ -21,7 +21,7 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#include "Variant.h"
+#include "variant.h"
 
 PACKER_NAMESPACE_BEGIN
 

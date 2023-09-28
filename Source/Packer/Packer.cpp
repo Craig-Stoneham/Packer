@@ -21,9 +21,9 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#include "Packer.h"
+#include "packer.h"
 
-#include "Defaults.h"
+#include "defaults.h"
 
 PACKER_NAMESPACE_BEGIN
 

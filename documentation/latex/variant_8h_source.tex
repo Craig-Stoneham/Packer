@@ -1,0 +1,142 @@
+\doxysection{variant.\+h}
+\hypertarget{variant_8h_source}{}\label{variant_8h_source}\index{D:/Dev/Software/Packer/source/packer/variant.h@{D:/Dev/Software/Packer/source/packer/variant.h}}
+\mbox{\hyperlink{variant_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/**************************************************************************/}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ Copyright\ (c)\ 2021-\/present\ Craig\ Stoneham.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ a\ copy\ of\ this\ software\ and\ associated\ documentation\ files\ (the\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ "{}Software"{}),\ to\ deal\ in\ the\ Software\ without\ restriction,\ including\ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ without\ limitation\ the\ rights\ to\ use,\ copy,\ modify,\ merge,\ publish,\ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ distribute,\ sublicense,\ and/or\ sell\ copies\ of\ the\ Software,\ and\ to\ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ permit\ persons\ to\ whom\ the\ Software\ is\ furnished\ to\ do\ so,\ subject\ to\ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ the\ following\ conditions:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00011\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00012\ \textcolor{comment}{/*\ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00013\ \textcolor{comment}{/*\ included\ in\ all\ copies\ or\ substantial\ portions\ of\ the\ Software.\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00014\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00015\ \textcolor{comment}{/*\ THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00016\ \textcolor{comment}{/*\ EXPRESS\ OR\ IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ \ \ \ \ */}}
+\DoxyCodeLine{00017\ \textcolor{comment}{/*\ MERCHANTABILITY,\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ */}}
+\DoxyCodeLine{00018\ \textcolor{comment}{/*\ IN\ NO\ EVENT\ SHALL\ THE\ AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ \ \ */}}
+\DoxyCodeLine{00019\ \textcolor{comment}{/*\ CLAIM,\ DAMAGES\ OR\ OTHER\ LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ \ \ */}}
+\DoxyCodeLine{00020\ \textcolor{comment}{/*\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,\ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ \ \ \ \ \ */}}
+\DoxyCodeLine{00021\ \textcolor{comment}{/*\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE\ SOFTWARE.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00022\ \textcolor{comment}{/**************************************************************************/}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{error_8h}{error.h}}"{}}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \mbox{\hyperlink{packer_2typedefs_8h_adbc0df4d1fa04f27787ea0240400dbdf}{PACKER\_NAMESPACE\_BEGIN}}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00039\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_variant}{Variant}}\ \{}
+\DoxyCodeLine{00040\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{class_variant_af8e63162a00e9d5f49cd5f32cb77e2fd}{Type}}\ \{}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_variant_af8e63162a00e9d5f49cd5f32cb77e2fda88183b946cc5f0e8c96b2e66e1c74a7e}{Unknown}}\ =\ -\/1,\ \ }
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_variant_af8e63162a00e9d5f49cd5f32cb77e2fdabbb93ef26e3c101ff11cdd21cab08a94}{Null}},\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_variant_af8e63162a00e9d5f49cd5f32cb77e2fdac26f15e86e3de4c398a8273272aba034}{Bool}},\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_variant_af8e63162a00e9d5f49cd5f32cb77e2fda1686a6c336b71b36d77354cea19a8b52}{Int}},\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_variant_af8e63162a00e9d5f49cd5f32cb77e2fda27118326006d3829667a400ad23d5d98}{String}},\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_variant_af8e63162a00e9d5f49cd5f32cb77e2fda0c6150e7d76d03cec9103e16198c3914}{StringVector}},\ \ }
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_variant_af8e63162a00e9d5f49cd5f32cb77e2fda6a061313d22e51e0f25b7cd4dc065233}{Max}}\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00053\ \ \ \ \ \};}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00056\ \ \ \ \ \mbox{\hyperlink{class_variant_af8e63162a00e9d5f49cd5f32cb77e2fd}{Type}}\ type;\ \ \ \ \ \ }
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keyword}{union\ }\{}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_variant_a6032cc1bf29713765d3d295235db680b}{\_bool}};\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_variant_ad8e7b71b559df29e69d52410f648add7}{\_int}};\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}*\ \mbox{\hyperlink{class_variant_aac8c5d937d71308d8316439bf098f59c}{\_data}};\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00061\ \ \ \ \ \};}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{void}\ \_construct();}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordtype}{void}\ \_destruct();}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordtype}{void}\ \_copy(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_variant}{Variant}}\&\ p\_value);}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\ \mbox{\hyperlink{class_variant_ac7affe621e6159256451f5d77e263b1d}{get\_type\_name}}(\mbox{\hyperlink{class_variant_af8e63162a00e9d5f49cd5f32cb77e2fd}{Type}}\ p\_type);}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{class_variant_af8e63162a00e9d5f49cd5f32cb77e2fd}{Type}}\ \mbox{\hyperlink{class_variant_aaa89be03a82173f9c8e3f78c5593302e}{find\_type}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_type);}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_variant_aced2ffd1b8f534e8fd16e09a5a329897}{set\_type}}(\mbox{\hyperlink{class_variant_af8e63162a00e9d5f49cd5f32cb77e2fd}{Type}}\ p\_type);}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00104\ \ \ \ \ \mbox{\hyperlink{class_variant_af8e63162a00e9d5f49cd5f32cb77e2fd}{Type}}\ \mbox{\hyperlink{class_variant_a375342371ce4556a355718496766e2e5}{get\_type}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00111\ \ \ \ \ \mbox{\hyperlink{class_variant}{Variant}}\&\ \mbox{\hyperlink{class_variant_a37e5ffefbd705a36f662ebdf5a63cc7c}{operator=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_variant}{Variant}}\&\ p\_value);}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00118\ \ \ \ \ \mbox{\hyperlink{class_variant}{Variant}}\&\ \mbox{\hyperlink{class_variant_a2bb1808e65fab3d23e2a81be40464fc9}{operator=}}(\textcolor{keywordtype}{bool}\ p\_value);}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00125\ \ \ \ \ \mbox{\hyperlink{class_variant}{Variant}}\&\ \mbox{\hyperlink{class_variant_a59d4f3f42c195274da4a526ce965fdab}{operator=}}(\textcolor{keywordtype}{int}\ p\_value);}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00132\ \ \ \ \ \mbox{\hyperlink{class_variant}{Variant}}\&\ \mbox{\hyperlink{class_variant_a7e4fb151a6b1aef1d02542cb8e05d992}{operator=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_value);}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00139\ \ \ \ \ \mbox{\hyperlink{class_variant}{Variant}}\&\ \mbox{\hyperlink{class_variant_a4f965cfee4a85514c503f57c348fd8a2}{operator=}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ p\_value);}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00146\ \ \ \ \ \mbox{\hyperlink{class_variant}{Variant}}\&\ \mbox{\hyperlink{class_variant_ade4e21767f85c9ea28841d18ffb0d6c6}{operator=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{packer_2typedefs_8h_a307ae07901ccd5dcc8d3a6d0214d357f}{StringVector}}\&\ p\_value);}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00152\ \ \ \ \ \textcolor{keyword}{operator}\ \textcolor{keyword}{const}\ bool()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00158\ \ \ \ \ \textcolor{keyword}{operator}\ bool();}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00164\ \ \ \ \ \textcolor{keyword}{operator}\ \textcolor{keyword}{const}\ int()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00170\ \ \ \ \ \textcolor{keyword}{operator}\ int();}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00176\ \ \ \ \ \textcolor{keyword}{operator}\ \textcolor{keyword}{const}\ \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ ()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00182\ \ \ \ \ \textcolor{keyword}{operator}\ \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ ();}
+\DoxyCodeLine{00183\ }
+\DoxyCodeLine{00188\ \ \ \ \ \textcolor{keyword}{operator}\ \textcolor{keyword}{const}\ \mbox{\hyperlink{packer_2typedefs_8h_a307ae07901ccd5dcc8d3a6d0214d357f}{StringVector}}\&\ ()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00189\ }
+\DoxyCodeLine{00194\ \ \ \ \ \textcolor{keyword}{operator}\ \mbox{\hyperlink{packer_2typedefs_8h_a307ae07901ccd5dcc8d3a6d0214d357f}{StringVector}}\&\ ();}
+\DoxyCodeLine{00195\ }
+\DoxyCodeLine{00201\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_variant_a72d906c57494e3fd20487cc28219a968}{operator\ ==\ }}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_variant}{Variant}}\&\ p\_value);}
+\DoxyCodeLine{00202\ }
+\DoxyCodeLine{00208\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_variant_a72d906c57494e3fd20487cc28219a968}{operator\ ==\ }}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\&\ p\_value);}
+\DoxyCodeLine{00209\ }
+\DoxyCodeLine{00215\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_variant_a72d906c57494e3fd20487cc28219a968}{operator\ ==\ }}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\&\ p\_value);}
+\DoxyCodeLine{00216\ }
+\DoxyCodeLine{00222\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_variant_a72d906c57494e3fd20487cc28219a968}{operator\ ==\ }}(\textcolor{keyword}{const}\ \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_value);}
+\DoxyCodeLine{00223\ }
+\DoxyCodeLine{00229\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_variant_a72d906c57494e3fd20487cc28219a968}{operator\ ==\ }}(\textcolor{keyword}{const}\ \mbox{\hyperlink{packer_2typedefs_8h_a307ae07901ccd5dcc8d3a6d0214d357f}{StringVector}}\&\ p\_value);}
+\DoxyCodeLine{00230\ }
+\DoxyCodeLine{00236\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_variant_a7dc8f62af971746faeae2544806a2544}{operator\ !=\ }}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_variant}{Variant}}\&\ p\_value);}
+\DoxyCodeLine{00237\ }
+\DoxyCodeLine{00243\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_variant_a7dc8f62af971746faeae2544806a2544}{operator\ !=\ }}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\&\ p\_value);}
+\DoxyCodeLine{00244\ }
+\DoxyCodeLine{00250\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_variant_a7dc8f62af971746faeae2544806a2544}{operator\ !=\ }}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\&\ p\_value);}
+\DoxyCodeLine{00251\ }
+\DoxyCodeLine{00257\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_variant_a7dc8f62af971746faeae2544806a2544}{operator\ !=\ }}(\textcolor{keyword}{const}\ \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_value);}
+\DoxyCodeLine{00258\ }
+\DoxyCodeLine{00264\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_variant_a7dc8f62af971746faeae2544806a2544}{operator\ !=\ }}(\textcolor{keyword}{const}\ \mbox{\hyperlink{packer_2typedefs_8h_a307ae07901ccd5dcc8d3a6d0214d357f}{StringVector}}\&\ p\_value);}
+\DoxyCodeLine{00265\ }
+\DoxyCodeLine{00270\ \ \ \ \ \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\ \mbox{\hyperlink{class_variant_a8517adf5e2326bf189232f0c737139c3}{serialize}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00271\ }
+\DoxyCodeLine{00277\ \ \ \ \ \mbox{\hyperlink{error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}}\ \mbox{\hyperlink{class_variant_a54587db7adc44cff0e695dd6c29c848c}{parse}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_value);}
+\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00282\ \ \ \ \ \mbox{\hyperlink{class_variant_af3cb79522facc25695a066af74a08fc2}{Variant}}();}
+\DoxyCodeLine{00283\ }
+\DoxyCodeLine{00288\ \ \ \ \ \mbox{\hyperlink{class_variant_a065198146580ab976959d8d81bcdda8e}{Variant}}(\mbox{\hyperlink{class_variant_af8e63162a00e9d5f49cd5f32cb77e2fd}{Type}}\ p\_type);}
+\DoxyCodeLine{00289\ }
+\DoxyCodeLine{00294\ \ \ \ \ \mbox{\hyperlink{class_variant_a1101f7d5070d1776417b4064376d4e21}{Variant}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_variant}{Variant}}\&\ p\_value);}
+\DoxyCodeLine{00295\ }
+\DoxyCodeLine{00300\ \ \ \ \ \mbox{\hyperlink{class_variant_adfc9eaf49440ebbce3db2578cdda8416}{Variant}}(\textcolor{keywordtype}{bool}\ p\_value);}
+\DoxyCodeLine{00301\ }
+\DoxyCodeLine{00306\ \ \ \ \ \mbox{\hyperlink{class_variant_ad897c7b63f79429daa4649315aa13a79}{Variant}}(\textcolor{keywordtype}{int}\ p\_value);}
+\DoxyCodeLine{00307\ }
+\DoxyCodeLine{00312\ \ \ \ \ \mbox{\hyperlink{class_variant_a4ccd6b3a171f84601a36fa6c6ec7671a}{Variant}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_value);}
+\DoxyCodeLine{00313\ }
+\DoxyCodeLine{00318\ \ \ \ \ \mbox{\hyperlink{class_variant_a3b599217ed7c93c563e6e3cb56889f1e}{Variant}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ p\_value);}
+\DoxyCodeLine{00319\ }
+\DoxyCodeLine{00324\ \ \ \ \ \mbox{\hyperlink{class_variant_af45bb0b9d99895545320a49c532a0406}{Variant}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{packer_2typedefs_8h_a307ae07901ccd5dcc8d3a6d0214d357f}{StringVector}}\&\ p\_value);}
+\DoxyCodeLine{00325\ }
+\DoxyCodeLine{00329\ \ \ \ \ \mbox{\hyperlink{class_variant_afefce84ee3f94c9154c69e2e9a62f0b0}{\string~Variant}}();}
+\DoxyCodeLine{00330\ \};}
+\DoxyCodeLine{00331\ }
+\DoxyCodeLine{00332\ \mbox{\hyperlink{packer_2typedefs_8h_a0392f3971db25ed1554aaf079f943911}{PACKER\_NAMESPACE\_END}}}
+
+\end{DoxyCode}

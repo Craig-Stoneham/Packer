@@ -22,13 +22,13 @@
 /**************************************************************************/
 
 /**
- * @file Variant.h
+ * @file variant.h
  * @brief Defines the Variant class for handling various data types.
  */
 
 #pragma once
 
-#include "Error.h"
+#include "error.h"
 
 PACKER_NAMESPACE_BEGIN
 

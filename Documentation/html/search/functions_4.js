@@ -1,7 +1,7 @@
 var searchData=
 [
   ['get_5fcallback_0',['get_callback',['../class_packer.html#a50ac5e03d6dc650e225f17b489ae2bff',1,'Packer']]],
-  ['get_5ferror_5fname_1',['get_error_name',['../_error_8h.html#a1dfbdf44b82a4ee9e77d56e918d7f037',1,'Error.h']]],
+  ['get_5ferror_5fname_1',['get_error_name',['../error_8h.html#a1dfbdf44b82a4ee9e77d56e918d7f037',1,'error.h']]],
   ['get_5fextension_2',['get_extension',['../class_packer.html#a0178b2e41818de59749bb731307f3fbf',1,'Packer']]],
   ['get_5fextension_5fadjust_3',['get_extension_adjust',['../class_packer.html#a54980c552427901409a617d28860fe01',1,'Packer']]],
   ['get_5fextension_5fadjust_5fname_4',['get_extension_adjust_name',['../class_packer.html#a13192cf92c3df93f85540382b787f528',1,'Packer']]],

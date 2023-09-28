@@ -7,35 +7,35 @@ Provides functionality for managing key-\/value configuration data in a file.
 
 
 
-{\ttfamily \#include $<$Config\+File.\+h$>$}
+{\ttfamily \#include $<$config\+\_\+file.\+h$>$}
 
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \mbox{\hyperlink{class_config_file_a3571d5bc9be89b9770d301e2019985e2}{set\+\_\+value}} (const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+key, const \mbox{\hyperlink{class_variant}{Variant}} \&p\+\_\+value)
+void \mbox{\hyperlink{class_config_file_a3571d5bc9be89b9770d301e2019985e2}{set\+\_\+value}} (const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+key, const \mbox{\hyperlink{class_variant}{Variant}} \&p\+\_\+value)
 \begin{DoxyCompactList}\small\item\em Set a key-\/value pair in the configuration. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{class_variant}{Variant}} \mbox{\hyperlink{class_config_file_a96ea67ce1451ec33db8d6b806787dc9d}{get\+\_\+value}} (const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+key, \mbox{\hyperlink{class_variant}{Variant}} p\+\_\+default=\mbox{\hyperlink{class_variant}{Variant}}()) const
+\mbox{\hyperlink{class_variant}{Variant}} \mbox{\hyperlink{class_config_file_a96ea67ce1451ec33db8d6b806787dc9d}{get\+\_\+value}} (const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+key, \mbox{\hyperlink{class_variant}{Variant}} p\+\_\+default=\mbox{\hyperlink{class_variant}{Variant}}()) const
 \begin{DoxyCompactList}\small\item\em Get the value associated with a given key. \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{class_config_file_afd14867c8c0eea81cfd1b1f13a170662}{has\+\_\+value}} (const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+key) const
+bool \mbox{\hyperlink{class_config_file_afd14867c8c0eea81cfd1b1f13a170662}{has\+\_\+value}} (const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+key) const
 \begin{DoxyCompactList}\small\item\em Check if a key exists in the configuration. \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{class_config_file_af2ccafcebd2daa8dd67fa83a20d44722}{erase\+\_\+value}} (const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+key)
+bool \mbox{\hyperlink{class_config_file_af2ccafcebd2daa8dd67fa83a20d44722}{erase\+\_\+value}} (const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+key)
 \begin{DoxyCompactList}\small\item\em Erase a key-\/value pair from the configuration. \end{DoxyCompactList}\item 
 \Hypertarget{class_config_file_a0c7d81b30b0107862d0836c3747443f5}\label{class_config_file_a0c7d81b30b0107862d0836c3747443f5} 
 void {\bfseries clear} ()
 \begin{DoxyCompactList}\small\item\em Clear all key-\/value pairs in the configuration. \end{DoxyCompactList}\item 
-const \mbox{\hyperlink{_packer_2_typedefs_8h_aaadbf0532a4a78bf0ef54be7a045d86e}{Map}}$<$ \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}, \mbox{\hyperlink{class_variant}{Variant}} $>$ \& \mbox{\hyperlink{class_config_file_adc85403be9589c5d619feab22df63e95}{get\+\_\+values}} () const
+const \mbox{\hyperlink{packer_2typedefs_8h_aaadbf0532a4a78bf0ef54be7a045d86e}{Map}}$<$ \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}, \mbox{\hyperlink{class_variant}{Variant}} $>$ \& \mbox{\hyperlink{class_config_file_adc85403be9589c5d619feab22df63e95}{get\+\_\+values}} () const
 \begin{DoxyCompactList}\small\item\em Get a reference to the internal map of key-\/value pairs. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_config_file_a23c0484fc6d144ab45a668bcf69f1830}{set\+\_\+values}} (const \mbox{\hyperlink{_packer_2_typedefs_8h_aaadbf0532a4a78bf0ef54be7a045d86e}{Map}}$<$ \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}, \mbox{\hyperlink{class_variant}{Variant}} $>$ \&p\+\_\+values)
+void \mbox{\hyperlink{class_config_file_a23c0484fc6d144ab45a668bcf69f1830}{set\+\_\+values}} (const \mbox{\hyperlink{packer_2typedefs_8h_aaadbf0532a4a78bf0ef54be7a045d86e}{Map}}$<$ \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}, \mbox{\hyperlink{class_variant}{Variant}} $>$ \&p\+\_\+values)
 \begin{DoxyCompactList}\small\item\em Set the entire configuration data from a map of key-\/value pairs. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_config_file_a592a0a3662ba2ecf023ad1a7684d19b2}{get\+\_\+keys}} (\mbox{\hyperlink{_packer_2_typedefs_8h_a2e19bd9826ad447934133cebebbb5239}{Vector}}$<$ \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} $>$ \&p\+\_\+keys) const
+void \mbox{\hyperlink{class_config_file_a592a0a3662ba2ecf023ad1a7684d19b2}{get\+\_\+keys}} (\mbox{\hyperlink{packer_2typedefs_8h_a2e19bd9826ad447934133cebebbb5239}{Vector}}$<$ \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} $>$ \&p\+\_\+keys) const
 \begin{DoxyCompactList}\small\item\em Get a list of all keys in the configuration. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} \mbox{\hyperlink{class_config_file_a8750c11d1625938b253e35a8c2dc66f3}{save}} (const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+path) const
+\mbox{\hyperlink{error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} \mbox{\hyperlink{class_config_file_a8750c11d1625938b253e35a8c2dc66f3}{save}} (const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+path) const
 \begin{DoxyCompactList}\small\item\em Save the configuration data to a file. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} \mbox{\hyperlink{class_config_file_a892e28fe1e2ffaf4d457535cf5065a24}{load}} (const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+path)
+\mbox{\hyperlink{error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} \mbox{\hyperlink{class_config_file_a892e28fe1e2ffaf4d457535cf5065a24}{load}} (const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+path)
 \begin{DoxyCompactList}\small\item\em Load configuration data from a file. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} \mbox{\hyperlink{class_config_file_ab24f4413d97c3dfa70654981483a2428}{save\+\_\+encrypted}} (const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+path, const \mbox{\hyperlink{class_crypto_key}{Crypto\+Key}} \&p\+\_\+key) const
+\mbox{\hyperlink{error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} \mbox{\hyperlink{class_config_file_ab24f4413d97c3dfa70654981483a2428}{save\+\_\+encrypted}} (const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+path, const \mbox{\hyperlink{class_crypto_key}{Crypto\+Key}} \&p\+\_\+key) const
 \begin{DoxyCompactList}\small\item\em Save the configuration data to an encrypted file. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} \mbox{\hyperlink{class_config_file_a681cd61ead70e242f882020546d094cd}{load\+\_\+encrypted}} (const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+path, const \mbox{\hyperlink{class_crypto_key}{Crypto\+Key}} \&p\+\_\+key)
+\mbox{\hyperlink{error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} \mbox{\hyperlink{class_config_file_a681cd61ead70e242f882020546d094cd}{load\+\_\+encrypted}} (const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+path, const \mbox{\hyperlink{class_crypto_key}{Crypto\+Key}} \&p\+\_\+key)
 \begin{DoxyCompactList}\small\item\em Load encrypted configuration data from a file. \end{DoxyCompactList}\item 
 \Hypertarget{class_config_file_a9ce259defdfaabeedb2455849ca6bd1e}\label{class_config_file_a9ce259defdfaabeedb2455849ca6bd1e} 
 {\bfseries Config\+File} ()
@@ -52,7 +52,7 @@ The {\ttfamily \doxylink{class_config_file}{Config\+File}} class allows you to s
 \index{ConfigFile@{ConfigFile}!erase\_value@{erase\_value}}
 \index{erase\_value@{erase\_value}!ConfigFile@{ConfigFile}}
 \doxysubsubsection{\texorpdfstring{erase\_value()}{erase\_value()}}
-{\footnotesize\ttfamily bool Config\+File\+::erase\+\_\+value (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+key }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily bool Config\+File\+::erase\+\_\+value (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+key }\end{DoxyParamCaption})}
 
 
 
@@ -70,7 +70,7 @@ Erase a key-\/value pair from the configuration.
 \index{ConfigFile@{ConfigFile}!get\_keys@{get\_keys}}
 \index{get\_keys@{get\_keys}!ConfigFile@{ConfigFile}}
 \doxysubsubsection{\texorpdfstring{get\_keys()}{get\_keys()}}
-{\footnotesize\ttfamily void Config\+File\+::get\+\_\+keys (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{_packer_2_typedefs_8h_a2e19bd9826ad447934133cebebbb5239}{Vector}}$<$ \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} $>$ \&}]{p\+\_\+keys }\end{DoxyParamCaption}) const}
+{\footnotesize\ttfamily void Config\+File\+::get\+\_\+keys (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{packer_2typedefs_8h_a2e19bd9826ad447934133cebebbb5239}{Vector}}$<$ \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} $>$ \&}]{p\+\_\+keys }\end{DoxyParamCaption}) const}
 
 
 
@@ -85,7 +85,7 @@ Get a list of all keys in the configuration.
 \index{ConfigFile@{ConfigFile}!get\_value@{get\_value}}
 \index{get\_value@{get\_value}!ConfigFile@{ConfigFile}}
 \doxysubsubsection{\texorpdfstring{get\_value()}{get\_value()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{class_variant}{Variant}} Config\+File\+::get\+\_\+value (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+key,  }\item[{\mbox{\hyperlink{class_variant}{Variant}}}]{p\+\_\+default = {\ttfamily \mbox{\hyperlink{class_variant}{Variant}}()} }\end{DoxyParamCaption}) const}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_variant}{Variant}} Config\+File\+::get\+\_\+value (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+key,  }\item[{\mbox{\hyperlink{class_variant}{Variant}}}]{p\+\_\+default = {\ttfamily \mbox{\hyperlink{class_variant}{Variant}}()} }\end{DoxyParamCaption}) const}
 
 
 
@@ -105,7 +105,7 @@ The value associated with the key, or the default value if the key is not found.
 \index{ConfigFile@{ConfigFile}!get\_values@{get\_values}}
 \index{get\_values@{get\_values}!ConfigFile@{ConfigFile}}
 \doxysubsubsection{\texorpdfstring{get\_values()}{get\_values()}}
-{\footnotesize\ttfamily const \mbox{\hyperlink{_packer_2_typedefs_8h_aaadbf0532a4a78bf0ef54be7a045d86e}{Map}}$<$ \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}, \mbox{\hyperlink{class_variant}{Variant}} $>$ \& Config\+File\+::get\+\_\+values (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+{\footnotesize\ttfamily const \mbox{\hyperlink{packer_2typedefs_8h_aaadbf0532a4a78bf0ef54be7a045d86e}{Map}}$<$ \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}, \mbox{\hyperlink{class_variant}{Variant}} $>$ \& Config\+File\+::get\+\_\+values (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
 
 
@@ -118,7 +118,7 @@ A reference to the map of key-\/value pairs.
 \index{ConfigFile@{ConfigFile}!has\_value@{has\_value}}
 \index{has\_value@{has\_value}!ConfigFile@{ConfigFile}}
 \doxysubsubsection{\texorpdfstring{has\_value()}{has\_value()}}
-{\footnotesize\ttfamily bool Config\+File\+::has\+\_\+value (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+key }\end{DoxyParamCaption}) const}
+{\footnotesize\ttfamily bool Config\+File\+::has\+\_\+value (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+key }\end{DoxyParamCaption}) const}
 
 
 
@@ -136,7 +136,7 @@ Check if a key exists in the configuration.
 \index{ConfigFile@{ConfigFile}!load@{load}}
 \index{load@{load}!ConfigFile@{ConfigFile}}
 \doxysubsubsection{\texorpdfstring{load()}{load()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} Config\+File\+::load (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+path }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \mbox{\hyperlink{error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} Config\+File\+::load (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+path }\end{DoxyParamCaption})}
 
 
 
@@ -154,7 +154,7 @@ An {\ttfamily Error} code indicating the success or failure of the operation.
 \index{ConfigFile@{ConfigFile}!load\_encrypted@{load\_encrypted}}
 \index{load\_encrypted@{load\_encrypted}!ConfigFile@{ConfigFile}}
 \doxysubsubsection{\texorpdfstring{load\_encrypted()}{load\_encrypted()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} Config\+File\+::load\+\_\+encrypted (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+path,  }\item[{const \mbox{\hyperlink{class_crypto_key}{Crypto\+Key}} \&}]{p\+\_\+key }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \mbox{\hyperlink{error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} Config\+File\+::load\+\_\+encrypted (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+path,  }\item[{const \mbox{\hyperlink{class_crypto_key}{Crypto\+Key}} \&}]{p\+\_\+key }\end{DoxyParamCaption})}
 
 
 
@@ -174,7 +174,7 @@ An {\ttfamily Error} code indicating the success or failure of the operation.
 \index{ConfigFile@{ConfigFile}!save@{save}}
 \index{save@{save}!ConfigFile@{ConfigFile}}
 \doxysubsubsection{\texorpdfstring{save()}{save()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} Config\+File\+::save (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+path }\end{DoxyParamCaption}) const}
+{\footnotesize\ttfamily \mbox{\hyperlink{error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} Config\+File\+::save (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+path }\end{DoxyParamCaption}) const}
 
 
 
@@ -192,7 +192,7 @@ An {\ttfamily Error} code indicating the success or failure of the operation.
 \index{ConfigFile@{ConfigFile}!save\_encrypted@{save\_encrypted}}
 \index{save\_encrypted@{save\_encrypted}!ConfigFile@{ConfigFile}}
 \doxysubsubsection{\texorpdfstring{save\_encrypted()}{save\_encrypted()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{_error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} Config\+File\+::save\+\_\+encrypted (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+path,  }\item[{const \mbox{\hyperlink{class_crypto_key}{Crypto\+Key}} \&}]{p\+\_\+key }\end{DoxyParamCaption}) const}
+{\footnotesize\ttfamily \mbox{\hyperlink{error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} Config\+File\+::save\+\_\+encrypted (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+path,  }\item[{const \mbox{\hyperlink{class_crypto_key}{Crypto\+Key}} \&}]{p\+\_\+key }\end{DoxyParamCaption}) const}
 
 
 
@@ -212,7 +212,7 @@ An {\ttfamily Error} code indicating the success or failure of the operation.
 \index{ConfigFile@{ConfigFile}!set\_value@{set\_value}}
 \index{set\_value@{set\_value}!ConfigFile@{ConfigFile}}
 \doxysubsubsection{\texorpdfstring{set\_value()}{set\_value()}}
-{\footnotesize\ttfamily void Config\+File\+::set\+\_\+value (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+key,  }\item[{const \mbox{\hyperlink{class_variant}{Variant}} \&}]{p\+\_\+value }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void Config\+File\+::set\+\_\+value (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+key,  }\item[{const \mbox{\hyperlink{class_variant}{Variant}} \&}]{p\+\_\+value }\end{DoxyParamCaption})}
 
 
 
@@ -229,7 +229,7 @@ Set a key-\/value pair in the configuration.
 \index{ConfigFile@{ConfigFile}!set\_values@{set\_values}}
 \index{set\_values@{set\_values}!ConfigFile@{ConfigFile}}
 \doxysubsubsection{\texorpdfstring{set\_values()}{set\_values()}}
-{\footnotesize\ttfamily void Config\+File\+::set\+\_\+values (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{_packer_2_typedefs_8h_aaadbf0532a4a78bf0ef54be7a045d86e}{Map}}$<$ \mbox{\hyperlink{_packer_2_typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}, \mbox{\hyperlink{class_variant}{Variant}} $>$ \&}]{p\+\_\+values }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void Config\+File\+::set\+\_\+values (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{packer_2typedefs_8h_aaadbf0532a4a78bf0ef54be7a045d86e}{Map}}$<$ \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}, \mbox{\hyperlink{class_variant}{Variant}} $>$ \&}]{p\+\_\+values }\end{DoxyParamCaption})}
 
 
 
@@ -244,4 +244,4 @@ Set the entire configuration data from a map of key-\/value pairs.
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-D\+:/\+Dev/\+Apps/\+Packer/\+Source/\+Packer/\mbox{\hyperlink{_config_file_8h}{Config\+File.\+h}}\end{DoxyCompactItemize}
+D\+:/\+Dev/\+Software/\+Packer/source/packer/\mbox{\hyperlink{config__file_8h}{config\+\_\+file.\+h}}\end{DoxyCompactItemize}

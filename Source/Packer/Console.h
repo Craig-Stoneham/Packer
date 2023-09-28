@@ -22,13 +22,13 @@
 /**************************************************************************/
 
 /**
- * @file Console.h
+ * @file console.h
  * @brief Defines a console utility class for managing console output and text colors.
  */
 
 #pragma once
 
-#include "Log.h"
+#include "log.h"
 
 PACKER_NAMESPACE_BEGIN
 

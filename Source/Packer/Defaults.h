@@ -22,7 +22,7 @@
 /**************************************************************************/
 
 /**
- * @file Defaults.h
+ * @file defaults.h
  * @brief Defines default configuration values for the application.
  */
 

@@ -22,13 +22,13 @@
 /**************************************************************************/
 
 /**
- * @file Log.h
+ * @file log.h
  * @brief Provides logging functionality for the application.
  */
 
 #pragma once
 
-#include "Typedefs.h"
+#include "typedefs.h"
 
 PACKER_NAMESPACE_BEGIN
 

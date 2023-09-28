@@ -1,0 +1,119 @@
+\doxysection{typedefs.\+h}
+\hypertarget{packer_2typedefs_8h_source}{}\label{packer_2typedefs_8h_source}\index{D:/Dev/Software/Packer/source/packer/typedefs.h@{D:/Dev/Software/Packer/source/packer/typedefs.h}}
+\mbox{\hyperlink{packer_2typedefs_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/**************************************************************************/}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ Copyright\ (c)\ 2021-\/present\ Craig\ Stoneham.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ a\ copy\ of\ this\ software\ and\ associated\ documentation\ files\ (the\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ "{}Software"{}),\ to\ deal\ in\ the\ Software\ without\ restriction,\ including\ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ without\ limitation\ the\ rights\ to\ use,\ copy,\ modify,\ merge,\ publish,\ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ distribute,\ sublicense,\ and/or\ sell\ copies\ of\ the\ Software,\ and\ to\ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ permit\ persons\ to\ whom\ the\ Software\ is\ furnished\ to\ do\ so,\ subject\ to\ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ the\ following\ conditions:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00011\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00012\ \textcolor{comment}{/*\ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00013\ \textcolor{comment}{/*\ included\ in\ all\ copies\ or\ substantial\ portions\ of\ the\ Software.\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00014\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00015\ \textcolor{comment}{/*\ THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00016\ \textcolor{comment}{/*\ EXPRESS\ OR\ IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ \ \ \ \ */}}
+\DoxyCodeLine{00017\ \textcolor{comment}{/*\ MERCHANTABILITY,\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ */}}
+\DoxyCodeLine{00018\ \textcolor{comment}{/*\ IN\ NO\ EVENT\ SHALL\ THE\ AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ \ \ */}}
+\DoxyCodeLine{00019\ \textcolor{comment}{/*\ CLAIM,\ DAMAGES\ OR\ OTHER\ LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ \ \ */}}
+\DoxyCodeLine{00020\ \textcolor{comment}{/*\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,\ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ \ \ \ \ \ */}}
+\DoxyCodeLine{00021\ \textcolor{comment}{/*\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE\ SOFTWARE.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00022\ \textcolor{comment}{/**************************************************************************/}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#if\ \_\_cplusplus\ >=\ 201703L}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ \_\_cplusplus\ >=\ 201703L}}
+\DoxyCodeLine{00043\ \#define\ \_SILENCE\_EXPERIMENTAL\_FILESYSTEM\_DEPRECATION\_WARNING}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#define\ EXPERIMENTAL\_FILESYSTEM}}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#include\ <experimental/filesystem>}}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \_\_cplusplus\ >=\ 201703L}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#define\ STRINGIFY(p\_x)\ \#p\_x}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#define\ MAKE\_STRING(m\_x)\ STRINGIFY(m\_x)}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00067\ \textcolor{keyword}{using\ }\mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\ =\ std::string;}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00075\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T,\ \textcolor{keyword}{class}\ ALLOC\ =\ std::allocator<T>>}
+\DoxyCodeLine{00076\ \textcolor{keyword}{using\ }\mbox{\hyperlink{packer_2typedefs_8h_a2e19bd9826ad447934133cebebbb5239}{Vector}}\ =\ std::vector<T,\ ALLOC>;}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00086\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ K,\ \textcolor{keyword}{class}\ T,\ \textcolor{keyword}{class}\ COMPARE\ =\ std::less<K>,\ \textcolor{keyword}{class}\ ALLOC\ =\ std::allocator<std::pair<const\ K,\ T>>>}
+\DoxyCodeLine{00087\ \textcolor{keyword}{using\ }\mbox{\hyperlink{packer_2typedefs_8h_aaadbf0532a4a78bf0ef54be7a045d86e}{Map}}\ =\ std::map<K,\ T,\ COMPARE,\ ALLOC>;}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00093\ \textcolor{keyword}{using\ }\mbox{\hyperlink{packer_2typedefs_8h_a307ae07901ccd5dcc8d3a6d0214d357f}{StringVector}}\ =\ \mbox{\hyperlink{packer_2typedefs_8h_a2e19bd9826ad447934133cebebbb5239}{Vector<String>}};}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00099\ \textcolor{keyword}{using\ }\mbox{\hyperlink{packer_2typedefs_8h_aa064825782fa755e46cda0a5f567f788}{StringStream}}\ =\ std::stringstream;}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00105\ \textcolor{keyword}{using\ }\mbox{\hyperlink{packer_2typedefs_8h_ab86c95c4ac6aa852f220ebd56ab6c1eb}{StringStreamI}}\ =\ std::istringstream;}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00111\ \textcolor{keyword}{using\ }\mbox{\hyperlink{packer_2typedefs_8h_a7ed8ca7caf8df4f08d7f85254dc3100c}{StringStreamO}}\ =\ std::ostringstream;}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00117\ \textcolor{keyword}{using\ }\mbox{\hyperlink{packer_2typedefs_8h_ab1f93b31bddcb0e867a7ce4491b3891f}{FileStreamI}}\ =\ std::ifstream;}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00123\ \textcolor{keyword}{using\ }\mbox{\hyperlink{packer_2typedefs_8h_a75a54c12feaff508b9051abfb4d3437c}{FileStreamO}}\ =\ std::ofstream;}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00130\ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ BinaryIOS\ =\ std::ios::binary;}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00136\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_file_access}{FileAccess}}\ \{}
+\DoxyCodeLine{00137\ \textcolor{preprocessor}{\#ifndef\ EXPERIMENTAL\_FILESYSTEM}}
+\DoxyCodeLine{00138\ \ \ \ \ \textcolor{keyword}{using\ namespace\ }std::filesystem;\ \textcolor{comment}{//\ Use\ C++17\ filesystem\ API.}}
+\DoxyCodeLine{00139\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ EXPERIMENTAL\_FILESYSTEM}}
+\DoxyCodeLine{00140\ \ \ \ \ \textcolor{keyword}{using\ namespace\ }std::experimental::filesystem;\ \textcolor{comment}{//\ Use\ experimental\ filesystem\ API.}}
+\DoxyCodeLine{00141\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EXPERIMENTAL\_FILESYSTEM}}
+\DoxyCodeLine{00142\ \};}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00152\ \textcolor{preprocessor}{\#ifdef\ PACKER\_NAMESPACE\_ENABLED}}
+\DoxyCodeLine{00153\ \textcolor{preprocessor}{\#define\ PACKER\_NAMESPACE\_BEGIN\ namespace\ Packer\ \{}}
+\DoxyCodeLine{00154\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ PACKER\_NAMESPACE\_ENABLED}}
+\DoxyCodeLine{00155\ \textcolor{preprocessor}{\#define\ PACKER\_NAMESPACE\_BEGIN}}
+\DoxyCodeLine{00156\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ PACKER\_NAMESPACE\_ENABLED}}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00165\ \textcolor{preprocessor}{\#ifdef\ PACKER\_NAMESPACE\_ENABLED}}
+\DoxyCodeLine{00166\ \textcolor{preprocessor}{\#define\ PACKER\_NAMESPACE\_END\ \};}}
+\DoxyCodeLine{00167\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ PACKER\_NAMESPACE\_ENABLED}}
+\DoxyCodeLine{00168\ \textcolor{preprocessor}{\#define\ PACKER\_NAMESPACE\_END}}
+\DoxyCodeLine{00169\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ PACKER\_NAMESPACE\_ENABLED}}
+\DoxyCodeLine{00170\ }
+\DoxyCodeLine{00179\ \textcolor{preprocessor}{\#ifdef\ PACKER\_NAMESPACE\_ENABLED}}
+\DoxyCodeLine{00180\ \textcolor{preprocessor}{\#define\ USING\_NAMESPACE\_PACKER\ using\ namespace\ Packer;}}
+\DoxyCodeLine{00181\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ PACKER\_NAMESPACE\_ENABLED}}
+\DoxyCodeLine{00182\ \textcolor{preprocessor}{\#define\ USING\_NAMESPACE\_PACKER}}
+\DoxyCodeLine{00183\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ PACKER\_NAMESPACE\_ENABLED}}
+\DoxyCodeLine{00184\ }
+\DoxyCodeLine{00192\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{packer_2typedefs_8h_ae51e371fc6a71587aff24cb609aaeb13}{normalize\_path\_separators}}(\mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_path)\ \{}
+\DoxyCodeLine{00193\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ p\_path.size();\ ++i)\ \{}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (p\_path[i]\ ==\ \textcolor{charliteral}{'\(\backslash\)\(\backslash\)'})\ \{}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ p\_path[i]\ =\ \textcolor{charliteral}{'/'};}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00197\ \ \ \ \ \}}
+\DoxyCodeLine{00198\ \}}
+\DoxyCodeLine{00199\ }
+\DoxyCodeLine{00211\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{packer_2typedefs_8h_a0687da241446d0fb451ce05fcf688c49}{remove\_path\_suffix}}(\mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_path,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}}\&\ p\_suffix)\ \{}
+\DoxyCodeLine{00212\ \ \ \ \ \textcolor{keywordflow}{if}\ (p\_suffix.empty())\ \{}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00214\ \ \ \ \ \}}
+\DoxyCodeLine{00215\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ suffix\_pos\ =\ p\_path.find(p\_suffix,\ p\_path.find(\textcolor{charliteral}{'/'}));}
+\DoxyCodeLine{00216\ \ \ \ \ \textcolor{keywordflow}{if}\ (suffix\_pos\ !=\ String::npos)\ \{}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ p\_path.erase(suffix\_pos,\ p\_suffix.length());}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00219\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00221\ \ \ \ \ \}}
+\DoxyCodeLine{00222\ \}}
+
+\end{DoxyCode}

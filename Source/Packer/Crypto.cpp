@@ -21,7 +21,7 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#include "Crypto.h"
+#include "crypto.h"
 
 PACKER_NAMESPACE_BEGIN
 

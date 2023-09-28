@@ -23,7 +23,7 @@
 
 #pragma once
 
-#include "../Packer/Version.h"
-#include "../Packer/Console.h"
-#include "../Packer/LogFile.h"
-#include "../Packer/Packer.h"
+#include "../packer/version.h"
+#include "../packer/console.h"
+#include "../packer/log_file.h"
+#include "../packer/packer.h"

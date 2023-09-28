@@ -21,7 +21,7 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#include "Console.h"
+#include "console.h"
 
 #ifdef CONSOLE_FEATURES_ENABLED
 #ifdef _WIN32

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.21)
 
-# Extract version information from Packer/Version.h
-file(STRINGS "Source/Packer/Version.h" VERSION_HEADER_CONTENT REGEX "#define VERSION_(MAJOR|MINOR|PATCH) [0-9]+")
+# Extract version information from packer/version.h
+file(STRINGS "source/packer/version.h" VERSION_HEADER_CONTENT REGEX "#define VERSION_(MAJOR|MINOR|PATCH) [0-9]+")
 
 # Extract the version numbers from the content
 string(REGEX MATCH "#define VERSION_MAJOR ([0-9]+)" _ ${VERSION_HEADER_CONTENT})
@@ -19,40 +19,40 @@ set(VERSION_STRING "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 message("Packer Version: ${VERSION_STRING}")
 
 # Set project name and version
-project(Packer VERSION ${VERSION_STRING})
+project(packer VERSION ${VERSION_STRING})
 
 # Set policy version explicitly
 cmake_policy(SET CMP0076 NEW)
 
 # Define source files for targets
-file(GLOB Packer_Headers
-    Source/Packer/*.h
+file(GLOB packer_headers
+    source/packer/*.h
 )
 
-file(GLOB Packer_Sources
-    Source/Packer/*.cpp
+file(GLOB packer_sources
+    source/packer/*.cpp
 )
 
-file(GLOB Console_Headers
-    Source/Console/*.h
+file(GLOB console_headers
+    source/console/*.h
 )
 
-file(GLOB Console_Sources
-    Source/Console/*.cpp
+file(GLOB console_sources
+    source/console/*.cpp
 )
 
-file(GLOB Tests_Headers
-    Source/Tests/*.h
+file(GLOB test_headers
+    source/test/*.h
 )
 
-file(GLOB Tests_Sources
-    Source/Tests/*.cpp
+file(GLOB test_sources
+    source/test/*.cpp
 )
 
 # Add resource file conditionally for Windows
 if(WIN32)
-    list(APPEND Console_Resources
-        Source/Console/Resources.rc
+    list(APPEND console_resources
+        source/console/resources.rc
     )
 endif()
 
@@ -60,7 +60,7 @@ endif()
 set(COMMON_COMPILE_OPTIONS "/Zc:__cplusplus")
 
 # Add the option for packer namespace
-option(PACKER_NAMESPACE_ENABLED "Use Packer namespace" ON)
+option(PACKER_NAMESPACE_ENABLED "Use packer namespace" ON)
 
 # Add the option for logging functionallity
 option(LOG_ENABLED "Enabled logging functionallity" ON)
@@ -78,81 +78,81 @@ option(CONFIG_FILE_ENCRYPTION_ENABLED "Enabled config file encryption" OFF)
 set(CPP_STD 17 CACHE STRING "C++ standard version")
 set_property(CACHE CPP_STD PROPERTY STRINGS "14;17;20")
 
-# Set the output directory for Packer project
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Bin/$<CONFIG>)
+# Set the output directory for packer project
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/$<CONFIG>)
 
 # Set the install prefix to the root directory
 set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR})
 
-# Create Console target
-add_executable(Console ${Packer_Headers} ${Packer_Sources} ${Console_Headers} ${Console_Sources} ${Console_Resources})
-target_include_directories(Console PRIVATE Source/Packer)
-set_target_properties(Console PROPERTIES
+# Create console target
+add_executable(console ${packer_headers} ${packer_sources} ${console_headers} ${console_sources} ${console_resources})
+target_include_directories(console PRIVATE source/packer)
+set_target_properties(console PROPERTIES
     CXX_STANDARD ${CPP_STD}
     CXX_STANDARD_REQUIRED ON
 )
-target_compile_options(Console PRIVATE ${COMMON_COMPILE_OPTIONS})
+target_compile_options(console PRIVATE ${COMMON_COMPILE_OPTIONS})
 
 # Conditionally add the preprocessor definition
 if(PACKER_NAMESPACE_ENABLED)
-    target_compile_definitions(Tests PUBLIC PACKER_NAMESPACE_ENABLED)
+    target_compile_definitions(console PUBLIC PACKER_NAMESPACE_ENABLED)
 endif()
 if(LOG_ENABLED)
-    target_compile_definitions(Console PUBLIC LOG_ENABLED)
+    target_compile_definitions(console PUBLIC LOG_ENABLED)
 endif()
 if(IGNORE_FILE_ENABLED)
-    target_compile_definitions(Console PUBLIC IGNORE_FILE_ENABLED)
+    target_compile_definitions(console PUBLIC IGNORE_FILE_ENABLED)
 endif()
 if(CONSOLE_FEATURES_ENABLED)
-    target_compile_definitions(Console PUBLIC CONSOLE_FEATURES_ENABLED)
+    target_compile_definitions(console PUBLIC CONSOLE_FEATURES_ENABLED)
 endif()
 if(CONFIG_FILE_ENCRYPTION_ENABLED)
-    target_compile_definitions(Console PUBLIC CONFIG_FILE_ENCRYPTION_ENABLED)
+    target_compile_definitions(console PUBLIC CONFIG_FILE_ENCRYPTION_ENABLED)
 endif()
 
-# Option for building Tests
+# Option for building test
 option(BUILD_TESTS "Build test executable" OFF)
 if(BUILD_TESTS)
-    # Create Tests target
-    add_executable(Tests ${Packer_Headers} ${Packer_Sources} ${Tests_Headers} ${Tests_Sources})
-    target_include_directories(Tests PRIVATE Source/Packer Source/Tests)
-    set_target_properties(Tests PROPERTIES
+    # Create test target
+    add_executable(test ${packer_headers} ${packer_sources} ${test_headers} ${test_sources})
+    target_include_directories(test PRIVATE source/packer source/test)
+    set_target_properties(test PROPERTIES
         CXX_STANDARD ${CPP_STD}
         CXX_STANDARD_REQUIRED ON
     )
-    target_compile_options(Tests PRIVATE ${COMMON_COMPILE_OPTIONS})
+    target_compile_options(test PRIVATE ${COMMON_COMPILE_OPTIONS})
     
-    # Conditionally add the preprocessor definition for Tests as well
+    # Conditionally add the preprocessor definition for test as well
     if(PACKER_NAMESPACE_ENABLED)
-        target_compile_definitions(Tests PUBLIC PACKER_NAMESPACE_ENABLED)
+        target_compile_definitions(test PUBLIC PACKER_NAMESPACE_ENABLED)
     endif()
     if(LOG_ENABLED)
-        target_compile_definitions(Console PUBLIC LOG_ENABLED)
+        target_compile_definitions(console PUBLIC LOG_ENABLED)
     endif()
     if(IGNORE_FILE_ENABLED)
-        target_compile_definitions(Console PUBLIC IGNORE_FILE_ENABLED)
+        target_compile_definitions(console PUBLIC IGNORE_FILE_ENABLED)
     endif()
     if(CONSOLE_FEATURES_ENABLED)
-        target_compile_definitions(Console PUBLIC CONSOLE_FEATURES_ENABLED)
+        target_compile_definitions(console PUBLIC CONSOLE_FEATURES_ENABLED)
     endif()
 endif()
 
-# Set the startup project to Console
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Console)
+# Set the startup project to console
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT console)
 
 # Install targets
-install(TARGETS Console DESTINATION Bin)
+install(TARGETS console DESTINATION bin)
 if(BUILD_TESTS)
-    install(TARGETS Tests DESTINATION Bin)
+    install(TARGETS test DESTINATION bin)
 endif()
 
 # Source groups
-source_group("Packer/Headers" FILES ${Packer_Headers})
-source_group("Packer/Source" FILES ${Packer_Sources})
-source_group("Console/Headers" FILES ${Console_Headers})
-source_group("Console/Source" FILES ${Console_Sources})
+source_group("packer/headers" FILES ${packer_headers})
+source_group("packer/source" FILES ${packer_sources})
+source_group("console/headers" FILES ${console_headers})
+source_group("console/source" FILES ${console_sources})
 if(WIN32)
-source_group("Console/Resources" FILES ${Console_Resources})
+source_group("console/resources" FILES ${console_resources})
 endif()
-source_group("Tests/Headers" FILES ${Tests_Headers})
-source_group("Tests/Source" FILES ${Tests_Sources})
+source_group("test/headers" FILES ${test_headers})
+source_group("test/source" FILES ${test_sources})
