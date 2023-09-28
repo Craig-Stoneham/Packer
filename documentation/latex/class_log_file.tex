@@ -1,0 +1,204 @@
+\doxysection{Log\+File Class Reference}
+\hypertarget{class_log_file}{}\label{class_log_file}\index{LogFile@{LogFile}}
+
+
+Provides functionality for logging to a file.  
+
+
+
+
+{\ttfamily \#include $<$log\+\_\+file.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_log_file_ae8f0a6d6629b34cc6d6f89c368800e96}{log\+\_\+string}} (\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Log\+::\+Level}} p\+\_\+level, const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
+\begin{DoxyCompactList}\small\item\em \doxylink{class_log}{Log} a string message with a specified log level to the file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_log_file_a56e45c8e8842e05600a065312cdbcf37}{log\+\_\+info}} (const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
+\begin{DoxyCompactList}\small\item\em \doxylink{class_log}{Log} an informational message to the file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_log_file_a545e217fa3a704e94fbde0c47d6e473b}{log\+\_\+warn}} (const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
+\begin{DoxyCompactList}\small\item\em \doxylink{class_log}{Log} a warning message to the file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_log_file_adfdbd8a73967568d2f9a24bcb9952929}{log\+\_\+error}} (const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+string)
+\begin{DoxyCompactList}\small\item\em \doxylink{class_log}{Log} an error message to the file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_log_file_a4e2a304c7cb633507cb040fa180dc6f1}{set\+\_\+print\+\_\+level}} (bool p\+\_\+enabled)
+\begin{DoxyCompactList}\small\item\em Set whether to print log level details. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_log_file_aede48166fbfd6e01febe6e8066423aa9}{get\+\_\+print\+\_\+level}} () const
+\begin{DoxyCompactList}\small\item\em Get the current setting for printing log level details. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} \mbox{\hyperlink{class_log_file_a1edcfb28024000745bab8d2581c5ca50}{open}} (const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Open the log file at the specified path. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} \mbox{\hyperlink{class_log_file_ae3f30c816b09efef5b8582169a807586}{close}} ()
+\begin{DoxyCompactList}\small\item\em Close the log file. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_log_file_ad791a20985236b918aa61c2caf23428d}{Log\+File}} (bool p\+\_\+print\+\_\+level=false)
+\begin{DoxyCompactList}\small\item\em Default constructor for the \doxylink{class_log_file}{Log\+File} class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_log_file_ad918635d14932ec5901cb3b707340127}{Log\+File}} (const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&p\+\_\+path, bool p\+\_\+print\+\_\+level=false)
+\begin{DoxyCompactList}\small\item\em Constructor for the \doxylink{class_log_file}{Log\+File} class that opens a log file at the specified path. \end{DoxyCompactList}\item 
+\Hypertarget{class_log_file_a138968d21e3fd3bdd7aeb46ca5096597}\label{class_log_file_a138968d21e3fd3bdd7aeb46ca5096597} 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+Log\+File} ()
+\begin{DoxyCompactList}\small\item\em Destructor for the \doxylink{class_log_file}{Log\+File} class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Provides functionality for logging to a file. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_log_file_ad791a20985236b918aa61c2caf23428d}\label{class_log_file_ad791a20985236b918aa61c2caf23428d} 
+\index{LogFile@{LogFile}!LogFile@{LogFile}}
+\index{LogFile@{LogFile}!LogFile@{LogFile}}
+\doxysubsubsection{\texorpdfstring{LogFile()}{LogFile()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Log\+File\+::\+Log\+File (\begin{DoxyParamCaption}\item[{bool}]{p\+\_\+print\+\_\+level = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Default constructor for the \doxylink{class_log_file}{Log\+File} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+print\+\_\+level} & If true, log level details will be included in log messages. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_log_file_ad918635d14932ec5901cb3b707340127}\label{class_log_file_ad918635d14932ec5901cb3b707340127} 
+\index{LogFile@{LogFile}!LogFile@{LogFile}}
+\index{LogFile@{LogFile}!LogFile@{LogFile}}
+\doxysubsubsection{\texorpdfstring{LogFile()}{LogFile()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Log\+File\+::\+Log\+File (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+path,  }\item[{bool}]{p\+\_\+print\+\_\+level = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Constructor for the \doxylink{class_log_file}{Log\+File} class that opens a log file at the specified path. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+path} & The path to the log file. \\
+\hline
+{\em p\+\_\+print\+\_\+level} & If true, log level details will be included in log messages. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_log_file_ae3f30c816b09efef5b8582169a807586}\label{class_log_file_ae3f30c816b09efef5b8582169a807586} 
+\index{LogFile@{LogFile}!close@{close}}
+\index{close@{close}!LogFile@{LogFile}}
+\doxysubsubsection{\texorpdfstring{close()}{close()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} Log\+File\+::close (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Close the log file. 
+
+\begin{DoxyReturn}{Returns}
+An Error code indicating the result of the operation. 
+\end{DoxyReturn}
+\Hypertarget{class_log_file_aede48166fbfd6e01febe6e8066423aa9}\label{class_log_file_aede48166fbfd6e01febe6e8066423aa9} 
+\index{LogFile@{LogFile}!get\_print\_level@{get\_print\_level}}
+\index{get\_print\_level@{get\_print\_level}!LogFile@{LogFile}}
+\doxysubsubsection{\texorpdfstring{get\_print\_level()}{get\_print\_level()}}
+{\footnotesize\ttfamily bool Log\+File\+::get\+\_\+print\+\_\+level (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the current setting for printing log level details. 
+
+\begin{DoxyReturn}{Returns}
+true if log level details are included in log messages, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{class_log_file_adfdbd8a73967568d2f9a24bcb9952929}\label{class_log_file_adfdbd8a73967568d2f9a24bcb9952929} 
+\index{LogFile@{LogFile}!log\_error@{log\_error}}
+\index{log\_error@{log\_error}!LogFile@{LogFile}}
+\doxysubsubsection{\texorpdfstring{log\_error()}{log\_error()}}
+{\footnotesize\ttfamily void Log\+File\+::log\+\_\+error (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
+
+
+
+\doxylink{class_log}{Log} an error message to the file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+string} & The log message. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_log_file_a56e45c8e8842e05600a065312cdbcf37}\label{class_log_file_a56e45c8e8842e05600a065312cdbcf37} 
+\index{LogFile@{LogFile}!log\_info@{log\_info}}
+\index{log\_info@{log\_info}!LogFile@{LogFile}}
+\doxysubsubsection{\texorpdfstring{log\_info()}{log\_info()}}
+{\footnotesize\ttfamily void Log\+File\+::log\+\_\+info (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
+
+
+
+\doxylink{class_log}{Log} an informational message to the file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+string} & The log message. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_log_file_ae8f0a6d6629b34cc6d6f89c368800e96}\label{class_log_file_ae8f0a6d6629b34cc6d6f89c368800e96} 
+\index{LogFile@{LogFile}!log\_string@{log\_string}}
+\index{log\_string@{log\_string}!LogFile@{LogFile}}
+\doxysubsubsection{\texorpdfstring{log\_string()}{log\_string()}}
+{\footnotesize\ttfamily void Log\+File\+::log\+\_\+string (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_log_afb5d4c945d835d194a295461d752531e}{Log\+::\+Level}}}]{p\+\_\+level,  }\item[{const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
+
+
+
+\doxylink{class_log}{Log} a string message with a specified log level to the file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+level} & The log level. \\
+\hline
+{\em p\+\_\+string} & The log message. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_log_file_a545e217fa3a704e94fbde0c47d6e473b}\label{class_log_file_a545e217fa3a704e94fbde0c47d6e473b} 
+\index{LogFile@{LogFile}!log\_warn@{log\_warn}}
+\index{log\_warn@{log\_warn}!LogFile@{LogFile}}
+\doxysubsubsection{\texorpdfstring{log\_warn()}{log\_warn()}}
+{\footnotesize\ttfamily void Log\+File\+::log\+\_\+warn (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+string }\end{DoxyParamCaption})}
+
+
+
+\doxylink{class_log}{Log} a warning message to the file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+string} & The log message. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_log_file_a1edcfb28024000745bab8d2581c5ca50}\label{class_log_file_a1edcfb28024000745bab8d2581c5ca50} 
+\index{LogFile@{LogFile}!open@{open}}
+\index{open@{open}!LogFile@{LogFile}}
+\doxysubsubsection{\texorpdfstring{open()}{open()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{error_8h_a2c3e4bb40f36b262a5214e2da2bca9c5}{Error}} Log\+File\+::open (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{packer_2typedefs_8h_a626ea521670a14e666c265c566fe9f86}{String}} \&}]{p\+\_\+path }\end{DoxyParamCaption})}
+
+
+
+Open the log file at the specified path. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+path} & The path to the log file. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An Error code indicating the result of the operation. 
+\end{DoxyReturn}
+\Hypertarget{class_log_file_a4e2a304c7cb633507cb040fa180dc6f1}\label{class_log_file_a4e2a304c7cb633507cb040fa180dc6f1} 
+\index{LogFile@{LogFile}!set\_print\_level@{set\_print\_level}}
+\index{set\_print\_level@{set\_print\_level}!LogFile@{LogFile}}
+\doxysubsubsection{\texorpdfstring{set\_print\_level()}{set\_print\_level()}}
+{\footnotesize\ttfamily void Log\+File\+::set\+\_\+print\+\_\+level (\begin{DoxyParamCaption}\item[{bool}]{p\+\_\+enabled }\end{DoxyParamCaption})}
+
+
+
+Set whether to print log level details. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+enabled} & If true, log level details will be included in log messages. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Dev/\+Software/\+Packer/source/packer/\mbox{\hyperlink{log__file_8h}{log\+\_\+file.\+h}}\end{DoxyCompactItemize}
