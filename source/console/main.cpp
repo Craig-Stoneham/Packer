@@ -23,9 +23,6 @@
 
 #include "application.h"
 
-#include <variant>
-
-
 USING_NAMESPACE_PACKER
 
 int main() {
