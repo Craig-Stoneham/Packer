@@ -79,7 +79,8 @@ set(CPP_STD 17 CACHE STRING "C++ standard version")
 set_property(CACHE CPP_STD PROPERTY STRINGS "14;17;20")
 
 # Set the output directory for packer project
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/$<CONFIG>)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE}/$<CONFIG>)
+#set(BIN_DIR ${PROJECT_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE}/$<CONFIG>)
 
 # Set the install prefix to the root directory
 set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR})
