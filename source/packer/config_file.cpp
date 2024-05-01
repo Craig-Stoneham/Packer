@@ -72,7 +72,7 @@ void ConfigFile::get_keys(Vector<String>& p_keys) const {
 }
 
 Error ConfigFile::save(const String& p_path) const {
-    FileStreamO file(p_path, BinaryIOS);
+    FileStreamO file(p_path, std::ios::binary);
     if (!file.is_open()) {
         return Error::FileNotFound;
     }
@@ -86,7 +86,7 @@ Error ConfigFile::save(const String& p_path) const {
 }
 
 Error ConfigFile::load(const String& p_path) {
-    FileStreamI file(p_path, BinaryIOS);
+    FileStreamI file(p_path, std::ios::binary);
     if (!file.is_open()) {
         return Error::FileNotFound;
     }
@@ -112,7 +112,7 @@ Error ConfigFile::load(const String& p_path) {
 }
 
 Error ConfigFile::save_encrypted(const String& p_path, const CryptoKey& p_key) const {
-    FileStreamO file(p_path, BinaryIOS);
+    FileStreamO file(p_path, std::ios::binary);
     if (!file.is_open()) {
         return Error::FileNotFound;
     }
@@ -129,7 +129,7 @@ Error ConfigFile::save_encrypted(const String& p_path, const CryptoKey& p_key) c
 }
 
 Error ConfigFile::load_encrypted(const String& p_path, const CryptoKey& p_key) {
-    FileStreamI file(p_path, BinaryIOS);
+    FileStreamI file(p_path, std::ios::binary);
     if (!file.is_open()) {
         return Error::FileNotFound;
     }

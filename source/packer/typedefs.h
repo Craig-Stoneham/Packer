@@ -130,13 +130,6 @@ using FileStreamI = std::ifstream;
 using FileStreamO = std::ofstream;
 
 /**
- * @var BinaryIOS
- * @brief Constant for specifying binary file I/O mode.
- * @details Use this constant as an argument to set binary mode when opening files.
- */
-static constexpr int BinaryIOS = std::ios::binary;
-
-/**
  * @namespace FileAccess
  * @brief Namespace containing filesystem-related types and functions.
  */
