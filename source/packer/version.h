@@ -28,26 +28,4 @@
 
 #pragma once
 
-/**
- * @def VERSION_MAJOR
- * @brief The major version number of the software.
- */
-#define VERSION_MAJOR 2
-
-/**
- * @def VERSION_MINOR
- * @brief The minor version number of the software.
- */
-#define VERSION_MINOR 5
-
-/**
- * @def VERSION_PATCH
- * @brief The patch version number of the software.
- */
-#define VERSION_PATCH 1
-
-/**
- * @def VERSION_STRING
- * @brief A string representation of the software version in the format "MAJOR.MINOR.PATCH".
- */
 #define VERSION_STRING MAKE_STRING(VERSION_MAJOR) "." MAKE_STRING(VERSION_MINOR) "." MAKE_STRING(VERSION_PATCH)

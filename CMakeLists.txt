@@ -5,30 +5,39 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 	return()
 endif()
 
-function(extract_version_info FILE_NAME OUTPUT_VAR)
-    if(NOT EXISTS ${FILE_NAME})
-        message(FATAL_ERROR "File ${FILE_NAME} not found.")
+#set(VERSION_MAJOR "0")
+#set(VERSION_MINOR "0")
+#set(VERSION_PATCH "0")
+
+function(extract_version_info FILE MAJOR MINOR PATCH)
+    if(NOT EXISTS ${FILE})
+        message(FATAL_ERROR "File ${FILE} not found.")
     endif()
 
-    file(READ ${FILE_NAME} VERSION_HEADER_CONTENT)
+    file(READ ${FILE} VERSION_HEADER_CONTENT)
     string(REPLACE " " "" VERSION_HEADER_CONTENT ${VERSION_HEADER_CONTENT})
 
     string(REGEX MATCH "major=([0-9]+)" _ ${VERSION_HEADER_CONTENT})
-    set(VERSION_MAJOR ${CMAKE_MATCH_1})
+    set(VERSION_MAJOR ${CMAKE_MATCH_1} PARENT_SCOPE)
 
     string(REGEX MATCH "minor=([0-9]+)" _ ${VERSION_HEADER_CONTENT})
-    set(VERSION_MINOR ${CMAKE_MATCH_1})
+    set(VERSION_MINOR ${CMAKE_MATCH_1} PARENT_SCOPE)
 
     string(REGEX MATCH "patch=([0-9]+)" _ ${VERSION_HEADER_CONTENT})
-    set(VERSION_PATCH ${CMAKE_MATCH_1})
+    set(VERSION_PATCH ${CMAKE_MATCH_1} PARENT_SCOPE)
 
-    set(${OUTPUT_VAR} "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}" PARENT_SCOPE)
+    #set(${OUTPUT_VAR} "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}" PARENT_SCOPE)
 endfunction()
 
-extract_version_info("version.py" PACKER_VERSION)
-message("Packer Version: ${PACKER_VERSION}")
 
-project(packer VERSION ${PACKER_VERSION} LANGUAGES CXX)
+
+extract_version_info("version.py" VERSION_MAJOR VERSION_MINOR VERSION_PATCH)
+set(VERSION_STRING "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
+message("Packer Version: ${VERSION_STRING}")
+
+
+
+project(packer VERSION ${VERSION_STRING} LANGUAGES CXX)
 
 file(GLOB packer_headers source/packer/*.h)
 file(GLOB packer_sources source/packer/*.cpp)
@@ -36,6 +45,7 @@ file(GLOB console_headers source/console/*.h)
 file(GLOB console_sources source/console/*.cpp)
 file(GLOB test_headers source/test/*.h)
 file(GLOB test_sources source/test/*.cpp)
+
 
 # Add resource file conditionally for Windows
 if(WIN32)
@@ -71,6 +81,11 @@ set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR})
 
 # Create packer target
 add_executable(Packer ${packer_headers} ${packer_sources} ${console_headers} ${console_sources} ${console_resources})
+
+target_compile_definitions(Packer PRIVATE VERSION_MAJOR=${VERSION_MAJOR})
+target_compile_definitions(Packer PRIVATE VERSION_MINOR=${VERSION_MINOR})
+target_compile_definitions(Packer PRIVATE VERSION_PATCH=${VERSION_PATCH})
+
 target_include_directories(Packer PRIVATE source/packer)
 target_compile_features(Packer PRIVATE cxx_std_${CPP_STD})
 target_compile_options(Packer PRIVATE ${COMMON_COMPILE_OPTIONS})
