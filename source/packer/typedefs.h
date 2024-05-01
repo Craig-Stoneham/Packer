@@ -36,15 +36,22 @@
 #include <sstream>
 #include <iostream>
 
-#if __cplusplus >= 201703L
-#include <filesystem>
-#else // __cplusplus >= 201703L
-/// @brief Suppress 'std::experimental::filesystem is deprecated' warning.
-#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
-/// @brief Indicates that the file system is experimental.
+#if _MSC_VER 
+#if !_HAS_CXX17
 #define EXPERIMENTAL_FILESYSTEM
+#endif // _HAS_CXX17
+#else // _MSC_VER
+#if __cplusplus < 201703L
+#define EXPERIMENTAL_FILESYSTEM
+#endif // __cplusplus < 201703L
+#endif // _MSC_VER
+
+
+#ifndef EXPERIMENTAL_FILESYSTEM
+#include <filesystem>
+#else // EXPERIMENTAL_FILESYSTEM
 #include <experimental/filesystem>
-#endif // __cplusplus >= 201703L
+#endif //EXPERIMENTAL_FILESYSTEM
 
 /**
  * @def STRINGIFY(p_x)
