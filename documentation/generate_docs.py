@@ -1,10 +1,10 @@
 import subprocess
 import os
 import tempfile
-import sys  # Don't forget to import sys
+import sys
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
-documentation_dir = os.path.join(script_dir, "Documentation")
+documentation_dir = script_dir
 
 if not os.path.exists(documentation_dir):
     os.makedirs(documentation_dir)
@@ -13,8 +13,8 @@ projects = [
     {
         "name": "Packer",
         "input": [
-            os.path.join(script_dir, "source/packer"),
-            os.path.join(script_dir, "source/console")
+            os.path.join(script_dir, "../source/packer"),
+            os.path.join(script_dir, "../source/console")
         ],
         "output": ".",
         "file_patterns": "*.h"
@@ -36,11 +36,11 @@ for project in projects:
     
     if result.returncode != 0:
         print(f"Failed to generate documentation for {project['name']}.")
-        sys.exit(1)  # Exit with an error code
+        sys.exit(1)
     
     os.remove(temp_file_name)
     
     print(f"Documentation generated for {project['name']}.")
 
 print("Documentation generation complete.")
-sys.exit(0)  # Exit successfully
+sys.exit(0)
