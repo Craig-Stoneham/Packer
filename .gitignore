@@ -1,23 +1,15 @@
-##############
-### Builds ###
-##############
+# Binaries
 
-bin
+bin/
 
-########################
-### Compiler project ###
-########################
+# CMake
 
-build
+build/
 
-######################
-### Resource files ###
-######################
+# Resource files
 
 *.aps
 
-##############################
-### Resource project files ###
-##############################
+# Resource project files
 
 *.psd
