@@ -5,37 +5,29 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 	return()
 endif()
 
-#set(VERSION_MAJOR "0")
-#set(VERSION_MINOR "0")
-#set(VERSION_PATCH "0")
-
-function(extract_version_info FILE MAJOR MINOR PATCH)
+function(extract_version_info FILE VERSION)
     if(NOT EXISTS ${FILE})
         message(FATAL_ERROR "File ${FILE} not found.")
     endif()
 
-    file(READ ${FILE} VERSION_HEADER_CONTENT)
-    string(REPLACE " " "" VERSION_HEADER_CONTENT ${VERSION_HEADER_CONTENT})
+    file(READ ${FILE} VERSION_CONTENT)
+    string(REPLACE " " "" VERSION_CONTENT ${VERSION_CONTENT})
 
-    string(REGEX MATCH "major=([0-9]+)" _ ${VERSION_HEADER_CONTENT})
-    set(VERSION_MAJOR ${CMAKE_MATCH_1} PARENT_SCOPE)
+    string(REGEX MATCH "major=([0-9]+)" _ ${VERSION_CONTENT})
+    set(${VERSION}_MAJOR ${CMAKE_MATCH_1} PARENT_SCOPE)
 
-    string(REGEX MATCH "minor=([0-9]+)" _ ${VERSION_HEADER_CONTENT})
-    set(VERSION_MINOR ${CMAKE_MATCH_1} PARENT_SCOPE)
+    string(REGEX MATCH "minor=([0-9]+)" _ ${VERSION_CONTENT})
+    set(${VERSION}_MINOR ${CMAKE_MATCH_1} PARENT_SCOPE)
 
-    string(REGEX MATCH "patch=([0-9]+)" _ ${VERSION_HEADER_CONTENT})
-    set(VERSION_PATCH ${CMAKE_MATCH_1} PARENT_SCOPE)
-
-    #set(${OUTPUT_VAR} "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}" PARENT_SCOPE)
+    string(REGEX MATCH "patch=([0-9]+)" _ ${VERSION_CONTENT})
+    set(${VERSION}_PATCH ${CMAKE_MATCH_1} PARENT_SCOPE)
 endfunction()
 
+extract_version_info("version.py" VERSION)
 
-
-extract_version_info("version.py" VERSION_MAJOR VERSION_MINOR VERSION_PATCH)
 set(VERSION_STRING "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
+
 message("Packer Version: ${VERSION_STRING}")
-
-
 
 project(packer VERSION ${VERSION_STRING} LANGUAGES CXX)
 
