@@ -1,4 +1,4 @@
-<p align="center"><img width="100%" src="resources/logo.png" /></p>
+<p align="center"><img width="100%" src="resources/branding/logo.png" /></p>
 
 # Packer - File Management Utility
 
