@@ -21,11 +21,6 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-/**
- * @file typedefs.h
- * @brief Defines common types and utility macros for the application.
- */
-
 #pragma once
 
 #include <type_traits>
