@@ -36,7 +36,7 @@ PACKER_NAMESPACE_BEGIN
  * This macro defines the default text color used for displaying command text in the console.
  * You can change this value to specify a different default text color for command text.
  */
-#define DEFAULT_COMMAND_TEXT_COLOR Color::LightGreen
+#define DEFAULT_COMMAND_TEXT_COLOR Console::Color::LightGreen
 
 /**
  * @class ConsoleApp

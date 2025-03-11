@@ -29,7 +29,7 @@ PACKER_NAMESPACE_BEGIN
  * @def DEFAULT_PACK_MODE
  * @brief The default packing mode.
  */
-#define DEFAULT_PACK_MODE PackMode::Include
+#define DEFAULT_PACK_MODE Packer::PackMode::Include
 
 /**
  * @def DEFAULT_OVERWRITE_FILES
@@ -65,7 +65,7 @@ PACKER_NAMESPACE_BEGIN
  * @def DEFAULT_EXTENSION_ADJUST
  * @brief The default extension adjustment mode.
  */
-#define DEFAULT_EXTENSION_ADJUST ExtensionAdjust::Default
+#define DEFAULT_EXTENSION_ADJUST Packer::ExtensionAdjust::Default
 
 #ifdef IGNORE_FILE_ENABLED
 /**
