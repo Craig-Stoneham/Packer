@@ -21,11 +21,6 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-/**
- * @file log_file.h
- * @brief Defines the LogFile class for logging to a file.
- */
-
 #pragma once
 
 #include "log.h"

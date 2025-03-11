@@ -21,11 +21,6 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-/**
- * @file test_packer.h
- * @brief Contains test cases for the Packer class.
- */
-
 #pragma once
 
 #include "test_suite.h"

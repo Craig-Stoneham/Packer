@@ -21,11 +21,6 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-/**
- * @file application.h
- * @brief Defines the Application class for the Packer Console.
- */
-
 #pragma once
 
 #include "typedefs.h"

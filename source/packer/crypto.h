@@ -21,11 +21,6 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-/**
- * @file crypto.h
- * @brief Declares the Crypto and CryptoKey classes for encryption and decryption.
- */
-
 #pragma once
 
 #include "typedefs.h"

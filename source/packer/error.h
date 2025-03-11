@@ -21,11 +21,6 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-/**
- * @file error.h
- * @brief Defines error codes and associated functions.
- */
-
 #pragma once
 
 #include "typedefs.h"

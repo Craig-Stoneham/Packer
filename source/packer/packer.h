@@ -21,11 +21,6 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-/**
- * @file packer.h
- * @brief Defines a utility for packing and managing files based on user-defined rules.
- */
-
 #pragma once
 
 #include "config_file.h"

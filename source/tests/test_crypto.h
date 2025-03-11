@@ -21,11 +21,6 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-/**
- * @file test_crypto.cpp
- * @brief Contains the implementation of the TestCrypto class, which tests the cryptographic functions.
- */
-
 #pragma once
 
 #include "test_suite.h"

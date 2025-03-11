@@ -21,11 +21,6 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-/**
- * @file console.h
- * @brief Defines a console utility class for managing console output and text colors.
- */
-
 #pragma once
 
 #include "log.h"

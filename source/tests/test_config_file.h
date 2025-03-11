@@ -21,11 +21,6 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-/**
- * @file test_config_file.cpp
- * @brief Contains the implementation of the TestConfigFile class.
- */
-
 #pragma once
 
 #include "test_suite.h"

@@ -21,11 +21,6 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-/**
- * @file test_variant.h
- * @brief Defines test cases for the Variant class.
- */
-
 #pragma once
 
 #include "test_suite.h"

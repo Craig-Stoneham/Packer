@@ -21,11 +21,6 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-/**
- * @file log.h
- * @brief Provides logging functionality for the application.
- */
-
 #pragma once
 
 #include "typedefs.h"

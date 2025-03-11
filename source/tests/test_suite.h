@@ -21,11 +21,6 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-/**
- * @file test_suite.h
- * @brief Contains the definition of the TestSuite class and related types.
- */
-
 #pragma once
 
 #include <typedefs.h>

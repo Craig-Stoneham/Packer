@@ -21,11 +21,6 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-/**
- * @file config_file.h
- * @brief Defines a configuration file utility class for managing key-value configuration data.
- */
-
 #pragma once
 
 #include "variant.h"

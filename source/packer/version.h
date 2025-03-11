@@ -21,11 +21,6 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-/**
- * @file version.h
- * @brief Defines the version information for the software.
- */
-
 #pragma once
 
 #define VERSION_STRING MAKE_STRING(VERSION_MAJOR) "." MAKE_STRING(VERSION_MINOR) "." MAKE_STRING(VERSION_PATCH)
