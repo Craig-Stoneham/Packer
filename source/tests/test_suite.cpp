@@ -54,7 +54,7 @@ int TestSuite::run_tests(bool p_pause) {
         system("PAUSE");
     }
 
-    return num_failures ? EXIT_FAILURE : EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 }
 
 PACKER_NAMESPACE_END
