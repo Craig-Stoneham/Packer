@@ -21,7 +21,7 @@ set(ALL_FILES ${PUBLIC_FILES} ${PRIVATE_FILES})
 
 add_executable(Tests ${ALL_FILES})
 
-set_target_properties(Console PROPERTIES FOLDER "Tests")
+set_target_properties(Tests PROPERTIES FOLDER "Tests")
 
 source_group("headers" FILES ${PUBLIC_FILES})
 source_group("source" FILES ${PRIVATE_FILES})
