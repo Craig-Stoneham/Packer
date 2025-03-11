@@ -8,6 +8,7 @@ set(PUBLIC_FILES
     log.h
     log_file.h
     packer.h
+    typedefs.h
     variant.h
     version.h
 )
