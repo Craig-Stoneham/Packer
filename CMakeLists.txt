@@ -23,7 +23,7 @@ option(PACKER_CONSOLE_FEATURES_ENABLED "Enable console features" ON)
 option(PACKER_CONFIG_FILE_ENCRYPTION_ENABLED "Enable config file encryption" OFF)
 
 # Console app options
-option(PACKER_BUILD_CONSOLE_APP "Build test executable" ON)
+option(PACKER_BUILD_CONSOLE_APP "Build console executable" ON)
 
 # Test options
 option(PACKER_BUILD_TESTS "Build test executable" OFF)
