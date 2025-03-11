@@ -158,7 +158,6 @@ private:
     bool log_enabled; ///< Flag indicating whether logging is enabled.
 #endif // LOG_ENABLED
 
-
     /**
      * @brief Recursively packs files from the source directory to the destination directory.
      * @param p_read_path The current source directory to pack files from.
