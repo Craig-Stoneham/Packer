@@ -8,13 +8,13 @@
 
 PACKER_NAMESPACE_BEGIN
 
- /**
-  * @class TestCrypto
-  * @brief Represents a test suite for cryptographic functionality.
-  *
-  * This class defines test cases for cryptographic operations, including encryption and decryption
-  * using randomly generated keys.
-  */
+/**
+ * @class TestCrypto
+ * @brief Represents a test suite for cryptographic functionality.
+ *
+ * This class defines test cases for cryptographic operations, including encryption and decryption
+ * using randomly generated keys.
+ */
 class TestCrypto : public TestSuite {
     /**
      * @brief Performs cryptographic tests.

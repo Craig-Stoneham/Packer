@@ -8,13 +8,13 @@
 
 PACKER_NAMESPACE_BEGIN
 
- /**
-  * @class TestVariant
-  * @brief Test cases for the Variant class.
-  *
-  * This class defines test cases for the Variant class. It tests various types of
-  * values to ensure that Variant correctly stores and serializes them.
-  */
+/**
+ * @class TestVariant
+ * @brief Test cases for the Variant class.
+ *
+ * This class defines test cases for the Variant class. It tests various types of
+ * values to ensure that Variant correctly stores and serializes them.
+ */
 class TestVariant : public TestSuite {
     /**
      * @brief Test a specific type using the Variant class.
