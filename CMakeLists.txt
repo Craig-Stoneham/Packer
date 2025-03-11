@@ -58,5 +58,5 @@ endif()
 
 # Set the startup project to console
 if(PACKER_BUILD_CONSOLE_APP)
-    set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Packer)
+    set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Console)
 endif()
