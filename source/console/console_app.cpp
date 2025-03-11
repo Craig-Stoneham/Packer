@@ -280,7 +280,7 @@ void ConsoleApp::_run_packer() {
         }
     }
 
-    LOG_INFO("Running packer version " VERSION_STRING "\n");
+    LOG_INFO("Running packer version " PACKER_VERSION_STRING "\n");
 
     LOG_INFO("Read path: " + packer.get_read_path() + "\n");
     LOG_INFO("Write path: " + packer.get_write_path() + "\n");
@@ -429,7 +429,7 @@ Error ConsoleApp::_load(const String& p_path) {
 }
 
 int ConsoleApp::run() {
-    print_line("Welcome to packer version "  VERSION_STRING  ".");
+    print_line("Welcome to packer version "  PACKER_VERSION_STRING  ".");
     print_line("Type a command or 'help' for a list of commands:");
 
     _load(DEFAULT_CONFIG_FILE_NAME);

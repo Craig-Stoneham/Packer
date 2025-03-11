@@ -35,9 +35,9 @@ source_group("source" FILES ${PRIVATE_FILES})
 target_include_directories(Packer PUBLIC ${PUBLIC_DIRS})
 target_compile_features(Packer PRIVATE cxx_std_${CPP_STD})
 
-target_compile_definitions(Packer PUBLIC VERSION_MAJOR=${PACKER_VERSION_MAJOR})
-target_compile_definitions(Packer PUBLIC VERSION_MINOR=${PACKER_VERSION_MINOR})
-target_compile_definitions(Packer PUBLIC VERSION_PATCH=${PACKER_VERSION_PATCH})
+target_compile_definitions(Packer PUBLIC PACKER_VERSION_MAJOR=${PACKER_VERSION_MAJOR})
+target_compile_definitions(Packer PUBLIC PACKER_VERSION_MINOR=${PACKER_VERSION_MINOR})
+target_compile_definitions(Packer PUBLIC PACKER_VERSION_PATCH=${PACKER_VERSION_PATCH})
 
 if(PACKER_NAMESPACE_ENABLED)
     target_compile_definitions(Packer PUBLIC PACKER_NAMESPACE_ENABLED)
