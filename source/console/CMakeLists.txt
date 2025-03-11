@@ -27,7 +27,5 @@ source_group("resources" FILES ${RESOURCE_FILES})
 
 target_link_libraries(Console PUBLIC Packer)
 
-source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} PREFIX "" FILES ${ALL_FILES})
-
 target_include_directories(Console PUBLIC ${PUBLIC_DIRS})
 target_compile_features(Console PRIVATE cxx_std_${CPP_STD})

@@ -28,7 +28,5 @@ source_group("source" FILES ${PRIVATE_FILES})
 
 target_link_libraries(Tests PUBLIC Packer)
 
-source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} PREFIX "" FILES ${ALL_FILES})
-
 target_include_directories(Tests PUBLIC ${PUBLIC_DIRS})
 target_compile_features(Tests PRIVATE cxx_std_${CPP_STD})
