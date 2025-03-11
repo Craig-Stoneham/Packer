@@ -15,7 +15,6 @@ if(WIN32)
     )
 endif()
 
-
 set(ALL_FILES ${PUBLIC_FILES} ${PRIVATE_FILES} ${RESOURCE_FILES})
 
 add_executable(Console ${ALL_FILES})

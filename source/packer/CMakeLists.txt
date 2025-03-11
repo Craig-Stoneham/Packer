@@ -54,4 +54,3 @@ endif()
 if(PACKER_CONFIG_FILE_ENCRYPTION_ENABLED)
     target_compile_definitions(Packer PUBLIC CONFIG_FILE_ENCRYPTION_ENABLED)
 endif()
-
