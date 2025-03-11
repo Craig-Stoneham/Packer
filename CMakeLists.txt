@@ -5,61 +5,28 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 	return()
 endif()
 
-function(extract_version_info FILE VERSION)
-    if(NOT EXISTS ${FILE})
-        message(FATAL_ERROR "File ${FILE} not found.")
-    endif()
+set(PACKER_VERSION_MAJOR 2)
+set(PACKER_VERSION_MINOR 5) 
+set(PACKER_VERSION_PATCH 2)
 
-    file(READ ${FILE} VERSION_CONTENT)
-    string(REPLACE " " "" VERSION_CONTENT ${VERSION_CONTENT})
+set(PACKER_VERSION ${PACKER_VERSION_MAJOR}.${PACKER_VERSION_MINOR}.${PACKER_VERSION_PATCH})
 
-    string(REGEX MATCH "major=([0-9]+)" _ ${VERSION_CONTENT})
-    set(${VERSION}_MAJOR ${CMAKE_MATCH_1} PARENT_SCOPE)
+project(Packer VERSION ${PACKER_VERSION} LANGUAGES CXX)
 
-    string(REGEX MATCH "minor=([0-9]+)" _ ${VERSION_CONTENT})
-    set(${VERSION}_MINOR ${CMAKE_MATCH_1} PARENT_SCOPE)
+message("Packer Version: ${PACKER_VERSION}")
 
-    string(REGEX MATCH "patch=([0-9]+)" _ ${VERSION_CONTENT})
-    set(${VERSION}_PATCH ${CMAKE_MATCH_1} PARENT_SCOPE)
-endfunction()
-
-extract_version_info("version.py" VERSION)
-
-set(VERSION_STRING "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
-
-message("Packer Version: ${VERSION_STRING}")
-
-project(packer VERSION ${VERSION_STRING} LANGUAGES CXX)
-
-file(GLOB packer_headers source/packer/*.h)
-file(GLOB packer_sources source/packer/*.cpp)
-file(GLOB console_headers source/console/*.h)
-file(GLOB console_sources source/console/*.cpp)
-file(GLOB test_headers source/test/*.h)
-file(GLOB test_sources source/test/*.cpp)
-
-
-# Add resource file conditionally for Windows
-if(WIN32)
-    list(APPEND console_resources
-        source/console/resources.rc
-    )
-endif()
-
-# Add the option for packer namespace
+# Packer options
 option(PACKER_NAMESPACE_ENABLED "Use packer namespace" ON)
+option(PACKER_LOG_ENABLED "Enable logging functionallity" ON)
+option(PACKER_IGNORE_FILE_ENABLED "Enable ignore file functionallity" ON)
+option(PACKER_CONSOLE_FEATURES_ENABLED "Enable console features" ON)
+option(PACKER_CONFIG_FILE_ENCRYPTION_ENABLED "Enable config file encryption" OFF)
 
-# Add the option for logging functionallity
-option(LOG_ENABLED "Enabled logging functionallity" ON)
+# Console app options
+option(PACKER_BUILD_CONSOLE_APP "Build test executable" ON)
 
-# Add the options for ignore file functionallity
-option(IGNORE_FILE_ENABLED "Enabled ignore file functionallity" ON)
-
-# Add the option for console features
-option(CONSOLE_FEATURES_ENABLED "Enabled console features" ON)
-
-# Add the option for config file encryption
-option(CONFIG_FILE_ENCRYPTION_ENABLED "Enabled config file encryption" OFF)
+# Test options
+option(PACKER_BUILD_TESTS "Build test executable" OFF)
 
 # Add option for C++ standard version
 set(CPP_STD 17 CACHE STRING "C++ standard version")
@@ -71,74 +38,23 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE}
 # Set the install prefix to the root directory
 set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR})
 
-# Create packer target
-add_executable(Packer ${packer_headers} ${packer_sources} ${console_headers} ${console_sources} ${console_resources})
-
-target_compile_definitions(Packer PRIVATE VERSION_MAJOR=${VERSION_MAJOR})
-target_compile_definitions(Packer PRIVATE VERSION_MINOR=${VERSION_MINOR})
-target_compile_definitions(Packer PRIVATE VERSION_PATCH=${VERSION_PATCH})
-
-target_include_directories(Packer PRIVATE source/packer)
-target_compile_features(Packer PRIVATE cxx_std_${CPP_STD})
-target_compile_options(Packer PRIVATE ${COMMON_COMPILE_OPTIONS})
-
-# Conditionally add the preprocessor definition
-if(PACKER_NAMESPACE_ENABLED)
-    target_compile_definitions(Packer PUBLIC PACKER_NAMESPACE_ENABLED)
+# Include subdirectories
+add_subdirectory(source/packer)
+if(PACKER_BUILD_CONSOLE_APP)
+    add_subdirectory(source/console)
 endif()
-if(LOG_ENABLED)
-    target_compile_definitions(Packer PUBLIC LOG_ENABLED)
-endif()
-if(IGNORE_FILE_ENABLED)
-    target_compile_definitions(Packer PUBLIC IGNORE_FILE_ENABLED)
-endif()
-if(CONSOLE_FEATURES_ENABLED)
-    target_compile_definitions(Packer PUBLIC CONSOLE_FEATURES_ENABLED)
-endif()
-if(CONFIG_FILE_ENCRYPTION_ENABLED)
-    target_compile_definitions(Packer PUBLIC CONFIG_FILE_ENCRYPTION_ENABLED)
+if(PACKER_BUILD_TESTS)
+    add_subdirectory(source/tests)
 endif()
 
-# Option for building test
-option(BUILD_TESTS "Build test executable" OFF)
-if(BUILD_TESTS)
-    # Create test target
-    add_executable(test ${packer_headers} ${packer_sources} ${test_headers} ${test_sources})
-    target_include_directories(test PRIVATE source/packer source/test)    
-    target_compile_features(test PRIVATE cxx_std_${CPP_STD})
-    target_compile_options(test PRIVATE ${COMMON_COMPILE_OPTIONS})
-    
-    # Conditionally add the preprocessor definition for test as well
-    if(PACKER_NAMESPACE_ENABLED)
-        target_compile_definitions(test PUBLIC PACKER_NAMESPACE_ENABLED)
-    endif()
-    if(LOG_ENABLED)
-        target_compile_definitions(test PUBLIC LOG_ENABLED)
-    endif()
-    if(IGNORE_FILE_ENABLED)
-        target_compile_definitions(test PUBLIC IGNORE_FILE_ENABLED)
-    endif()
-    if(CONSOLE_FEATURES_ENABLED)
-        target_compile_definitions(test PUBLIC CONSOLE_FEATURES_ENABLED)
-    endif()
+# Install targets
+install(TARGETS Packer DESTINATION bin)
+if(PACKER_BUILD_CONSOLE_APP)
+    install(TARGETS Console DESTINATION bin)
+endif()
+if(PACKER_BUILD_TESTS)
+    install(TARGETS Tests DESTINATION bin)
 endif()
 
 # Set the startup project to console
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Packer)
-
-# Install targets
-install(TARGETS Packer DESTINATION bin)
-if(BUILD_TESTS)
-    install(TARGETS test DESTINATION bin)
-endif()
-
-# Source groups
-source_group("packer/headers" FILES ${packer_headers})
-source_group("packer/source" FILES ${packer_sources})
-source_group("console/headers" FILES ${console_headers})
-source_group("console/source" FILES ${console_sources})
-if(WIN32)
-source_group("console/resources" FILES ${console_resources})
-endif()
-source_group("test/headers" FILES ${test_headers})
-source_group("test/source" FILES ${test_sources})

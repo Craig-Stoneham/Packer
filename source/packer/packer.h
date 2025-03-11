@@ -34,6 +34,87 @@
 PACKER_NAMESPACE_BEGIN
 
 /**
+ * @def DEFAULT_READ_PATH
+ * @brief The default path for reading files.
+ */
+#define DEFAULT_READ_PATH ""
+
+/**
+ * @def DEFAULT_WRITE_PATH
+ * @brief The default path for writing files.
+ */
+#define DEFAULT_WRITE_PATH ""
+
+/**
+ * @def DEFAULT_EXTENTIONS
+ * @brief The default file extensions to include.
+ */
+#define DEFAULT_EXTENTIONS StringVector()
+
+/**
+ * @def DEFAULT_PACK_MODE
+ * @brief The default packing mode.
+ */
+#define DEFAULT_PACK_MODE PackMode::Include
+
+/**
+ * @def DEFAULT_OVERWRITE_FILES
+ * @brief The default option to overwrite existing files.
+ */
+#define DEFAULT_OVERWRITE_FILES false
+
+/**
+ * @def DEFAULT_MOVE_FILES
+ * @brief The default option to move files instead of copying.
+ */
+#define DEFAULT_MOVE_FILES false
+
+/**
+ * @def DEFAULT_SUFFIX_STRING
+ * @brief The default suffix to add to packed files.
+ */
+#define DEFAULT_SUFFIX_STRING ""
+
+/**
+ * @def DEFAULT_SUFFIX_ENABLED
+ * @brief The default option to enable suffixes for packed files.
+ */
+#define DEFAULT_SUFFIX_ENABLED false
+
+/**
+ * @def DEFAULT_EXTENSION_INSENSITIVE
+ * @brief The default option for case-insensitive file extensions.
+ */
+#define DEFAULT_EXTENSION_INSENSITIVE false
+
+/**
+ * @def DEFAULT_EXTENSION_ADJUST
+ * @brief The default extension adjustment mode.
+ */
+#define DEFAULT_EXTENSION_ADJUST ExtensionAdjust::Default
+
+#ifdef IGNORE_FILE_ENABLED
+/**
+ * @def DEFAULT_IGNORE_FILE_NAME
+ * @brief The default name of the ignore file.
+ */
+#define DEFAULT_IGNORE_FILE_NAME ".pkignore"
+
+/**
+ * @def DEFAULT_IGNORE_FILE_ENABLED
+ * @brief The default option to enable ignore file processing.
+ */
+#define DEFAULT_IGNORE_FILE_ENABLED true
+
+#endif // IGNORE_FILE_ENABLED
+
+/**
+ * @def DEFAULT_LOG_ENABLED
+ * @brief The default option to enable logging.
+ */
+#define DEFAULT_LOG_ENABLED true
+
+/**
  * @class Packer
  * @brief A utility class for packing and managing files based on user-defined rules.
  * 

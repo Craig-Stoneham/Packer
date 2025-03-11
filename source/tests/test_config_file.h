@@ -22,43 +22,48 @@
 /**************************************************************************/
 
 /**
- * @file test_crypto.cpp
- * @brief Contains the implementation of the TestCrypto class, which tests the cryptographic functions.
+ * @file test_config_file.cpp
+ * @brief Contains the implementation of the TestConfigFile class.
  */
 
 #pragma once
 
 #include "test_suite.h"
 
+#include <config_file.h>
+
 PACKER_NAMESPACE_BEGIN
 
- /**
-  * @class TestCrypto
-  * @brief Represents a test suite for cryptographic functionality.
-  *
-  * This class defines test cases for cryptographic operations, including encryption and decryption
-  * using randomly generated keys.
-  */
-class TestCrypto : public TestSuite {
+/**
+ * @class TestConfigFile
+ * @brief A test suite for the ConfigFile class.
+ *
+ * This test suite evaluates the functionality of the ConfigFile class by testing
+ * various aspects such as setting values, saving and loading configuration files,
+ * and encryption and decryption of configuration files.
+ */
+class TestConfigFile : public TestSuite {
     /**
-     * @brief Performs cryptographic tests.
+     * @brief Test the functionality of the ConfigFile class.
      *
-     * This function generates random data, encrypts and decrypts it with randomly generated keys,
-     * and checks if the decrypted data matches the original data.
+     * This test function sets various values of different types in a ConfigFile
+     * instance, saves the configuration to a file, loads the configuration from
+     * the file, and verifies that the loaded values match the original values.
      *
-     * @param p_initial The initial value for randomization.
-     * @param p_num_tests The number of cryptographic tests to perform.
-     * @return The result of the cryptographic tests, indicating success or failure.
+     * Additionally, it tests the encryption and decryption of configuration files
+     * using a CryptoKey.
+     *
+     * @return The result of the test, indicating success or failure.
      */
-    TestResult test(uint32_t p_initial = 0xBEADBEEF, size_t p_num_tests = 1 << 16);
+    TestResult test();
 
 public:
     /**
-     * @brief Constructs a new TestCrypto object.
+     * @brief Construct a new TestConfigFile object.
      *
-     * Initializes the test suite with cryptographic test cases.
+     * This constructor adds the "ConfigFile" test case to the test suite.
      */
-    TestCrypto();
+    TestConfigFile();
 };
 
 PACKER_NAMESPACE_END

@@ -22,7 +22,6 @@
 /**************************************************************************/
 
 #include "application.h"
-#include "defaults.h"
 
 PACKER_NAMESPACE_BEGIN
 

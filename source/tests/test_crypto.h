@@ -22,61 +22,45 @@
 /**************************************************************************/
 
 /**
- * @file test_packer.h
- * @brief Contains test cases for the Packer class.
+ * @file test_crypto.cpp
+ * @brief Contains the implementation of the TestCrypto class, which tests the cryptographic functions.
  */
 
 #pragma once
 
 #include "test_suite.h"
 
+#include <crypto.h>
+
 PACKER_NAMESPACE_BEGIN
 
-/**
- * @class TestPacker
- * @brief Test suite for the Packer class.
- *
- * This class contains test cases for the functionality provided by the Packer class.
- */
-class TestPacker : public TestSuite {
-    Packer packer; ///< The Packer object used for testing.
-
-    String read_path; ///< The path for reading test files.
-    String write_path; ///< The path for writing packed files.
-    Vector<String> files; ///< A list of test file names.
-
+ /**
+  * @class TestCrypto
+  * @brief Represents a test suite for cryptographic functionality.
+  *
+  * This class defines test cases for cryptographic operations, including encryption and decryption
+  * using randomly generated keys.
+  */
+class TestCrypto : public TestSuite {
     /**
-     * @brief Test the functionality of the Packer class.
+     * @brief Performs cryptographic tests.
      *
-     * This function creates, packs, and tests various scenarios using the Packer class.
+     * This function generates random data, encrypts and decrypts it with randomly generated keys,
+     * and checks if the decrypted data matches the original data.
      *
-     * @return True if all test cases pass, false otherwise.
-     */
-    bool test_packer();
-
-    /**
-     * @brief Run the Packer test cases.
-     *
-     * This function is responsible for executing the test cases for the Packer class.
-     *
+     * @param p_initial The initial value for randomization.
+     * @param p_num_tests The number of cryptographic tests to perform.
      * @return The result of the cryptographic tests, indicating success or failure.
      */
-    TestResult test();
+    TestResult test(uint32_t p_initial = 0xBEADBEEF, size_t p_num_tests = 1 << 16);
 
 public:
     /**
-     * @brief Construct a new TestPacker object.
+     * @brief Constructs a new TestCrypto object.
      *
-     * Initializes the test suite for the Packer class.
+     * Initializes the test suite with cryptographic test cases.
      */
-    TestPacker();
-
-    /**
-     * @brief Destructor for the TestPacker object.
-     *
-     * Cleans up any resources used by the test suite.
-     */
-    ~TestPacker();
+    TestCrypto();
 };
 
 PACKER_NAMESPACE_END

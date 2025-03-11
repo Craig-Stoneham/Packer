@@ -23,8 +23,6 @@
 
 #include "packer.h"
 
-#include "defaults.h"
-
 PACKER_NAMESPACE_BEGIN
 
 static const char* pack_mode_names[] = {

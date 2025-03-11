@@ -22,46 +22,49 @@
 /**************************************************************************/
 
 /**
- * @file test_config_file.cpp
- * @brief Contains the implementation of the TestConfigFile class.
+ * @file test_variant.h
+ * @brief Defines test cases for the Variant class.
  */
 
 #pragma once
 
 #include "test_suite.h"
 
+#include <variant.h>
+
 PACKER_NAMESPACE_BEGIN
 
-/**
- * @class TestConfigFile
- * @brief A test suite for the ConfigFile class.
- *
- * This test suite evaluates the functionality of the ConfigFile class by testing
- * various aspects such as setting values, saving and loading configuration files,
- * and encryption and decryption of configuration files.
- */
-class TestConfigFile : public TestSuite {
+ /**
+  * @class TestVariant
+  * @brief Test cases for the Variant class.
+  *
+  * This class defines test cases for the Variant class. It tests various types of
+  * values to ensure that Variant correctly stores and serializes them.
+  */
+class TestVariant : public TestSuite {
     /**
-     * @brief Test the functionality of the ConfigFile class.
+     * @brief Test a specific type using the Variant class.
      *
-     * This test function sets various values of different types in a ConfigFile
-     * instance, saves the configuration to a file, loads the configuration from
-     * the file, and verifies that the loaded values match the original values.
+     * This template function tests a specific type by creating a Variant instance with
+     * the provided value, ensuring that the Variant correctly sets its type, and
+     * serializes and deserializes the value correctly.
      *
-     * Additionally, it tests the encryption and decryption of configuration files
-     * using a CryptoKey.
+     * @tparam T The type to test with Variant.
+     * @param value The value of type T to test.
      *
      * @return The result of the test, indicating success or failure.
      */
-    TestResult test();
+    template <class T>
+    TestResult test(const T& value);
 
 public:
     /**
-     * @brief Construct a new TestConfigFile object.
+     * @brief Constructor for the TestVariant class.
      *
-     * This constructor adds the "ConfigFile" test case to the test suite.
+     * Initializes and adds test cases for different types of values to be tested
+     * with the Variant class.
      */
-    TestConfigFile();
+    TestVariant();
 };
 
 PACKER_NAMESPACE_END

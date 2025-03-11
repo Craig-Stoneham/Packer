@@ -22,26 +22,63 @@
 /**************************************************************************/
 
 /**
- * @file typedefs.h
- * @brief Contains commonly used typedefs and includes for the test suite.
+ * @file test_packer.h
+ * @brief Contains test cases for the Packer class.
  */
 
 #pragma once
 
-#include "../packer/config_file.h"
-#include "../packer/crypto.h"
-#include "../packer/variant.h"
-#include "../packer/packer.h"
+#include "test_suite.h"
 
-#include <functional>
+#include <packer.h>
+
+PACKER_NAMESPACE_BEGIN
 
 /**
- * @brief Typedef for function objects.
+ * @class TestPacker
+ * @brief Test suite for the Packer class.
  *
- * This template typedef defines a standard alias for function objects,
- * allowing for the use of `std::function` with custom types in the test suite.
- *
- * @tparam T The type of the function object.
+ * This class contains test cases for the functionality provided by the Packer class.
  */
-template <class T>
-using Function = std::function<T>;
+class TestPacker : public TestSuite {
+    Packer packer; ///< The Packer object used for testing.
+
+    String read_path; ///< The path for reading test files.
+    String write_path; ///< The path for writing packed files.
+    Vector<String> files; ///< A list of test file names.
+
+    /**
+     * @brief Test the functionality of the Packer class.
+     *
+     * This function creates, packs, and tests various scenarios using the Packer class.
+     *
+     * @return True if all test cases pass, false otherwise.
+     */
+    bool test_packer();
+
+    /**
+     * @brief Run the Packer test cases.
+     *
+     * This function is responsible for executing the test cases for the Packer class.
+     *
+     * @return The result of the cryptographic tests, indicating success or failure.
+     */
+    TestResult test();
+
+public:
+    /**
+     * @brief Construct a new TestPacker object.
+     *
+     * Initializes the test suite for the Packer class.
+     */
+    TestPacker();
+
+    /**
+     * @brief Destructor for the TestPacker object.
+     *
+     * Cleans up any resources used by the test suite.
+     */
+    ~TestPacker();
+};
+
+PACKER_NAMESPACE_END

@@ -28,9 +28,22 @@
 
 #pragma once
 
-#include "typedefs.h"
+#include <typedefs.h>
+
+#include <functional>
 
 PACKER_NAMESPACE_BEGIN
+
+/**
+ * @brief Typedef for function objects.
+ *
+ * This template typedef defines a standard alias for function objects,
+ * allowing for the use of `std::function` with custom types in the test suite.
+ *
+ * @tparam T The type of the function object.
+ */
+template <class T>
+using Function = std::function<T>;
 
 /**
  * @struct TestResult
