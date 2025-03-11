@@ -1,11 +1,11 @@
 set(PUBLIC_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(PUBLIC_FILES
-    application.h
+    console_app.h
 )
 
 set(PRIVATE_FILES
-    application.cpp
+    console_app.cpp
     main.cpp
 )
 

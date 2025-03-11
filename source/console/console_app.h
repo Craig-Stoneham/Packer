@@ -39,29 +39,29 @@ PACKER_NAMESPACE_BEGIN
 #define DEFAULT_COMMAND_TEXT_COLOR Color::LightGreen
 
 /**
- * @class Application
+ * @class ConsoleApp
  * @brief Manages the Packer application, providing a command-line interface.
  *
- * The Application class acts as the user interface for the Packer application. It allows users
+ * The ConsoleApp class acts as the user interface for the Packer application. It allows users
  * to interact with Packer through various commands, such as setting paths, configuring options,
  * and executing packing operations. Users can provide input and receive output through the console.
  */
-class Application : public Console {
+class ConsoleApp : public Console {
     /**
      * @typedef Function
-     * @brief Represents a member function pointer type within the Application class.
+     * @brief Represents a member function pointer type within the ConsoleApp class.
      *
      * This type is used to define pointers to member functions that correspond to various
-     * commands or actions that can be executed within the Application class.
+     * commands or actions that can be executed within the ConsoleApp class.
      */
-    using Function = void (Application::*)();
+    using Function = void (ConsoleApp::*)();
 
     /**
      * @struct Command
-     * @brief Represents a command definition used within the Application class.
+     * @brief Represents a command definition used within the ConsoleApp class.
      *
      * A Command contains information about a specific action or operation that can be executed
-     * within the Application. Each command has a name, a description, and may require additional
+     * within the ConsoleApp. Each command has a name, a description, and may require additional
      * user input when of type 'Prompt'.
      */
     struct Command {
@@ -84,7 +84,6 @@ class Application : public Console {
         String description;   ///< A brief description of what the command does.
         String prompt;        ///< Prompt for additional user input (used when type is 'Prompt').
     };
-
 
     Packer packer; ///< The Packer instance used for file packing.
     String input; ///< The user's input.
@@ -288,9 +287,9 @@ public:
     int run();
 
     /**
-     * @brief Default constructor for the Application class.
+     * @brief Default constructor for the ConsoleApp class.
      */
-    Application();
+    ConsoleApp();
 };
 
 PACKER_NAMESPACE_END

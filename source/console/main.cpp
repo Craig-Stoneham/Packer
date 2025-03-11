@@ -1,11 +1,10 @@
 // See LICENSE for full copyright and licensing information.
 
-#include "application.h"
+#include "console_app.h"
 
 USING_NAMESPACE_PACKER
 
 int main() {
-    Application application;
-
+    ConsoleApp application;
     return application.run();
 }
