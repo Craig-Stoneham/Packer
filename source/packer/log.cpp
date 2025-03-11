@@ -24,7 +24,7 @@ Log::Level Log::find_level(const String& p_level) {
             return static_cast<Level>(i);
         }
     }
-    return static_cast<Level>(-1);
+    return Log::Level::Unknown;
 }
 
 #ifdef LOG_ENABLED
