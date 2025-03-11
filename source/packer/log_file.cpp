@@ -1,4 +1,4 @@
-// Copyright notice: See COPYRIGHT.md for full copyright and licensing information.
+// See LICENSE for full copyright and licensing information.
 
 #include "log_file.h"
 
