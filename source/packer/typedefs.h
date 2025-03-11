@@ -41,7 +41,6 @@
 #endif // __cplusplus < 201703L
 #endif // _MSC_VER
 
-
 #ifndef EXPERIMENTAL_FILESYSTEM
 #include <filesystem>
 #else // EXPERIMENTAL_FILESYSTEM
@@ -177,13 +176,13 @@ namespace FileAccess {
 #define USING_NAMESPACE_PACKER
 #endif // PACKER_NAMESPACE_ENABLED
 
- /**
-  * @brief Normalizes path separators in a string.
-  *
-  * This function replaces all backslashes ('\') in the given string with forward slashes ('/').
-  *
-  * @param p_path The string to normalize path separators in.
-  */
+/**
+ * @brief Normalizes path separators in a string.
+ *
+ * This function replaces all backslashes ('\') in the given string with forward slashes ('/').
+ *
+ * @param p_path The string to normalize path separators in.
+ */
 inline static void normalize_path_separators(String& p_path) {
     for (size_t i = 0; i < p_path.size(); ++i) {
         if (p_path[i] == '\\') {
