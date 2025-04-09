@@ -46,7 +46,7 @@ PACKER_NAMESPACE_BEGIN
  * to interact with Packer through various commands, such as setting paths, configuring options,
  * and executing packing operations. Users can provide input and receive output through the console.
  */
-class ConsoleApp : public Console {
+class ConsoleApp {
     /**
      * @typedef Function
      * @brief Represents a member function pointer type within the ConsoleApp class.
@@ -85,13 +85,14 @@ class ConsoleApp : public Console {
         String prompt;        ///< Prompt for additional user input (used when type is 'Prompt').
     };
 
+	Console console; ///< The Console instance used for console operations.
     Packer packer; ///< The Packer instance used for file packing.
     String input; ///< The user's input.
     Vector<Command> commands; ///< List of available console commands.
     bool process_commands; ///< Flag indicating whether to process user commands.
 
 #ifdef CONSOLE_FEATURES_ENABLED
-    Color command_text_color; ///< The text color for command text in the console.
+    Console::Color command_text_color; ///< The text color for command text in the console.
 #endif // CONSOLE_FEATURES_ENABLED
 
 #ifdef LOG_ENABLED

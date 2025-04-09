@@ -34,123 +34,123 @@ void ConsoleApp::_add_prompt_command(Function p_function, const String& p_name, 
 void ConsoleApp::_set_read_path() {
     String read_path = input != "current" ? input : FileAccess::current_path().string();
     if (read_path == packer.get_read_path()) {
-        print_line("Read path is already '" + read_path + "'.");
+        console.print_line("Read path is already '" + read_path + "'.");
         return;
     }
     if (read_path == packer.get_write_path()) {
-        print_line("Read path '" + read_path + "' cannot be the same as the write path.");
+        console.print_line("Read path '" + read_path + "' cannot be the same as the write path.");
         return;
     }
     if (FileAccess::exists(read_path) == false) {
-        print_line("Path does not exist.");
+        console.print_line("Path does not exist.");
         return;
     }
     packer.set_read_path(read_path);
-    print_line("Read path changed to '" + read_path + "'.");
+    console.print_line("Read path changed to '" + read_path + "'.");
 }
 
 void ConsoleApp::_set_write_path() {
     String write_path = input;
     if (write_path == packer.get_write_path()) {
-        print_line("Write path is already '" + write_path + "'.");
+        console.print_line("Write path is already '" + write_path + "'.");
         return;
     }
     if (write_path == packer.get_read_path()) {
-        print_line("Write path '" + write_path + "' cannot be the same as the read path.");
+        console.print_line("Write path '" + write_path + "' cannot be the same as the read path.");
         return;
     }
     packer.set_write_path(write_path);
-    print_line("Write path changed to '" + write_path + "'.");
+    console.print_line("Write path changed to '" + write_path + "'.");
 }
 
 void ConsoleApp::_add_extension() {
     if (packer.add_extension(input)) {
-        print_line("Extension '" + input + "' added.");
+        console.print_line("Extension '" + input + "' added.");
     } else {
-        print_line("Extension '" + input + "' already exists.");
+        console.print_line("Extension '" + input + "' already exists.");
     }
 }
 
 void ConsoleApp::_remove_extension() {
     if (packer.remove_extension(input)) {
-        print_line("Extension '" + input + "' removed.");
+        console.print_line("Extension '" + input + "' removed.");
     } else {
-        print_line("Extension '" + input + "' does not exists.");
+        console.print_line("Extension '" + input + "' does not exists.");
     }
 }
 
 void ConsoleApp::_clear_extensions() {
     packer.clear_extensions();
-    print_line("Extensions cleared.");
+    console.print_line("Extensions cleared.");
 }
 
 void ConsoleApp::_set_pack_mode() {
     Packer::PackMode pack_mode = Packer::find_pack_mode(input);
     if (pack_mode == Packer::PackMode::Unknown) {
-        print_line("Pack mode '" + input + "' is invalid.");
+        console.print_line("Pack mode '" + input + "' is invalid.");
         return;
     }
     if (pack_mode == packer.get_pack_mode()) {
-        print_line("Pack mode is already '" + input + "'.");
+        console.print_line("Pack mode is already '" + input + "'.");
         return;
     }
     packer.set_pack_mode(pack_mode);
-    print_line("Pack mode changed to '" + input + "'.");
+    console.print_line("Pack mode changed to '" + input + "'.");
 }
 
 void ConsoleApp::_set_overwrite_files() {
     packer.set_overwrite_files(!packer.get_overwrite_files());
-    print_line("Overwrite files is " + String(packer.get_overwrite_files() ? "enabled" : "disabled") + ".");
+    console.print_line("Overwrite files is " + String(packer.get_overwrite_files() ? "enabled" : "disabled") + ".");
 }
 
 void ConsoleApp::_set_move_files() {
     packer.set_move_files(!packer.get_move_files());
-    print_line("Move files is " + String(packer.get_move_files() ? "enabled" : "disabled") + ".");
+    console.print_line("Move files is " + String(packer.get_move_files() ? "enabled" : "disabled") + ".");
 }
 
 void ConsoleApp::_set_suffix_string() {
     packer.set_suffix_string(input);
-    print_line("Suffix string changed to '" + input + "'.");
+    console.print_line("Suffix string changed to '" + input + "'.");
 }
 
 void ConsoleApp::_set_suffix_enabled() {
     packer.set_suffix_enabled(!packer.get_suffix_enabled());
-    print_line("Suffix is " + String(packer.get_suffix_enabled() ? "enabled" : "disabled") + ".");
+    console.print_line("Suffix is " + String(packer.get_suffix_enabled() ? "enabled" : "disabled") + ".");
 }
 
 void ConsoleApp::_set_extension_insensitive() {
     packer.set_extension_insensitive(!packer.get_extension_insensitive());
-    print_line("Extension insensitive is " + String(packer.get_extension_insensitive() ? "enabled" : "disabled") + ".");
+    console.print_line("Extension insensitive is " + String(packer.get_extension_insensitive() ? "enabled" : "disabled") + ".");
 }
 
 void ConsoleApp::_set_extension_adjust() {
     Packer::ExtensionAdjust ext_case = Packer::find_extension_adjust(input);
     if (ext_case == Packer::ExtensionAdjust::Unknown) {
-        print_line("Extension case '" + input + "' is invalid.");
+        console.print_line("Extension case '" + input + "' is invalid.");
         return;
     }
     if (ext_case == packer.get_extension_adjust()) {
-        print_line("Extension case is already '" + input + "'.");
+        console.print_line("Extension case is already '" + input + "'.");
         return;
     }
     packer.set_extension_adjust(ext_case);
-    print_line("Extension case changed to '" + input + "'.");
+    console.print_line("Extension case changed to '" + input + "'.");
 }
 
 #ifdef IGNORE_FILE_ENABLED
 void ConsoleApp::_set_ignore_file_name() {
     String ignore_file_name = input != "default" ? input : DEFAULT_IGNORE_FILE_NAME;
     if (ignore_file_name == packer.get_ignore_file_name()) {
-        print_line("Ignore file name is already '" + ignore_file_name + "'.");
+        console.print_line("Ignore file name is already '" + ignore_file_name + "'.");
         return;
     }
     packer.set_ignore_file_name(ignore_file_name);
-    print_line("Ignore file name changed to '" + packer.get_ignore_file_name() + "'.");
+    console.print_line("Ignore file name changed to '" + packer.get_ignore_file_name() + "'.");
 }
 
 void ConsoleApp::_set_ignore_file_enabled() {
     packer.set_ignore_file_enabled(!packer.get_ignore_file_enabled());
-    print_line("Ignore file is " + String(packer.get_ignore_file_enabled() ? "enabled" : "disabled") + ".");
+    console.print_line("Ignore file is " + String(packer.get_ignore_file_enabled() ? "enabled" : "disabled") + ".");
 }
 
 #endif // IGNORE_FILE_ENABLED
@@ -167,7 +167,7 @@ void ConsoleApp::_set_log_file_name() {
 
 void ConsoleApp::_set_log_enabled() {
     packer.set_log_enabled(!packer.get_log_enabled());
-    print_line("Log " + String(packer.get_log_enabled() ? "enabled" : "disabled") + ".");
+    console.print_line("Log " + String(packer.get_log_enabled() ? "enabled" : "disabled") + ".");
 }
 
 #endif // LOG_ENABLED
@@ -176,12 +176,12 @@ void ConsoleApp::_swap_paths() {
 	const String& read_path = packer.get_read_path();
 	const String& write_path = packer.get_write_path();
     if (FileAccess::exists(write_path) == false) {
-        print_line("Wrtie path does not exist.");
+        console.print_line("Wrtie path does not exist.");
         return;
     }
     packer.set_read_path(write_path);
     packer.set_write_path(read_path);
-    print_line("Paths swapped.");
+    console.print_line("Paths swapped.");
 }
 
 void ConsoleApp::_revert_state() {
@@ -191,16 +191,16 @@ void ConsoleApp::_revert_state() {
 
     packer.revert_state();
 
-    print_line("State reverted.");
+    console.print_line("State reverted.");
 }
 
 void ConsoleApp::_save_config() {
     String file_name = input != "default" ? input : DEFAULT_CONFIG_FILE_NAME;
 
     if (_save(file_name) == Error::OK) {
-        print_line("Config file '" + file_name + "' saved.");
+        console.print_line("Config file '" + file_name + "' saved.");
     } else {
-        print_line("Failed to save config file '" + file_name + "'.");
+        console.print_line("Failed to save config file '" + file_name + "'.");
     }
 }
 
@@ -208,15 +208,15 @@ void ConsoleApp::_load_config() {
     String file_name = input != "default" ? input : DEFAULT_CONFIG_FILE_NAME;
 
     if (_load(file_name) == Error::OK) {
-        print_line("Config file '" + file_name + "' loaded.");
+        console.print_line("Config file '" + file_name + "' loaded.");
     } else {
-        print_line("Failed to load config file '" + file_name + "'.");
+        console.print_line("Failed to load config file '" + file_name + "'.");
     }
 }
 
 void ConsoleApp::_print_info() {
-    print_line("Read path: " + packer.get_read_path());
-    print_line("Write path: " + packer.get_write_path());
+    console.print_line("Read path: " + packer.get_read_path());
+    console.print_line("Write path: " + packer.get_write_path());
     if (packer.get_extension_count()) {
         String extension_string = "Extensions: ";
         for (int i = 0; i < packer.get_extension_count(); ++i) {
@@ -225,24 +225,24 @@ void ConsoleApp::_print_info() {
                 extension_string += ", ";
             }
         }
-        print_line(extension_string);
+        console.print_line(extension_string);
     } else {
-        print_line("No extensions added");
+        console.print_line("No extensions added");
     }
-    print_line("Pack mode: " + Packer::get_pack_mode_name(packer.get_pack_mode()));
-    print_line("Overwrite files: " + String(packer.get_overwrite_files() ? "enabled" : "disabled"));
-    print_line("Move files: " + String(packer.get_move_files() ? "enabled" : "disabled"));
-    print_line("Suffix string: " + packer.get_suffix_string());
-    print_line("Suffix: " + String(packer.get_suffix_enabled() ? "enabled" : "disabled"));
-    print_line("Extension insensitive: " + String(packer.get_extension_insensitive() ? "enabled" : "disabled"));
-    print_line("Extension adjust: " + Packer::get_extension_adjust_name(packer.get_extension_adjust()));
+    console.print_line("Pack mode: " + Packer::get_pack_mode_name(packer.get_pack_mode()));
+    console.print_line("Overwrite files: " + String(packer.get_overwrite_files() ? "enabled" : "disabled"));
+    console.print_line("Move files: " + String(packer.get_move_files() ? "enabled" : "disabled"));
+    console.print_line("Suffix string: " + packer.get_suffix_string());
+    console.print_line("Suffix: " + String(packer.get_suffix_enabled() ? "enabled" : "disabled"));
+    console.print_line("Extension insensitive: " + String(packer.get_extension_insensitive() ? "enabled" : "disabled"));
+    console.print_line("Extension adjust: " + Packer::get_extension_adjust_name(packer.get_extension_adjust()));
 #ifdef IGNORE_FILE_ENABLED
-    print_line("Ignore file name: " + packer.get_ignore_file_name());
-    print_line("Ignore file: " + String(packer.get_ignore_file_enabled() ? "enabled" : "disabled"));
+    console.print_line("Ignore file name: " + packer.get_ignore_file_name());
+    console.print_line("Ignore file: " + String(packer.get_ignore_file_enabled() ? "enabled" : "disabled"));
 #endif // IGNORE_FILE_ENABLED
 #ifdef LOG_ENABLED
-    print_line("Log file name: " + log_file_name);
-    print_line("Log: " + String(packer.get_log_enabled() ? "enabled" : "disabled"));
+    console.print_line("Log file name: " + log_file_name);
+    console.print_line("Log: " + String(packer.get_log_enabled() ? "enabled" : "disabled"));
 #endif // LOG_ENABLED
 }
 
@@ -319,11 +319,11 @@ void ConsoleApp::_run_packer() {
     }
 #endif // LOG_ENABLED
 
-    print_line("Packing files...");
+    console.print_line("Packing files...");
 
     packer.pack_files();
 
-    print_line("Finished packing");
+    console.print_line("Finished packing");
 }
 
 void ConsoleApp::_quit_program() {
@@ -331,7 +331,7 @@ void ConsoleApp::_quit_program() {
 }
 
 void ConsoleApp::_print_help() {
-    print_line("Available commands:");
+    console.print_line("Available commands:");
 
     size_t longest_string = 0;
     for (const auto& command : commands) {
@@ -344,13 +344,13 @@ void ConsoleApp::_print_help() {
         if (command.type == Command::Hidden) {
             continue;
         }
-        print_line(command.name + String(longest_string - command.name.length(), ' ') + " - " + command.description + ".");
+        console.print_line(command.name + String(longest_string - command.name.length(), ' ') + " - " + command.description + ".");
     }
 }
 
 void ConsoleApp::_read_input(bool p_lower_case) {
 #ifdef CONSOLE_FEATURES_ENABLED
-    set_text_color(command_text_color);
+    console.set_text_color(command_text_color);
 #endif // CONSOLE_FEATURES_ENABLED
 
     static String line;
@@ -386,7 +386,7 @@ void ConsoleApp::_read_input(bool p_lower_case) {
     }
 
 #ifdef CONSOLE_FEATURES_ENABLED
-    set_text_color(Color::White);
+    console.set_text_color(Console::Color::White);
 #endif // CONSOLE_FEATURES_ENABLED
 }
 
@@ -429,8 +429,8 @@ Error ConsoleApp::_load(const String& p_path) {
 }
 
 int ConsoleApp::run() {
-    print_line("Welcome to packer version "  PACKER_VERSION_STRING  ".");
-    print_line("Type a command or 'help' for a list of commands:");
+    console.print_line("Welcome to packer version "  PACKER_VERSION_STRING  ".");
+    console.print_line("Type a command or 'help' for a list of commands:");
 
     _load(DEFAULT_CONFIG_FILE_NAME);
 
@@ -440,7 +440,7 @@ int ConsoleApp::run() {
         for (const auto& command : commands) {
             if (command.name == input) {
                 if (command.type == Command::Prompt) {
-                    print_line(command.prompt);
+                    console.print_line(command.prompt);
                     _read_input(false);
                 }
                 (this->*command.function)();
@@ -449,7 +449,7 @@ int ConsoleApp::run() {
             }
         }
         if (!processed) {
-            print_line("Unknown command");
+            console.print_line("Unknown command");
         }
     }
     return EXIT_SUCCESS;
